@@ -1,0 +1,53 @@
+Release 14.5 Map P.58f (lin64)
+Xilinx Map Application Log File for Design 'Pico_Toplevel'
+
+Design Information
+------------------
+Command Line   : map -intstyle ise -p xc7k325t-ffg900-2 -w -logic_opt on -ol
+high -t 1 -xt 0 -register_duplication on -r 4 -mt off -ir off
+-ignore_keep_hierarchy -pr off -lc off -power off -o Pico_Toplevel_map.ncd
+Pico_Toplevel.ngd Pico_Toplevel.pcf 
+Target Device  : xc7k325t
+Target Package : ffg900
+Target Speed   : -2
+Mapper Version : kintex7 -- $Revision: 1.55 $
+Mapped Date    : Mon Apr 29 10:30:38 2013
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+INFO:Security:56 - Part 'xc7k325t' is not a WebPack part.
+INFO:Security:61 - The XILINXD_LICENSE_FILE environment variable is not set.
+INFO:Security:63 - The LM_LICENSE_FILE environment variable is not set.
+INFO:Security:68 - For more information or for assistance in obtaining 
+ a license, please run the Xilinx License Configuration Manager
+       (xlcm or "Manage Xilinx Licenses".)
+INFO:Security:68a - user is albertng, on host unknown.
+WARNING:Security:9b - No 'ISE' feature version 2013.03 was available for part
+'xc7k325t'.
+ERROR:Security:12 - No 'xc7k325t' feature version 2013.03 was available (-5),
+     so 'WebPack' may not be used.
+----------------------------------------------------------------------
+No such feature exists.
+Feature:       ISE
+License path: 
+/home/albertng/.Xilinx/Xilinx.lic:/home/albertng/14.5/ISE_DS/ISE//data/*.lic:/ho
+me/albertng/14.5/ISE_DS/ISE//coregen/core_licenses/Xilinx.lic:/home/albertng/14.
+5/ISE_DS/ISE//coregen/core_licenses/XilinxFree.lic:
+FLEXnet Licensing error:-5,357.  System Error: 2 "No such file or directory"
+For further information, refer to the FLEXnet Licensing documentation,
+available at "www.flexerasoftware.com".No such feature exists.
+Feature:       xc7k325t
+License path: 
+/home/albertng/.Xilinx/Xilinx.lic:/home/albertng/14.5/ISE_DS/ISE//data/*.lic:/ho
+me/albertng/14.5/ISE_DS/ISE//coregen/core_licenses/Xilinx.lic:/home/albertng/14.
+5/ISE_DS/ISE//coregen/core_licenses/XilinxFree.lic:
+FLEXnet Licensing error:-5,357
+For further information, refer to the FLEXnet Licensing documentation,
+available at "www.flexerasoftware.com".
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR:Map:258 - A problem was encountered attempting to get the license for this
+   architecture. 
+
+Design Summary
+--------------
+Number of errors   :   1
+Number of warnings :   0

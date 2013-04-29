@@ -1,0 +1,5 @@
+TARGET = StreamBandwidthTest
+USER_SOURCES =	StreamBandwidthTest.cpp
+
+include $(PICOBASE)/software/Makefile.common
+

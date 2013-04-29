@@ -1,0 +1,270 @@
+Release 14.5 ngdbuild P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+Command Line: /home/albertng/14.5/ISE_DS/ISE/bin/lin64/unwrapped/ngdbuild
+-intstyle ise -dd _ngo -sd source -nt timestamp -uc source/M505_LX325T_PCIe.ucf
+-p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd
+
+Reading NGO file
+"/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m
+505lx325/Pico_Toplevel.ngc" ...
+Loading design module "source/coregen_fifo_32x128.ngc"...
+Gathering constraint information from source properties...
+Done.
+
+Annotating constraints to design from ucf file "source/M505_LX325T_PCIe.ucf" ...
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/rd_tag_fifo' of type FIFO18E1 has been changed from
+   'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing simulation for
+   this primitive.  In order for functional simulation to be correct, the value
+   of SIM_DEVICE should be changed in this same manner in the source netlist or
+   constraint file. For additional information on retargeting this primitive to
+   7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo2' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo1' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_q_fifo/fifo2' of type FIFO36E1 has been changed
+   from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing simulation
+   for this primitive.  In order for functional simulation to be correct, the
+   value of SIM_DEVICE should be changed in this same manner in the source
+   netlist or constraint file. For additional information on retargeting this
+   primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_q_fifo/fifo1' of type FIFO36E1 has been changed
+   from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing simulation
+   for this primitive.  In order for functional simulation to be correct, the
+   value of SIM_DEVICE should be changed in this same manner in the source
+   netlist or constraint file. For additional information on retargeting this
+   primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo2' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo1' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/axibuffer/fifo/fifo2' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/axibuffer/fifo/fifo1' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo1' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo2' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo1' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo2' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+Resolving constraint associations...
+Checking Constraint Associations...
+WARNING:ConstraintSystem - Constraint <NET "*sys_clk_c*" TNM_NET = "SYSCLK" ;>
+   [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin
+   QPLLOUTREFCLK of block gtx_common.gtxe2_common_i because the signal path to
+   this output pin depends upon block attribute settings. Constraint
+   distribution does not support attribute dependent distribution.
+
+WARNING:ConstraintSystem - Constraint <NET "*sys_clk_c*" TNM_NET = "SYSCLK" ;>
+   [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin
+   TXOUTCLK of block gtx_channel.gtxe2_channel_i because the signal path to this
+   output pin depends upon block attribute settings. Constraint distribution
+   does not support attribute dependent distribution.
+
+WARNING:ConstraintSystem - Constraint <NET "*sys_clk_c*" TNM_NET = "SYSCLK" ;>
+   [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin
+   QPLLOUTREFCLK of block gtx_common.gtxe2_common_i because the signal path to
+   this output pin depends upon block attribute settings. Constraint
+   distribution does not support attribute dependent distribution.
+
+Done...
+
+Checking expanded design ...
+WARNING:NgdBuild:452 - logical net 'flash_a_25_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_24_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_23_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_22_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_21_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_20_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_19_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_18_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_17_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_16_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_15_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_14_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_13_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_12_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_11_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_10_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_9_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_8_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_7_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_6_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_5_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_4_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_3_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_2_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_1_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_0_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'N44' has no driver
+WARNING:NgdBuild:452 - logical net 'N45' has no driver
+WARNING:NgdBuild:452 - logical net 'N46' has no driver
+WARNING:NgdBuild:452 - logical net 'N47' has no driver
+WARNING:NgdBuild:452 - logical net 'N48' has no driver
+WARNING:NgdBuild:452 - logical net 'N49' has no driver
+WARNING:NgdBuild:452 - logical net 'N50' has no driver
+WARNING:NgdBuild:452 - logical net 'N51' has no driver
+WARNING:NgdBuild:452 - logical net 'N52' has no driver
+WARNING:NgdBuild:452 - logical net 'N53' has no driver
+WARNING:NgdBuild:452 - logical net 'N54' has no driver
+WARNING:NgdBuild:452 - logical net 'N55' has no driver
+WARNING:NgdBuild:452 - logical net 'N56' has no driver
+WARNING:NgdBuild:452 - logical net 'N57' has no driver
+WARNING:NgdBuild:452 - logical net 'N58' has no driver
+WARNING:NgdBuild:452 - logical net 'N59' has no driver
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:  64
+
+Total memory usage is 550232 kilobytes
+
+Writing NGD file "Pico_Toplevel.ngd" ...
+Total REAL time to NGDBUILD completion: 1 min  10 sec
+Total CPU time to NGDBUILD completion:  1 min  9 sec
+
+Writing NGDBUILD log file "Pico_Toplevel.bld"...
