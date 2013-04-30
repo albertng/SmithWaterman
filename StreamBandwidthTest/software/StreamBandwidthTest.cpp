@@ -14,23 +14,49 @@
 #include <stdio.h>
 #include <picodrv.h>
 #include <pico_errors.h>
+#include <pthread.h>
 
-// print <count> 128-bit numbers from buf
-void print128(FILE *f, void *buf, int count)
-{
-    uint32_t	*u32p = (uint32_t*) buf;
-    
-    for (int i=0; i < count; ++i)
-    	fprintf(f, "0x%x_%x_%x_%x\n", u32p[4*i+3], u32p[4*i+2], u32p[4*i+1], u32p[4*i]);
+struct thread_args {
+    PicoDrv* pico;
+    int      stream;
+};
+
+void* stream_write_thread(void* args) {
+    uint32_t buf[1024];
+    PicoDrv *pico = ((thread_args*)args)->pico;
+    int stream = ((thread_args*)args)->stream;
+
+    for(int i = 0; i < 1024; i++) {
+        buf[i] = i;
+    }
+
+    // Stream 4 GB to FPGA
+    for(int i = 0; i < (1 << 20); i++) {
+        pico->WriteStream(stream, buf, 4096);
+    }
 }
+
+void* stream_read_thread(void* args) {
+    uint32_t buf[1024];
+    PicoDrv *pico = ((thread_args*)args)->pico;
+    int stream = ((thread_args*)args)->stream;
+ 
+    // Stream 4 GB from FPGA
+    for(int i = 0; i < (1 << 20); i++) {
+        pico->ReadStream(stream, buf, 4096);
+    }
+}   
 
 int main(int argc, char* argv[])
 {
-    int         err, i, j, stream;
-    uint32_t    buf[1024], u32, addr;
+    int         err, stream;
+    uint32_t    buf[1024];
     char        ibuf[1024];
     PicoDrv     *pico;
     const char* bitFileName;
+    pthread_t read_thread, write_thread;
+    int iret1, iret2;
+    thread_args read_thread_args, write_thread_args;
 
     // specify the .bit file name on the command line
     if (argc < 2) {
@@ -60,65 +86,21 @@ int main(int argc, char* argv[])
         fprintf(stderr, "couldn't open stream 1! (return code: %i)\n", stream);
         exit(1);
     }
-    
-    // fill the buffer with data we'll recognize when it comes back.
-    for (i=0; i < sizeof(buf)/sizeof(buf[0]); ++i)
-        buf[i] = 0x42000000 | i;
-    
-    printf("%i bytes of room in stream to firmware.\n", i=pico->GetBytesAvailable(stream, false /* writing */));
-    // write 256 words if there's room. (and there should be if all is well.)
-    if (i < 0){
-        fprintf(stderr, "GetBytesAvailable error: %s\n", PicoErrors_FullError(i, ibuf, sizeof(ibuf)));
-        exit(1);
-    }else if (i > 256*16)
-        i = 256*16;
-    i &= ~0xf; // process only whole words.
-    if (i > 0) {
-        err = pico->WriteStream(stream, buf, i);
-        printf("Wrote %i B\n", err);
-        if (err != i) {
-            fprintf(stderr, "write error. returned %i, but should have been %i\n", err, i);
-            exit(1);
-        }
-    }
-    
-    // clear our buffer to prepare for the read.
-    memset(buf, 0, sizeof(buf));
-    
-    printf("%i B available to read from firmware.\n", i=pico->GetBytesAvailable(stream, true /* reading */));
-    // read up to 32 words back from the firmware.
-    // (due to the way the buffering in the firmware works, we might not see all 128 words at once right now.)
-    if (i < 0){
-        fprintf(stderr, "GetBytesAvailable error: %s\n", PicoErrors_FullError(i, ibuf, sizeof(ibuf)));
-        exit(1);
-    }else if (i > 32*16)
-        i = 32*16;
-    i &= ~0xf; // process only whole words.
-    if (i > 0) {
-        printf("Reading %i B\n", i);
-        err = pico->ReadStream(stream, buf, i);
-        if (err != i) {
-            fprintf(stderr, "write error. returned %i, but should have been %i\n", err, i);
-            exit(1);
-        }
-        printf("Data received back from firmware:\n");
-        print128(stdout, buf, i/16);
-    }
+   
+    read_thread_args.pico = pico;
+    read_thread_args.stream = stream;
+    write_thread_args.pico = pico;
+    write_thread_args.stream = stream;
+    iret1 = pthread_create(&read_thread, NULL, &stream_read_thread, (void*) &read_thread_args);
+    iret2 = pthread_create(&write_thread, NULL, &stream_write_thread, (void*) &write_thread_args);
+
+    pthread_join(read_thread, NULL);
+    pthread_join(write_thread, NULL);
 
     // streams are automatically closed when the PicoDrv object is destroyed, or on program termination, but
     //   we can also close a stream manually.
     pico->CloseStream(stream);
    
-    // verify the received data by checking only the last 4 entries of buf
-    if( buf[(i/4)-1] != 0x42424242 || 
-        buf[(i/4)-2] != 0xdeadbeef || 
-        buf[(i/4)-3] != 0x400007c0 ||
-        buf[(i/4)-4] != 0x4200007c ){
-        printf("Error: unexpected values for last received 128 bits of buf\n");
-        exit(1);
-    }else{
-        printf("All tests successful!\n");
-    }
     return 0;
 }
 
