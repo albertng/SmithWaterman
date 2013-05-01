@@ -7,20 +7,21 @@
  *
  */
 module SmithWatermanPE(
-    input  clk,            // System clock
-    input  rst,            // System reset
-    input  [9:0] V_in,     // Score from previous PE
-    input  [9:0] F_in,     // Left gap penalty of previous PE
-    input  [1:0] T_in,     // Reference seq shift in
-    input  [1:0] S_in,     // Query seq input
-    input        store_S,  // Store query seq
-    input        init_in,  // Computation active shift in
-    output [9:0] V_out,    // Score of this PE
-    output [9:0] F_out,    // Left gap penalty of this cell
-    output [1:0] T_out,    // Reference seq shift out
-    output       init_out  // Computation active shift out
+    input  clk,                 // System clock
+    input  rst,                 // System reset
+    input  [WIDTH-1:0] V_in,    // Score from previous PE
+    input  [WIDTH-1:0] F_in,    // Left gap penalty of previous PE
+    input  [1:0] T_in,          // Reference seq shift in
+    input  [1:0] S_in,          // Query seq input
+    input        store_S,       // Store query seq
+    input        init_in,       // Computation active shift in
+    output [WIDTH-1:0] V_out,   // Score of this PE
+    output [WIDTH-1:0] F_out,   // Left gap penalty of this cell
+    output [1:0] T_out,         // Reference seq shift out
+    output       init_out       // Computation active shift out
     );
     
+    parameter WIDTH = 20;
     parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;
     parameter GAP_OPEN_PEN = -2;
@@ -28,19 +29,19 @@ module SmithWatermanPE(
 
     reg [1:0] T;
     reg [1:0] S;
-    reg signed [9:0] V_diag;
-    reg signed [9:0] V;
-    reg signed [9:0] E;
-    reg signed [9:0] F;
+    reg signed [WIDTH-1:0] V_diag;
+    reg signed [WIDTH-1:0] V;
+    reg signed [WIDTH-1:0] E;
+    reg signed [WIDTH-1:0] F;
     reg init;
     
-    wire [9:0] V_gap_open;
-    wire [9:0] E_gap_extend;
-    wire [9:0] leftV_gap_open;
-    wire [9:0] leftF_gap_extend;
-    wire [9:0] match_score;
-    wire [9:0] new_E;
-    wire [9:0] new_F;
+    wire [WIDTH-1:0] V_gap_open;
+    wire [WIDTH-1:0] E_gap_extend;
+    wire [WIDTH-1:0] leftV_gap_open;
+    wire [WIDTH-1:0] leftF_gap_extend;
+    wire [WIDTH-1:0] match_score;
+    wire [WIDTH-1:0] new_E;
+    wire [WIDTH-1:0] new_F;
     
     assign V_out = V;
     assign F_out = F;

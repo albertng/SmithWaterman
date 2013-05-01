@@ -1,0 +1,3 @@
+verilog isim_temp "../SmithWatermanPE.v"
+verilog isim_temp "../SmithWatermanPE_tb.v"
+verilog isim_temp "/home/albertng/14.5/ISE_DS/ISE//verilog/src/glbl.v"

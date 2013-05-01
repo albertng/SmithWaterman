@@ -1,6 +1,9 @@
-set -tmpdir "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/xst/projnav.tmp"
-set -xsthdpdir "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/xst"
-run -compileonly yes
+set -tmpdir "xst/projnav.tmp"
+set -xsthdpdir "xst"
+run
+-ifn SmithWatermanPE.prj
+-ofn SmithWatermanPE
+-ofmt NGC
 -p xc7k325t-2-ffg900
 -top SmithWatermanPE
 -opt_mode Speed
@@ -8,7 +11,7 @@ run -compileonly yes
 -power NO
 -iuc NO
 -keep_hierarchy No
--netlist_hierarchy Rebuilt
+-netlist_hierarchy As_Optimized
 -rtlview Yes
 -glob_opt AllClockNets
 -read_cores YES
@@ -41,14 +44,11 @@ run -compileonly yes
 -max_fanout 100000
 -bufg 32
 -register_duplication YES
--register_balancing Yes
--move_first_stage YES
--move_last_stage YES
+-register_balancing No
 -optimize_primitives NO
 -use_clock_enable Auto
 -use_sync_set Auto
 -use_sync_reset Auto
 -iob Auto
--equivalent_register_removal NO
+-equivalent_register_removal YES
 -slice_utilization_ratio_maxmargin 5
--ifn SmithWatermanPE.prj

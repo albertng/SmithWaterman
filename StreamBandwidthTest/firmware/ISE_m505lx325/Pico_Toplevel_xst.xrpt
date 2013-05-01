@@ -5,14 +5,14 @@
     The structure and the elements are likely to change over the next few releases.
     This means code written to parse this file will need to be revisited each subsequent release.-->
 
-  <application stringID="Xst" timeStamp="Mon Apr 29 10:49:11 2013">
+  <application stringID="Xst" timeStamp="Tue Apr 30 16:05:22 2013">
     <section stringID="User_Env">
       <table stringID="User_EnvVar">
         <column stringID="variable"/>
         <column stringID="value"/>
         <row stringID="row" value="0">
           <item stringID="variable" value="PATH"/>
-          <item stringID="value" value="/home/albertng/14.5/ISE_DS/ISE//bin/lin64:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"/>
+          <item stringID="value" value="/home/albertng/14.5/ISE_DS/ISE//bin/lin64:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/src/picocomputing-5.2.0.0/bin"/>
         </row>
         <row stringID="row" value="1">
           <item stringID="variable" value="XILINX"/>
@@ -52,7 +52,7 @@
       <item DEFAULT="No" label="-rtlview" stringID="XST_RTLVIEW" value="Yes"/>
       <item DEFAULT="AllClockNets" label="-glob_opt" stringID="XST_GLOBOPT" value="AllClockNets"/>
       <item DEFAULT="Yes" label="-read_cores" stringID="XST_READCORES" value="YES"/>
-      <item DEFAULT="" label="-sd" stringID="XST_SD" value="{&quot;source&quot; &quot;/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/source/&quot;  }"/>
+      <item DEFAULT="" label="-sd" stringID="XST_SD" value="{&quot;source&quot; &quot;/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/ISE_m505lx325/source/&quot;  }"/>
       <item DEFAULT="No" label="-write_timing_constraints" stringID="XST_WRITETIMINGCONSTRAINTS" value="NO"/>
       <item DEFAULT="No" label="-cross_clock_analysis" stringID="XST_CROSSCLOCKANALYSIS" value="NO"/>
       <item DEFAULT="/" stringID="XST_HIERARCHYSEPARATOR" value="/"/>
@@ -63,7 +63,7 @@
       <item DEFAULT="100" label="-dsp_utilization_ratio" stringID="XST_DSPUTILIZATIONRATIO" value="100"/>
       <item DEFAULT="Auto" stringID="XST_LC" value="Auto"/>
       <item DEFAULT="Auto" label="-reduce_control_sets" stringID="XST_REDUCECONTROLSETS" value="Auto"/>
-      <item DEFAULT="" label="-vlgincdir" stringID="XST_VLGINCDIR" value="{ &quot;/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/source/&quot; &quot;/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/&quot; }"/>
+      <item DEFAULT="" label="-vlgincdir" stringID="XST_VLGINCDIR" value="{ &quot;/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/ISE_m505lx325/source/&quot; &quot;/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/&quot; }"/>
       <item DEFAULT="Yes" label="-fsm_extract" stringID="XST_FSMEXTRACT" value="YES"/>
       <item DEFAULT="Auto" label="-fsm_encoding" stringID="XST_FSMENCODING" value="Auto"/>
       <item DEFAULT="No" label="-safe_implementation" stringID="XST_SAFEIMPLEMENTATION" value="No"/>

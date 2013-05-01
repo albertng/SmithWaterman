@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-04-29T11:18:37</DateModified>
+  <DateModified>2013-05-01T15:36:52</DateModified>
   <ModuleName>Pico_Toplevel</ModuleName>
-  <SummaryTimeStamp>2013-04-29T10:30:54</SummaryTimeStamp>
-  <SavedFilePath>/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
+  <SummaryTimeStamp>2013-04-30T16:08:39</SummaryTimeStamp>
+  <SavedFilePath>/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
   <DateInitialized>2013-04-26T15:46:55</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

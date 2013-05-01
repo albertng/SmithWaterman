@@ -29,7 +29,7 @@ module SmithWatermanPE_tb;
     reg [9:0] V_out_expected [7:0];
 
     // Instantiate the Unit Under Test (UUT)
-    SmithWatermanPE #(10, -2, -2, -1) uut (
+    SmithWatermanPE #(10, 10, -2, -2, -1) uut (
         .clk(clk), 
         .rst(rst), 
         .V_in(V_in), 

@@ -1,0 +1,5 @@
+xst -intstyle ise -ifn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.xst" -ofn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.syr" 
+xst -intstyle ise -ifn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.xst" -ofn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.syr" 
+xst -intstyle ise -ifn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.xst" -ofn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.syr" 
+xst -intstyle ise -ifn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.xst" -ofn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.syr" 
+xst -intstyle ise -ifn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.xst" -ofn "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE.syr" 

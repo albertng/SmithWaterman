@@ -15,7 +15,7 @@ run
 -rtlview Yes
 -glob_opt AllClockNets
 -read_cores YES
--sd {"source" "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/source/"  }
+-sd {"source" "/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/ISE_m505lx325/source/"  }
 -write_timing_constraints NO
 -cross_clock_analysis NO
 -hierarchy_separator /
@@ -26,7 +26,7 @@ run
 -dsp_utilization_ratio 100
 -lc Auto
 -reduce_control_sets Auto
--vlgincdir { "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/source/" "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/" }
+-vlgincdir { "/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/ISE_m505lx325/source/" "/home/albertng/SeqAlignFPGA/StreamBandwidthTest/firmware/" }
 -fsm_extract YES -fsm_encoding Auto
 -safe_implementation No
 -fsm_style LUT
