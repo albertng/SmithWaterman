@@ -15,6 +15,8 @@
 #include <picodrv.h>
 #include <pico_errors.h>
 #include <pthread.h>
+#include <ctime>
+#include <iostream>
 
 struct thread_args {
     PicoDrv* pico;
@@ -30,10 +32,14 @@ void* stream_write_thread(void* args) {
         buf[i] = i;
     }
 
+    clock_t begin = clock();
     // Stream 4 GB to FPGA
     for(int i = 0; i < (1 << 20); i++) {
         pico->WriteStream(stream, buf, 4096);
     }
+    clock_t end = clock();
+    double timeSec = (end - begin) / ((double) CLOCKS_PER_SEC);
+    std::cout << "Stream write took " << timeSec << " seconds" << std::endl;
 }
 
 void* stream_read_thread(void* args) {
@@ -41,10 +47,14 @@ void* stream_read_thread(void* args) {
     PicoDrv *pico = ((thread_args*)args)->pico;
     int stream = ((thread_args*)args)->stream;
  
+    clock_t begin = clock();
     // Stream 4 GB from FPGA
     for(int i = 0; i < (1 << 20); i++) {
         pico->ReadStream(stream, buf, 4096);
     }
+    clock_t end = clock();
+    double timeSec = (end - begin) / ((double) CLOCKS_PER_SEC);
+    std::cout << "Stream read took " << timeSec << " seconds" << std::endl;
 }   
 
 int main(int argc, char* argv[])
@@ -80,7 +90,7 @@ int main(int argc, char* argv[])
     }
     
     // data goes out to the firmware on stream #1 and also comes back on stream #1
-    printf("Opening streams to test counter\n");
+    printf("Opening streams to test stream bandwidth\n");
     stream = pico->CreateStream(1);
     if (stream < 0) {
         fprintf(stderr, "couldn't open stream 1! (return code: %i)\n", stream);
