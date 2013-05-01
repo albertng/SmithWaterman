@@ -26,6 +26,7 @@ module SmithWatermanPE_tb;
 
     reg [1:0] short_read [5:0];
     reg [1:0] reference  [7:0];
+    reg [9:0] V_out_expected [7:0];
 
     // Instantiate the Unit Under Test (UUT)
     SmithWatermanPE #(10, -2, -2, -1) uut (
@@ -78,33 +79,97 @@ module SmithWatermanPE_tb;
         // Generate stimulus
         
         // Test 1
+        V_out_expected[0] = 10'd10;
+        V_out_expected[1] = 10'd8;
+        V_out_expected[2] = 10'd10;
+        V_out_expected[3] = 10'd8;
+        V_out_expected[4] = 10'd10;
+        V_out_expected[5] = 10'd8;
+        V_out_expected[6] = 10'd7;
+        V_out_expected[7] = 10'd10;        
         $display("V=0, F=0, S='A' test");
         S_in = short_read[0];   // Store short read sequence
         store_S = 1;
         #10;
+        if (init_out) begin
+            $display("Init_out error: Got 1 expected 0");
+            $finish;
+        end
         store_S = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
             #10;
             $display("%d %d %d %d", V_out, F_out, T_out, init_out);
+            if (V_out != V_out_expected[i]) begin
+                $display("V_out error: Got %d expected %d", V_out, V_out_expected[i]);
+                $finish;
+            end
+            if (F_out != -10'b1) begin
+                $display("F_out error: Got %d expected -1", F_out);
+                $finish;
+            end
+            if (T_out != reference[i]) begin
+                $display("T_out error: Got %d expected %d", T_out, reference[i]);
+                $finish;
+            end
+            if (!init_out) begin
+                $display("Init_out error: Got 0 expected 1");
+                $finish;
+            end
         end
         
         // Test 2
+        V_out_expected[0] = 10'd0;
+        V_out_expected[1] = 10'd10;
+        V_out_expected[2] = 10'd8;
+        V_out_expected[3] = 10'd7;
+        V_out_expected[4] = 10'd6;
+        V_out_expected[5] = 10'd10;
+        V_out_expected[6] = 10'd8;
+        V_out_expected[7] = 10'd7;   
         $display("V=0, F=0, S='C' test");
         S_in = short_read[1];
         store_S = 1;
         init_in = 0;
         #10
+        if (init_out) begin
+            $display("Init_out error: Got 1 expected 0");
+            $finish;
+        end
         store_S = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
             #10;
             $display("%d %d %d %d", V_out, F_out, T_out, init_out);
+            if (V_out != V_out_expected[i]) begin
+                $display("V_out error: Got %d expected %d", V_out, V_out_expected[i]);
+                $finish;
+            end
+            if (F_out != -10'b1) begin
+                $display("F_out error: Got %d expected -1", F_out);
+                $finish;
+            end
+            if (T_out != reference[i]) begin
+                $display("T_out error: Got %d expected %d", T_out, reference[i]);
+                $finish;
+            end
+            if (!init_out) begin
+                $display("Init_out error: Got 0 expected 1");
+                $finish;
+            end
         end
         
         // Test 3
+        V_out_expected[0] = 10'd8;
+        V_out_expected[1] = 10'd8;
+        V_out_expected[2] = 10'd8;
+        V_out_expected[3] = 10'd8;
+        V_out_expected[4] = 10'd8;
+        V_out_expected[5] = 10'd8;
+        V_out_expected[6] = 10'd20;
+        V_out_expected[7] = 10'd18;  
         $display("V=10, F=-4, S='T' test");
         V_in = 10;
         F_in = -4;
@@ -112,12 +177,32 @@ module SmithWatermanPE_tb;
         store_S = 1;
         init_in = 0;
         #10
+        if (init_out) begin
+            $display("Init_out error: Got 1 expected 0");
+            $finish;
+        end
         store_S = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
             #10;
             $display("%d %d %d %d", V_out, F_out, T_out, init_out);
+            if (V_out != V_out_expected[i]) begin
+                $display("V_out error: Got %d expected %d", V_out, V_out_expected[i]);
+                $finish;
+            end
+            if (F_out != 10'd8) begin
+                $display("F_out error: Got %d expected -1", F_out);
+                $finish;
+            end
+            if (T_out != reference[i]) begin
+                $display("T_out error: Got %d expected %d", T_out, reference[i]);
+                $finish;
+            end
+            if (!init_out) begin
+                $display("Init_out error: Got 0 expected 1");
+                $finish;
+            end
         end
         
         #100;
