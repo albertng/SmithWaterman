@@ -51,7 +51,7 @@ module SmithWatermanPE(
     assign E_gap_extend = E + GAP_EXTEND_PEN;
     assign leftV_gap_open = V_in + GAP_OPEN_PEN;
     assign leftF_gap_extend = F_in + GAP_EXTEND_PEN;
-    assign match_score = (S == T) ? V_diag + MATCH_REWARD : V_diag + MISMATCH_PEN;
+    assign match_score = (S == T_in) ? V_diag + MATCH_REWARD : V_diag + MISMATCH_PEN;
     assign new_E = ($signed(V_gap_open) > $signed(E_gap_extend)) ? V_gap_open : E_gap_extend;
     assign new_F = ($signed(leftV_gap_open) > $signed(leftF_gap_extend)) ? leftV_gap_open : leftF_gap_extend;
     
