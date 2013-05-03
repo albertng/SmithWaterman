@@ -1,5 +1,5 @@
 ISim log file
-Running: /home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.wdb 
+Running: /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -8,7 +8,7 @@ This is a Lite version of ISim.
 Time resolution is 1 ps
 # onerror resume
 # wave add /
-# run 1s
+# run 1000 ns
 Simulator is doing circuit initialization process.
 Finished circuit initialization process.
 V=0, F=0, S='A' test
@@ -38,88 +38,5 @@ V=10, F=-4, S='T' test
    8    8 1 1
   20    8 3 1
   18    8 0 1
-Stopped at time : 390 ns : File "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 149
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1s
-Simulator is doing circuit initialization process.
-Finished circuit initialization process.
-V=0, F=0, S='A' test
-  10 1023 0 1
-V_out error: Got   10 expected   10
-Stopped at time : 40 ns : File "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 102
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1s
-Simulator is doing circuit initialization process.
-Finished circuit initialization process.
-V=0, F=0, S='A' test
-  10 1023 0 1
-   8 1023 1 1
-  10 1023 0 1
-   8 1023 2 1
-  10 1023 0 1
-   8 1023 1 1
-   7 1023 3 1
-  10 1023 0 1
-V=0, F=0, S='C' test
-   0 1023 0 1
-  10 1023 1 1
-   8 1023 0 1
-   7 1023 2 1
-   6 1023 0 1
-  10 1023 1 1
-   8 1023 3 1
-   7 1023 0 1
-V=10, F=-4, S='T' test
-   8    8 0 1
-   8    8 1 1
-   8    8 0 1
-   8    8 2 1
-   8    8 0 1
-   8    8 1 1
-  20    8 3 1
-  18    8 0 1
-Stopped at time : 390 ns : File "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 197
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1s
-Simulator is doing circuit initialization process.
-Finished circuit initialization process.
-V=0, F=0, S='A' test
-  10 1023 0 1
-   8 1023 1 1
-  10 1023 0 1
-   8 1023 2 1
-  10 1023 0 1
-   8 1023 1 1
-   7 1023 3 1
-  10 1023 0 1
-V=0, F=0, S='C' test
-   0 1023 0 1
-  10 1023 1 1
-   8 1023 0 1
-   7 1023 2 1
-   6 1023 0 1
-  10 1023 1 1
-   8 1023 3 1
-   7 1023 0 1
-V=10, F=-4, S='T' test
-   8    8 0 1
-   8    8 1 1
-   8    8 0 1
-   8    8 2 1
-   8    8 0 1
-   8    8 1 1
-  20    8 3 1
-  18    8 0 1
-Stopped at time : 390 ns : File "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 209
+Stopped at time : 390 ns : File "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 250
+# exit 0

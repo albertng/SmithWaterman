@@ -1,0 +1,640 @@
+Release 14.5 - xst P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.05 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.05 secs
+ 
+--> 
+Reading design: SmithWatermanArray_ParallelLoad.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "SmithWatermanArray_ParallelLoad.prj"
+Ignore Synthesis Constraint File   : NO
+Verilog Include Directory          : { "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/source/" "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/" }
+
+---- Target Parameters
+Output File Name                   : "SmithWatermanArray_ParallelLoad"
+Output Format                      : NGC
+Target Device                      : xc7k325t-2-ffg900
+
+---- Source Options
+Top Module Name                    : SmithWatermanArray_ParallelLoad
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 32
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"source" "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/source/"  }
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v" into library work
+Parsing module <SmithWatermanPE>.
+Analyzing Verilog file "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" into library work
+Parsing module <SmithWatermanArray_ParallelLoad>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating module <SmithWatermanArray_ParallelLoad>.
+
+Elaborating module <SmithWatermanPE(WIDTH=10,MATCH_REWARD=2,MISMATCH_PEN=-2,GAP_OPEN_PEN=-2,GAP_EXTEND_PEN=-1)>.
+WARNING:HDLCompiler:413 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v" Line 58: Result of 11-bit expression is truncated to fit in 10-bit target.
+WARNING:HDLCompiler:413 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v" Line 59: Result of 11-bit expression is truncated to fit in 10-bit target.
+WARNING:HDLCompiler:413 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v" Line 60: Result of 32-bit expression is truncated to fit in 10-bit target.
+WARNING:HDLCompiler:413 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v" Line 61: Result of 32-bit expression is truncated to fit in 10-bit target.
+WARNING:HDLCompiler:413 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v" Line 62: Result of 32-bit expression is truncated to fit in 10-bit target.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <SmithWatermanArray_ParallelLoad>.
+    Related source file is "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v".
+        NUM_PES = 10
+        WIDTH = 10
+        MATCH_REWARD = 2
+        MISMATCH_PEN = -2
+        GAP_OPEN_PEN = -2
+        GAP_EXTEND_PEN = -1
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[0].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[1].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[2].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[3].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[4].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[5].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[6].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[7].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[8].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <F_out> of the instance <swpe_gen[9].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <T_out> of the instance <swpe_gen[9].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <S_out> of the instance <swpe_gen[9].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <store_S_out> of the instance <swpe_gen[9].swpe> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ParallelLoad.v" line 46: Output port <init_out> of the instance <swpe_gen[9].swpe> is unconnected or connected to loadless signal.
+    Summary:
+	no macro.
+Unit <SmithWatermanArray_ParallelLoad> synthesized.
+
+Synthesizing Unit <SmithWatermanPE>.
+    Related source file is "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE.v".
+        WIDTH = 10
+        MATCH_REWARD = 2
+        MISMATCH_PEN = -2
+        GAP_OPEN_PEN = -2
+        GAP_EXTEND_PEN = -1
+    Found 2-bit register for signal <S>.
+    Found 10-bit register for signal <V_diag>.
+    Found 10-bit register for signal <V>.
+    Found 10-bit register for signal <E>.
+    Found 10-bit register for signal <F>.
+    Found 1-bit register for signal <store_S>.
+    Found 1-bit register for signal <init>.
+    Found 2-bit register for signal <T>.
+    Found 11-bit adder for signal <n0064> created at line 58.
+    Found 11-bit adder for signal <n0065> created at line 59.
+    Found 32-bit adder for signal <n0066> created at line 60.
+    Found 32-bit adder for signal <n0067> created at line 61.
+    Found 11-bit adder for signal <V_diag[9]_GND_2_o_add_9_OUT> created at line 62.
+    Found 11-bit adder for signal <V_diag[9]_PWR_2_o_add_10_OUT> created at line 62.
+    Found 2-bit comparator equal for signal <S[1]_T_in[1]_equal_9_o> created at line 62
+    Found 10-bit comparator greater for signal <V_gap_open[9]_E_gap_extend[9]_LessThan_13_o> created at line 63
+    Found 10-bit comparator greater for signal <leftV_gap_open[9]_leftF_gap_extend[9]_LessThan_15_o> created at line 64
+    Found 32-bit comparator greater for signal <GND_2_o_new_E[9]_LessThan_19_o> created at line 86
+    Found 32-bit comparator greater for signal <GND_2_o_new_F[9]_LessThan_20_o> created at line 86
+    Found 32-bit comparator greater for signal <GND_2_o_match_score[9]_LessThan_21_o> created at line 86
+    Found 10-bit comparator greater for signal <new_E[9]_new_F[9]_LessThan_22_o> created at line 88
+    Found 10-bit comparator greater for signal <new_E[9]_match_score[9]_LessThan_23_o> created at line 88
+    Found 10-bit comparator greater for signal <new_F[9]_match_score[9]_LessThan_24_o> created at line 90
+    Summary:
+	inferred   6 Adder/Subtractor(s).
+	inferred  46 D-type flip-flop(s).
+	inferred   9 Comparator(s).
+	inferred   6 Multiplexer(s).
+Unit <SmithWatermanPE> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 60
+ 11-bit adder                                          : 40
+ 32-bit adder                                          : 20
+# Registers                                            : 80
+ 1-bit register                                        : 20
+ 10-bit register                                       : 40
+ 2-bit register                                        : 20
+# Comparators                                          : 90
+ 10-bit comparator greater                             : 50
+ 2-bit comparator equal                                : 10
+ 32-bit comparator greater                             : 30
+# Multiplexers                                         : 60
+ 10-bit 2-to-1 multiplexer                             : 50
+ 32-bit 2-to-1 multiplexer                             : 10
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+WARNING:Xst:1710 - FF/Latch <V_diag_0> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_1> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_2> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_3> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_4> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_5> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_6> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_7> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_8> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <V_diag_9> (without init value) has a constant value of 0 in block <swpe_gen[0].swpe>. This FF/Latch will be trimmed during the optimization process.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 60
+ 10-bit adder                                          : 40
+ 11-bit adder                                          : 20
+# Registers                                            : 460
+ Flip-Flops                                            : 460
+# Comparators                                          : 90
+ 10-bit comparator greater                             : 50
+ 2-bit comparator equal                                : 10
+ 32-bit comparator greater                             : 30
+# Multiplexers                                         : 60
+ 10-bit 2-to-1 multiplexer                             : 50
+ 32-bit 2-to-1 multiplexer                             : 10
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <SmithWatermanArray_ParallelLoad> ...
+
+Optimizing unit <SmithWatermanPE> ...
+WARNING:Xst:1710 - FF/Latch <swpe_gen[0].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_2> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_1> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_diag_0> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_9> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_8> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_7> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_6> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_5> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_4> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_3> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_2> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_1> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/F_0> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/init> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/store_S> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/T_1> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:2677 - Node <swpe_gen[9].swpe/T_0> of sequential type is unconnected in block <SmithWatermanArray_ParallelLoad>.
+WARNING:Xst:1710 - FF/Latch <swpe_gen[2].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_0> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_2> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[0].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/F_0> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_diag_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[8].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_2> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[1].swpe/V_diag_0> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[9].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[5].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_diag_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[4].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_4> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[3].swpe/V_diag_3> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[7].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[6].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_9> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_8> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_7> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_6> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <swpe_gen[2].swpe/V_diag_5> (without init value) has a constant value of 0 in block <SmithWatermanArray_ParallelLoad>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:2261 - The FF/Latch <swpe_gen[0].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 10 FFs/Latches, which will be removed : <swpe_gen[0].swpe/F_8> <swpe_gen[0].swpe/F_7> <swpe_gen[0].swpe/F_6> <swpe_gen[0].swpe/F_5> <swpe_gen[0].swpe/F_4> <swpe_gen[0].swpe/F_3> <swpe_gen[0].swpe/F_2> <swpe_gen[0].swpe/F_1> <swpe_gen[0].swpe/F_0> <swpe_gen[0].swpe/init> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[2].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 6 FFs/Latches, which will be removed : <swpe_gen[2].swpe/E_8> <swpe_gen[2].swpe/E_7> <swpe_gen[2].swpe/E_6> <swpe_gen[2].swpe/E_5> <swpe_gen[2].swpe/E_4> <swpe_gen[2].swpe/E_3> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[1].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 8 FFs/Latches, which will be removed : <swpe_gen[1].swpe/F_8> <swpe_gen[1].swpe/F_7> <swpe_gen[1].swpe/F_6> <swpe_gen[1].swpe/F_5> <swpe_gen[1].swpe/F_4> <swpe_gen[1].swpe/F_3> <swpe_gen[1].swpe/F_2> <swpe_gen[1].swpe/F_1> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[3].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 6 FFs/Latches, which will be removed : <swpe_gen[3].swpe/E_8> <swpe_gen[3].swpe/E_7> <swpe_gen[3].swpe/E_6> <swpe_gen[3].swpe/E_5> <swpe_gen[3].swpe/E_4> <swpe_gen[3].swpe/E_3> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[2].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 7 FFs/Latches, which will be removed : <swpe_gen[2].swpe/F_8> <swpe_gen[2].swpe/F_7> <swpe_gen[2].swpe/F_6> <swpe_gen[2].swpe/F_5> <swpe_gen[2].swpe/F_4> <swpe_gen[2].swpe/F_3> <swpe_gen[2].swpe/F_2> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[4].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 5 FFs/Latches, which will be removed : <swpe_gen[4].swpe/E_8> <swpe_gen[4].swpe/E_7> <swpe_gen[4].swpe/E_6> <swpe_gen[4].swpe/E_5> <swpe_gen[4].swpe/E_4> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[3].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 6 FFs/Latches, which will be removed : <swpe_gen[3].swpe/F_8> <swpe_gen[3].swpe/F_7> <swpe_gen[3].swpe/F_6> <swpe_gen[3].swpe/F_5> <swpe_gen[3].swpe/F_4> <swpe_gen[3].swpe/F_3> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[5].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 5 FFs/Latches, which will be removed : <swpe_gen[5].swpe/E_8> <swpe_gen[5].swpe/E_7> <swpe_gen[5].swpe/E_6> <swpe_gen[5].swpe/E_5> <swpe_gen[5].swpe/E_4> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[4].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 6 FFs/Latches, which will be removed : <swpe_gen[4].swpe/F_8> <swpe_gen[4].swpe/F_7> <swpe_gen[4].swpe/F_6> <swpe_gen[4].swpe/F_5> <swpe_gen[4].swpe/F_4> <swpe_gen[4].swpe/F_3> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[6].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 4 FFs/Latches, which will be removed : <swpe_gen[6].swpe/E_8> <swpe_gen[6].swpe/E_7> <swpe_gen[6].swpe/E_6> <swpe_gen[6].swpe/E_5> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[5].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 5 FFs/Latches, which will be removed : <swpe_gen[5].swpe/F_8> <swpe_gen[5].swpe/F_7> <swpe_gen[5].swpe/F_6> <swpe_gen[5].swpe/F_5> <swpe_gen[5].swpe/F_4> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[7].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 4 FFs/Latches, which will be removed : <swpe_gen[7].swpe/E_8> <swpe_gen[7].swpe/E_7> <swpe_gen[7].swpe/E_6> <swpe_gen[7].swpe/E_5> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[6].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 5 FFs/Latches, which will be removed : <swpe_gen[6].swpe/F_8> <swpe_gen[6].swpe/F_7> <swpe_gen[6].swpe/F_6> <swpe_gen[6].swpe/F_5> <swpe_gen[6].swpe/F_4> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[8].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 3 FFs/Latches, which will be removed : <swpe_gen[8].swpe/E_8> <swpe_gen[8].swpe/E_7> <swpe_gen[8].swpe/E_6> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[7].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 4 FFs/Latches, which will be removed : <swpe_gen[7].swpe/F_8> <swpe_gen[7].swpe/F_7> <swpe_gen[7].swpe/F_6> <swpe_gen[7].swpe/F_5> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[9].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 3 FFs/Latches, which will be removed : <swpe_gen[9].swpe/E_8> <swpe_gen[9].swpe/E_7> <swpe_gen[9].swpe/E_6> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[8].swpe/F_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 4 FFs/Latches, which will be removed : <swpe_gen[8].swpe/F_8> <swpe_gen[8].swpe/F_7> <swpe_gen[8].swpe/F_6> <swpe_gen[8].swpe/F_5> 
+INFO:Xst:2261 - The FF/Latch <swpe_gen[1].swpe/E_9> in Unit <SmithWatermanArray_ParallelLoad> is equivalent to the following 7 FFs/Latches, which will be removed : <swpe_gen[1].swpe/E_8> <swpe_gen[1].swpe/E_7> <swpe_gen[1].swpe/E_6> <swpe_gen[1].swpe/E_5> <swpe_gen[1].swpe/E_4> <swpe_gen[1].swpe/E_3> <swpe_gen[1].swpe/E_2> 
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block SmithWatermanArray_ParallelLoad, actual ratio is 0.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 228
+ Flip-Flops                                            : 228
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : SmithWatermanArray_ParallelLoad.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 1269
+#      GND                         : 1
+#      INV                         : 41
+#      LUT2                        : 63
+#      LUT3                        : 88
+#      LUT4                        : 355
+#      LUT5                        : 164
+#      LUT6                        : 316
+#      MUXCY                       : 240
+#      VCC                         : 1
+# FlipFlops/Latches                : 228
+#      FDR                         : 208
+#      FDRE                        : 20
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 35
+#      IBUF                        : 25
+#      OBUF                        : 10
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 7k325tffg900-2 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:             228  out of  407600     0%  
+ Number of Slice LUTs:                 1027  out of  203800     0%  
+    Number used as Logic:              1027  out of  203800     0%  
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:   1104
+   Number with an unused Flip Flop:     876  out of   1104    79%  
+   Number with an unused LUT:            77  out of   1104     6%  
+   Number of fully used LUT-FF pairs:   151  out of   1104    13%  
+   Number of unique control sets:        21
+
+IO Utilization: 
+ Number of IOs:                          36
+ Number of bonded IOBs:                  36  out of    500     7%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRL/BUFHCEs:         1  out of    200     0%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 228   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -2
+
+   Minimum period: 4.284ns (Maximum Frequency: 233.443MHz)
+   Minimum input arrival time before clock: 2.033ns
+   Maximum output required time after clock: 0.643ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 4.284ns (frequency: 233.443MHz)
+  Total number of paths / destination ports: 358790 / 346
+-------------------------------------------------------------------------
+Delay:               4.284ns (Levels of Logic = 13)
+  Source:            swpe_gen[9].swpe/E_5 (FF)
+  Destination:       swpe_gen[9].swpe/V_6 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: swpe_gen[9].swpe/E_5 to swpe_gen[9].swpe/V_6
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q              2   0.236   0.618  swpe_gen[9].swpe/E_5 (swpe_gen[9].swpe/E_5)
+     LUT6:I0->O            8   0.043   0.389  swpe_gen[9].swpe/Madd_n0065_Madd_cy<5>11 (swpe_gen[9].swpe/Madd_n0065_Madd_cy<5>)
+     LUT2:I1->O            4   0.043   0.539  swpe_gen[9].swpe/Madd_n0065_Madd_xor<9>11 (swpe_gen[9].swpe/n0065<9>)
+     LUT4:I0->O            0   0.043   0.000  swpe_gen[9].swpe/Mcompar_V_gap_open[9]_E_gap_extend[9]_LessThan_13_o_lutdi3 (swpe_gen[9].swpe/Mcompar_V_gap_open[9]_E_gap_extend[9]_LessThan_13_o_lutdi3)
+     MUXCY:DI->O           1   0.228   0.000  swpe_gen[9].swpe/Mcompar_V_gap_open[9]_E_gap_extend[9]_LessThan_13_o_cy<3> (swpe_gen[9].swpe/Mcompar_V_gap_open[9]_E_gap_extend[9]_LessThan_13_o_cy<3>)
+     MUXCY:CI->O          19   0.150   0.451  swpe_gen[9].swpe/Mcompar_V_gap_open[9]_E_gap_extend[9]_LessThan_13_o_cy<4> (swpe_gen[9].swpe/Mcompar_V_gap_open[9]_E_gap_extend[9]_LessThan_13_o_cy<4>)
+     LUT3:I2->O            5   0.043   0.545  swpe_gen[9].swpe/Mmux_new_E11 (swpe_gen[9].swpe/new_E<0>)
+     LUT4:I0->O            1   0.043   0.000  swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_lut<0> (swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_lut<0>)
+     MUXCY:S->O            1   0.238   0.000  swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<0> (swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<0>)
+     MUXCY:CI->O           1   0.013   0.000  swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<1> (swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<1>)
+     MUXCY:CI->O           1   0.013   0.000  swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<2> (swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<2>)
+     MUXCY:CI->O           1   0.013   0.000  swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<3> (swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<3>)
+     MUXCY:CI->O           7   0.150   0.439  swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<4> (swpe_gen[9].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<4>)
+     LUT6:I4->O            1   0.043   0.000  swpe_gen[9].swpe/Mmux_match_score[9]_GND_2_o_mux_26_OUT11 (swpe_gen[9].swpe/match_score[9]_GND_2_o_mux_26_OUT<0>)
+     FDR:D                    -0.000          swpe_gen[9].swpe/V_0
+    ----------------------------------------
+    Total                      4.284ns (1.302ns logic, 2.982ns route)
+                                       (30.4% logic, 69.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 283 / 254
+-------------------------------------------------------------------------
+Offset:              2.033ns (Levels of Logic = 8)
+  Source:            T_in<1> (PAD)
+  Destination:       swpe_gen[0].swpe/V_1 (FF)
+  Destination Clock: clk rising
+
+  Data Path: T_in<1> to swpe_gen[0].swpe/V_1
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             2   0.000   0.500  T_in_1_IBUF (T_in_1_IBUF)
+     LUT4:I1->O            9   0.043   0.648  swpe_gen[0].swpe/S[1]_T_in[1]_equal_9_o21 (swpe_gen[0].swpe/Mmux_n006871)
+     LUT5:I0->O            0   0.043   0.000  swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_lutdi11 (swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_lutdi1)
+     MUXCY:DI->O           1   0.228   0.000  swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<1> (swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<1>)
+     MUXCY:CI->O           1   0.013   0.000  swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<2> (swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<2>)
+     MUXCY:CI->O           1   0.013   0.000  swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<3> (swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<3>)
+     MUXCY:CI->O           1   0.150   0.350  swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<4> (swpe_gen[0].swpe/Mcompar_new_E[9]_match_score[9]_LessThan_23_o_cy<4>)
+     LUT5:I4->O            1   0.043   0.000  swpe_gen[0].swpe/Mmux_match_score[9]_GND_2_o_mux_26_OUT21 (swpe_gen[0].swpe/match_score[9]_GND_2_o_mux_26_OUT<1>)
+     FDR:D                    -0.000          swpe_gen[0].swpe/V_1
+    ----------------------------------------
+    Total                      2.033ns (0.535ns logic, 1.499ns route)
+                                       (26.3% logic, 73.7% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 7 / 7
+-------------------------------------------------------------------------
+Offset:              0.643ns (Levels of Logic = 1)
+  Source:            swpe_gen[9].swpe/V_1 (FF)
+  Destination:       V_out<1> (PAD)
+  Source Clock:      clk rising
+
+  Data Path: swpe_gen[9].swpe/V_1 to V_out<1>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q             13   0.236   0.407  swpe_gen[9].swpe/V_1 (swpe_gen[9].swpe/V_1)
+     OBUF:I->O                 0.000          V_out_1_OBUF (V_out<1>)
+    ----------------------------------------
+    Total                      0.643ns (0.236ns logic, 0.407ns route)
+                                       (36.7% logic, 63.3% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk            |    4.284|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 12.00 secs
+Total CPU time to Xst completion: 11.66 secs
+ 
+--> 
+
+
+Total memory usage is 509708 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :  149 (   0 filtered)
+Number of infos    :   32 (   0 filtered)
+

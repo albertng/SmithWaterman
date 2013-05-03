@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_SequentialLoad.xst" -ofn "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_SequentialLoad.syr" 

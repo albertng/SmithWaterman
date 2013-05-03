@@ -1,22 +1,22 @@
-Running: /home/albertng/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -i "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/source/" -i "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/" -d "SIMULATION" -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe" -prj "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_beh.prj" "SmithWatermanPE_tb" "work.glbl" 
+Running: /media/albert/Data/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe -prj /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_beh.prj work.SmithWatermanPE_tb work.glbl 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
-Analyzing Verilog file "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE.v" into library work
-Analyzing Verilog file "/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE_tb.v" into library work
-Analyzing Verilog file "/home/albertng/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
+Analyzing Verilog file "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE.v" into library work
+Analyzing Verilog file "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE_tb.v" into library work
+Analyzing Verilog file "/media/albert/Data/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
 Completed static elaboration
-Fuse Memory Usage: 94668 KB
-Fuse CPU Usage: 1290 ms
+Fuse Memory Usage: 94588 KB
+Fuse CPU Usage: 1050 ms
 Compiling module SmithWatermanPE(MATCH_REWARD=10)
 Compiling module SmithWatermanPE_tb
 Compiling module glbl
 Time Resolution for simulation is 1ps.
-Waiting for 1 sub-compilation(s) to finish...
+Waiting for 2 sub-compilation(s) to finish...
 Compiled 3 Verilog Units
-Built simulation executable /home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe
-Fuse Memory Usage: 655132 KB
-Fuse CPU Usage: 1320 ms
-GCC CPU Usage: 440 ms
+Built simulation executable /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe
+Fuse Memory Usage: 655124 KB
+Fuse CPU Usage: 1070 ms
+GCC CPU Usage: 490 ms
