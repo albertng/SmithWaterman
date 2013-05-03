@@ -5,6 +5,7 @@
  *  Revision History :
  *      Albert Ng   Apr 30 2013     Initial Revision
  *      Albert Ng   May 02 2013     Added store_S_in and store_S_out
+ *                                  Added S_out
  *
  */
 module SmithWatermanPE(
@@ -19,6 +20,7 @@ module SmithWatermanPE(
     output [WIDTH-1:0] V_out,   // Score of this PE
     output [WIDTH-1:0] F_out,   // Left gap penalty of this cell
     output [1:0] T_out,         // Reference seq shift out
+    output [1:0] S_out,         // Query seq shift out
     output       store_S_out,   // Store query seq shift out
     output       init_out       // Computation active shift out
     );
@@ -48,6 +50,7 @@ module SmithWatermanPE(
     
     assign V_out = V;
     assign F_out = F;
+    assign S_out = S;
     assign T_out = T;
     assign init_out = init;
     assign store_S_out = store_S;
