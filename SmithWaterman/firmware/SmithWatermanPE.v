@@ -4,6 +4,7 @@
  *
  *  Revision History :
  *      Albert Ng   Apr 30 2013     Initial Revision
+ *      Albert Ng   May 02 2013     Added store_S_in and store_S_out
  *
  */
 module SmithWatermanPE(
@@ -13,15 +14,16 @@ module SmithWatermanPE(
     input  [WIDTH-1:0] F_in,    // Left gap penalty of previous PE
     input  [1:0] T_in,          // Reference seq shift in
     input  [1:0] S_in,          // Query seq input
-    input        store_S,       // Store query seq
+    input        store_S_in,    // Store query seq
     input        init_in,       // Computation active shift in
     output [WIDTH-1:0] V_out,   // Score of this PE
     output [WIDTH-1:0] F_out,   // Left gap penalty of this cell
     output [1:0] T_out,         // Reference seq shift out
+    output       store_S_out,   // Store query seq shift out
     output       init_out       // Computation active shift out
     );
     
-    parameter WIDTH = 20;
+    parameter WIDTH = 10;
     parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;
     parameter GAP_OPEN_PEN = -2;
@@ -33,6 +35,7 @@ module SmithWatermanPE(
     reg signed [WIDTH-1:0] V;
     reg signed [WIDTH-1:0] E;
     reg signed [WIDTH-1:0] F;
+    reg store_S;
     reg init;
     
     wire [WIDTH-1:0] V_gap_open;
@@ -47,6 +50,7 @@ module SmithWatermanPE(
     assign F_out = F;
     assign T_out = T;
     assign init_out = init;
+    assign store_S_out = store_S;
     
     assign V_gap_open = V + GAP_OPEN_PEN;
     assign E_gap_extend = E + GAP_EXTEND_PEN;
@@ -64,11 +68,13 @@ module SmithWatermanPE(
             V <= 0;
             E <= 0;
             F <= 0;
+            store_S <= 0;
             init <= 0;
         end else begin
+            store_S <= store_S_in;
             init <= init_in;
             T <= T_in;
-            if (store_S)
+            if (store_S_in)
                 S <= S_in;
             V_diag <= V_in;
             if (init_in) begin

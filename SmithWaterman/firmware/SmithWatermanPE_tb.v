@@ -4,6 +4,7 @@
  *
  *  Revision History :
  *      Albert Ng   May 01 2013     Initial Revision
+ *      Albert NG   May 02 2013     Added store_S_in and store_S_out signals
  *
  */
 
@@ -15,13 +16,14 @@ module SmithWatermanPE_tb;
     reg [9:0] F_in;
     reg [1:0] T_in;
     reg [1:0] S_in;
-    reg store_S;
+    reg store_S_in;
     reg init_in;
 
     // Outputs
     wire [9:0] V_out;
     wire [9:0] F_out;
     wire [1:0] T_out;
+    wire store_S_out;
     wire init_out;
 
     reg [1:0] short_read [5:0];
@@ -36,11 +38,12 @@ module SmithWatermanPE_tb;
         .F_in(F_in), 
         .T_in(T_in), 
         .S_in(S_in), 
-        .store_S(store_S), 
+        .store_S_in(store_S_in), 
         .init_in(init_in), 
         .V_out(V_out), 
         .F_out(F_out), 
         .T_out(T_out), 
+        .store_S_out(store_S_out),
         .init_out(init_out)
     );
 
@@ -70,7 +73,7 @@ module SmithWatermanPE_tb;
         F_in = 0;
         T_in = 0;
         S_in = 0;
-        store_S = 0;
+        store_S_in = 0;
         init_in = 0;
         i = 0;
         #20
@@ -89,13 +92,17 @@ module SmithWatermanPE_tb;
         V_out_expected[7] = 10'd10;        
         $display("V=0, F=0, S='A' test");
         S_in = short_read[0];   // Store short read sequence
-        store_S = 1;
+        store_S_in = 1;
         #10;
         if (init_out) begin
             $display("Init_out error: Got 1 expected 0");
             $finish;
         end
-        store_S = 0;
+        if (!store_S_out) begin
+            $display("store_S_out error: Got 0 expected 1");
+            $finish;
+        end
+        store_S_in = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
@@ -115,6 +122,10 @@ module SmithWatermanPE_tb;
             end
             if (!init_out) begin
                 $display("Init_out error: Got 0 expected 1");
+                $finish;
+            end
+            if (store_S_out) begin
+                $display("store_S_out error: Got 1 expected 0");
                 $finish;
             end
         end
@@ -130,14 +141,18 @@ module SmithWatermanPE_tb;
         V_out_expected[7] = 10'd7;   
         $display("V=0, F=0, S='C' test");
         S_in = short_read[1];
-        store_S = 1;
+        store_S_in = 1;
         init_in = 0;
         #10
         if (init_out) begin
             $display("Init_out error: Got 1 expected 0");
             $finish;
         end
-        store_S = 0;
+        if (!store_S_out) begin
+            $display("store_S_out error: Got 0 expected 1");
+            $finish;
+        end
+        store_S_in = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
@@ -157,6 +172,10 @@ module SmithWatermanPE_tb;
             end
             if (!init_out) begin
                 $display("Init_out error: Got 0 expected 1");
+                $finish;
+            end
+            if (store_S_out) begin
+                $display("store_S_out error: Got 1 expected 0");
                 $finish;
             end
         end
@@ -174,14 +193,18 @@ module SmithWatermanPE_tb;
         V_in = 10;
         F_in = -4;
         S_in = short_read[4];
-        store_S = 1;
+        store_S_in = 1;
         init_in = 0;
         #10
         if (init_out) begin
             $display("Init_out error: Got 1 expected 0");
             $finish;
         end
-        store_S = 0;
+        if (!store_S_out) begin
+            $display("store_S_out error: Got 0 expected 1");
+            $finish;
+        end
+        store_S_in = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
@@ -201,6 +224,10 @@ module SmithWatermanPE_tb;
             end
             if (!init_out) begin
                 $display("Init_out error: Got 0 expected 1");
+                $finish;
+            end
+            if (store_S_out) begin
+                $display("store_S_out error: Got 1 expected 0");
                 $finish;
             end
         end
