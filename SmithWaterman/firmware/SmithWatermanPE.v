@@ -12,17 +12,17 @@ module SmithWatermanPE(
     input  clk,                 // System clock
     input  rst,                 // System reset
     input  [WIDTH-1:0] V_in,    // Score from previous PE
-    input  [WIDTH-1:0] F_in,    // Left gap penalty of previous PE
+    input  [WIDTH-1:0] F_in,    // Gap penalty of previous PE
     input  [1:0] T_in,          // Reference seq shift in
     input  [1:0] S_in,          // Query seq input
-    input        store_S_in,    // Store query seq
-    input        init_in,       // Computation active shift in
+    input  store_S_in,          // Store query seq
+    input  init_in,             // Computation active shift in
     output [WIDTH-1:0] V_out,   // Score of this PE
-    output [WIDTH-1:0] F_out,   // Left gap penalty of this cell
+    output [WIDTH-1:0] F_out,   // Gap penalty of this cell
     output [1:0] T_out,         // Reference seq shift out
     output [1:0] S_out,         // Query seq shift out
-    output       store_S_out,   // Store query seq shift out
-    output       init_out       // Computation active shift out
+    output store_S_out,         // Store query seq shift out
+    output init_out             // Computation active shift out
     );
     
     parameter WIDTH = 10;

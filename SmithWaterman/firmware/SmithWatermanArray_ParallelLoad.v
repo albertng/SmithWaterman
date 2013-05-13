@@ -1,23 +1,33 @@
 /*  File Name        : SmithWatermanArray_ParallelLoad.v
  *  Description      : Fixed implementation of Smith Waterman systolic array with
  *                     affine gap penalty.
- *                     Query sequence S loading is routed in parallel so that
- *                     there is only one bubble in the pipeline between iterations.
+ *
+ *                     There is a shift register holding the next query sequence
+ *                     to be loaded into the systolic array. This shift register
+ *                     is loaded with the next sequence during the computation of 
+ *                     the previous iteration, on the shift_S signal.
+ *
+ *                     At the end of the previous iteration, store_S_in is passed
+ *                     through the pipeline, storing the query sequence from the
+ *                     loaded shift register into the systolic array. This allows
+ *                     multiple iterations to be stitched together seemlessly
+ *                     without any bubbles in the pipeline.
  *
  *  Revision History :
  *      Albert Ng   May 02 2013     Initial Revision
-
+ *      Albert Ng   May 06 2013     Added query sequence shift register
  *
  */
 
 module SmithWatermanArray_ParallelLoad(
-    input clk,
-    input rst,
-    input [(NUM_PES * 2) - 1:0] S_in,
-    input [1:0] T_in,
-    input store_S_in,
-    input init_in,
-    output [WIDTH - 1:0] V_out
+    input clk,                  // System clock
+    input rst,                  // System reset
+    input [1:0] S_in,           // Query sequence shift in
+    input [1:0] T_in,           // Reference sequence shift in
+    input store_S_in,           // Load systolic array with new query seq
+    input shift_S,              // Load next query seq shift register
+    input init_in,              // Computation active shift in
+    output [WIDTH - 1:0] V_out  // 
     );
 
     parameter NUM_PES = 10;
@@ -30,6 +40,7 @@ module SmithWatermanArray_ParallelLoad(
     wire [WIDTH - 1:0] V[NUM_PES:0];
     wire [WIDTH - 1:0] F[NUM_PES:0];
     wire [1:0] T[NUM_PES:0];
+    wire [1:0] S[NUM_PES:0];
     wire store_S[NUM_PES:0];
     wire init[NUM_PES:0];
     
