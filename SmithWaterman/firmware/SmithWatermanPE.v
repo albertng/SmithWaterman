@@ -2,6 +2,8 @@
  *  Description      : Fixed implementation of Smith Waterman systolic array PE with
  *                     affine gap penalty.
  *
+ *                     TODO: Probably going to need a stall signal
+ *
  *  Revision History :
  *      Albert Ng   Apr 30 2013     Initial Revision
  *      Albert Ng   May 02 2013     Added store_S_in and store_S_out
@@ -42,8 +44,8 @@ module SmithWatermanPE(
     
     wire [WIDTH-1:0] V_gap_open;
     wire [WIDTH-1:0] E_gap_extend;
-    wire [WIDTH-1:0] leftV_gap_open;
-    wire [WIDTH-1:0] leftF_gap_extend;
+    wire [WIDTH-1:0] upV_gap_open;
+    wire [WIDTH-1:0] upF_gap_extend;
     wire [WIDTH-1:0] match_score;
     wire [WIDTH-1:0] new_E;
     wire [WIDTH-1:0] new_F;
@@ -57,11 +59,11 @@ module SmithWatermanPE(
     
     assign V_gap_open = V + GAP_OPEN_PEN;
     assign E_gap_extend = E + GAP_EXTEND_PEN;
-    assign leftV_gap_open = V_in + GAP_OPEN_PEN;
-    assign leftF_gap_extend = F_in + GAP_EXTEND_PEN;
+    assign upV_gap_open = V_in + GAP_OPEN_PEN;
+    assign upF_gap_extend = F_in + GAP_EXTEND_PEN;
     assign match_score = (S == T_in) ? V_diag + MATCH_REWARD : V_diag + MISMATCH_PEN;
     assign new_E = ($signed(V_gap_open) > $signed(E_gap_extend)) ? V_gap_open : E_gap_extend;
-    assign new_F = ($signed(leftV_gap_open) > $signed(leftF_gap_extend)) ? leftV_gap_open : leftF_gap_extend;
+    assign new_F = ($signed(upV_gap_open) > $signed(upF_gap_extend)) ? upV_gap_open : upF_gap_extend;
     
     always @(posedge clk) begin
         if (rst) begin
@@ -79,8 +81,8 @@ module SmithWatermanPE(
             T <= T_in;
             if (store_S_in)
                 S <= S_in;
-            V_diag <= V_in;
             if (init_in) begin
+                V_diag <= V_in;
                 E <= new_E;
                 F <= new_F;
                 if (0 > $signed(new_E) && 0 > $signed(new_F) && 0 > $signed(match_score))
@@ -92,6 +94,7 @@ module SmithWatermanPE(
                 else
                     V <= match_score;
             end else begin
+                V_diag <= 0;
                 E <= 0;
                 F <= 0;
                 V <= 0;
