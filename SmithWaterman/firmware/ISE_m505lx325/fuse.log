@@ -1,22 +1,27 @@
-Running: /media/albert/Data/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe -prj /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_beh.prj work.SmithWatermanPE_tb work.glbl 
+Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_isim_beh.exe" -prj "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_beh.prj" "work.SmithWatermanArray_tb" "work.glbl" 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
-Analyzing Verilog file "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE.v" into library work
-Analyzing Verilog file "/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE_tb.v" into library work
-Analyzing Verilog file "/media/albert/Data/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanArray_tb.v" into library work
+Analyzing Verilog file "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
 Completed static elaboration
-Fuse Memory Usage: 94588 KB
-Fuse CPU Usage: 1050 ms
-Compiling module SmithWatermanPE(MATCH_REWARD=10)
-Compiling module SmithWatermanPE_tb
+Fuse Memory Usage: 95164 KB
+Fuse CPU Usage: 1340 ms
+Compiling module SmithWatermanPE(WIDTH=10,MATCH_R...
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 97: Element index -1 into S is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 117: Element index -1 into V_interm is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 118: Element index -1 into F_interm is out of bounds
+Compiling module SmithWatermanArray(NUM_PES=6,REF...
+Compiling module SmithWatermanArray(NUM_PES=3,REF...
+Compiling module SmithWatermanArray_tb
 Compiling module glbl
 Time Resolution for simulation is 1ps.
-Waiting for 2 sub-compilation(s) to finish...
-Compiled 3 Verilog Units
-Built simulation executable /home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe
-Fuse Memory Usage: 655124 KB
-Fuse CPU Usage: 1070 ms
-GCC CPU Usage: 490 ms
+Compiled 5 Verilog Units
+Built simulation executable /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_isim_beh.exe
+Fuse Memory Usage: 660844 KB
+Fuse CPU Usage: 1500 ms
+GCC CPU Usage: 720 ms

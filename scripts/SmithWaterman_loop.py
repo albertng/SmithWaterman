@@ -29,9 +29,9 @@ def SmithWaterman(short_read, reference):
             if V[i][j] > max_score:
                 max_score = V[i][j]
      
-    for row in range(len(V[0])):
-        for col in range(len(V)):
-            print(str(V[col][row]) + '\t'),
+    for row in range(len(V)):
+        for col in range(len(V[0])):
+            print(str(V[row][col]) + '\t'),
         print ''
     return max_score
 
