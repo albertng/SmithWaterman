@@ -1,0 +1,5 @@
+verilog work "../SmithWatermanPE.v"
+verilog work "ipcore_dir/inter_ref_block_fifo.v"
+verilog work "../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v"
+verilog work "../SmithWatermanArray_tb.v"
+verilog work "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v"
