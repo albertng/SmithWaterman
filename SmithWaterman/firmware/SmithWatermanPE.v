@@ -8,6 +8,7 @@
  *      Albert Ng   Apr 30 2013     Initial Revision
  *      Albert Ng   May 02 2013     Added store_S_in and store_S_out
  *                                  Added S_out
+ *      Albert Ng   Jun 05 2013     Commented out unnecessary F initialization
  *
  */
 module SmithWatermanPE(
@@ -96,8 +97,8 @@ module SmithWatermanPE(
             end else begin
                 V_diag <= 0;
                 E <= 0;
-                F <= 0;
                 V <= 0;
+                //F <= 0;   Not necessary
             end
         end
     end

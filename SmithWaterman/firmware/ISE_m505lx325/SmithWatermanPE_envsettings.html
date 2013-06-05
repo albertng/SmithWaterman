@@ -16,21 +16,21 @@
 <tr>
 <td>LD_LIBRARY_PATH</td>
 <td>/home/albertng/14.5/ISE_DS/ISE//lib/lin64</td>
-<td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
+<td>/home/albertng/14.5/ISE_DS/ISE//lib/lin64</td>
 <td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
 </tr>
 <tr>
 <td>PATH</td>
 <td>/home/albertng/14.5/ISE_DS/ISE//bin/lin64:<br>/usr/lib/lightdm/lightdm:<br>/usr/local/sbin:<br>/usr/local/bin:<br>/usr/sbin:<br>/usr/bin:<br>/sbin:<br>/bin:<br>/usr/games:<br>/usr/local/games:<br>/usr/src/picocomputing-5.2.0.0/bin</td>
-<td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
+<td>/home/albertng/14.5/ISE_DS/ISE//bin/lin64:<br>/usr/lib/lightdm/lightdm:<br>/usr/local/sbin:<br>/usr/local/bin:<br>/usr/sbin:<br>/usr/bin:<br>/sbin:<br>/bin:<br>/usr/games:<br>/usr/local/games</td>
 <td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
 </tr>
 <tr>
 <td>XILINX</td>
 <td>/home/albertng/14.5/ISE_DS/ISE/</td>
-<td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
+<td>/home/albertng/14.5/ISE_DS/ISE/</td>
 <td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp;data not available&nbsp;&gt;</font></td>
 </tr>
@@ -49,13 +49,13 @@
 <tr>
 <td>-ifn</td>
 <td>&nbsp;</td>
-<td>SmithWatermanPE.prj</td>
+<td>Pico_Toplevel.prj</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
 <td>-ofn</td>
 <td>&nbsp;</td>
-<td>SmithWatermanPE</td>
+<td>Pico_Toplevel</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
@@ -73,7 +73,7 @@
 <tr>
 <td>-top</td>
 <td>&nbsp;</td>
-<td>SmithWatermanPE</td>
+<td>Pico_Toplevel</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
@@ -109,7 +109,7 @@
 <tr>
 <td>-netlist_hierarchy</td>
 <td>Netlist Hierarchy</td>
-<td>As_Optimized</td>
+<td>Rebuilt</td>
 <td>As_Optimized</td>
 </tr>
 <tr>
@@ -133,7 +133,7 @@
 <tr>
 <td>-sd</td>
 <td>Cores Search Directories</td>
-<td>{&quot;source&quot; &quot;/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/source/&quot;  }</td>
+<td>{&quot;source&quot; &quot;/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/ISE_m505lx325/source/&quot;  }</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
@@ -181,7 +181,7 @@
 <tr>
 <td>-vlgincdir</td>
 <td>Verilog Include Directories</td>
-<td>{ &quot;/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/ISE_m505lx325/source/&quot; &quot;/home/albertng/SeqAlignFPGA/SmithWaterman/firmware/&quot; }</td>
+<td>{ &quot;/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/ISE_m505lx325/source/&quot; &quot;/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/&quot; }</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
@@ -289,8 +289,20 @@
 <tr>
 <td>-register_balancing</td>
 <td>&nbsp;</td>
+<td>Yes</td>
 <td>No</td>
-<td>No</td>
+</tr>
+<tr>
+<td>-move_first_stage</td>
+<td>&nbsp;</td>
+<td>YES</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>-move_last_stage</td>
+<td>&nbsp;</td>
+<td>YES</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>-optimize_primitives</td>
@@ -325,7 +337,7 @@
 <tr>
 <td>-equivalent_register_removal</td>
 <td>&nbsp;</td>
-<td>YES</td>
+<td>NO</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -333,6 +345,48 @@
 <td>&nbsp;</td>
 <td>5</td>
 <td>0</td>
+</tr>
+</TABLE>
+<A NAME="Translation Property Settings"></A>
+&nbsp;<BR><TABLE BORDER CELLSPACING=0 CELLPADDING=3 WIDTH='100%'>
+<TR ALIGN=CENTER BGCOLOR='#99CCFF'>
+<TD ALIGN=CENTER COLSPAN='4'><B>Translation Property Settings </B></TD>
+</tr>
+<tr bgcolor='#ffff99'>
+<td><b>Switch Name</b></td>
+<td><b>Property Name</b></td>
+<td><b>Value</b></td>
+<td><b>Default Value</b></td>
+</tr>
+<tr>
+<td>-intstyle</td>
+<td>&nbsp;</td>
+<td>ise</td>
+<td>None</td>
+</tr>
+<tr>
+<td>-dd</td>
+<td>&nbsp;</td>
+<td>_ngo</td>
+<td>None</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>&nbsp;</td>
+<td>xc7k325t-ffg900-2</td>
+<td>None</td>
+</tr>
+<tr>
+<td>-sd</td>
+<td>Macro Search Path</td>
+<td>source</td>
+<td>None</td>
+</tr>
+<tr>
+<td>-uc</td>
+<td>&nbsp;</td>
+<td>source/M505_LX325T_PCIe.ucf</td>
+<td>None</td>
 </tr>
 </TABLE>
 <A NAME="Operating System Information"></A>
@@ -350,28 +404,28 @@
 <tr>
 <td>CPU Architecture/Speed</td>
 <td>Intel(R) Core(TM)2 Quad CPU    Q6600  @ 2.40GHz/2394.190 MHz</td>
-<td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
+<td>Intel(R) Core(TM)2 Quad CPU    Q6600  @ 2.40GHz/2394.190 MHz</td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 </tr>
 <tr>
 <td>Host</td>
 <td>BejeranoNKX</td>
-<td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
+<td>BejeranoNKX</td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 </tr>
 <tr>
 <td>OS Name</td>
 <td>Ubuntu</td>
-<td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
+<td>Ubuntu</td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 </tr>
 <tr>
 <td>OS Release</td>
 <td>Ubuntu 12.10</td>
-<td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
+<td>Ubuntu 12.10</td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 <td><font color=gray>&lt;&nbsp; data not available &nbsp;&gt;</font></td>
 </tr>
