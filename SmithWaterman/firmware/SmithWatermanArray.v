@@ -49,6 +49,7 @@
  *      Albert Ng   May 15 2013     Added bubble documentation in file description
  *                                  Added inter-query-block intermediate value shiftregs
  *                                      and first_query_block input
+ *      Albert Ng   Jun 05 2013     Added inter-ref-block intermediate value handling
  *
  */
 
@@ -61,10 +62,13 @@ module SmithWatermanArray(
     input shift_S,                          // Load next query seq shift register
     input init_in,                          // Computation active shift in
     input first_query_block,                // Computing first block of the query
+    input first_ref_block,                  // Computing first block of the reference
+    input last_ref_block,                   // Computing last block of the reference
+    input last_ref_block_char_in,           // Computing last char in the reference block
     output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
     );
 
-    parameter NUM_PES = 10;
+    parameter NUM_PES = 12;
     parameter REF_LENGTH = 10;
     parameter WIDTH = 10;
     parameter MATCH_REWARD = 2;
@@ -73,14 +77,30 @@ module SmithWatermanArray(
     parameter GAP_EXTEND_PEN = -1;
 
     wire [WIDTH - 1:0] V[NUM_PES:0];
+    wire [WIDTH - 1:0] E[NUM_PES:0];
     wire [WIDTH - 1:0] F[NUM_PES:0];
+    wire [WIDTH - 1:0] init_E[NUM_PES:0];
+    wire [WIDTH - 1:0] init_V_diag[NUM_PES:0];
+    wire [WIDTH - 1:0] init_V[NUM_PES:0];
     wire [1:0] T[NUM_PES:0];
     wire store_S[NUM_PES:0];
     wire init[NUM_PES:0];
     
+    reg [17:0] din_V[NUM_PES/4 - 1:0];
+    reg [17:0] dout_V[NUM_PES/4 - 1:0];
+    reg full_V[NUM_PES/4 - 1:0];
+    reg empty_V[NUM_PES/4 - 1:0];
+    reg [17:0] din_E[NUM_PES/4 - 1:0];
+    reg [17:0] dout_E[NUM_PES/4 - 1:0];
+    reg full_E[NUM_PES/4 - 1:0];
+    reg empty_E[NUM_PES/4 - 1:0];
+    reg wr_en[NUM_PES/4 - 1:0];
+    reg rd_en[NUM_PES/4 - 1:0];
+    
     reg [1:0] S[NUM_PES-1:0];  
     reg [WIDTH - 1:0] V_interm[REF_LENGTH - NUM_PES:0];
     reg [WIDTH - 1:0] F_interm[REF_LENGTH - NUM_PES:0];
+    reg last_ref_block_char[NUM_PES:0];
        
     // Query sequence buffer
     genvar i;
@@ -102,9 +122,9 @@ module SmithWatermanArray(
         end
     endgenerate
     
-    // Cell score intermediate values buffer
+    // Cell score inter-query block intermediate values buffer
     generate
-        for (i = 0; i < REF_LENGTH - NUM_PES + 1; i = i + 1) begin:interm_gen
+        for (i = 0; i < REF_LENGTH - NUM_PES + 1; i = i + 1) begin:inter_query_block_interm_gen
             always @(posedge clk) begin
                 if (rst) begin
                     V_interm[i] <= 0;
@@ -122,6 +142,95 @@ module SmithWatermanArray(
         end
     endgenerate
     
+    // Cell score inter-reference block intermediate values buffer
+    generate
+        for (i = 0; i < NUM_PES/4; i = i + 1) begin:inter_ref_block_fifo_gen
+            always @(*) begin
+                // FIFO write data mux
+                case ({last_ref_block_char[i*4+3], last_ref_block_char[i*4+2], 
+                       last_ref_block_char[i*4+1], last_ref_block_char[i*4]})
+                    4'b1000 : 
+                        begin
+                            din_V[i] <= V[i*4+4];
+                            din_E[i] <= E[i*4+4];
+                        end
+                    4'b0100 :
+                        begin
+                            din_V[i] <= V[i*4+3];
+                            din_E[i] <= E[i*4+3];
+                        end
+                    4'b0010 :
+                        begin
+                            din_V[i] <= V[i*4+2];
+                            din_E[i] <= E[i*4+2];
+                        end
+                    4'b0001 :
+                        begin
+                            din_V[i] <= V[i*4+1];
+                            din_E[i] <= E[i*4+1];
+                        end
+                    default :
+                        begin
+                            din_V[i] <= 0;
+                            din_E[i] <= 0;
+                        end
+                endcase
+                
+                // FIFO write and read enable
+                if ((last_ref_block_char[i*4+3] || last_ref_block_char[i*4+2] || 
+                     last_ref_block_char[i*4+1] || last_ref_block_char[i*4]) && 
+                    !last_ref_block) begin
+                    wr_en[i] <= 1;
+                    rd_en[i] <= 1;
+                end else begin
+                    wr_en[i] <= 0;
+                    rd_en[i] <= 0;
+                end
+            end
+            
+            inter_ref_block_fifo irbf_V (
+                .clk(clk),
+                .rst(rst),
+                .din(din_V[i]),
+                .wr_en(wr_en[i]),
+                .rd_en(rd_en[i]),
+                .dout(dout_V[i]),
+                .full(full_V[i]),
+                .empty(empty_V[i])
+            );
+            inter_ref_block_fifo irbf_E (
+                .clk(clk),
+                .rst(rst),
+                .din(din_E[i]),
+                .wr_en(wr_en[i]),
+                .rd_en(rd_en[i]),
+                .dout(dout_E[i]),
+                .full(full_E[i]),
+                .empty(empty_E[i])
+            );
+        end
+    endgenerate
+    generate
+        for (i = 0; i < NUM_PES; i = i + 1) begin:inter_ref_block_interm_gen
+            assign init_V[i] = (first_ref_block) ? 0 : dout_V[i/4][WIDTH - 1:0];
+            assign init_E[i] = (first_ref_block) ? 0 : dout_E[i/4][WIDTH - 1:0];
+        end
+    endgenerate
+    assign init_V_diag[0] = 0;
+    generate
+        for (i = 1; i < NUM_PES; i = i + 1) begin:init_V_diag_gen
+            assign init_V_diag[i] = init_V[i-1];
+        end
+    endgenerate
+    
+    // Last reference block char shift register
+    assign last_ref_block_char[0] = last_ref_block_char_in;
+    generate
+        for (i = 1; i < NUM_PES; i = i + 1) begin:last_ref_block_char_gen
+            assign last_ref_block_char[i] = last_ref_block_char[i-1];
+        end
+    endgenerate
+            
     // Connect cell scores to output port
     generate
         for (i = 0; i < NUM_PES; i = i + 1) begin:v_out_gen
@@ -145,8 +254,12 @@ module SmithWatermanArray(
                 .T_in(T[i]), 
                 .S_in(S[i]), 
                 .store_S_in(store_S[i]), 
-                .init_in(init[i]), 
-                .V_out(V[i+1]), 
+                .init_in(init[i]),
+                .init_E(init_E[i]),
+                .init_V(init_V[i]),
+                .init_V_diag(init_V_diag[i]),
+                .V_out(V[i+1]),
+                .E_out(E[i+1]),
                 .F_out(F[i+1]), 
                 .T_out(T[i+1]), 
                 .S_out(),

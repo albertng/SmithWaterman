@@ -4,8 +4,9 @@
  *
  *  Revision History :
  *      Albert Ng   May 01 2013     Initial Revision
- *      Albert NG   May 02 2013     Added store_S_in and store_S_out signals
+ *      Albert Ng   May 02 2013     Added store_S_in and store_S_out signals
  *                                  Added S_out signal
+ *      Albert Ng   Jun 05 2013     Added init_E, init_V, init_V_diag
  *
  */
 
@@ -19,9 +20,13 @@ module SmithWatermanPE_tb;
     reg [1:0] S_in;
     reg store_S_in;
     reg init_in;
+    reg init_V_diag;
+    reg init_E;
+    reg init_V;
 
     // Outputs
     wire [9:0] V_out;
+    wire [9:0] E_out;
     wire [9:0] F_out;
     wire [1:0] S_out;
     wire [1:0] T_out;
@@ -41,8 +46,12 @@ module SmithWatermanPE_tb;
         .T_in(T_in), 
         .S_in(S_in), 
         .store_S_in(store_S_in), 
-        .init_in(init_in), 
-        .V_out(V_out), 
+        .init_in(init_in),
+        .init_E(init_E),
+        .init_V(init_V),
+        .init_V_diag(init_V_diag),
+        .V_out(V_out),
+        .E_out(E_out),
         .F_out(F_out),
         .S_out(S_out),
         .T_out(T_out), 
@@ -78,6 +87,9 @@ module SmithWatermanPE_tb;
         S_in = 0;
         store_S_in = 0;
         init_in = 0;
+        init_E = 0;
+        init_V = 0;
+        init_V_diag = 0;
         i = 0;
         #20
         rst = 0;

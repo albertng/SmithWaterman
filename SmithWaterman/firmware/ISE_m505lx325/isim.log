@@ -1,5 +1,5 @@
 ISim log file
-Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanPE_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_isim_beh.wdb 
 INFO: There is another simulation running in the same directory. Using database file name isim1.wdb.
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
@@ -11,90 +11,7 @@ Time resolution is 1 ps
 # wave add /
 # run 1000 ns
 Simulator is doing circuit initialization process.
-Finished circuit initialization process.
-V=0, F=0, S='A' test
-  10 1023 0 1
-   8 1023 1 1
-  10 1023 0 1
-   8 1023 2 1
-  10 1023 0 1
-   8 1023 1 1
-   7 1023 3 1
-  10 1023 0 1
-V=0, F=0, S='C' test
-   0 1023 0 1
-  10 1023 1 1
-   8 1023 0 1
-   7 1023 2 1
-   6 1023 0 1
-  10 1023 1 1
-   8 1023 3 1
-   7 1023 0 1
-V=10, F=-4, S='T' test
-   8    8 0 1
-   8    8 1 1
-   8    8 0 1
-   8    8 2 1
-   8    8 0 1
-   8    8 1 1
-  20    8 3 1
-  18    8 0 1
-Stopped at time : 390 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 251
+ERROR: In process SmithWatermanArray.vCont_226_28 
+ FATAL ERROR:ISim: This application has discovered an exceptional condition from which it cannot recover. Process will terminate. To search for possible resolutions to this issue, refer to the Xilinx answer database by going to http://www.xilinx.com/support/answers/index.htm and search with keywords 'ISim' and 'FATAL ERROR'. For technical support on this issue, please open a WebCase with this project attached at http://www.xilinx.com/support.
+INFO: Simulator is stopped.
 # exit 0
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Finished circuit initialization process.
-V=0, F=0, S='A' test
-  10 1023 0 1
-   8 1023 1 1
-  10 1023 0 1
-   8 1023 2 1
-  10 1023 0 1
-   8 1023 1 1
-   7 1023 3 1
-  10 1023 0 1
-V=0, F=0, S='C' test
-   8 1023 0 1
-V_out error: Got    8 expected    0
-Stopped at time : 130 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 174
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Finished circuit initialization process.
-V=0, F=0, S='A' test
-  10 1023 0 1
-   8 1023 1 1
-  10 1023 0 1
-   8 1023 2 1
-  10 1023 0 1
-   8 1023 1 1
-   7 1023 3 1
-  10 1023 0 1
-V=0, F=0, S='C' test
-   0 1023 0 1
-  10 1023 1 1
-   8 1023 0 1
-   7 1023 2 1
-   6 1023 0 1
-  10 1023 1 1
-   8 1023 3 1
-   7 1023 0 1
-V=10, F=-4, S='T' test
-   8    8 0 1
-   8    8 1 1
-   8    8 0 1
-   8    8 2 1
-   8    8 0 1
-   8    8 1 1
-  20    8 3 1
-  18    8 0 1
-Stopped at time : 390 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanPE_tb.v" Line 251
