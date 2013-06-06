@@ -50,6 +50,9 @@
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="SmithWatermanArray_ParallelLoad_envsettings.html"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="SmithWatermanArray_ParallelLoad_summary.html"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="SmithWatermanArray_ParallelLoad_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="SmithWatermanArray_SequentialLoad.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="SmithWatermanArray_SequentialLoad.lso"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="SmithWatermanArray_SequentialLoad.ngc"/>
@@ -99,11 +102,11 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1370474439" xil_pn:in_ck="5612700356029199551" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1370474439">
+    <transform xil_pn:end_ts="1370483459" xil_pn:in_ck="2298944587197674002" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1370483459">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v"/>
-      <outfile xil_pn:name="../SmithWatermanArray_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_QueryBlocks_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanPE.v"/>
       <outfile xil_pn:name="../SmithWatermanPE_tb.v"/>
       <outfile xil_pn:name="../StreamBandwidthTest.v"/>
@@ -167,11 +170,11 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1370474479" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-1441046780278652689" xil_pn:start_ts="1370474479">
+    <transform xil_pn:end_ts="1370483687" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-5505402167314486046" xil_pn:start_ts="1370483687">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1370474479" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="7782647880835107811" xil_pn:start_ts="1370474479">
+    <transform xil_pn:end_ts="1370483687" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="3693697530832659734" xil_pn:start_ts="1370483687">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
@@ -181,11 +184,11 @@
       <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
       <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
     </transform>
-    <transform xil_pn:end_ts="1370474439" xil_pn:in_ck="5612700356029199551" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1370474439">
+    <transform xil_pn:end_ts="1370483459" xil_pn:in_ck="2298944587197674002" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1370483459">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v"/>
-      <outfile xil_pn:name="../SmithWatermanArray_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_QueryBlocks_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanPE.v"/>
       <outfile xil_pn:name="../SmithWatermanPE_tb.v"/>
       <outfile xil_pn:name="../StreamBandwidthTest.v"/>
@@ -249,22 +252,22 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1370474485" xil_pn:in_ck="-7607444654416325344" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="2540446054559342360" xil_pn:start_ts="1370474479">
+    <transform xil_pn:end_ts="1370483693" xil_pn:in_ck="3717625465366785267" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-4008663726146424098" xil_pn:start_ts="1370483687">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="SmithWatermanArray_tb_beh.prj"/>
-      <outfile xil_pn:name="SmithWatermanArray_tb_isim_beh.exe"/>
+      <outfile xil_pn:name="SmithWatermanArray_QueryBlocks_tb_beh.prj"/>
+      <outfile xil_pn:name="SmithWatermanArray_QueryBlocks_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1370474485" xil_pn:in_ck="-4540655934489879058" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2558599892557007749" xil_pn:start_ts="1370474485">
+    <transform xil_pn:end_ts="1370483693" xil_pn:in_ck="4849270496695261025" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-899010178636185951" xil_pn:start_ts="1370483693">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="SmithWatermanArray_tb_isim_beh.wdb"/>
+      <outfile xil_pn:name="SmithWatermanArray_QueryBlocks_tb_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
     </transform>

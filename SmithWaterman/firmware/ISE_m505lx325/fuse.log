@@ -1,4 +1,4 @@
-Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_isim_beh.exe -prj /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_beh.prj SmithWatermanArray_tb work.glbl 
+Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_isim_beh.exe -prj /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_beh.prj SmithWatermanArray_QueryBlocks_tb work.glbl 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
@@ -6,40 +6,37 @@ Determining compilation order of HDL files
 Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanPE.v" into library work
 Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ipcore_dir/inter_ref_block_fifo.v" into library work
 Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" into library work
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 227: Target <last_ref_block_char> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 230: Target <last_ref_block_char> of concurrent assignment or output port connection should be a net type.
-Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanArray_tb.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanArray_QueryBlocks_tb.v" into library work
 Analyzing Verilog file "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 197: Target <dout_V> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 198: Target <full_V> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 199: Target <empty_V> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 207: Target <dout_E> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 208: Target <full_E> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 209: Target <empty_E> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 227: Target <last_ref_block_char> of concurrent assignment or output port connection should be a net type.
-WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 230: Target <last_ref_block_char> of concurrent assignment or output port connection should be a net type.
+WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 213: Target <dout_V> of concurrent assignment or output port connection should be a net type.
+WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 214: Target <full_V> of concurrent assignment or output port connection should be a net type.
+WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 215: Target <empty_V> of concurrent assignment or output port connection should be a net type.
+WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 223: Target <dout_E> of concurrent assignment or output port connection should be a net type.
+WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 224: Target <full_E> of concurrent assignment or output port connection should be a net type.
+WARNING:HDLCompiler:329 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 225: Target <empty_E> of concurrent assignment or output port connection should be a net type.
 Completed static elaboration
-Fuse Memory Usage: 97516 KB
+Fuse Memory Usage: 97568 KB
 Fuse CPU Usage: 1380 ms
 Compiling module fifo_generator_v9_3_bhv_ver_ss(C...
 Compiling module FIFO_GENERATOR_V9_3_CONV_VER(C_C...
 Compiling module FIFO_GENERATOR_V9_3(C_COMMON_CLO...
 Compiling module inter_ref_block_fifo
 Compiling module SmithWatermanPE(WIDTH=10,MATCH_R...
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 117: Element index -1 into S is out of bounds
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 137: Element index -1 into V_interm is out of bounds
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 138: Element index -1 into F_interm is out of bounds
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 215: Element index 1 into dout_V is out of bounds
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 216: Element index 1 into dout_E is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 144: Element index -1 into S is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 164: Element index -1 into V_interm is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 165: Element index -1 into F_interm is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 281: Element index 1 into dout_V is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 282: Element index 1 into dout_E is out of bounds
 Compiling module SmithWatermanArray(NUM_PES=6,REF...
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 234: Element index 3 into last_block_char is out of bounds
 Compiling module SmithWatermanArray(NUM_PES=3,REF...
-Compiling module SmithWatermanArray_tb
+Compiling module SmithWatermanArray_QueryBlocks_t...
 Compiling module glbl
 Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 9 Verilog Units
-Built simulation executable /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_tb_isim_beh.exe
-Fuse Memory Usage: 662332 KB
-Fuse CPU Usage: 1680 ms
-GCC CPU Usage: 4500 ms
+Built simulation executable /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_isim_beh.exe
+Fuse Memory Usage: 662388 KB
+Fuse CPU Usage: 1690 ms
+GCC CPU Usage: 4850 ms

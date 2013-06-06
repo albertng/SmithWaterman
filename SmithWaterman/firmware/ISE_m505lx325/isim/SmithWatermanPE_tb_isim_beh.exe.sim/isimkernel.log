@@ -2,28 +2,28 @@ Command line:
    SmithWatermanPE_tb_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  55105
+     -socket  50934
 
-Wed Jun  5 15:04:00 2013
+Wed Jun  5 18:54:40 2013
 
 
- Elaboration Time: 0.03 sec
+ Elaboration Time: 0.01 sec
 
  Current Memory Usage: 181.543 Meg
 
  Total Signals          : 38
- Total Nets             : 80
+ Total Nets             : 107
  Total Signal Drivers   : 23
  Total Blocks           : 3
  Total Primitive Blocks : 2
  Total Processes        : 28
  Total Traceable Variables  : 54
- Total Scalar Nets and Variables : 617
+ Total Scalar Nets and Variables : 671
 Total Line Count : 230
 
- Total Simulation Time: 0.03 sec
+ Total Simulation Time: 3.09 sec
 
  Current Memory Usage: 257.044 Meg
 
-Wed Jun  5 15:04:04 2013
+Wed Jun  5 18:54:46 2013
 

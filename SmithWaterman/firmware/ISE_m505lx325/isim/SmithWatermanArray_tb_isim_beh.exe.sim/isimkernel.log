@@ -2,12 +2,12 @@ Command line:
    SmithWatermanArray_tb_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  45677
+     -socket  39378
 
-Wed Jun  5 16:21:27 2013
+Wed Jun  5 17:05:57 2013
 
 
- Elaboration Time: 0.05 sec
+ Elaboration Time: 0.04 sec
 
  Current Memory Usage: 187.9 Meg
 
@@ -18,6 +18,12 @@ Wed Jun  5 16:21:27 2013
  Total Primitive Blocks : 14
  Total Processes        : 466
  Total Traceable Variables  : 1233
- Total Scalar Nets and Variables : 76399
-In process SmithWatermanArray.vCont_227_28 
- FATAL ERROR:ISim: This application has discovered an exceptional condition from which it cannot recover. Process will terminate. To search for possible resolutions to this issue, refer to the Xilinx answer database by going to http://www.xilinx.com/support/answers/index.htm and search with keywords 'ISim' and 'FATAL ERROR'. For technical support on this issue, please open a WebCase with this project attached at http://www.xilinx.com/support.
+ Total Scalar Nets and Variables : 76397
+Total Line Count : 1975
+
+ Total Simulation Time: 0.09 sec
+
+ Current Memory Usage: 263.401 Meg
+
+Wed Jun  5 17:06:04 2013
+

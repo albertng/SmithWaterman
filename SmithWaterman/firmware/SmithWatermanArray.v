@@ -33,11 +33,36 @@
  *                     of the shift registers is:
  *                         len(ref) - len(NUM_PES) + 1
  *
+ *                     For multiple reference block alignments, the intermediate values of
+ *                     V (and V_diag) and E must be stored in FIFOs to pass between
+ *                     iterations. Each group of 4 PEs shares one FIFO for each parameter.
+ *                     Fewer PEs per FIFO reduces multiplexer routing, but increases the
+ *                     number of BRAMs and FIFO control logic needed. At the last character
+ *                     of each block, the PE writes its intermediate values to the FIFOs if
+ *                     the block is not a last reference block. In addition, the PE reads the
+ *                     next intermediate value from the FIFO to initialize the next block if
+ *                     the next block is not a first reference block, in which case the 
+ *                     parameters are initialized with their default values.
+ *
+ *                     If a query sequence is less than the number of PE's (i.e. no
+ *                     inter-query blocking is needed), then no inter-reference block FIFOing
+ *                     is needed. In this case, the inter-reference block values are simply kept
+ *                     from the last block. Essentially, we are forwarding the PE's output
+ *                     values back in as the initialization values, bypassing the FIFOs.
+ *
+ *                     Timing between blocks works as follows. On the last clock of the block
+ *                     for a PE (score not output until next rising edge), last_block_char_in
+ *                     is asserted, asserting rd_en. On the next rising edge, init_in is deasserted
+ *                     and the intermediate value is read out of the FIFO to initialize the next
+ *                     block. Also, the last_block_char shift reg is updated, wr_en is asserted, 
+ *                     and the intermediate value is output by the PE to be written into the FIFO
+ *                     on the next rising edge. 
+ *
  *                     TODO: The current design does not handle multiple query blocks of
  *                           an alignment with a reference block length of less than
  *                           2*NUM_PES-2, because the shift register is of a fixed length.
  *                           This can be fixed by implementing a FIFO instead of a shift
- *                           register, which would be more complicated and need more area.
+ *                           register, which would be slightly more complicated.
  *
  *                     TODO: Probably going to need a stall signal
  *
@@ -49,7 +74,7 @@
  *      Albert Ng   May 15 2013     Added bubble documentation in file description
  *                                  Added inter-query-block intermediate value shiftregs
  *                                      and first_query_block input
- *      Albert Ng   Jun 05 2013     Added inter-ref-block intermediate value handling
+ *      Albert Ng   Jun 05 2013     Inter-ref-block intermediate value handling, untested
  *
  */
 
@@ -62,9 +87,11 @@ module SmithWatermanArray(
     input shift_S,                          // Load next query seq shift register
     input init_in,                          // Computation active shift in
     input first_query_block,                // Computing first block of the query
-    input first_ref_block,                  // Computing first block of the reference
-    input last_ref_block,                   // Computing last block of the reference
-    input last_ref_block_char_in,           // Computing last char in the reference block
+    input next_first_ref_block,             // Next block is a first block of the reference
+    input first_ref_block,                  // Computing a first block of the reference
+    input last_ref_block,                   // Computing a last block of the reference
+    input last_block_char_in,               // Computing last char in the reference block
+    input bypass_fifo,                      // Bypass inter-ref-block FIFOs
     output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
     );
 
@@ -79,9 +106,9 @@ module SmithWatermanArray(
     wire [WIDTH - 1:0] V[NUM_PES:0];
     wire [WIDTH - 1:0] E[NUM_PES:0];
     wire [WIDTH - 1:0] F[NUM_PES:0];
-    wire [WIDTH - 1:0] init_E[NUM_PES:0];
+    reg [WIDTH - 1:0] init_E[NUM_PES:0];
     wire [WIDTH - 1:0] init_V_diag[NUM_PES:0];
-    wire [WIDTH - 1:0] init_V[NUM_PES:0];
+    reg [WIDTH - 1:0] init_V[NUM_PES:0];
     wire [1:0] T[NUM_PES:0];
     wire store_S[NUM_PES:0];
     wire init[NUM_PES:0];
@@ -97,10 +124,10 @@ module SmithWatermanArray(
     reg wr_en[NUM_PES/4 - 1:0];
     reg rd_en[NUM_PES/4 - 1:0];
     
+    reg last_block_char[NUM_PES - 1:0];
     reg [1:0] S[NUM_PES-1:0];  
     reg [WIDTH - 1:0] V_interm[REF_LENGTH - NUM_PES:0];
     reg [WIDTH - 1:0] F_interm[REF_LENGTH - NUM_PES:0];
-    reg last_ref_block_char[NUM_PES:0];
        
     // Query sequence buffer
     genvar i;
@@ -141,14 +168,14 @@ module SmithWatermanArray(
             end
         end
     endgenerate
-    
+
     // Cell score inter-reference block intermediate values buffer
     generate
         for (i = 0; i < NUM_PES/4; i = i + 1) begin:inter_ref_block_fifo_gen
             always @(*) begin
                 // FIFO write data mux
-                case ({last_ref_block_char[i*4+3], last_ref_block_char[i*4+2], 
-                       last_ref_block_char[i*4+1], last_ref_block_char[i*4]})
+                case ({last_block_char[i*4+3], last_block_char[i*4+2], 
+                       last_block_char[i*4+1], last_block_char[i*4]})
                     4'b1000 : 
                         begin
                             din_V[i] <= V[i*4+4];
@@ -175,17 +202,6 @@ module SmithWatermanArray(
                             din_E[i] <= 0;
                         end
                 endcase
-                
-                // FIFO write and read enable
-                if ((last_ref_block_char[i*4+3] || last_ref_block_char[i*4+2] || 
-                     last_ref_block_char[i*4+1] || last_ref_block_char[i*4]) && 
-                    !last_ref_block) begin
-                    wr_en[i] <= 1;
-                    rd_en[i] <= 1;
-                end else begin
-                    wr_en[i] <= 0;
-                    rd_en[i] <= 0;
-                end
             end
             
             inter_ref_block_fifo irbf_V (
@@ -210,12 +226,68 @@ module SmithWatermanArray(
             );
         end
     endgenerate
+    
     generate
-        for (i = 0; i < NUM_PES; i = i + 1) begin:inter_ref_block_interm_gen
-            assign init_V[i] = (first_ref_block) ? 0 : dout_V[i/4][WIDTH - 1:0];
-            assign init_E[i] = (first_ref_block) ? 0 : dout_E[i/4][WIDTH - 1:0];
+        always @(*) begin
+            // Write to inter-reference block FIFO at the end of all blocks if 
+            //   they are not a last reference block
+            if ((last_block_char[3] || last_block_char[2] || 
+                 last_block_char[1] || last_block_char[0]) && 
+                !last_ref_block) begin
+                wr_en[0] <= 1;
+            end else begin
+                wr_en[0] <= 0;
+            end
+            
+            // Read from inter-reference block FIFO at the end of all blocks if
+            //   the next block is not a first reference block
+            if ((last_block_char[2] || last_block_char[1] || 
+                 last_block_char[0] || last_block_char_in) && 
+                !next_first_ref_block) begin
+                rd_en[0] <= 1;
+            end else begin
+                rd_en[0] <= 0;
+            end
+        end
+        for (i = 1; i < NUM_PES/4; i = i + 1) begin: inter_ref_block_fifo_ctrl_gen
+            always @(*) begin
+                // Write to inter-reference block FIFO at the end of all blocks if 
+                //   they are not a last reference block
+                if ((last_block_char[i*4+3] || last_block_char[i*4+2] || 
+                     last_block_char[i*4+1] || last_block_char[i*4]) && 
+                    !last_ref_block && !bypass_fifo) begin
+                    wr_en[i] <= 1;
+                end else begin
+                    wr_en[i] <= 0;
+                end
+                
+                // Read from inter-reference block FIFO at the end of all blocks if
+                //   the next block is not a first reference block
+                if ((last_block_char[i*4+2] || last_block_char[i*4+1] || 
+                     last_block_char[i*4+0] || last_block_char[i*4-1]) && 
+                    !next_first_ref_block) begin
+                    rd_en[i] <= 1;
+                end else begin
+                    rd_en[i] <= 0;
+                end
+            end
         end
     endgenerate
+    
+    generate
+        for (i = 0; i < NUM_PES; i = i + 1) begin:inter_ref_block_interm_gen
+            always @(*) begin
+                if (!bypass_fifo) begin
+                    init_V[i] <= (first_ref_block) ? 0 : dout_V[i/4][WIDTH - 1:0];
+                    init_E[i] <= (first_ref_block) ? 0 : dout_E[i/4][WIDTH - 1:0];
+                end else begin
+                    init_V[i] <= (first_ref_block) ? 0 : V[i+1]; // Bypass FIFOs when no inter-query blocking is needed
+                    init_E[i] <= (first_ref_block) ? 0 : E[i+1];
+                end
+            end
+        end
+    endgenerate
+    
     assign init_V_diag[0] = 0;
     generate
         for (i = 1; i < NUM_PES; i = i + 1) begin:init_V_diag_gen
@@ -224,13 +296,17 @@ module SmithWatermanArray(
     endgenerate
     
     // Last reference block char shift register
-    assign last_ref_block_char[0] = last_ref_block_char_in;
+    always @(posedge clk) begin
+        last_block_char[0] <= last_block_char_in;
+    end
     generate
-        for (i = 1; i < NUM_PES; i = i + 1) begin:last_ref_block_char_gen
-            assign last_ref_block_char[i] = last_ref_block_char[i-1];
+        for (i = 1; i < NUM_PES; i = i + 1) begin:last_block_char_gen
+            always @(posedge clk) begin
+                last_block_char[i] <= last_block_char[i-1];
+            end
         end
     endgenerate
-            
+
     // Connect cell scores to output port
     generate
         for (i = 0; i < NUM_PES; i = i + 1) begin:v_out_gen

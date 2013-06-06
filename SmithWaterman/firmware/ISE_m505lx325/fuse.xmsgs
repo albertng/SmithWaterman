@@ -5,49 +5,40 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 227: Target &lt;<arg fmt="%s" index="1">last_ref_block_char</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 213: Target &lt;<arg fmt="%s" index="1">dout_V</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 230: Target &lt;<arg fmt="%s" index="1">last_ref_block_char</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 214: Target &lt;<arg fmt="%s" index="1">full_V</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 197: Target &lt;<arg fmt="%s" index="1">dout_V</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 215: Target &lt;<arg fmt="%s" index="1">empty_V</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 198: Target &lt;<arg fmt="%s" index="1">full_V</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 223: Target &lt;<arg fmt="%s" index="1">dout_E</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 199: Target &lt;<arg fmt="%s" index="1">empty_V</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 224: Target &lt;<arg fmt="%s" index="1">full_E</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 207: Target &lt;<arg fmt="%s" index="1">dout_E</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 225: Target &lt;<arg fmt="%s" index="1">empty_E</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 208: Target &lt;<arg fmt="%s" index="1">full_E</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 144: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">S</arg> is out of bounds
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 209: Target &lt;<arg fmt="%s" index="1">empty_E</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 164: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">V_interm</arg> is out of bounds
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 227: Target &lt;<arg fmt="%s" index="1">last_ref_block_char</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 165: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">F_interm</arg> is out of bounds
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 230: Target &lt;<arg fmt="%s" index="1">last_ref_block_char</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 281: Element index <arg fmt="%d" index="1">1</arg> into <arg fmt="%s" index="2">dout_V</arg> is out of bounds
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 117: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">S</arg> is out of bounds
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 282: Element index <arg fmt="%d" index="1">1</arg> into <arg fmt="%s" index="2">dout_E</arg> is out of bounds
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 137: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">V_interm</arg> is out of bounds
-</msg>
-
-<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 138: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">F_interm</arg> is out of bounds
-</msg>
-
-<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 215: Element index <arg fmt="%d" index="1">1</arg> into <arg fmt="%s" index="2">dout_V</arg> is out of bounds
-</msg>
-
-<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 216: Element index <arg fmt="%d" index="1">1</arg> into <arg fmt="%s" index="2">dout_E</arg> is out of bounds
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 234: Element index <arg fmt="%d" index="1">3</arg> into <arg fmt="%s" index="2">last_block_char</arg> is out of bounds
 </msg>
 
 </messages>

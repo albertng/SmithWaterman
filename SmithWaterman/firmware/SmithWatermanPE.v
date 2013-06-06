@@ -67,15 +67,15 @@ module SmithWatermanPE(
     assign store_S_out = store_S;
     
     always @(*) begin
-        V_gap_open <= V + GAP_OPEN_PEN;
-        E_gap_extend <= E + GAP_EXTEND_PEN;
-        upV_gap_open <= V_in + GAP_OPEN_PEN;
-        upF_gap_extend <= F_in + GAP_EXTEND_PEN;
+        V_gap_open = V + GAP_OPEN_PEN;
+        E_gap_extend = E + GAP_EXTEND_PEN;
+        upV_gap_open = V_in + GAP_OPEN_PEN;
+        upF_gap_extend = F_in + GAP_EXTEND_PEN;
         
         if (S == T_in)
-            match_score <= V_diag + MATCH_REWARD;
+            match_score = V_diag + MATCH_REWARD;
         else
-            match_score <= V_diag + MISMATCH_PEN;
+            match_score = V_diag + MISMATCH_PEN;
             
             
         if ($signed(V_gap_open) > $signed(E_gap_extend))
@@ -89,13 +89,13 @@ module SmithWatermanPE(
             new_F = upF_gap_extend;
             
         if (0 > $signed(new_E) && 0 > $signed(new_F) && 0 > $signed(match_score))
-            new_V <= 0;
+            new_V = 0;
         else if ($signed(new_E) > $signed(new_F) && $signed(new_E) > $signed(match_score))
-            new_V <= new_E;
+            new_V = new_E;
         else if ($signed(new_F) > $signed(match_score))
-            new_V <= new_F;
+            new_V = new_F;
         else
-            new_V <= match_score;
+            new_V = match_score;
     end
     
     always @(posedge clk) begin

@@ -20,9 +20,9 @@ module SmithWatermanPE_tb;
     reg [1:0] S_in;
     reg store_S_in;
     reg init_in;
-    reg init_V_diag;
-    reg init_E;
-    reg init_V;
+    reg [9:0] init_V_diag;
+    reg [9:0] init_E;
+    reg [9:0] init_V;
 
     // Outputs
     wire [9:0] V_out;
@@ -47,8 +47,8 @@ module SmithWatermanPE_tb;
         .S_in(S_in), 
         .store_S_in(store_S_in), 
         .init_in(init_in),
-        .init_E(init_E),
         .init_V(init_V),
+        .init_E(init_E),
         .init_V_diag(init_V_diag),
         .V_out(V_out),
         .E_out(E_out),
