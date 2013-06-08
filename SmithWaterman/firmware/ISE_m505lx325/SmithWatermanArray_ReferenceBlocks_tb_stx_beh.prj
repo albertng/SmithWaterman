@@ -1,0 +1,6 @@
+verilog isim_temp "../SmithWatermanPE.v"
+verilog isim_temp "../one_hot_mux.v"
+verilog isim_temp "ipcore_dir/inter_ref_block_fifo.v"
+verilog isim_temp "../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v"
+verilog isim_temp "../SmithWatermanArray_ReferenceBlocks_tb.v"
+verilog isim_temp "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v"

@@ -1,0 +1,61 @@
+Release 14.5 Map P.58f (lin64)
+Xilinx Map Application Log File for Design 'SmithWatermanArray'
+
+Design Information
+------------------
+Command Line   : map -intstyle ise -p xc7k325t-ffg900-1 -w -logic_opt off -ol
+high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off
+-power off -o SmithWatermanArray_map.ncd SmithWatermanArray.ngd
+SmithWatermanArray.pcf 
+Target Device  : xc7k325t
+Target Package : ffg900
+Target Speed   : -1
+Mapper Version : kintex7 -- $Revision: 1.55 $
+Mapped Date    : Thu Jun  6 19:23:38 2013
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+INFO:Security:56 - Part 'xc7k325t' is not a WebPack part.
+INFO:Security:61 - The XILINXD_LICENSE_FILE environment variable is not set.
+INFO:Security:62 - The LM_LICENSE_FILE environment variable is set to
+'/afs/cs.stanford.edu/software/opt/sybase-12.5/SYSAM/licenses/license.dat:/afs/c
+s.stanford.edu/software/opt/sybase-12.5/SYSAM/licenses/license.dat:'.
+INFO:Security:68 - For more information or for assistance in obtaining 
+ a license, please run the Xilinx License Configuration Manager
+       (xlcm or "Manage Xilinx Licenses".)
+INFO:Security:68a - user is albertng, on host unknown.
+WARNING:Security:9b - No 'ISE' feature version 2013.03 was available for part
+'xc7k325t'.
+ERROR:Security:12 - No 'xc7k325t' feature version 2013.03 was available (-5),
+     so 'WebPack' may not be used.
+----------------------------------------------------------------------
+No such feature exists.
+Feature:       ISE
+License path: 
+/afs/cs.stanford.edu/software/opt/sybase-12.5/SYSAM/licenses/license.dat:/afs/cs
+.stanford.edu/u/albertng/.Xilinx/Xilinx.lic:/opt/Xilinx/14.5/ISE_DS/ISE//data/*.
+lic:/opt/Xilinx/14.5/ISE_DS/ISE//coregen/core_licenses/Xilinx.lic:/opt/Xilinx/14
+.5/ISE_DS/ISE//coregen/core_licenses/XilinxFree.lic:/opt/Xilinx/14.5/ISE_DS/EDK/
+data/core_licenses/Xilinx.lic:
+FLEXnet Licensing error:-5,357.  System Error: 2 "No such file or directory"
+For further information, refer to the FLEXnet Licensing documentation,
+available at "www.flexerasoftware.com".No such feature exists.
+Feature:       xc7k325t
+License path: 
+/afs/cs.stanford.edu/software/opt/sybase-12.5/SYSAM/licenses/license.dat:/afs/cs
+.stanford.edu/u/albertng/.Xilinx/Xilinx.lic:/opt/Xilinx/14.5/ISE_DS/ISE//data/*.
+lic:/opt/Xilinx/14.5/ISE_DS/ISE//coregen/core_licenses/Xilinx.lic:/opt/Xilinx/14
+.5/ISE_DS/ISE//coregen/core_licenses/XilinxFree.lic:/opt/Xilinx/14.5/ISE_DS/EDK/
+data/core_licenses/Xilinx.lic:
+FLEXnet Licensing error:-5,357
+For further information, refer to the FLEXnet Licensing documentation,
+available at "www.flexerasoftware.com".
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR:Map:258 - A problem was encountered attempting to get the license for this
+   architecture.
+
+
+
+Design Summary
+--------------
+Number of errors   :   1
+Number of warnings :   0

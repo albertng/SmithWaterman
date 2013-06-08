@@ -1,6 +1,6 @@
-/*  File Name        : SmithWatermanArray_tb.v
+/*  File Name        : SmithWatermanArray_QueryBlocks_tb.v
  *  Description      : Testbench for fixed implementation of Smith Waterman systolic array with
- *                     affine gap penalty.
+ *                     affine gap penalty. Tests query blocking.
  *
  *                     Consecutive alignments with bubbles test:
  *                       Tests two consecutive alignments where len(ref) < 2*len(query), causing
@@ -42,11 +42,11 @@ module SmithWatermanArray_QueryBlocks_tb;
     reg shift_S;
     reg init_in;
     reg first_query_block;
-    reg next_first_ref_block;
-    reg first_ref_block;
-    reg last_ref_block;
+    reg next_first_ref_block_in;
+    reg first_ref_block_in;
+    reg last_ref_block_in;
     reg last_block_char_in;
-    reg bypass_fifo;
+    reg bypass_fifo_in;
 
     // Outputs
     wire [59:0] V_out1;
@@ -77,11 +77,11 @@ module SmithWatermanArray_QueryBlocks_tb;
         .shift_S(shift_S), 
         .init_in(init_in),
         .first_query_block(first_query_block),
-        .next_first_ref_block(next_first_ref_block),
-        .first_ref_block(first_ref_block),
-        .last_ref_block(last_ref_block),
+        .next_first_ref_block_in(next_first_ref_block_in),
+        .first_ref_block_in(first_ref_block_in),
+        .last_ref_block_in(last_ref_block_in),
         .last_block_char_in(last_block_char_in),
-        .bypass_fifo(bypass_fifo),
+        .bypass_fifo_in(bypass_fifo_in),
         .V_out(V_out1)
     );
     
@@ -94,11 +94,11 @@ module SmithWatermanArray_QueryBlocks_tb;
         .shift_S(shift_S), 
         .init_in(init_in), 
         .first_query_block(first_query_block),
-        .next_first_ref_block(next_first_ref_block),
-        .first_ref_block(first_ref_block),
-        .last_ref_block(last_ref_block),
+        .next_first_ref_block_in(next_first_ref_block_in),
+        .first_ref_block_in(first_ref_block_in),
+        .last_ref_block_in(last_ref_block_in),
         .last_block_char_in(last_block_char_in),
-        .bypass_fifo(bypass_fifo),
+        .bypass_fifo_in(bypass_fifo_in),
         .V_out(V_out2)
     );
 
@@ -281,11 +281,11 @@ module SmithWatermanArray_QueryBlocks_tb;
         shift_S <= 0;
         init_in <= 0;
         first_query_block <= 0;
-        next_first_ref_block <= 1;
-        first_ref_block <= 1;
-        last_ref_block <= 0;
+        next_first_ref_block_in <= 1;
+        first_ref_block_in <= 1;
+        last_ref_block_in <= 0;
         last_block_char_in <= 0;
-        bypass_fifo <= 1;
+        bypass_fifo_in <= 1;
         #20;
         rst <= 0;
 

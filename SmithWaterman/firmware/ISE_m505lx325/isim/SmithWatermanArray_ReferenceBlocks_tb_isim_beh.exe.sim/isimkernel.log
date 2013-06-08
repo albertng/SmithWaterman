@@ -1,0 +1,10 @@
+Command line:
+   SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  32972
+
+Fri Jun  7 23:23:16 2013
+
+
+ Elaboration Time: 0.09 sec

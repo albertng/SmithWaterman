@@ -1,3 +1,3 @@
-/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.ngc 1367256560
-source/coregen_fifo_32x128.ngc 1367256346
+/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray.ngc 1370571557
+ipcore_dir/inter_ref_block_fifo.ngc 1370474239
 OK

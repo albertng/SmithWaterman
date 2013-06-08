@@ -14,9 +14,13 @@ def NtSeq2IntArray(seq):
     return int_array
 
 #short_read = NtSeq2IntArray("GCAGCT")
-short_read = NtSeq2IntArray("ACACTA")
+#short_read = NtSeq2IntArray("ACACTA")
+short_read = NtSeq2IntArray("ACTAGC")
+#short_read = NtSeq2IntArray("AGCA")
 #reference  = NtSeq2IntArray("ACAGACTATGCT")
-reference  = NtSeq2IntArray("ACAGACTA")
+#reference  = NtSeq2IntArray("ACAGACTAAA")
+reference  = NtSeq2IntArray("ATAGTCAT")
+#reference  = NtSeq2IntArray("ATAGTCAC")
 
 def FeedV():
     return 0

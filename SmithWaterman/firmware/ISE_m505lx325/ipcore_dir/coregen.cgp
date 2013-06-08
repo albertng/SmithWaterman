@@ -4,6 +4,6 @@ SET device = xc7k325t
 SET devicefamily = kintex7
 SET flowvendor = Other
 SET package = ffg900
-SET speedgrade = -2
+SET speedgrade = -1
 SET verilogsim = true
 SET vhdlsim = false
