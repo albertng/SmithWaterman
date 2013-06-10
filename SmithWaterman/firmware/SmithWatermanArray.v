@@ -113,9 +113,8 @@ module SmithWatermanArray(
     wire [WIDTH - 1:0] V[NUM_PES:0];
     wire [WIDTH - 1:0] E[NUM_PES:0];
     wire [WIDTH - 1:0] F[NUM_PES:0];
-    reg [WIDTH - 1:0] init_E[NUM_PES:0];
-    wire [WIDTH - 1:0] init_V_diag[NUM_PES:0];
-    reg [WIDTH - 1:0] init_V[NUM_PES:0];
+    reg [WIDTH - 1:0] init_E[NUM_PES-1:0];
+    reg [WIDTH - 1:0] init_V[NUM_PES-1:0];
     wire [1:0] T[NUM_PES:0];
     wire store_S[NUM_PES:0];
     wire init[NUM_PES:0];
@@ -228,10 +227,6 @@ module SmithWatermanArray(
     always @(*) begin
         // Write to inter-reference block FIFO at the end of all blocks if 
         //   they are not a last reference block
-        //if ((last_block_char[3] || last_block_char[2] || 
-        //     last_block_char[1] || last_block_char[0]) && 
-        //if ((|last_block_char[PES_PER_FIFO-1 : 0]) && 
-        //     !last_ref_block && !bypass_fifo) begin
         if (|(last_block_char[PES_PER_FIFO-1 : 0] &
               ~last_ref_block[PES_PER_FIFO-1 : 0] & 
               ~bypass_fifo[PES_PER_FIFO-1 : 0])) begin
@@ -242,11 +237,8 @@ module SmithWatermanArray(
         
         // Read from inter-reference block FIFO at the end of all blocks if
         //   the next block is not a first reference block
-        //if ((last_block_char[2] || last_block_char[1] || 
-        //     last_block_char[0] || last_block_char_in) && 
-        //if ((|{last_block_char[PES_PER_FIFO-2 : 0], last_block_char_in}) && !next_first_ref_block) begin
         if (|({last_block_char[PES_PER_FIFO-2 : 0], last_block_char_in} & 
-              {~next_first_ref_block[PES_PER_FIFO-2 : 0], next_first_ref_block_in})) begin
+              {~next_first_ref_block[PES_PER_FIFO-2 : 0], !next_first_ref_block_in})) begin
             rd_en[0] <= 1;
         end else begin
             rd_en[0] <= 0;
@@ -257,10 +249,6 @@ module SmithWatermanArray(
             always @(*) begin
                 // Write to inter-reference block FIFO at the end of all blocks if 
                 //   they are not a last reference block
-                //if ((last_block_char[i*4+3] || last_block_char[i*4+2] || 
-                //     last_block_char[i*4+1] || last_block_char[i*4]) &&
-                //if ((|last_block_char[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO]) && 
-                //    !last_ref_block && !bypass_fifo) begin
                 if (|(last_block_char[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO] &
                       ~last_ref_block[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO] &
                       ~bypass_fifo[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO])) begin
@@ -271,10 +259,6 @@ module SmithWatermanArray(
                 
                 // Read from inter-reference block FIFO at the end of all blocks if
                 //   the next block is not a first reference block
-                //if ((last_block_char[i*4+2] || last_block_char[i*4+1] || 
-                //     last_block_char[i*4+0] || last_block_char[i*4-1]) && 
-                //if ((|last_block_char[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO]) && 
-                //    !next_first_ref_block) begin
                 if (|(last_block_char[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO] & 
                       ~next_first_ref_block[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO])) begin
                     rd_en[i] <= 1;
@@ -286,42 +270,60 @@ module SmithWatermanArray(
     endgenerate
     
     generate
-        for (i = 0; i < NUM_PES; i = i + 1) begin:inter_ref_block_interm_gen
+        always @(*) begin
+            if (!bypass_fifo) begin
+                init_V[0] <= (first_ref_block_in) ? 0 : dout_V[i/PES_PER_FIFO][WIDTH - 1:0];
+                init_E[0] <= (first_ref_block_in) ? 0 : dout_E[i/PES_PER_FIFO][WIDTH - 1:0];
+            end else begin
+                init_V[0] <= (first_ref_block_in) ? 0 : V[i+1]; // Bypass FIFOs when no inter-query blocking is needed
+                init_E[0] <= (first_ref_block_in) ? 0 : E[i+1];
+            end
+        end
+        for (i = 1; i < NUM_PES; i = i + 1) begin:inter_ref_block_interm_gen
             always @(*) begin
                 if (!bypass_fifo) begin
-                    init_V[i] <= (first_ref_block[i]) ? 0 : dout_V[i/PES_PER_FIFO][WIDTH - 1:0];
-                    init_E[i] <= (first_ref_block[i]) ? 0 : dout_E[i/PES_PER_FIFO][WIDTH - 1:0];
+                    init_V[i] <= (first_ref_block[i-1]) ? 0 : dout_V[i/PES_PER_FIFO][WIDTH - 1:0];
+                    init_E[i] <= (first_ref_block[i-1]) ? 0 : dout_E[i/PES_PER_FIFO][WIDTH - 1:0];
                 end else begin
-                    init_V[i] <= (first_ref_block[i]) ? 0 : V[i+1]; // Bypass FIFOs when no inter-query blocking is needed
-                    init_E[i] <= (first_ref_block[i]) ? 0 : E[i+1];
+                    init_V[i] <= (first_ref_block[i-1]) ? 0 : V[i+1]; // Bypass FIFOs when no inter-query blocking is needed
+                    init_E[i] <= (first_ref_block[i-1]) ? 0 : E[i+1];
                 end
             end
         end
     endgenerate
     
-    assign init_V_diag[0] = 0;
-    generate
-        for (i = 1; i < NUM_PES; i = i + 1) begin:init_V_diag_gen
-            assign init_V_diag[i] = init_V[i-1];
-        end
-    endgenerate
-    
     // Last reference block char shift register
     always @(posedge clk) begin
-        next_first_ref_block[0] <= next_first_ref_block_in;
-        first_ref_block[0] <= first_ref_block_in;
-        last_ref_block[0] <= last_ref_block_in;
-        last_block_char[0] <= last_block_char_in;
-        bypass_fifo[0] <= bypass_fifo_in;
+        if (rst) begin
+            next_first_ref_block[0] <= 0;
+            first_ref_block[0] <= 0;
+            last_ref_block[0] <= 0;
+            last_block_char[0] <= 0;
+            bypass_fifo[0] <= 0;
+        end else begin
+            next_first_ref_block[0] <= next_first_ref_block_in;
+            first_ref_block[0] <= first_ref_block_in;
+            last_ref_block[0] <= last_ref_block_in;
+            last_block_char[0] <= last_block_char_in;
+            bypass_fifo[0] <= bypass_fifo_in;
+        end
     end
     generate
         for (i = 1; i < NUM_PES; i = i + 1) begin:last_block_char_gen
             always @(posedge clk) begin
-                next_first_ref_block[i] <= next_first_ref_block[i-1];
-                first_ref_block[i] <= first_ref_block[i-1];
-                last_ref_block[i] <= last_ref_block[i-1];
-                last_block_char[i] <= last_block_char[i-1];
-                bypass_fifo[i] <= bypass_fifo[i-1];
+                if (rst) begin
+                    next_first_ref_block[i] <= 0;
+                    first_ref_block[i] <= 0;
+                    last_ref_block[i] <= 0;
+                    last_block_char[i] <= 0;
+                    bypass_fifo[i] <= 0;
+                end else begin
+                    next_first_ref_block[i] <= next_first_ref_block[i-1];
+                    first_ref_block[i] <= first_ref_block[i-1];
+                    last_ref_block[i] <= last_ref_block[i-1];
+                    last_block_char[i] <= last_block_char[i-1];
+                    bypass_fifo[i] <= bypass_fifo[i-1];
+                end
             end
         end
     endgenerate
@@ -352,7 +354,6 @@ module SmithWatermanArray(
                 .init_in(init[i]),
                 .init_E(init_E[i]),
                 .init_V(init_V[i]),
-                .init_V_diag(init_V_diag[i]),
                 .V_out(V[i+1]),
                 .E_out(E[i+1]),
                 .F_out(F[i+1]), 

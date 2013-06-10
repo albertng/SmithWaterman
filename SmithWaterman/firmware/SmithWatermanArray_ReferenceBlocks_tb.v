@@ -115,30 +115,30 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         V_out_expected1[8][0] = 26;
         V_out_expected1[8][1] = 26;
         V_out_expected1[8][2] = 14;
-        V_out_expected1[9][0] = 0;
+        V_out_expected1[9][0] = 8;
         V_out_expected1[9][1] = 38;
         V_out_expected1[9][2] = 25;
         V_out_expected1[10][0] = 7;
-        V_out_expected1[10][1] = 0;
+        V_out_expected1[10][1] = 8;
         V_out_expected1[10][2] = 36;
         V_out_expected1[11][0] = 6;
         V_out_expected1[11][1] = 6;
-        V_out_expected1[11][2] = 0;
+        V_out_expected1[11][2] = 15;
         V_out_expected1[12][0] = 10;
         V_out_expected1[12][1] = 17;
         V_out_expected1[12][2] = 18;
         V_out_expected1[13][0] = 8;
         V_out_expected1[13][1] = 15;
         V_out_expected1[13][2] = 16;
-        V_out_expected1[14][0] = 0;
+        V_out_expected1[14][0] = 26;
         V_out_expected1[14][1] = 14;
         V_out_expected1[14][2] = 15;
         V_out_expected1[15][0] = 25;
-        V_out_expected1[15][1] = 0;
+        V_out_expected1[15][1] = 38;
         V_out_expected1[15][2] = 25;
         V_out_expected1[16][0] = 24;
         V_out_expected1[16][1] = 36;
-        V_out_expected1[16][2] = 0;
+        V_out_expected1[16][2] = 36;
         V_out_expected1[17][0] = 26;
         V_out_expected1[17][1] = 35;
         V_out_expected1[17][2] = 36;
@@ -205,7 +205,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
         
-        for (i = 1; i < 4; i = i + 1) begin
+        for (i = 1; i < 3; i = i + 1) begin
             T_in <= reference1[i];
             S_in <= short_read1[6-i];
             init_in <= 1;
@@ -226,6 +226,27 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
+        for (i = 3; i < 4; i = i + 1) begin
+            T_in <= reference1[i];
+            S_in <= short_read1[6-i];
+            init_in <= 1;
+            shift_S <= 1;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_block_char_in <= 1;
+            bypass_fifo_in <= 0;
+            #10;
+            $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+            end
+        end
+
         for (i = 4; i < 5; i = i + 1) begin
             init_in <= 0;
             shift_S <= 0;
@@ -234,7 +255,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
-            last_block_char_in <= 1;
+            last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
             $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
@@ -296,7 +317,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
-            last_block_char_in <= 0;
+            last_block_char_in <= 1;
             bypass_fifo_in <= 0;
             #10;
             $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
@@ -315,7 +336,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
-            last_block_char_in <= 1;
+            last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
             $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
@@ -346,7 +367,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
-        for (i = 11; i < 14; i = i + 1) begin
+        for (i = 11; i < 13; i = i + 1) begin
             T_in <= reference1[i-6];
             S_in <= short_read1[16-i];
             init_in <= 1;
@@ -367,6 +388,27 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
+        for (i = 13; i < 14; i = i + 1) begin
+            T_in <= reference1[i-6];
+            S_in <= short_read1[16-i];
+            init_in <= 1;
+            shift_S <= 1;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 0;
+            first_ref_block_in <= 0;
+            last_ref_block_in <= 1;
+            last_block_char_in <= 1;
+            bypass_fifo_in <= 0;
+            #10;
+            $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+            end
+        end
+
         for (i = 14; i < 15; i = i + 1) begin
             init_in <= 0;
             shift_S <= 0;
@@ -375,7 +417,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
-            last_block_char_in <= 1;
+            last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
             $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
@@ -415,7 +457,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
-            last_block_char_in <= 0;
+            last_block_char_in <= 1;
             bypass_fifo_in <= 0;
             #10;
             $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
@@ -434,7 +476,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
-            last_block_char_in <= 1;
+            last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
             $display("%d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20]);
@@ -463,8 +505,11 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
             end
         end
-
+        #100;
+        $finish;
     end
-      
+    always begin
+        #5 clk = !clk;
+    end
 endmodule
 

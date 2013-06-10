@@ -11,6 +11,7 @@
  *      Albert Ng   Jun 05 2013     Commented out unnecessary F initialization
  *                                  Added init_V, init_E, init_V_diag
  *                                  Reorganized PE logic to be in separate always block
+ *      Albert Ng   Jun 09 2013     Changed V_diag to DFF V_in every clock
  *
  */
 module SmithWatermanPE(
@@ -24,7 +25,6 @@ module SmithWatermanPE(
     input  init_in,                 // Computation active shift in
     input  [WIDTH-1:0] init_V,      // V initialization value
     input  [WIDTH-1:0] init_E,      // E initialization value
-    input  [WIDTH-1:0] init_V_diag, // Diagonal V initialization value
     output [WIDTH-1:0] V_out,       // Score of this PE
     output [WIDTH-1:0] E_out,       // Left gap penalty of this cell
     output [WIDTH-1:0] F_out,       // Up Gap penalty of this cell
@@ -112,18 +112,17 @@ module SmithWatermanPE(
             store_S <= store_S_in;
             init <= init_in;
             T <= T_in;
+            V_diag <= V_in;
             if (store_S_in)
                 S <= S_in;
             if (init_in) begin
-                V_diag <= V_in;
                 E <= new_E;
                 F <= new_F;
                 V <= new_V;
             end else begin
-                V_diag <= init_V_diag;
+                V_diag <= V_in;
                 E <= init_E;
                 V <= init_V;
-                //F <= 0;   Not necessary
             end
         end
     end
