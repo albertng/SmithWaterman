@@ -505,6 +505,139 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
             end
         end
+        
+        
+        $display("Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test");
+        short_read2[0] = 2'b00;   // AGCA
+        short_read2[1] = 2'b10;
+        short_read2[2] = 2'b01;
+        short_read2[3] = 2'b00;
+        reference2[0] = 2'b01;    // CAGCAGTAAGCAGTAA
+        reference2[1] = 2'b00;
+        reference2[2] = 2'b10;
+        reference2[3] = 2'b01;
+        reference2[4] = 2'b00;
+        reference2[5] = 2'b10;
+        reference2[6] = 2'b11;
+        reference2[7] = 2'b00;
+        reference2[8] = 2'b00;
+        reference2[9] = 2'b10;
+        reference2[10] = 2'b01;
+        reference2[11] = 2'b00;
+        reference2[12] = 2'b10;
+        reference2[13] = 2'b11;
+        reference2[14] = 2'b00;
+        reference2[15] = 2'b00;
+        V_out_expected2[0][0] = 0;
+        V_out_expected2[0][1] = 0;
+        V_out_expected2[0][2] = 0;
+        V_out_expected2[0][3] = 0;
+        V_out_expected2[1][0] = 10;
+        V_out_expected2[1][1] = 0;
+        V_out_expected2[1][2] = 0;
+        V_out_expected2[1][3] = 0;
+        V_out_expected2[2][0] = 8;
+        V_out_expected2[2][1] = 8;
+        V_out_expected2[2][2] = 10;
+        V_out_expected2[2][3] = 0;
+        V_out_expected2[3][0] = 7;
+        V_out_expected2[3][1] = 20;
+        V_out_expected2[3][2] = 8;
+        V_out_expected2[3][3] = 8;
+        V_out_expected2[4][0] = 10;
+        V_out_expected2[4][1] = 18;
+        V_out_expected2[4][2] = 18;
+        V_out_expected2[4][3] = 20;
+        V_out_expected2[5][0] = 8;
+        V_out_expected2[5][1] = 17;
+        V_out_expected2[5][2] = 30;
+        V_out_expected2[5][3] = 18;
+        V_out_expected2[6][0] = 7;
+        V_out_expected2[6][1] = 20;
+        V_out_expected2[6][2] = 28;
+        V_out_expected2[6][3] = 28;
+        V_out_expected2[7][0] = 10;
+        V_out_expected2[7][1] = 18;
+        V_out_expected2[7][2] = 27;
+        V_out_expected2[7][3] = 40;
+        V_out_expected2[8][0] = 10;
+        V_out_expected2[8][1] = 17;
+        V_out_expected2[8][2] = 26;
+        V_out_expected2[8][3] = 38;
+        V_out_expected2[9][0] = 8;
+        V_out_expected2[9][1] = 16;
+        V_out_expected2[9][2] = 25;
+        V_out_expected2[9][3] = 37;
+        V_out_expected2[10][0] = 7;
+        V_out_expected2[10][1] = 20;
+        V_out_expected2[10][2] = 24;
+        V_out_expected2[10][3] = 36;
+        V_out_expected2[11][0] = 10;
+        V_out_expected2[11][1] = 18;
+        V_out_expected2[11][2] = 23;
+        V_out_expected2[11][3] = 35;
+        V_out_expected2[12][0] = 8;
+        V_out_expected2[12][1] = 17;
+        V_out_expected2[12][2] = 30;
+        V_out_expected2[12][3] = 34;
+        V_out_expected2[13][0] = 7;
+        V_out_expected2[13][1] = 20;
+        V_out_expected2[13][2] = 28;
+        V_out_expected2[13][3] = 33;
+        V_out_expected2[14][0] = 10;
+        V_out_expected2[14][1] = 18;
+        V_out_expected2[14][2] = 27;
+        V_out_expected2[14][3] = 40;
+        V_out_expected2[15][0] = 10;
+        V_out_expected2[15][1] = 17;
+        V_out_expected2[15][2] = 26;
+        V_out_expected2[15][3] = 38;
+        V_out_expected2[16][0] = 0;
+        V_out_expected2[16][1] = 16;
+        V_out_expected2[16][2] = 25;
+        V_out_expected2[16][3] = 37;
+        V_out_expected2[17][0] = 0;
+        V_out_expected2[17][1] = 0;
+        V_out_expected2[17][2] = 24;
+        V_out_expected2[17][3] = 36;
+        V_out_expected2[18][0] = 0;
+        V_out_expected2[18][1] = 0;
+        V_out_expected2[18][2] = 0;
+        V_out_expected2[18][3] = 35;
+        
+        // Initialize inputs, variables, and wait for reset
+        clk <= 0;
+        rst <= 1;
+        S_in <= 0;
+        T_in <= 0;
+        store_S_in <= 0;
+        shift_S <= 0;
+        init_in <= 0;
+        first_query_block <= 0;
+        next_first_ref_block_in <= 0;
+        first_ref_block_in <= 0;
+        last_ref_block_in <= 0;
+        last_block_char_in <= 0;
+        bypass_fifo_in <= 0;
+        #20;
+        rst <= 0;
+        
+        for (i = 0; i < 4; i = i + 1) begin
+            S_in <= short_read2[3 - i]; // Shift in reverse
+            shift_S <= 1;
+            #10;
+        end
+        init_in <= 0;
+        shift_S <= 0;
+        store_S_in <= 1;
+        first_query_block <=1;
+        next_first_ref_block_in <= 1;
+        first_ref_block_in <= 1;
+        last_ref_block_in <= 0;
+        last_block_char_in <= 0;
+        bypass_fifo_in <= 1;
+        #10;
+        
         #100;
         $finish;
     end

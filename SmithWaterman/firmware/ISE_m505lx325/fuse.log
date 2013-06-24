@@ -1,4 +1,4 @@
-Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe -prj /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_beh.prj SmithWatermanArray_ReferenceBlocks_tb work.glbl 
+Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_isim_beh.exe" -prj "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_beh.prj" "work.SmithWatermanArray_QueryBlocks_tb" "work.glbl" 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
@@ -7,30 +7,38 @@ Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWater
 Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../one_hot_mux.v" into library work
 Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ipcore_dir/inter_ref_block_fifo.v" into library work
 Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" into library work
-Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanArray_ReferenceBlocks_tb.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../SmithWatermanArray_QueryBlocks_tb.v" into library work
 Analyzing Verilog file "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
+WARNING:HDLCompiler:560 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 275: Invalid context for genvar i
+WARNING:HDLCompiler:560 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 276: Invalid context for genvar i
+WARNING:HDLCompiler:560 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 278: Invalid context for genvar i
+WARNING:HDLCompiler:560 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 279: Invalid context for genvar i
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 230: Element index 3 into last_block_char is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 231: Element index 3 into last_ref_block is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 232: Element index 3 into bypass_fifo is out of bounds
 Completed static elaboration
-Fuse Memory Usage: 97584 KB
-Fuse CPU Usage: 1410 ms
-Compiling module one_hot_mux(bus_count=3,bus_widt...
+Fuse Memory Usage: 97672 KB
+Fuse CPU Usage: 1390 ms
+Compiling module one_hot_mux(bus_count=4,bus_widt...
 Compiling module fifo_generator_v9_3_bhv_ver_ss(C...
 Compiling module FIFO_GENERATOR_V9_3_CONV_VER(C_C...
 Compiling module FIFO_GENERATOR_V9_3(C_COMMON_CLO...
 Compiling module inter_ref_block_fifo
 Compiling module SmithWatermanPE(WIDTH=10,MATCH_R...
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 158: Element index -1 into S is out of bounds
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 178: Element index -1 into V_interm is out of bounds
-WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 179: Element index -1 into F_interm is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 157: Element index -1 into S is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 177: Element index -1 into V_interm is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 178: Element index -1 into F_interm is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 285: Element index 1 into dout_V is out of bounds
+WARNING:HDLCompiler:1007 - "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v" Line 286: Element index 1 into dout_E is out of bounds
+Compiling module SmithWatermanArray(NUM_PES=6,REF...
 Compiling module SmithWatermanArray(NUM_PES=3,REF...
-Compiling module one_hot_mux(bus_count=2,bus_widt...
-Compiling module SmithWatermanArray(NUM_PES=4,REF...
-Compiling module SmithWatermanArray_ReferenceBloc...
+Compiling module SmithWatermanArray_QueryBlocks_t...
 Compiling module glbl
 Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
-Compiled 11 Verilog Units
-Built simulation executable /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe
-Fuse Memory Usage: 659540 KB
-Fuse CPU Usage: 1660 ms
-GCC CPU Usage: 3480 ms
+Compiled 10 Verilog Units
+Built simulation executable /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_isim_beh.exe
+Fuse Memory Usage: 663024 KB
+Fuse CPU Usage: 1640 ms
+GCC CPU Usage: 2340 ms

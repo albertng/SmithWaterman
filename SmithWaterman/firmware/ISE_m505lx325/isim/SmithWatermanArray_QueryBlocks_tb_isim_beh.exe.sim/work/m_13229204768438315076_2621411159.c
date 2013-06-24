@@ -3858,7 +3858,7 @@ LAB332:    xsi_set_current_line(276, ng0);
     t3 = (t0 + 2728);
     xsi_vlogvar_wait_assign_value(t3, t2, 0, 0, 1, 0LL);
     xsi_set_current_line(284, ng0);
-    t2 = ((char*)((ng5)));
+    t2 = ((char*)((ng3)));
     t3 = (t0 + 2888);
     xsi_vlogvar_wait_assign_value(t3, t2, 0, 0, 1, 0LL);
     xsi_set_current_line(285, ng0);

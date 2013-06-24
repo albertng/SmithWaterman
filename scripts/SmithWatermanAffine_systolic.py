@@ -15,11 +15,12 @@ def NtSeq2IntArray(seq):
 
 #short_read = NtSeq2IntArray("GCAGCT")
 #short_read = NtSeq2IntArray("ACACTA")
-short_read = NtSeq2IntArray("ACTAGC")
-#short_read = NtSeq2IntArray("AGCA")
+#short_read = NtSeq2IntArray("ACTAGC")
+short_read = NtSeq2IntArray("AGCA")
+reference = NtSeq2IntArray("CAGCAGTAAGCAGTAA")
 #reference  = NtSeq2IntArray("ACAGACTATGCT")
 #reference  = NtSeq2IntArray("ACAGACTAAA")
-reference  = NtSeq2IntArray("ATAGTCAT")
+#reference  = NtSeq2IntArray("ATAGTCAT")
 #reference  = NtSeq2IntArray("ATAGTCAC")
 
 def FeedV():

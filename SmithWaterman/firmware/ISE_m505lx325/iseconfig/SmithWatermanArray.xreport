@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-06-06T19:44:55</DateModified>
+  <DateModified>2013-06-11T16:22:41</DateModified>
   <ModuleName>SmithWatermanArray</ModuleName>
   <SummaryTimeStamp>2013-06-06T19:36:55</SummaryTimeStamp>
   <SavedFilePath>/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/iseconfig/SmithWatermanArray.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
   <DateInitialized>2013-06-06T19:12:04</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
