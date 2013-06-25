@@ -12,11 +12,13 @@
  *                                  Added init_V, init_E, init_V_diag
  *                                  Reorganized PE logic to be in separate always block
  *      Albert Ng   Jun 09 2013     Changed V_diag to DFF V_in every clock
+ *      Albert Ng   Jun 24 2013     Added stall signal
  *
  */
 module SmithWatermanPE(
     input  clk,                     // System clock
     input  rst,                     // System reset
+    input  stall,                   // Pipeline stall signal
     input  [WIDTH-1:0] V_in,        // Score from previous PE
     input  [WIDTH-1:0] F_in,        // Gap penalty of previous PE
     input  [1:0] T_in,              // Reference seq shift in
@@ -108,7 +110,7 @@ module SmithWatermanPE(
             F <= 0;
             store_S <= 0;
             init <= 0;
-        end else begin
+        end else if (!stall) begin
             store_S <= store_S_in;
             init <= init_in;
             T <= T_in;

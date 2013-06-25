@@ -67,8 +67,6 @@
  *                           This can be fixed by implementing a FIFO instead of a shift
  *                           register, which would be slightly more complicated.
  *
- *                     TODO: Probably going to need a stall signal
- *
  *  Revision History :
  *      Albert Ng   May 02 2013     Initial Revision
  *      Albert Ng   May 06 2013     Added query sequence shift register
@@ -81,12 +79,15 @@
  *      Albert Ng   Jun 06 2013     Variable number of PEs per FIFO
  *      Albert Ng   Jun 07 2013     Changed next_first_ref_block, first_ref_block, last_ref_block,
  *                                      and bypass_fifo to shift registers
+ *      Albert Ng   Jun 24 2013     Fixed minor bug with bypass_fifo
+ *                                  Added stall signal
  *
  */
 
 module SmithWatermanArray(
     input clk,                              // System clock
     input rst,                              // System reset
+    input stall,                            // Pipeline stall
     input [1:0] S_in,                       // Query sequence shift in
     input [1:0] T_in,                       // Reference sequence shift in
     input store_S_in,                       // Load systolic array with new query seq
@@ -272,11 +273,11 @@ module SmithWatermanArray(
     generate
         always @(*) begin
             if (!bypass_fifo) begin
-                init_V[0] <= (first_ref_block_in) ? 0 : dout_V[i/PES_PER_FIFO][WIDTH - 1:0];
-                init_E[0] <= (first_ref_block_in) ? 0 : dout_E[i/PES_PER_FIFO][WIDTH - 1:0];
+                init_V[0] <= (first_ref_block_in) ? 0 : dout_V[0][WIDTH - 1:0];
+                init_E[0] <= (first_ref_block_in) ? 0 : dout_E[0][WIDTH - 1:0];
             end else begin
-                init_V[0] <= (first_ref_block_in) ? 0 : V[i+1]; // Bypass FIFOs when no inter-query blocking is needed
-                init_E[0] <= (first_ref_block_in) ? 0 : E[i+1];
+                init_V[0] <= (first_ref_block_in) ? 0 : V[1]; // Bypass FIFOs when no inter-query blocking is needed
+                init_E[0] <= (first_ref_block_in) ? 0 : E[1];
             end
         end
         for (i = 1; i < NUM_PES; i = i + 1) begin:inter_ref_block_interm_gen
@@ -345,7 +346,8 @@ module SmithWatermanArray(
         for (i = 0; i < NUM_PES; i = i + 1) begin:swpe_gen
             SmithWatermanPE #(WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN) swpe (
                 .clk(clk), 
-                .rst(rst), 
+                .rst(rst),
+                .stall(stall),
                 .V_in(V[i]), 
                 .F_in(F[i]), 
                 .T_in(T[i]), 

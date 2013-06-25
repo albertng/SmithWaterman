@@ -28,6 +28,7 @@
  *      Albert Ng   May 15 2013     Added multiple query blocks test
  *      Albert Ng   Jun 05 2013     Added first_ref_block, next_first_ref_block, last_ref_block, 
  *                                      last_block_char_in
+ *      Albert Ng   Jun 24 2013     Added stall
  *
  */
 
@@ -36,6 +37,7 @@ module SmithWatermanArray_QueryBlocks_tb;
     // Inputs
     reg clk;
     reg rst;
+    reg stall;
     reg [1:0] S_in;
     reg [1:0] T_in;
     reg store_S_in;
@@ -71,6 +73,7 @@ module SmithWatermanArray_QueryBlocks_tb;
     SmithWatermanArray #(6, 8, 10, 10, -2, -2, -1) uut1 (
         .clk(clk), 
         .rst(rst), 
+        .stall(stall),
         .S_in(S_in), 
         .T_in(T_in), 
         .store_S_in(store_S_in), 
@@ -88,6 +91,7 @@ module SmithWatermanArray_QueryBlocks_tb;
     SmithWatermanArray #(3, 8, 10, 10, -2, -2, -1) uut2 (
         .clk(clk), 
         .rst(rst), 
+        .stall(stall),
         .S_in(S_in), 
         .T_in(T_in), 
         .store_S_in(store_S_in), 
@@ -105,6 +109,8 @@ module SmithWatermanArray_QueryBlocks_tb;
     integer i;
     integer j;
     initial begin
+        stall = 0;
+    
         // Consecutive alignments w/ bubbles test
         $display("Consecutive alignments w/ bubbles test");
         short_read1[0][0] = 2'b00;   // ACACTA

@@ -8,6 +8,7 @@
  *                                  Added S_out signal
  *      Albert Ng   Jun 05 2013     Added init_E, init_V, init_V_diag
  *      Albert Ng   Jun 09 2013     Removed init_V_diag
+ *      Albert Ng   Jun 24 2013     Added stall
  *
  */
 
@@ -15,6 +16,7 @@ module SmithWatermanPE_tb;
     // Inputs
     reg clk;
     reg rst;
+    reg stall;
     reg [9:0] V_in;
     reg [9:0] F_in;
     reg [1:0] T_in;
@@ -41,6 +43,7 @@ module SmithWatermanPE_tb;
     SmithWatermanPE #(10, 10, -2, -2, -1) uut (
         .clk(clk), 
         .rst(rst), 
+        .stall(stall),
         .V_in(V_in), 
         .F_in(F_in), 
         .T_in(T_in), 
@@ -80,6 +83,7 @@ module SmithWatermanPE_tb;
         // Initialize inputs, variables, and wait for reset
         clk = 0;
         rst = 1;
+        stall = 0;
         V_in = 0;
         F_in = 0;
         T_in = 0;

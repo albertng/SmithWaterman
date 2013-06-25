@@ -4,7 +4,11 @@
  *
  *  Revision History :
  *      Albert Ng   Jun 06 2013     Initial Revision
- *
+ *                                  Completed multiple query block, multiple ref block
+ *                                      test
+ *      Albert Ng   Jun 24 2013     Completed single query block, multiple ref block 
+ *                                      test
+ *                                  Added stall
  */
 
 module SmithWatermanArray_ReferenceBlocks_tb;
@@ -12,6 +16,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     // Inputs
     reg clk;
     reg rst;
+    reg stall;
     reg [1:0] S_in;
     reg [1:0] T_in;
     reg store_S_in;
@@ -34,7 +39,8 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     reg [9:0] V_out_expected1 [20:0][2:0];
     SmithWatermanArray #(3, 4, 10, 10, -2, -2, -1, 3) uut1 (
         .clk(clk), 
-        .rst(rst), 
+        .rst(rst),
+        .stall(stall),
         .S_in(S_in), 
         .T_in(T_in), 
         .store_S_in(store_S_in), 
@@ -55,7 +61,8 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     reg [9:0] V_out_expected2 [20:0][3:0];
     SmithWatermanArray #(4, 8, 10, 10, -2, -2, -1, 2) uut2 (
         .clk(clk), 
-        .rst(rst), 
+        .rst(rst),
+        .stall(stall),
         .S_in(S_in), 
         .T_in(T_in), 
         .store_S_in(store_S_in), 
@@ -73,6 +80,8 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     integer i;
     integer j;
     initial begin
+        stall = 0;
+    
         $display("Multiple query block, multiple reference block, 3 PEs per FIFO test");
         short_read1[0] = 2'b00;   // ACTAGC
         short_read1[1] = 2'b01;
@@ -560,50 +569,54 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         V_out_expected2[7][1] = 18;
         V_out_expected2[7][2] = 27;
         V_out_expected2[7][3] = 40;
-        V_out_expected2[8][0] = 10;
+        V_out_expected2[8][0] = 10;     // Keep last value 
         V_out_expected2[8][1] = 17;
         V_out_expected2[8][2] = 26;
         V_out_expected2[8][3] = 38;
-        V_out_expected2[9][0] = 8;
-        V_out_expected2[9][1] = 16;
+        V_out_expected2[9][0] = 10;
+        V_out_expected2[9][1] = 17;     // Keep last value
         V_out_expected2[9][2] = 25;
         V_out_expected2[9][3] = 37;
-        V_out_expected2[10][0] = 7;
-        V_out_expected2[10][1] = 20;
-        V_out_expected2[10][2] = 24;
-        V_out_expected2[10][3] = 36;
-        V_out_expected2[11][0] = 10;
-        V_out_expected2[11][1] = 18;
-        V_out_expected2[11][2] = 23;
-        V_out_expected2[11][3] = 35;
-        V_out_expected2[12][0] = 8;
-        V_out_expected2[12][1] = 17;
-        V_out_expected2[12][2] = 30;
-        V_out_expected2[12][3] = 34;
-        V_out_expected2[13][0] = 7;
-        V_out_expected2[13][1] = 20;
-        V_out_expected2[13][2] = 28;
-        V_out_expected2[13][3] = 33;
-        V_out_expected2[14][0] = 10;
-        V_out_expected2[14][1] = 18;
-        V_out_expected2[14][2] = 27;
-        V_out_expected2[14][3] = 40;
+        V_out_expected2[10][0] = 8;
+        V_out_expected2[10][1] = 16;
+        V_out_expected2[10][2] = 25;    // Keep last value
+        V_out_expected2[10][3] = 36;    
+        V_out_expected2[11][0] = 7;
+        V_out_expected2[11][1] = 20;
+        V_out_expected2[11][2] = 24;
+        V_out_expected2[11][3] = 36;    // Keep last value
+        V_out_expected2[12][0] = 10;
+        V_out_expected2[12][1] = 18;
+        V_out_expected2[12][2] = 23;
+        V_out_expected2[12][3] = 35;
+        V_out_expected2[13][0] = 8;
+        V_out_expected2[13][1] = 17;
+        V_out_expected2[13][2] = 30;
+        V_out_expected2[13][3] = 34;
+        V_out_expected2[14][0] = 7;
+        V_out_expected2[14][1] = 20;
+        V_out_expected2[14][2] = 28;
+        V_out_expected2[14][3] = 33;
         V_out_expected2[15][0] = 10;
-        V_out_expected2[15][1] = 17;
-        V_out_expected2[15][2] = 26;
-        V_out_expected2[15][3] = 38;
-        V_out_expected2[16][0] = 0;
-        V_out_expected2[16][1] = 16;
-        V_out_expected2[16][2] = 25;
-        V_out_expected2[16][3] = 37;
+        V_out_expected2[15][1] = 18;
+        V_out_expected2[15][2] = 27;
+        V_out_expected2[15][3] = 40;
+        V_out_expected2[16][0] = 10;
+        V_out_expected2[16][1] = 17;
+        V_out_expected2[16][2] = 26;
+        V_out_expected2[16][3] = 38;
         V_out_expected2[17][0] = 0;
-        V_out_expected2[17][1] = 0;
-        V_out_expected2[17][2] = 24;
-        V_out_expected2[17][3] = 36;
+        V_out_expected2[17][1] = 16;
+        V_out_expected2[17][2] = 25;
+        V_out_expected2[17][3] = 37;
         V_out_expected2[18][0] = 0;
         V_out_expected2[18][1] = 0;
-        V_out_expected2[18][2] = 0;
-        V_out_expected2[18][3] = 35;
+        V_out_expected2[18][2] = 24;
+        V_out_expected2[18][3] = 36;
+        V_out_expected2[19][0] = 0;
+        V_out_expected2[19][1] = 0;
+        V_out_expected2[19][2] = 0;
+        V_out_expected2[19][3] = 35;
         
         // Initialize inputs, variables, and wait for reset
         clk <= 0;
@@ -637,6 +650,164 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         last_block_char_in <= 0;
         bypass_fifo_in <= 1;
         #10;
+        for (i = 0; i < 2; i = i + 1) begin
+            T_in <= reference2[i];
+            init_in <= 1;
+            shift_S <= 0;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+
+        for (i = 2; i < 6; i = i + 1) begin
+            T_in <= reference2[i];
+            S_in <= short_read2[5 - i]; // Shift in reverse
+            init_in <= 1;
+            shift_S <= 1;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+        
+        for (i = 6; i < 7; i = i + 1) begin
+            T_in <= reference2[i];
+            init_in <= 1;
+            shift_S <= 0;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+        
+        for (i = 7; i < 8; i = i + 1) begin
+            T_in <= reference2[i];
+            init_in <= 1;
+            shift_S <= 0;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 0;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_block_char_in <= 1;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+        
+        for (i = 8; i < 9; i = i + 1) begin
+            init_in <= 0;
+            shift_S <= 0;
+            store_S_in <= 1;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 0;
+            first_ref_block_in <= 0;
+            last_ref_block_in <= 1;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+        
+        for (i = 9; i < 16; i = i + 1) begin
+            T_in <= reference2[i-1];
+            init_in <= 1;
+            shift_S <= 0;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 0;
+            first_ref_block_in <= 0;
+            last_ref_block_in <= 1;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+        
+        for (i = 16; i < 17; i = i + 1) begin
+            T_in <= reference2[i-1];
+            init_in <= 1;
+            shift_S <= 0;
+            store_S_in <= 0;
+            first_query_block <= 1;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 0;
+            last_ref_block_in <= 1;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 1;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
+        
+        for (i = 17; i < 20; i = i + 1) begin
+            init_in <= 0;
+            shift_S <= 0;
+            store_S_in <= 0;
+            first_query_block <= 0;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 0;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+            end
+        end
         
         #100;
         $finish;
