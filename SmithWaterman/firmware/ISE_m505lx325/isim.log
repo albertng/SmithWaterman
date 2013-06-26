@@ -471,3 +471,4 @@ Consecutive alignments w/o bubbles test
    0    0   57
 # run all
 Stopped at time : 1030 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_QueryBlocks_tb.v" Line 832
+# exit 0
