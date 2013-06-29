@@ -1,5 +1,5 @@
 ISim log file
-Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_QueryBlocks_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -10,465 +10,49 @@ Time resolution is 1 ps
 # wave add /
 # run 1000 ns
 Simulator is doing circuit initialization process.
-Consecutive alignments w/ bubbles test
+Multiple query block, multiple reference block, 3 PEs per FIFO test
 Finished circuit initialization process.
-  10    0    0    0    x    x
-   8    8    0    0    x    x
-  10   20   10    0    x    x
-   8   18   18    8    x    x
-  10   17   30   20    7    x
-   8   16   28   28   18    x
-   7   20   27   28   27   17
-  10   18   26   26   26   28
-  18   17   25   37   26   25
-V_out error, Cycle           8 PE           0: Got   18 expected    0
-V_out error, Cycle           8 PE           5: Got   25 expected   26
-  17   17   28   35   35   36
-V_out error, Cycle           9 PE           0: Got   17 expected    0
-V_out error, Cycle           9 PE           1: Got   17 expected    0
-  17   17   28   34   47   34
-V_out error, Cycle          10 PE           0: Got   17 expected    0
-V_out error, Cycle          10 PE           1: Got   17 expected    0
-V_out error, Cycle          10 PE           2: Got   28 expected    0
-  16   17   28   34   33   45
-V_out error, Cycle          11 PE           0: Got   16 expected    0
-V_out error, Cycle          11 PE           1: Got   17 expected    0
-V_out error, Cycle          11 PE           2: Got   28 expected    0
-V_out error, Cycle          11 PE           3: Got   34 expected    0
-V_out error, Cycle          11 PE           4: Got   33 expected   45
-  15   16   28   34   33   57
-V_out error, Cycle          12 PE           0: Got   15 expected    0
-V_out error, Cycle          12 PE           1: Got   16 expected    0
-V_out error, Cycle          12 PE           2: Got   28 expected    0
-V_out error, Cycle          12 PE           3: Got   34 expected    0
-V_out error, Cycle          12 PE           4: Got   33 expected    0
-  14   26   27   34   33   57
-V_out error, Cycle          13 PE           0: Got   14 expected    0
-V_out error, Cycle          13 PE           1: Got   26 expected   10
-V_out error, Cycle          13 PE           2: Got   27 expected   10
-V_out error, Cycle          13 PE           3: Got   34 expected    0
-V_out error, Cycle          13 PE           4: Got   33 expected    0
-V_out error, Cycle          13 PE           5: Got   57 expected    0
-  13   24   25   33   33   57
-V_out error, Cycle          14 PE           0: Got   13 expected   10
-V_out error, Cycle          14 PE           1: Got   24 expected    8
-V_out error, Cycle          14 PE           2: Got   25 expected    8
-V_out error, Cycle          14 PE           3: Got   33 expected    8
-V_out error, Cycle          14 PE           4: Got   33 expected    0
-V_out error, Cycle          14 PE           5: Got   57 expected    0
-  12   23   36   32   32   57
-V_out error, Cycle          15 PE           0: Got   12 expected    8
-V_out error, Cycle          15 PE           1: Got   23 expected    8
-V_out error, Cycle          15 PE           2: Got   36 expected   20
-V_out error, Cycle          15 PE           3: Got   32 expected    8
-V_out error, Cycle          15 PE           4: Got   32 expected    7
-V_out error, Cycle          15 PE           5: Got   57 expected    0
-  11   22   34   34   43   31
-V_out error, Cycle          16 PE           0: Got   11 expected    7
-V_out error, Cycle          16 PE           1: Got   22 expected    8
-V_out error, Cycle          16 PE           2: Got   34 expected   18
-V_out error, Cycle          16 PE           3: Got   34 expected   18
-V_out error, Cycle          16 PE           4: Got   43 expected   18
-V_out error, Cycle          16 PE           5: Got   31 expected    6
-  10   22   33   46   33   41
-V_out error, Cycle          17 PE           0: Got   10 expected    6
-V_out error, Cycle          17 PE           1: Got   22 expected   18
-V_out error, Cycle          17 PE           2: Got   33 expected   18
-V_out error, Cycle          17 PE           3: Got   46 expected   30
-V_out error, Cycle          17 PE           4: Got   33 expected   17
-V_out error, Cycle          17 PE           5: Got   41 expected   16
-   9   20   32   44   44   41
-V_out error, Cycle          18 PE           0: Got    9 expected    5
-V_out error, Cycle          18 PE           1: Got   20 expected   16
-V_out error, Cycle          18 PE           2: Got   32 expected   16
-V_out error, Cycle          18 PE           3: Got   44 expected   28
-V_out error, Cycle          18 PE           4: Got   44 expected   28
-V_out error, Cycle          18 PE           5: Got   41 expected   16
-  20   19   31   43   44   43
-V_out error, Cycle          19 PE           0: Got   20 expected    0
-V_out error, Cycle          19 PE           1: Got   19 expected   15
-V_out error, Cycle          19 PE           2: Got   31 expected   16
-V_out error, Cycle          19 PE           3: Got   43 expected   27
-V_out error, Cycle          19 PE           4: Got   44 expected   28
-V_out error, Cycle          19 PE           5: Got   43 expected   27
-  19   19   30   42   54   42
-V_out error, Cycle          20 PE           0: Got   19 expected    0
-V_out error, Cycle          20 PE           1: Got   19 expected    0
-V_out error, Cycle          20 PE           2: Got   30 expected   26
-V_out error, Cycle          20 PE           3: Got   42 expected   26
-V_out error, Cycle          20 PE           4: Got   54 expected   38
-V_out error, Cycle          20 PE           5: Got   42 expected   26
-  19   19   30   41   41   52
-V_out error, Cycle          21 PE           0: Got   19 expected    0
-V_out error, Cycle          21 PE           1: Got   19 expected    0
-V_out error, Cycle          21 PE           2: Got   30 expected    0
-V_out error, Cycle          21 PE           3: Got   41 expected   25
-V_out error, Cycle          21 PE           4: Got   41 expected   36
-V_out error, Cycle          21 PE           5: Got   52 expected   36
-  19   19   30   41   40   64
-V_out error, Cycle          22 PE           0: Got   19 expected    0
-V_out error, Cycle          22 PE           1: Got   19 expected    0
-V_out error, Cycle          22 PE           2: Got   30 expected    0
-V_out error, Cycle          22 PE           3: Got   41 expected    0
-V_out error, Cycle          22 PE           4: Got   40 expected   35
-V_out error, Cycle          22 PE           5: Got   64 expected   48
-  19   19   30   41   40   39
-V_out error, Cycle          23 PE           0: Got   19 expected    0
-V_out error, Cycle          23 PE           1: Got   19 expected    0
-V_out error, Cycle          23 PE           2: Got   30 expected    0
-V_out error, Cycle          23 PE           3: Got   41 expected    0
-V_out error, Cycle          23 PE           4: Got   40 expected    0
-V_out error, Cycle          23 PE           5: Got   39 expected   46
-Consecutive alignments w/o bubbles test
-  18   19   30   41   40   39
-V_out error, Cycle           0 PE           0: Got   18 expected    0
-V_out error, Cycle           0 PE           1: Got   19 expected    0
-V_out error, Cycle           0 PE           2: Got   30 expected    0
-V_out error, Cycle           0 PE           3: Got   41 expected    0
-V_out error, Cycle           0 PE           4: Got   40 expected    0
-V_out error, Cycle           0 PE           5: Got   39 expected    0
-  17   18   30   41   40   39
-V_out error, Cycle           1 PE           0: Got   17 expected    0
-V_out error, Cycle           1 PE           1: Got   18 expected    0
-V_out error, Cycle           1 PE           2: Got   30 expected    0
-V_out error, Cycle           1 PE           3: Got   41 expected    0
-V_out error, Cycle           1 PE           4: Got   40 expected    0
-V_out error, Cycle           1 PE           5: Got   39 expected    0
-  16   28   29   41   40   39
-V_out error, Cycle           2 PE           0: Got   16 expected    0
-V_out error, Cycle           2 PE           1: Got   28 expected   10
-V_out error, Cycle           2 PE           2: Got   29 expected   10
-V_out error, Cycle           2 PE           3: Got   41 expected    0
-V_out error, Cycle           2 PE           4: Got   40 expected    0
-V_out error, Cycle           2 PE           5: Got   39 expected    0
-  15   26   28   40   40   39
-V_out error, Cycle           3 PE           0: Got   15 expected   10
-V_out error, Cycle           3 PE           1: Got   26 expected    8
-V_out error, Cycle           3 PE           2: Got   28 expected    8
-V_out error, Cycle           3 PE           3: Got   40 expected    8
-V_out error, Cycle           3 PE           4: Got   40 expected    0
-V_out error, Cycle           3 PE           5: Got   39 expected    0
-  14   25   38   39   39   39
-V_out error, Cycle           4 PE           0: Got   14 expected    8
-V_out error, Cycle           4 PE           1: Got   25 expected    8
-V_out error, Cycle           4 PE           2: Got   38 expected   20
-V_out error, Cycle           4 PE           3: Got   39 expected    8
-V_out error, Cycle           4 PE           4: Got   39 expected    7
-V_out error, Cycle           4 PE           5: Got   39 expected    0
-  13   24   36   38   50   38
-V_out error, Cycle           5 PE           0: Got   13 expected    7
-V_out error, Cycle           5 PE           1: Got   24 expected    8
-V_out error, Cycle           5 PE           2: Got   36 expected   18
-V_out error, Cycle           5 PE           3: Got   38 expected   18
-V_out error, Cycle           5 PE           4: Got   50 expected   18
-V_out error, Cycle           5 PE           5: Got   38 expected    6
-  12   24   35   48   37   48
-V_out error, Cycle           6 PE           0: Got   12 expected    6
-V_out error, Cycle           6 PE           1: Got   24 expected   18
-V_out error, Cycle           6 PE           2: Got   35 expected   18
-V_out error, Cycle           6 PE           3: Got   48 expected   30
-V_out error, Cycle           6 PE           4: Got   37 expected   17
-V_out error, Cycle           6 PE           5: Got   48 expected   16
-  11   22   34   46   46   48
-V_out error, Cycle           7 PE           0: Got   11 expected    5
-V_out error, Cycle           7 PE           1: Got   22 expected   16
-V_out error, Cycle           7 PE           2: Got   34 expected   16
-V_out error, Cycle           7 PE           3: Got   46 expected   28
-V_out error, Cycle           7 PE           4: Got   46 expected   28
-V_out error, Cycle           7 PE           5: Got   48 expected   16
-  10   21   33   45   46   45
-V_out error, Cycle           8 PE           0: Got   10 expected    4
-V_out error, Cycle           8 PE           1: Got   21 expected   15
-V_out error, Cycle           8 PE           2: Got   33 expected   16
-V_out error, Cycle           8 PE           3: Got   45 expected   27
-V_out error, Cycle           8 PE           4: Got   46 expected   28
-V_out error, Cycle           8 PE           5: Got   45 expected   27
-  10   20   32   44   56   44
-V_out error, Cycle           9 PE           1: Got   20 expected   14
-V_out error, Cycle           9 PE           2: Got   32 expected   26
-V_out error, Cycle           9 PE           3: Got   44 expected   26
-V_out error, Cycle           9 PE           4: Got   56 expected   38
-V_out error, Cycle           9 PE           5: Got   44 expected   26
-   8   19   31   43   43   54
-V_out error, Cycle          10 PE           1: Got   19 expected   13
-V_out error, Cycle          10 PE           2: Got   31 expected   24
-V_out error, Cycle          10 PE           3: Got   43 expected   25
-V_out error, Cycle          10 PE           4: Got   43 expected   36
-V_out error, Cycle          10 PE           5: Got   54 expected   36
-   7   20   30   42   42   66
-V_out error, Cycle          11 PE           2: Got   30 expected   23
-V_out error, Cycle          11 PE           3: Got   42 expected   24
-V_out error, Cycle          11 PE           4: Got   42 expected   35
-V_out error, Cycle          11 PE           5: Got   66 expected   48
-  20   18   29   41   41   41
-V_out error, Cycle          12 PE           0: Got   20 expected    0
-V_out error, Cycle          12 PE           2: Got   29 expected   22
-V_out error, Cycle          12 PE           3: Got   41 expected   34
-V_out error, Cycle          12 PE           4: Got   41 expected   34
-V_out error, Cycle          12 PE           5: Got   41 expected   46
-  18   18   28   40   40   52
-V_out error, Cycle          13 PE           0: Got   18 expected   10
-V_out error, Cycle          13 PE           1: Got   18 expected    0
-V_out error, Cycle          13 PE           2: Got   28 expected   21
-V_out error, Cycle          13 PE           3: Got   40 expected   32
-V_out error, Cycle          13 PE           4: Got   40 expected   33
-V_out error, Cycle          13 PE           5: Got   52 expected   45
-  17   18   28   39   51   39
-V_out error, Cycle          14 PE           0: Got   17 expected    8
-V_out error, Cycle          14 PE           1: Got   18 expected    8
-V_out error, Cycle          14 PE           2: Got   28 expected    0
-V_out error, Cycle          14 PE           3: Got   39 expected   31
-V_out error, Cycle          14 PE           4: Got   51 expected   44
-V_out error, Cycle          14 PE           5: Got   39 expected   44
-  16   28   28   39   38   49
-V_out error, Cycle          15 PE           0: Got   16 expected   10
-V_out error, Cycle          15 PE           1: Got   28 expected   20
-V_out error, Cycle          15 PE           2: Got   28 expected   10
-V_out error, Cycle          15 PE           3: Got   39 expected    0
-V_out error, Cycle          15 PE           4: Got   38 expected   42
-V_out error, Cycle          15 PE           5: Got   49 expected   43
-  15   26   26   38   38   61
-V_out error, Cycle          16 PE           0: Got   15 expected    8
-V_out error, Cycle          16 PE           1: Got   26 expected   18
-V_out error, Cycle          16 PE           2: Got   26 expected   18
-V_out error, Cycle          16 PE           3: Got   38 expected    8
-V_out error, Cycle          16 PE           4: Got   38 expected    0
-V_out error, Cycle          16 PE           5: Got   61 expected   54
-  14   25   38   38   37   61
-V_out error, Cycle          17 PE           0: Got   14 expected   10
-V_out error, Cycle          17 PE           1: Got   25 expected   17
-V_out error, Cycle          17 PE           2: Got   38 expected   30
-V_out error, Cycle          17 PE           3: Got   38 expected   20
-V_out error, Cycle          17 PE           4: Got   37 expected    7
-V_out error, Cycle          17 PE           5: Got   61 expected    0
-  13   24   36   36   36   48
-V_out error, Cycle          18 PE           0: Got   13 expected    8
-V_out error, Cycle          18 PE           1: Got   24 expected   16
-V_out error, Cycle          18 PE           2: Got   36 expected   28
-V_out error, Cycle          18 PE           3: Got   36 expected   28
-V_out error, Cycle          18 PE           4: Got   36 expected   18
-V_out error, Cycle          18 PE           5: Got   48 expected   10
-  12   24   35   36   36   35
-V_out error, Cycle          19 PE           0: Got   12 expected    7
-V_out error, Cycle          19 PE           1: Got   24 expected   20
-V_out error, Cycle          19 PE           2: Got   35 expected   27
-V_out error, Cycle          19 PE           3: Got   36 expected   28
-V_out error, Cycle          19 PE           4: Got   36 expected   27
-V_out error, Cycle          19 PE           5: Got   35 expected   17
-  11   22   34   34   34   46
-V_out error, Cycle          20 PE           0: Got   11 expected   10
-V_out error, Cycle          20 PE           1: Got   22 expected   18
-V_out error, Cycle          20 PE           2: Got   34 expected   26
-V_out error, Cycle          20 PE           3: Got   34 expected   26
-V_out error, Cycle          20 PE           4: Got   34 expected   26
-V_out error, Cycle          20 PE           5: Got   46 expected   28
-  10   21   33   45   34   34
-V_out error, Cycle          21 PE           0: Got   10 expected    8
-V_out error, Cycle          21 PE           1: Got   21 expected   17
-V_out error, Cycle          21 PE           2: Got   33 expected   25
-V_out error, Cycle          21 PE           3: Got   45 expected   37
-V_out error, Cycle          21 PE           4: Got   34 expected   26
-V_out error, Cycle          21 PE           5: Got   34 expected   26
-   9   20   32   43   43   44
-V_out error, Cycle          22 PE           0: Got    9 expected    7
-V_out error, Cycle          22 PE           1: Got   20 expected   16
-V_out error, Cycle          22 PE           2: Got   32 expected   28
-V_out error, Cycle          22 PE           3: Got   43 expected   35
-V_out error, Cycle          22 PE           4: Got   43 expected   35
-V_out error, Cycle          22 PE           5: Got   44 expected   36
-   8   19   31   42   55   42
-V_out error, Cycle          23 PE           0: Got    8 expected    6
-V_out error, Cycle          23 PE           1: Got   19 expected   15
-V_out error, Cycle          23 PE           2: Got   31 expected   26
-V_out error, Cycle          23 PE           3: Got   42 expected   34
-V_out error, Cycle          23 PE           4: Got   55 expected   47
-V_out error, Cycle          23 PE           5: Got   42 expected   34
-   7   19   30   41   41   53
-V_out error, Cycle          24 PE           0: Got    7 expected    5
-V_out error, Cycle          24 PE           1: Got   19 expected   17
-V_out error, Cycle          24 PE           2: Got   30 expected   25
-V_out error, Cycle          24 PE           3: Got   41 expected   33
-V_out error, Cycle          24 PE           4: Got   41 expected   45
-V_out error, Cycle          24 PE           5: Got   53 expected   45
-  19   17   29   40   52   65
-V_out error, Cycle          25 PE           0: Got   19 expected    0
-V_out error, Cycle          25 PE           1: Got   17 expected   15
-V_out error, Cycle          25 PE           2: Got   29 expected   24
-V_out error, Cycle          25 PE           3: Got   40 expected   32
-V_out error, Cycle          25 PE           4: Got   52 expected   44
-V_out error, Cycle          25 PE           5: Got   65 expected   57
-  17   17   28   40   39   50
-V_out error, Cycle          26 PE           0: Got   17 expected    0
-V_out error, Cycle          26 PE           1: Got   17 expected    0
-V_out error, Cycle          26 PE           2: Got   28 expected   23
-V_out error, Cycle          26 PE           3: Got   40 expected   35
-V_out error, Cycle          26 PE           4: Got   39 expected   43
-V_out error, Cycle          26 PE           5: Got   50 expected   55
-  17   17   28   38   38   50
-V_out error, Cycle          27 PE           0: Got   17 expected    0
-V_out error, Cycle          27 PE           1: Got   17 expected    0
-V_out error, Cycle          27 PE           2: Got   28 expected    0
-V_out error, Cycle          27 PE           3: Got   38 expected   33
-V_out error, Cycle          27 PE           4: Got   38 expected   42
-V_out error, Cycle          27 PE           5: Got   50 expected   54
-  17   17   28   38   50   37
-V_out error, Cycle          28 PE           0: Got   17 expected    0
-V_out error, Cycle          28 PE           1: Got   17 expected    0
-V_out error, Cycle          28 PE           2: Got   28 expected    0
-V_out error, Cycle          28 PE           3: Got   38 expected    0
-V_out error, Cycle          28 PE           4: Got   50 expected   45
-V_out error, Cycle          28 PE           5: Got   37 expected   53
-  17   17   28   38   50   48
-V_out error, Cycle          29 PE           0: Got   17 expected    0
-V_out error, Cycle          29 PE           1: Got   17 expected    0
-V_out error, Cycle          29 PE           2: Got   28 expected    0
-V_out error, Cycle          29 PE           3: Got   38 expected    0
-V_out error, Cycle          29 PE           4: Got   50 expected    0
-V_out error, Cycle          29 PE           5: Got   48 expected   52
-  10 1022    7
-                 750 ns: V_out error, Cycle           0 PE           1: Got 1022 expected    0
-                 750 ns: V_out error, Cycle           0 PE           2: Got    7 expected    0
-1023    8    7
-                 760 ns: V_out error, Cycle           1 PE           0: Got 1023 expected    8
-                 760 ns: V_out error, Cycle           1 PE           2: Got    7 expected    0
-  10   20    8
-                 770 ns: V_out error, Cycle           2 PE           2: Got    8 expected   10
-1023    8   18
-                 780 ns: V_out error, Cycle           3 PE           0: Got 1023 expected    8
-                 780 ns: V_out error, Cycle           3 PE           1: Got    8 expected   18
-  10    8   30
-                 790 ns: V_out error, Cycle           4 PE           1: Got    8 expected   17
-1023    8    6
-                 800 ns: V_out error, Cycle           5 PE           0: Got 1023 expected    8
-                 800 ns: V_out error, Cycle           5 PE           1: Got    8 expected   16
-                 800 ns: V_out error, Cycle           5 PE           2: Got    6 expected   28
-1023   20   18
-                 810 ns: V_out error, Cycle           6 PE           0: Got 1023 expected    7
-                 810 ns: V_out error, Cycle           6 PE           2: Got   18 expected   27
-  10 1022   18
-                 820 ns: V_out error, Cycle           7 PE           1: Got 1022 expected   18
-                 820 ns: V_out error, Cycle           7 PE           2: Got   18 expected   26
-1022    8   18
-                 830 ns: V_out error, Cycle           8 PE           0: Got 1022 expected    0
-                 830 ns: V_out error, Cycle           8 PE           1: Got    8 expected   17
-                 830 ns: V_out error, Cycle           8 PE           2: Got   18 expected   25
-   6    8    8
-                 840 ns: V_out error, Cycle           9 PE           0: Got    6 expected    8
-                 840 ns: V_out error, Cycle           9 PE           1: Got    8 expected    0
-                 840 ns: V_out error, Cycle           9 PE           2: Got    8 expected   28
-  18    5    8
-                 850 ns: V_out error, Cycle          10 PE           0: Got   18 expected   20
-                 850 ns: V_out error, Cycle          10 PE           1: Got    5 expected    7
-                 850 ns: V_out error, Cycle          10 PE           2: Got    8 expected    0
-  28   16   18
-                 860 ns: V_out error, Cycle          11 PE           1: Got   16 expected   18
-                 860 ns: V_out error, Cycle          11 PE           2: Got   18 expected   10
-  28   27   15
-                 870 ns: V_out error, Cycle          12 PE           2: Got   15 expected   17
-  16   26   26
-                 880 ns: V_out error, Cycle          13 PE           0: Got   16 expected   26
-                 880 ns: V_out error, Cycle          13 PE           2: Got   26 expected   28
-  28   26   25
-                 890 ns: V_out error, Cycle          14 PE           0: Got   28 expected   37
-                 890 ns: V_out error, Cycle          14 PE           2: Got   25 expected   26
-  16   26   36
-                 900 ns: V_out error, Cycle          15 PE           0: Got   16 expected   35
-                 900 ns: V_out error, Cycle          15 PE           1: Got   26 expected   35
-  16   38   25
-                 910 ns: V_out error, Cycle          16 PE           0: Got   16 expected   34
-                 910 ns: V_out error, Cycle          16 PE           1: Got   38 expected   47
-                 910 ns: V_out error, Cycle          16 PE           2: Got   25 expected   34
-  38   14   36
-                 920 ns: V_out error, Cycle          17 PE           0: Got   38 expected    0
-                 920 ns: V_out error, Cycle          17 PE           1: Got   14 expected   45
-                 920 ns: V_out error, Cycle          17 PE           2: Got   36 expected   45
-  14   14   48
-                 930 ns: V_out error, Cycle          18 PE           0: Got   14 expected    0
-                 930 ns: V_out error, Cycle          18 PE           1: Got   14 expected    0
-                 930 ns: V_out error, Cycle          18 PE           2: Got   48 expected   57
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Consecutive alignments w/ bubbles test
-Finished circuit initialization process.
-  10    0    0    0    0    0
-   8    8    0    0    0    0
-  10   20   10    0    0    0
-   8   18   18    8    0    0
-  10   17   30   20    7    0
-   8   16   28   28   18   10
-   7   20   27   28   27   17
-  10   18   26   26   26   28
-   0   17   25   37   26   26
-   0    0   28   35   35   36
-   0    0    0   34   47   34
-   0    0    0    0   45   45
-   0    0    0    0    0   57
-   0   10   10    0    0    0
-  10    8    8    8    0    0
-   8    8   20    8    7    0
-   7    8   18   18   18    6
-   6   18   18   30   17   16
-   5   16   16   28   28   16
-   0   15   16   27   28   27
-   0    0   26   26   38   26
-   0    0    0   25   36   36
-   0    0    0    0   35   48
-   0    0    0    0    0   46
-Consecutive alignments w/o bubbles test
-   0    0    0    0    0    0
-   0    0    0    0    0    0
-   0   10   10    0    0    0
-  10    8    8    8    0    0
-   8    8   20    8    7    0
-   7    8   18   18   18    6
-   6   18   18   30   17   16
-   5   16   16   28   28   16
-   4   15   16   27   28   27
-  10   14   26   26   38   26
-   8   13   24   25   36   36
-   7   20   23   24   35   48
-   0   18   22   34   34   46
-  10    0   21   32   33   45
-   8    8    0   31   44   44
-  10   20   10    0   42   43
-   8   18   18    8    0   54
-  10   17   30   20    7    0
-   8   16   28   28   18   10
-   7   20   27   28   27   17
-  10   18   26   26   26   28
-   8   17   25   37   26   26
-   7   16   28   35   35   36
-   6   15   26   34   47   34
-   5   17   25   33   45   45
-   0   15   24   32   44   57
-   0    0   23   35   43   55
-   0    0    0   33   42   54
-   0    0    0    0   45   53
-   0    0    0    0    0   52
   10    0    0
    8    8    0
-  10   20   10
-   8   18   18
-  10   17   30
-   8   16   28
-   7   20   27
-  10   18   26
-   0   17   25
-   8    0   28
-  20    7    0
-  28   18   10
-  28   27   17
-  26   26   28
-  37   26   26
-  35   35   36
-  34   47   34
-   0   45   45
-   0    0   57
-# run all
-Stopped at time : 1030 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_QueryBlocks_tb.v" Line 832
+  10    8    7
+   8    8   18
+   0    8   16
+  10    0   15
+  16    8    0
+  28   15    7
+  26   26   14
+   8   38   25
+   7    8   36
+   6    6   15
+  10   17   18
+   8   15   16
+  26   14   15
+  25   38   25
+  24   36   36
+  26   35   36
+  24   34   46
+   0   33   44
+   0    0   43
+Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
+   0    0    0    0
+  10    0    0    0
+   8    8   10    0
+   7   20    8    8
+  10   18   18   20
+   8   17   30   18
+   7   20   28   28
+  10   18   27   40
+  10   17   26   38
+  10   17   25   37
+   8   16   25   36
+   7   20   24   36
+  10   18   23   35
+   8   17   30   34
+   7   20   28   33
+  10   18   27   40
+  10   17   26   38
+   0   16   25   37
+   0    0   24   36
+   0    0    0   35
+Stopped at time : 570 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ReferenceBlocks_tb.v" Line 786
 # exit 0

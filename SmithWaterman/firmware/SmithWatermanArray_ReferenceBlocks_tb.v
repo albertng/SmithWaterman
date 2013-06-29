@@ -9,6 +9,8 @@
  *      Albert Ng   Jun 24 2013     Completed single query block, multiple ref block 
  *                                      test
  *                                  Added stall
+ *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
+ *
  */
 
 module SmithWatermanArray_ReferenceBlocks_tb;
@@ -17,10 +19,10 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     reg clk;
     reg rst;
     reg stall;
-    reg [1:0] S_in;
+    reg [5:0] S_in1;
+    reg [7:0] S_in2;
     reg [1:0] T_in;
     reg store_S_in;
-    reg shift_S;
     reg init_in;
     reg first_query_block;
     reg next_first_ref_block_in;
@@ -41,10 +43,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .clk(clk), 
         .rst(rst),
         .stall(stall),
-        .S_in(S_in), 
+        .S_in(S_in1), 
         .T_in(T_in), 
-        .store_S_in(store_S_in), 
-        .shift_S(shift_S), 
+        .store_S_in(store_S_in),  
         .init_in(init_in), 
         .first_query_block(first_query_block), 
         .next_first_ref_block_in(next_first_ref_block_in), 
@@ -63,10 +64,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .clk(clk), 
         .rst(rst),
         .stall(stall),
-        .S_in(S_in), 
+        .S_in(S_in2), 
         .T_in(T_in), 
         .store_S_in(store_S_in), 
-        .shift_S(shift_S), 
         .init_in(init_in), 
         .first_query_block(first_query_block), 
         .next_first_ref_block_in(next_first_ref_block_in), 
@@ -164,10 +164,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         // Initialize Inputs
         clk <= 0;
         rst <= 1;
-        S_in <= 0;
+        S_in1 <= 0;
         T_in <= 0;
         init_in <= 0;
-        shift_S <= 0;
         store_S_in <= 0;
         first_query_block <= 0;
         next_first_ref_block_in <= 0;
@@ -180,12 +179,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         
         // Generate the stimulus
         for (i = 0; i < 3; i = i + 1) begin
-            S_in <= short_read1[2 - i]; // Shift in reverse
-            shift_S <= 1;
-            #10;
+            S_in1[i*2+1 -: 2] <= short_read1[i];
         end
         init_in <= 0;
-        shift_S <= 0;
         store_S_in <= 1;
         first_query_block <= 1;
         next_first_ref_block_in <= 1;
@@ -194,10 +190,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         last_block_char_in <= 0;
         bypass_fifo_in <= 0;
         #10;
-        for (i = 0; i < 1; i = i + 1) begin
+        for (i = 0; i < 2; i = i + 1) begin
             T_in <= reference1[i];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
@@ -214,11 +209,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
         
-        for (i = 1; i < 3; i = i + 1) begin
+        for (i = 2; i < 3; i = i + 1) begin
             T_in <= reference1[i];
-            S_in <= short_read1[6-i];
+            for (j = 0; j < 3; j = j + 1) begin
+                S_in1[j*2+1 -: 2] <= short_read1[j+3];
+            end
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
@@ -237,9 +233,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 3; i < 4; i = i + 1) begin
             T_in <= reference1[i];
-            S_in <= short_read1[6-i];
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
@@ -258,7 +252,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 4; i < 5; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 1;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
@@ -275,10 +268,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
-        for (i = 5; i < 6; i = i + 1) begin
+        for (i = 5; i < 7; i = i + 1) begin
             T_in <= reference1[i-5];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
@@ -295,11 +287,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
-        for (i = 6; i < 8; i = i + 1) begin
+        for (i = 7; i < 8; i = i + 1) begin
             T_in <= reference1[i-5];
-            S_in <= short_read1[8-i];
+            for (j = 0; j < 3; j = j + 1) begin
+                S_in1[j*2+1 -: 2] <= short_read1[j];
+            end
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
@@ -318,9 +311,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 8; i < 9; i = i + 1) begin
             T_in <= reference1[i-5];
-            S_in <= short_read1[8-i];
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 0;
@@ -339,7 +330,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 9; i < 10; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 1;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -356,10 +346,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
-        for (i = 10; i < 11; i = i + 1) begin
+        for (i = 10; i < 12; i = i + 1) begin
             T_in <= reference1[i-6];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -376,11 +365,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
-        for (i = 11; i < 13; i = i + 1) begin
+        for (i = 12; i < 13; i = i + 1) begin
             T_in <= reference1[i-6];
-            S_in <= short_read1[16-i];
+            for (j = 0; j < 3; j = j + 1) begin
+                S_in1[j*2+1 -: 2] <= short_read1[j+3];
+            end
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -399,9 +389,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 13; i < 14; i = i + 1) begin
             T_in <= reference1[i-6];
-            S_in <= short_read1[16-i];
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -420,7 +408,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 14; i < 15; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 1;
             first_query_block <= 0;
             next_first_ref_block_in <= 0;
@@ -440,7 +427,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         for (i = 15; i < 18; i = i + 1) begin
             T_in <= reference1[i-11];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 0;
@@ -460,7 +446,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         for (i = 18; i < 19; i = i + 1) begin
             T_in <= reference1[i-11];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
@@ -479,7 +464,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 19; i < 20; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
@@ -498,7 +482,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
         for (i = 20; i < 21; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
@@ -621,10 +604,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         // Initialize inputs, variables, and wait for reset
         clk <= 0;
         rst <= 1;
-        S_in <= 0;
+        S_in2 <= 0;
         T_in <= 0;
         store_S_in <= 0;
-        shift_S <= 0;
         init_in <= 0;
         first_query_block <= 0;
         next_first_ref_block_in <= 0;
@@ -636,12 +618,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         rst <= 0;
         
         for (i = 0; i < 4; i = i + 1) begin
-            S_in <= short_read2[3 - i]; // Shift in reverse
-            shift_S <= 1;
-            #10;
+            S_in2[i*2+1 -: 2] <= short_read2[i]; // Shift in reverse
         end
         init_in <= 0;
-        shift_S <= 0;
         store_S_in <= 1;
         first_query_block <=1;
         next_first_ref_block_in <= 1;
@@ -650,10 +629,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         last_block_char_in <= 0;
         bypass_fifo_in <= 1;
         #10;
-        for (i = 0; i < 2; i = i + 1) begin
+        for (i = 0; i < 3; i = i + 1) begin
             T_in <= reference2[i];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
@@ -670,11 +648,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             end
         end
 
-        for (i = 2; i < 6; i = i + 1) begin
+        for (i = 3; i < 4; i = i + 1)begin
             T_in <= reference2[i];
-            S_in <= short_read2[5 - i]; // Shift in reverse
+            for (j = 0; j < 4; j = j + 1) begin
+                S_in2[j*2+1 -: 2] <= short_read2[j];
+            end
             init_in <= 1;
-            shift_S <= 1;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
@@ -690,11 +669,10 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
             end
         end
-        
-        for (i = 6; i < 7; i = i + 1) begin
+
+        for (i = 4; i < 7; i = i + 1) begin
             T_in <= reference2[i];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
@@ -714,7 +692,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         for (i = 7; i < 8; i = i + 1) begin
             T_in <= reference2[i];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -733,7 +710,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         
         for (i = 8; i < 9; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 1;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -753,7 +729,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         for (i = 9; i < 16; i = i + 1) begin
             T_in <= reference2[i-1];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 0;
@@ -773,13 +748,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         for (i = 16; i < 17; i = i + 1) begin
             T_in <= reference2[i-1];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
-            last_block_char_in <= 0;
+            last_block_char_in <= 1;
             bypass_fifo_in <= 1;
             #10;
             $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
@@ -792,7 +766,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         
         for (i = 17; i < 20; i = i + 1) begin
             init_in <= 0;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;

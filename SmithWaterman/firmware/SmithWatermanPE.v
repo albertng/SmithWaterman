@@ -2,7 +2,7 @@
  *  Description      : Fixed implementation of Smith Waterman systolic array PE with
  *                     affine gap penalty.
  *
- *                     TODO: Probably going to need a stall signal
+ *                     TODO: Maybe can make store_S = !init?
  *
  *  Revision History :
  *      Albert Ng   Apr 30 2013     Initial Revision

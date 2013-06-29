@@ -15,13 +15,8 @@
  *                     reference block is long enough.
  *
  *                     A single bubble is inserted to clear the PE register values
- *                     between alignments. No additional bubbles are inserted into 
- *                     the pipeline only if:
- *                         len(ref) >= 2*NUM_PES-2
- *                     This is because the next alignment cannot begin until the
- *                     next query has been loaded into the shift register. The next
- *                     query cannot begin to be loaded into the shift register until
- *                     the first query has been completely stored into the systolic
+ *                     between alignments. The next alignment cannot begin until the
+ *                     first query has been completely stored into the systolic
  *                     array.
  *
  *                     For multiple query block alignments, the intermediate values of
@@ -63,9 +58,9 @@
  *
  *                     TODO: The current design does not handle multiple query blocks of
  *                           an alignment with a reference block length of less than
- *                           2*NUM_PES-2, because the shift register is of a fixed length.
- *                           This can be fixed by implementing a FIFO instead of a shift
- *                           register, which would be slightly more complicated.
+ *                           NUM_PES-1 (I think), because the shift register is of a fixed 
+ *                           length. This can be fixed by implementing a FIFO instead of a 
+ *                           shift register, which would be slightly more complicated.
  *
  *  Revision History :
  *      Albert Ng   May 02 2013     Initial Revision
@@ -81,6 +76,10 @@
  *                                      and bypass_fifo to shift registers
  *      Albert Ng   Jun 24 2013     Fixed minor bug with bypass_fifo
  *                                  Added stall signal
+ *      Albert Ng   Jun 26 2013     Removed S shift register buffer
+ *                                  Changed S_in port from single nucleotide to NUM_PEs nucleotides
+ *                                  First_ref_block and Next_first_ref_block shift regs reset to 1
+ *      Albert Ng   Jun 27 2013     Stopped FIFO read/write when stalling    
  *
  */
 
@@ -88,10 +87,9 @@ module SmithWatermanArray(
     input clk,                              // System clock
     input rst,                              // System reset
     input stall,                            // Pipeline stall
-    input [1:0] S_in,                       // Query sequence shift in
+    input [(NUM_PES * 2) - 1:0] S_in,       // Query sequence
     input [1:0] T_in,                       // Reference sequence shift in
     input store_S_in,                       // Load systolic array with new query seq
-    input shift_S,                          // Load next query seq shift register
     input init_in,                          // Computation active shift in
     input first_query_block,                // Computing first block of the query
     input next_first_ref_block_in,          // Next block is a first block of the reference
@@ -136,48 +134,32 @@ module SmithWatermanArray(
     reg [NUM_PES - 1:0] last_ref_block;
     reg [NUM_PES - 1:0] last_block_char;
     reg [NUM_PES - 1:0] bypass_fifo;
-    reg [1:0] S[NUM_PES-1:0];  
     reg [WIDTH - 1:0] V_interm[REF_LENGTH - NUM_PES:0];
     reg [WIDTH - 1:0] F_interm[REF_LENGTH - NUM_PES:0];
        
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_V[NUM_PES/PES_PER_FIFO - 1:0];
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_E[NUM_PES/PES_PER_FIFO - 1:0];
-       
-    // Query sequence buffer
-    genvar i, j;
-    generate
-        for (i = 0; i < NUM_PES; i = i + 1) begin:shift_s_gen
-            always @(posedge clk) begin
-                if (rst) begin
-                    S[i] <= 0;
-                end else begin
-                    if (shift_S) begin
-                        if (i == 0) begin
-                            S[i] <= S_in;
-                        end else begin
-                            S[i] <= S[i-1];
-                        end
-                    end
-                end
-            end
-        end
-    endgenerate
     
     // Cell score inter-query block intermediate values buffer
+    genvar i, j;
+    always @(posedge clk) begin
+        if (rst) begin
+            V_interm[0] <= 0;
+            F_interm[0] <= 0;
+        end else begin
+            V_interm[0] <= V[NUM_PES];
+            F_interm[0] <= F[NUM_PES];
+        end
+    end
     generate
-        for (i = 0; i < REF_LENGTH - NUM_PES + 1; i = i + 1) begin:inter_query_block_interm_gen
+        for (i = 1; i < REF_LENGTH - NUM_PES + 1; i = i + 1) begin:inter_query_block_interm_gen
             always @(posedge clk) begin
                 if (rst) begin
                     V_interm[i] <= 0;
                     F_interm[i] <= 0;
                 end else begin
-                    if (i == 0) begin
-                        V_interm[i] <= V[NUM_PES];
-                        F_interm[i] <= F[NUM_PES];
-                    end else begin
-                        V_interm[i] <= V_interm[i-1];
-                        F_interm[i] <= F_interm[i-1];
-                    end
+                    V_interm[i] <= V_interm[i-1];
+                    F_interm[i] <= F_interm[i-1];
                 end
             end
         end
@@ -228,9 +210,9 @@ module SmithWatermanArray(
     always @(*) begin
         // Write to inter-reference block FIFO at the end of all blocks if 
         //   they are not a last reference block
-        if (|(last_block_char[PES_PER_FIFO-1 : 0] &
+        if ((|(last_block_char[PES_PER_FIFO-1 : 0] &
               ~last_ref_block[PES_PER_FIFO-1 : 0] & 
-              ~bypass_fifo[PES_PER_FIFO-1 : 0])) begin
+              ~bypass_fifo[PES_PER_FIFO-1 : 0])) && !stall) begin
             wr_en[0] <= 1;
         end else begin
             wr_en[0] <= 0;
@@ -238,8 +220,8 @@ module SmithWatermanArray(
         
         // Read from inter-reference block FIFO at the end of all blocks if
         //   the next block is not a first reference block
-        if (|({last_block_char[PES_PER_FIFO-2 : 0], last_block_char_in} & 
-              {~next_first_ref_block[PES_PER_FIFO-2 : 0], !next_first_ref_block_in})) begin
+        if ((|({last_block_char[PES_PER_FIFO-2 : 0], last_block_char_in} & 
+              {~next_first_ref_block[PES_PER_FIFO-2 : 0], !next_first_ref_block_in})) && !stall) begin
             rd_en[0] <= 1;
         end else begin
             rd_en[0] <= 0;
@@ -250,9 +232,9 @@ module SmithWatermanArray(
             always @(*) begin
                 // Write to inter-reference block FIFO at the end of all blocks if 
                 //   they are not a last reference block
-                if (|(last_block_char[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO] &
+                if ((|(last_block_char[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO] &
                       ~last_ref_block[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO] &
-                      ~bypass_fifo[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO])) begin
+                      ~bypass_fifo[(i+1)*PES_PER_FIFO-1 -: PES_PER_FIFO])) && !stall) begin
                     wr_en[i] <= 1;
                 end else begin
                     wr_en[i] <= 0;
@@ -260,8 +242,8 @@ module SmithWatermanArray(
                 
                 // Read from inter-reference block FIFO at the end of all blocks if
                 //   the next block is not a first reference block
-                if (|(last_block_char[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO] & 
-                      ~next_first_ref_block[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO])) begin
+                if ((|(last_block_char[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO] & 
+                      ~next_first_ref_block[(i+1)*PES_PER_FIFO-2 -: PES_PER_FIFO])) && !stall) begin
                     rd_en[i] <= 1;
                 end else begin
                     rd_en[i] <= 0;
@@ -313,8 +295,8 @@ module SmithWatermanArray(
         for (i = 1; i < NUM_PES; i = i + 1) begin:last_block_char_gen
             always @(posedge clk) begin
                 if (rst) begin
-                    next_first_ref_block[i] <= 0;
-                    first_ref_block[i] <= 0;
+                    next_first_ref_block[i] <= 1;
+                    first_ref_block[i] <= 1;
                     last_ref_block[i] <= 0;
                     last_block_char[i] <= 0;
                     bypass_fifo[i] <= 0;
@@ -351,7 +333,7 @@ module SmithWatermanArray(
                 .V_in(V[i]), 
                 .F_in(F[i]), 
                 .T_in(T[i]), 
-                .S_in(S[i]), 
+                .S_in(S_in[i*2 + 1 -: 2]), 
                 .store_S_in(store_S[i]), 
                 .init_in(init[i]),
                 .init_E(init_E[i]),

@@ -29,6 +29,7 @@
  *      Albert Ng   Jun 05 2013     Added first_ref_block, next_first_ref_block, last_ref_block, 
  *                                      last_block_char_in
  *      Albert Ng   Jun 24 2013     Added stall
+ *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
  *
  */
 
@@ -38,10 +39,10 @@ module SmithWatermanArray_QueryBlocks_tb;
     reg clk;
     reg rst;
     reg stall;
-    reg [1:0] S_in;
+    reg [11:0] S_in1;
+    reg [5:0] S_in2;
     reg [1:0] T_in;
     reg store_S_in;
-    reg shift_S;
     reg init_in;
     reg first_query_block;
     reg next_first_ref_block_in;
@@ -70,14 +71,13 @@ module SmithWatermanArray_QueryBlocks_tb;
     reg [9:0] V_out_expected3 [18:0][2:0];
 
     // Instantiate the Unit Under Test (UUT)
-    SmithWatermanArray #(6, 8, 10, 10, -2, -2, -1) uut1 (
+    SmithWatermanArray #(6, 8, 10, 10, -2, -2, -1, 3) uut1 (
         .clk(clk), 
         .rst(rst), 
         .stall(stall),
-        .S_in(S_in), 
+        .S_in(S_in1), 
         .T_in(T_in), 
-        .store_S_in(store_S_in), 
-        .shift_S(shift_S), 
+        .store_S_in(store_S_in),  
         .init_in(init_in),
         .first_query_block(first_query_block),
         .next_first_ref_block_in(next_first_ref_block_in),
@@ -88,14 +88,13 @@ module SmithWatermanArray_QueryBlocks_tb;
         .V_out(V_out1)
     );
     
-    SmithWatermanArray #(3, 8, 10, 10, -2, -2, -1) uut2 (
+    SmithWatermanArray #(3, 8, 10, 10, -2, -2, -1, 3) uut2 (
         .clk(clk), 
         .rst(rst), 
         .stall(stall),
-        .S_in(S_in), 
+        .S_in(S_in2), 
         .T_in(T_in), 
-        .store_S_in(store_S_in), 
-        .shift_S(shift_S), 
+        .store_S_in(store_S_in),  
         .init_in(init_in), 
         .first_query_block(first_query_block),
         .next_first_ref_block_in(next_first_ref_block_in),
@@ -281,10 +280,9 @@ module SmithWatermanArray_QueryBlocks_tb;
         // Initialize inputs, variables, and wait for reset
         clk <= 0;
         rst <= 1;
-        S_in <= 0;
+        S_in1 <= 0;
         T_in <= 0;
         store_S_in <= 0;
-        shift_S <= 0;
         init_in <= 0;
         first_query_block <= 0;
         next_first_ref_block_in <= 1;
@@ -297,15 +295,12 @@ module SmithWatermanArray_QueryBlocks_tb;
 
         // Generate stimulus
         for (i = 0; i < 6; i = i + 1) begin
-            S_in <= short_read1[0][5 - i]; // Shift in reverse
-            shift_S <= 1;
-            #10;
+            S_in1[i*2 + 1 -: 2] <= short_read1[0][i];
         end
-        shift_S <= 0;
         store_S_in <= 1;
         first_query_block <= 1;
         #10;
-        for (i = 0; i < 4; i = i + 1) begin
+        for (i = 0; i < 5; i = i + 1) begin
             T_in <= reference1[i];
             init_in <= 1;
             store_S_in <= 0;
@@ -318,11 +313,24 @@ module SmithWatermanArray_QueryBlocks_tb;
             end
         end
         
-        for (i = 4; i < 8; i = i + 1) begin
+        for (i = 5; i < 6; i = i + 1) begin
             T_in <= reference1[i];
             init_in <= 1;
-            S_in <= short_read1[1][9 - i];
-            shift_S <= 1;
+            for (j = 0; j < 6; j = j + 1) begin
+                S_in1[j * 2 + 1 -: 2] <= short_read1[1][j];
+            end
+            #10
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+            end
+        end
+        
+        for (i = 6; i < 8; i = i + 1) begin
+            T_in <= reference1[i];
+            init_in <= 1;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -334,8 +342,6 @@ module SmithWatermanArray_QueryBlocks_tb;
         
         for (i = 8; i < 10; i = i + 1) begin
             init_in <= 0;
-            S_in <= short_read1[1][9 - i];
-            shift_S <= 1;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -344,8 +350,8 @@ module SmithWatermanArray_QueryBlocks_tb;
                 end
             end
         end
+        
         for (i = 10; i < 11; i = i + 1) begin
-            shift_S <= 0;
             store_S_in <= 1;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
@@ -588,17 +594,15 @@ module SmithWatermanArray_QueryBlocks_tb;
         V_out_expected2[29][5] = 52;
 
         for (i = 0; i < 6; i = i + 1) begin
-            S_in <= short_read2[0][5 - i]; // Shift in reverse
-            shift_S <= 1;
-            #10;
+            S_in1[i*2 + 1 -: 2] <= short_read2[0][i];
         end
-        shift_S <= 0;
         store_S_in <= 1;
         #10;
-        for (i = 0; i < 4; i = i + 1) begin
+        
+        for (i = 0; i < 5; i = i + 1) begin
             T_in <= reference2[i];
-            init_in <= 1;
             store_S_in <= 0;
+            init_in <= 1;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -608,11 +612,12 @@ module SmithWatermanArray_QueryBlocks_tb;
             end
         end
         
-        for (i = 4; i < 10; i = i + 1) begin
+        for (i = 5; i < 6; i = i + 1) begin
             T_in <= reference2[i];
             init_in <= 1;
-            S_in <= short_read2[1][9 - i];
-            shift_S <= 1;
+            for (j = 0; j < 6; j = j + 1) begin
+                S_in1[j * 2 + 1 -: 2] <= short_read2[1][j];
+            end
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -622,10 +627,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             end
         end
         
-        for (i = 10; i < 12; i = i + 1) begin
+        for (i = 6; i < 12; i = i + 1) begin
             T_in <= reference2[i];
             init_in <= 1;
-            shift_S <= 0;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -673,6 +677,7 @@ module SmithWatermanArray_QueryBlocks_tb;
         
         
         // Multiple query blocks test
+        $display("Multiple query blocks test");
         short_read3[0] = 2'b00;   // ACACTA
         short_read3[1] = 2'b01;
         short_read3[2] = 2'b00;
@@ -746,17 +751,13 @@ module SmithWatermanArray_QueryBlocks_tb;
         V_out_expected3[18][2] = 57;
 
         for (i = 0; i < 3; i = i + 1) begin
-            S_in <= short_read3[2 - i]; // Shift in reverse
-            shift_S <= 1;
-            #10;
+            S_in2[i*2+1 -: 2] <= short_read3[i]; // Shift in reverse
         end
-        shift_S <= 0;
         store_S_in <= 1;
         #10;
-        for (i = 0; i < 1; i = i + 1) begin
+        for (i = 0; i < 2; i = i + 1) begin
             T_in <= reference3[i];
             init_in <= 1;
-            shift_S <= 0;
             store_S_in <= 0;
             first_query_block <= 1;
             #10;
@@ -768,11 +769,12 @@ module SmithWatermanArray_QueryBlocks_tb;
             end
         end
         
-        for (i = 1; i < 4; i = i + 1) begin
+        for (i = 2; i < 3; i = i + 1) begin
             T_in <= reference3[i];
             init_in <= 1;
-            S_in <= short_read3[6 - i];
-            shift_S <= 1;
+            for (j = 0; j < 3; j = j + 1) begin
+                S_in2[j*2 + 1 -: 2] <= short_read3[j+3];
+            end
             first_query_block <= 1;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
@@ -783,10 +785,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             end
         end
         
-        for (i = 4; i < 8; i = i + 1) begin
+        for (i = 3; i < 8; i = i + 1) begin
             T_in <= reference3[i];
             init_in <= 1;
-            shift_S <= 0;
             first_query_block <= 1;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
@@ -812,6 +813,7 @@ module SmithWatermanArray_QueryBlocks_tb;
         
         for (i = 9; i < 17; i = i + 1) begin
             T_in <= reference3[i-9];
+            store_S_in <= 0;
             init_in <= 1;
             first_query_block <= 0;
             #10;

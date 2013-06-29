@@ -2,28 +2,28 @@ Command line:
    SmithWatermanArray_QueryBlocks_tb_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  49662
+     -socket  55945
 
-Tue Jun 11 16:51:56 2013
+Wed Jun 26 15:05:27 2013
 
 
- Elaboration Time: 0.05 sec
+ Elaboration Time: 0.11 sec
 
- Current Memory Usage: 188.137 Meg
+ Current Memory Usage: 197.243 Meg
 
- Total Signals          : 1240
- Total Nets             : 5405
- Total Signal Drivers   : 346
- Total Blocks           : 27
- Total Primitive Blocks : 16
- Total Processes        : 477
- Total Traceable Variables  : 1243
- Total Scalar Nets and Variables : 76981
-Total Line Count : 2135
+ Total Signals          : 3273
+ Total Nets             : 13763
+ Total Signal Drivers   : 743
+ Total Blocks           : 55
+ Total Primitive Blocks : 28
+ Total Processes        : 1010
+ Total Traceable Variables  : 3186
+ Total Scalar Nets and Variables : 213289
+Total Line Count : 3230
 
- Total Simulation Time: 0.1 sec
+ Total Simulation Time: 0.17 sec
 
- Current Memory Usage: 263.639 Meg
+ Current Memory Usage: 272.744 Meg
 
-Tue Jun 25 13:13:45 2013
+Wed Jun 26 15:05:34 2013
 
