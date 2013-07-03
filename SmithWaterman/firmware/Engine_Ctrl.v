@@ -36,11 +36,15 @@
  *                     with the next reference sequence block once all query blocks have been 
  *                     aligned.
  *                      
- *
+ *                     NOTE: NUM_PES can be no more than 64, since the query sequence buffers have
+ *                           data widths of 128.
  *
  *  Revision History :
  *      Albert Ng   Jun 25 2013     Initial Revision
  *      Albert Ng   Jul 02 2013     Finished initial revision, untested
+ *      Albert Ng   Jul 03 2013     Made reference length and number of PEs fully parameterizable
+ *                                  Added query_info_rdy handshaking
+ *                                  Changed query sequence buffer writing to a FSM
  *
  */
  
@@ -50,11 +54,12 @@ module Engine_Ctrl(
     input         stall,                    // Pipeline stall
     
     // PCIe handler interface
-    input [24:0]  ref_length_in,            // Number of 256 bp blocks in the reference sequence
+    input [24:0]  ref_length_in,            // Number of blocks in the reference sequence
     input [24:0]  ref_addr_in,              // DRAM starting address for reference sequence
     input [15:0]  num_query_blocks_in,      // Number of blocks in the query sequence
-    input         bookkeeping_info_valid,   // Store bookkeeping info for the query sequence
-    input [127:0] query_seq_block_in,       // 64 bp block of query sequence
+    input         query_info_valid,         // Store bookkeeping info for the query sequence
+    output        query_info_rdy_out,       // Bookkeeping info input acknowledged
+    input [(NUM_PES * 2) - 1:0] query_seq_block_in, // Query sequence block
     input         query_seq_block_valid,    // Query sequence block input valid
     output        query_seq_block_rdy_out,  // Query sequence block input acknowledged
     
@@ -62,7 +67,7 @@ module Engine_Ctrl(
     output [24:0] ref_addr_out,             // DRAM starting address for reference sequence
     output [24:0] ref_length_out,           // Number of blocks in the reference sequence
     output        ref_info_valid_out,       // Reference sequence info output valid
-    input [511:0] ref_seq_block_in,         // 256 nucleotide block of reference sequence
+    input [2*REF_LENGTH - 1:0] ref_seq_block_in, // Reference sequence block read from DRAM
     input         ref_seq_block_valid,      // Reference sequence block input valid
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
     
@@ -82,18 +87,25 @@ module Engine_Ctrl(
     parameter NUM_PES = 64;
     parameter REF_LENGTH = 256;
     
-    // FSM states
+    // Query sequence buffer read FSM states
     parameter WAIT_WR_RDY = 5'b00001, SEND_REF_ADDR = 5'b00010, 
               WAIT_REF_SEQ_BLOCK_VALID = 5'b00100, LATCH_REF = 5'b01000, 
               ADVANCE_BLOCK_CHAR_CNT = 5'b10000;
-    reg [4:0] state;
-    reg [4:0] next_state;
+    reg [4:0] rd_state;
+    reg [4:0] next_rd_state;
+    
+    // Query sequence buffer write FSM states
+    parameter WAIT_QUERY_INFO_VALID = 5'b00001, LATCH_QUERY_INFO = 5'b00010, 
+              WAIT_QUERY_SEQ_BLOCK_VALID = 5'b00100, LATCH_QUERY_SEQ_BLOCK = 5'b01000, 
+              WAIT_RD_RDY = 5'b10000;
+    reg [4:0] wr_state;
+    reg [4:0] next_wr_state;
     
     // FSM outputs
-    reg next_block_char_cnt;
+    reg [9:0] next_block_char_cnt;
     reg rd_buffer_rdy;                
-    reg ref_addr;
-    reg ref_length;
+    reg [24:0] ref_addr;
+    reg [24:0] ref_length;
     reg ref_info_valid;
     reg ref_seq_block_rdy;
     reg latch_T;
@@ -118,54 +130,70 @@ module Engine_Ctrl(
     // Reference sequence block rotating shift register
     reg [1:0] T_sreg [REF_LENGTH-1:0];
     
-    // Bookkeeping signals
+    // Query sequence bookkeeping signals
     reg [24:0] ref_length0;
     reg [24:0] ref_length1;
     reg [24:0] ref_addr0;
     reg [24:0] ref_addr1;
     reg [9:0] num_query_blocks0;
     reg [9:0] num_query_blocks1;
+    reg latch_query_info;
+    reg query_info_rdy;
 
     // Query sequence BRAM double buffer signals
+    reg next_wr_buffer_sel;
     reg wr_buffer_sel;
     reg wr_buffer_rdy;
+    wire [127:0] dina;
+    reg [9:0]   next_qsbram_wr_addr;
     reg [9:0]   qsbram_wr_addr;
     reg         qsbram_wr_en0;
     reg         qsbram_wr_en1;
     wire [9:0]  qsbram_rd_addr;
-    reg [127:0] qsbram_rd_out0;
-    reg [127:0] qsbram_rd_out1;
+    wire [127:0] qsbram_rd_out0;
+    wire [127:0] qsbram_rd_out1;
     reg [(NUM_PES * 2) - 1:0] S;
     reg query_seq_block_rdy;
 
+    genvar i;
+
     // Query sequence BRAM double buffer
     query_seq_bram qsbram0 (
-        clka(clk),
-        wea(qsbram_wr_en0),
-        addra(qsbram_wr_addr),
-        dina(query_seq_block_in),
-        clkb(clk),
-        addrb(qsbram_rd_addr),
-        doutb(qsbram_rd_out0)
+        .clka(clk),
+        .wea(qsbram_wr_en0),
+        .addra(qsbram_wr_addr),
+        .dina(dina),
+        .clkb(clk),
+        .addrb(qsbram_rd_addr),
+        .doutb(qsbram_rd_out0)
     );
     query_seq_bram qsbram1 (
-        clka(clk),
-        wea(qsbram_wr_en1),
-        addra(qsbram_wr_addr),
-        dina(query_seq_block_in),
-        clkb(clk),
-        addrb(qsbram_rd_addr),
-        doutb(qsbram_rd_out1)
+        .clka(clk),
+        .wea(qsbram_wr_en1),
+        .addra(qsbram_wr_addr),
+        .dina(dina),
+        .clkb(clk),
+        .addrb(qsbram_rd_addr),
+        .doutb(qsbram_rd_out1)
     );
-    always @(*) begin
-        if (!wr_buffer_sel) begin
-            S = qsbram_rd_out1;
-        end else begin
-            S = qsbram_rd_out0;
+    generate
+        for (i = 0; i < NUM_PES; i = i + 1) begin:query_bram_signal_gen
+            assign dina[i*2+1 -: 2] = query_seq_block_in[i*2+1 -: 2];
+            always @(*) begin
+                if (!wr_buffer_sel) begin
+                    S[i*2 + 1 -: 2] = qsbram_rd_out1[i*2 + 1 -: 2];
+                end else begin
+                    S[i*2 + 1 -: 2] = qsbram_rd_out0[i*2 + 1 -: 2];
+                end
+            end
         end
-    end
+        for (i = NUM_PES; i < 64; i = i + 1) begin:query_bram_signal_fill_gen
+            assign dina[i*2+1 -: 2] = 0;
+        end
+    endgenerate
     
     // Output signal wiring interface 
+    assign query_info_rdy_out = query_info_rdy;
     assign S_out = S;
     assign first_query_block_out = first_query_block;
     assign next_first_ref_block_out = next_first_ref_block;
@@ -183,7 +211,6 @@ module Engine_Ctrl(
     assign ref_seq_block_rdy_out = ref_seq_block_rdy;
     
     // Reference sequence block rotating shift register
-    genvar i;
     always @(posedge clk) begin
         if (rst) begin
             T_sreg[REF_LENGTH - 1] <= 0;
@@ -211,7 +238,127 @@ module Engine_Ctrl(
         end
     endgenerate
     
-    // Bookkeeping info storage
+    
+    // Query sequence buffer write FSM
+    always @(posedge clk) begin
+        if (rst) begin
+            wr_state <= WAIT_QUERY_INFO_VALID;
+        end else if (!stall) begin
+            wr_state <= next_wr_state;
+        end
+    end
+    
+    always @(*) begin
+        next_wr_state = 0;
+        case(wr_state)
+            WAIT_QUERY_INFO_VALID: begin
+                if (query_info_valid) begin
+                    next_wr_state = LATCH_QUERY_INFO;
+                end else begin
+                    next_wr_state = WAIT_QUERY_INFO_VALID;
+                end
+            end
+            
+            LATCH_QUERY_INFO: begin
+                next_wr_state = WAIT_QUERY_SEQ_BLOCK_VALID;
+            end
+            
+            WAIT_QUERY_SEQ_BLOCK_VALID: begin
+                if (query_seq_block_valid) begin
+                    next_wr_state = LATCH_QUERY_SEQ_BLOCK;
+                end else begin
+                    next_wr_state = WAIT_QUERY_SEQ_BLOCK_VALID;
+                end
+            end
+            
+            LATCH_QUERY_SEQ_BLOCK: begin
+                if ((!wr_buffer_sel && (qsbram_wr_addr != num_query_blocks0 - 1)) ||
+                    ( wr_buffer_sel && (qsbram_wr_addr != num_query_blocks1 - 1))) begin
+                    next_wr_state = WAIT_QUERY_SEQ_BLOCK_VALID;
+                end else begin
+                    next_wr_state = WAIT_RD_RDY;
+                end
+            end
+            
+            WAIT_RD_RDY: begin
+                if (rd_buffer_rdy) begin
+                    next_wr_state = WAIT_QUERY_INFO_VALID;
+                end else begin
+                    next_wr_state = WAIT_RD_RDY;
+                end
+            end
+        endcase
+    end
+    
+    always @(*) begin
+        case(wr_state)
+            WAIT_QUERY_INFO_VALID: begin
+                next_qsbram_wr_addr = 0;
+                latch_query_info = 0;
+                query_info_rdy = 0;
+                qsbram_wr_en0 = 0;
+                qsbram_wr_en1 = 0;
+                query_seq_block_rdy = 0;
+                wr_buffer_rdy = 0;
+                next_wr_buffer_sel = wr_buffer_sel;
+            end
+            
+            LATCH_QUERY_INFO: begin
+                next_qsbram_wr_addr = qsbram_wr_addr;
+                latch_query_info = 1;   
+                query_info_rdy = 1;
+                qsbram_wr_en0 = 0;
+                qsbram_wr_en1 = 0;
+                query_seq_block_rdy = 0;
+                wr_buffer_rdy = 0;
+                next_wr_buffer_sel = wr_buffer_sel;
+            end
+            
+            WAIT_QUERY_SEQ_BLOCK_VALID: begin
+                next_qsbram_wr_addr = qsbram_wr_addr;
+                latch_query_info = 0;
+                query_info_rdy = 0;
+                qsbram_wr_en0 = 0;
+                qsbram_wr_en1 = 0;
+                query_seq_block_rdy = 0;
+                wr_buffer_rdy = 0;
+                next_wr_buffer_sel = wr_buffer_sel;
+            end
+            
+            LATCH_QUERY_SEQ_BLOCK: begin
+                next_qsbram_wr_addr = qsbram_wr_addr + 1;
+                latch_query_info = 0;
+                query_info_rdy = 0;
+                if (!wr_buffer_sel) begin
+                    qsbram_wr_en0 = 1;
+                    qsbram_wr_en1 = 0;
+                end else begin
+                    qsbram_wr_en0 = 0;
+                    qsbram_wr_en1 = 1;
+                end
+                query_seq_block_rdy = 1;
+                wr_buffer_rdy = 0;
+                next_wr_buffer_sel = wr_buffer_sel;
+           end
+            
+            WAIT_RD_RDY: begin
+                next_qsbram_wr_addr = 0;
+                latch_query_info = 0;
+                query_info_rdy = 0;
+                qsbram_wr_en0 = 0;
+                qsbram_wr_en1 = 0;
+                query_seq_block_rdy = 0;
+                wr_buffer_rdy = 1;
+                if (rd_buffer_rdy) begin
+                    next_wr_buffer_sel = !wr_buffer_sel;
+                end else begin
+                    next_wr_buffer_sel = wr_buffer_sel;
+                end
+            end
+        endcase    
+    end
+    
+    // Query sequence buffer write FSM DFFs
     always @(posedge clk) begin
         if (rst) begin
             ref_length0 <= 0;
@@ -220,10 +367,10 @@ module Engine_Ctrl(
             ref_addr1 <= 0;
             num_query_blocks0 <= 0;
             num_query_blocks1 <= 0;
+            qsbram_wr_addr <= 0;
+            wr_buffer_sel <= 0;
         end else if (!stall) begin
-            // Latch bookkeeping info for next query sequence after
-            //   the buffers swapped
-            if (bookkeeping_info_valid && !wr_buffer_rdy) begin
+            if (latch_query_info) begin
                 if (!wr_buffer_sel) begin
                     ref_length0 <= ref_length_in;
                     ref_addr0 <= ref_addr_in;
@@ -234,65 +381,9 @@ module Engine_Ctrl(
                     num_query_blocks1 <= num_query_blocks_in;
                 end
             end
-        end
-    end
-    
-    // Query sequence BRAM buffer write control
-    always @(*) begin
-        query_seq_block_rdy = 0;
-        qsbram_wr_en0 = 0;
-        qsbram_wr_en1 = 0;
-    
-        // New query sequence block is available to write and haven't
-        //   finished writing the full query sequence yet. Acknowledge
-        //   the sender and store the query block.
-        if (query_seq_block_valid && !wr_buffer_rdy) begin
-            query_seq_block_rdy = 1;
-
-            if (!wr_buffer_sel) begin
-                qsbram_wr_en0 = 1;
-            end else begin
-                qsbram_wr_en1 = 1;
-            end
-        end
-    end
-    always @(posedge clk) begin
-        if (rst) begin
-            qsbram_wr_addr <= 0;
-            wr_buffer_rdy <= 0;
-        end else if (!stall) begin
-            // Increment write address after writing
-            if (query_seq_block_valid && !wr_buffer_rdy) begin
-                qsbram_wr_addr <= qsbram_wr_addr + 1;
-            end else begin
-                // Reset write address when swapping buffers
-                //   Wait until stall cleared before swapping
-                if (wr_buffer_rdy && rd_buffer_rdy) begin
-                    qsbram_wr_addr <= 0;
-                end
-            end
             
-            // Write buffer ready to swap when write buffer address is at the
-            //   total number of query blocks
-            if (!wr_buffer_rdy && 
-                ((!wr_buffer_sel && (qsbram_wr_addr == num_query_blocks0)) ||
-                ( wr_buffer_sel && (qsbram_wr_addr == num_query_blocks1)))) begin
-                wr_buffer_rdy <= 1;
-            end else if (wr_buffer_rdy && rd_buffer_rdy) begin
-                wr_buffer_rdy <= 0;
-            end
-        end
-    end
-    
-    // Buffer swapping
-    always @(posedge clk) begin
-        if (rst) begin
-            wr_buffer_sel <= 0;
-        end else if (!stall) begin
-            // Swap buffers when ready
-            if (wr_buffer_rdy && rd_buffer_rdy) begin
-                wr_buffer_sel <= !wr_buffer_sel;
-            end
+            qsbram_wr_addr <= next_qsbram_wr_addr;
+            wr_buffer_sel <= next_wr_buffer_sel;
         end
     end
     
@@ -301,7 +392,7 @@ module Engine_Ctrl(
         if (rst) begin
             ref_block_cnt <= 0;
             query_block_cnt <= 0;
-            block_char_cnt <= 0;
+            block_char_cnt <= -1;
         end else if (!stall) begin
             // Increment reference block counter at the last character of the
             //   last query block, wrapping back to 0 after the last reference
@@ -364,75 +455,75 @@ module Engine_Ctrl(
             last_block_char = 1;
         end
         
-        if (block_char_cnt == -1) begin
+        if (block_char_cnt == -10'b1) begin
             store_S = 1;
         end
         
-        if (block_char_cnt != -1) begin
+        if (block_char_cnt != -10'b1) begin
             init = 1;
         end
         
-        if ((!wr_buffer_sel && (num_query_blocks1 == 0)) ||
-            ( wr_buffer_sel && (num_query_blocks0 == 0))) begin
+        if ((!wr_buffer_sel && (num_query_blocks1 == 1)) ||
+            ( wr_buffer_sel && (num_query_blocks0 == 1))) begin
             bypass_fifo = 1;
         end
     end
     
 
-    // Block char counter FSM
+    // Query sequence buffer read FSM
     always @(posedge clk) begin
         if (rst) begin
-            state <= WAIT_WR_RDY;
+            rd_state <= WAIT_WR_RDY;
         end else if (!stall) begin
-            state <= next_state;
+            rd_state <= next_rd_state;
         end
     end
     
     always @(*) begin
-        next_state = 0;
-        case(state)
+        next_rd_state = 0;
+        case(rd_state)
             WAIT_WR_RDY:begin
                 if (wr_buffer_rdy) begin
-                    next_state = SEND_REF_ADDR;
+                    next_rd_state = SEND_REF_ADDR;
                 end else begin
-                    next_state = WAIT_WR_RDY;
+                    next_rd_state = WAIT_WR_RDY;
                 end
             end
             
             SEND_REF_ADDR:begin
-                next_state = WAIT_REF_SEQ_BLOCK_VALID;
+                next_rd_state = WAIT_REF_SEQ_BLOCK_VALID;
             end
    
             WAIT_REF_SEQ_BLOCK_VALID:begin
                 if (ref_seq_block_valid) begin
-                    next_state = LATCH_REF;
+                    next_rd_state = LATCH_REF;
                 end else begin
-                    next_state = WAIT_REF_SEQ_BLOCK_VALID;
+                    next_rd_state = WAIT_REF_SEQ_BLOCK_VALID;
                 end
             end
             
             LATCH_REF:begin
-                next_state = ADVANCE_BLOCK_CHAR_CNT;
+                next_rd_state = ADVANCE_BLOCK_CHAR_CNT;
             end
             
             ADVANCE_BLOCK_CHAR_CNT:begin
                 if (last_ref_block && last_query_block && last_block_char) begin
-                    next_state = WAIT_WR_RDY;
+                    next_rd_state = WAIT_WR_RDY;
                 end else if (!last_ref_block && last_query_block && last_block_char &&
                              !ref_seq_block_valid) begin
-                    next_state = WAIT_REF_SEQ_BLOCK_VALID;
+                    next_rd_state = WAIT_REF_SEQ_BLOCK_VALID;
                 end else if (!last_ref_block && last_query_block && last_block_char &&
                              ref_seq_block_valid) begin
-                    next_state = LATCH_REF;
+                    next_rd_state = LATCH_REF;
                 end else begin
-                    next_state = ADVANCE_BLOCK_CHAR_CNT;
+                    next_rd_state = ADVANCE_BLOCK_CHAR_CNT;
                 end
             end
         endcase
     end
     
     always @(*) begin
-        case(state)
+        case(rd_state)
             WAIT_WR_RDY:begin
                 next_block_char_cnt = -1;
                 rd_buffer_rdy = 1;                

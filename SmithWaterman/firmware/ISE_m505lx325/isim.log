@@ -1,5 +1,5 @@
 ISim log file
-Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -10,49 +10,46 @@ Time resolution is 1 ps
 # wave add /
 # run 1000 ns
 Simulator is doing circuit initialization process.
-Multiple query block, multiple reference block, 3 PEs per FIFO test
+ERROR: In process Engine_Ctrl.vCont_184_1 
+ FATAL ERROR:ISim: This application has discovered an exceptional condition from which it cannot recover. Process will terminate. To search for possible resolutions to this issue, refer to the Xilinx answer database by going to http://www.xilinx.com/support/answers/index.htm and search with keywords 'ISim' and 'FATAL ERROR'. For technical support on this issue, please open a WebCase with this project attached at http://www.xilinx.com/support.
+INFO: Simulator is stopped.
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+3 query blocks, 2 ref blocks test
 Finished circuit initialization process.
-  10    0    0
-   8    8    0
-  10    8    7
-   8    8   18
-   0    8   16
-  10    0   15
-  16    8    0
-  28   15    7
-  26   26   14
-   8   38   25
-   7    8   36
-   6    6   15
-  10   17   18
-   8   15   16
-  26   14   15
-  25   38   25
-  24   36   36
-  26   35   36
-  24   34   46
-   0   33   44
-   0    0   43
-Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
-   0    0    0    0
-  10    0    0    0
-   8    8   10    0
-   7   20    8    8
-  10   18   18   20
-   8   17   30   18
-   7   20   28   28
-  10   18   27   40
-  10   17   26   38
-  10   17   25   37
-   8   16   25   36
-   7   20   24   36
-  10   18   23   35
-   8   17   30   34
-   7   20   28   33
-  10   18   27   40
-  10   17   26   38
-   0   16   25   37
-   0    0   24   36
-   0    0    0   35
-Stopped at time : 570 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ReferenceBlocks_tb.v" Line 786
-# exit 0
+Stopped at time : 330 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 580
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+3 query blocks, 2 ref blocks test
+Finished circuit initialization process.
+Stopped at time : 330 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 580
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+3 query blocks, 2 ref blocks test
+Finished circuit initialization process.
+Stopped at time : 330 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 580
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+3 query blocks, 2 ref blocks test
+Finished circuit initialization process.
+Stopped at time : 330 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 580

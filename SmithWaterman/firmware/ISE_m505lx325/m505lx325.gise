@@ -23,6 +23,10 @@
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_stx_beh.prj"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_tb_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="Engine_Ctrl_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="Engine_Ctrl_tb_isim_beh.wdb"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_tb_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="PicoTestbench_isim_beh.exe"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGDBUILD_LOG" xil_pn:name="Pico_Toplevel.bld"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="Pico_Toplevel.cmd_log"/>
@@ -63,9 +67,7 @@
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="SmithWatermanArray_ParallelLoad_xst.xrpt"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_stx_beh.prj"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="SmithWatermanArray_SequentialLoad.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="SmithWatermanArray_SequentialLoad.lso"/>
@@ -105,6 +107,7 @@
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/map.xmsgs"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="bram_tb_isim_beh.exe"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="fifotest_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="ipcore_dir/coregen.log"/>
@@ -145,15 +148,17 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1372812556" xil_pn:in_ck="7404380661428602157" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1372812556">
+    <transform xil_pn:end_ts="1372893535" xil_pn:in_ck="989496364699366283" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1372893534">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v"/>
       <outfile xil_pn:name="../Engine_Ctrl.v"/>
+      <outfile xil_pn:name="../Engine_Ctrl_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanArray_QueryBlocks_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanArray_ReferenceBlocks_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanPE.v"/>
       <outfile xil_pn:name="../SmithWatermanPE_tb.v"/>
+      <outfile xil_pn:name="../bram_test.v"/>
       <outfile xil_pn:name="../fifotest.v"/>
       <outfile xil_pn:name="../fifotest_tb.v"/>
       <outfile xil_pn:name="../one_hot_mux.v"/>
@@ -215,15 +220,13 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1372284934" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-213595581837728549" xil_pn:start_ts="1372284934">
+    <transform xil_pn:end_ts="1372893535" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="4926935647178116406" xil_pn:start_ts="1372893535">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
-    <transform xil_pn:end_ts="1372284934" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-1673354267622318897" xil_pn:start_ts="1372284934">
+    <transform xil_pn:end_ts="1372893535" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-2431404459449808790" xil_pn:start_ts="1372893535">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
     <transform xil_pn:end_ts="1372279210" xil_pn:in_ck="3352911811263224941" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-7213264045092113934" xil_pn:start_ts="1372279209">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -235,20 +238,17 @@
       <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
       <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
     </transform>
-    <transform xil_pn:end_ts="1372284934" xil_pn:in_ck="3933568404991624829" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1372284934">
+    <transform xil_pn:end_ts="1372893535" xil_pn:in_ck="-723556459459500581" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1372893535">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../../../../../../../../u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v"/>
       <outfile xil_pn:name="../Engine_Ctrl.v"/>
+      <outfile xil_pn:name="../Engine_Ctrl_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanArray_QueryBlocks_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanArray_ReferenceBlocks_tb.v"/>
       <outfile xil_pn:name="../SmithWatermanPE.v"/>
       <outfile xil_pn:name="../SmithWatermanPE_tb.v"/>
+      <outfile xil_pn:name="../bram_test.v"/>
       <outfile xil_pn:name="../fifotest.v"/>
       <outfile xil_pn:name="../fifotest_tb.v"/>
       <outfile xil_pn:name="../one_hot_mux.v"/>
@@ -312,30 +312,22 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1372284938" xil_pn:in_ck="2031528476335665118" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="6477268809959949424" xil_pn:start_ts="1372284934">
+    <transform xil_pn:end_ts="1372893538" xil_pn:in_ck="2628678860647516220" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-464373556329873338" xil_pn:start_ts="1372893535">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForProperties"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_beh.prj"/>
-      <outfile xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe"/>
+      <outfile xil_pn:name="Engine_Ctrl_tb_beh.prj"/>
+      <outfile xil_pn:name="Engine_Ctrl_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1372284939" xil_pn:in_ck="-8828983640322632444" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="1461169179269417811" xil_pn:start_ts="1372284938">
+    <transform xil_pn:end_ts="1372893539" xil_pn:in_ck="6674663160663646264" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="2080363463504290025" xil_pn:start_ts="1372893538">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForProperties"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb"/>
+      <outfile xil_pn:name="Engine_Ctrl_tb_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
     </transform>
