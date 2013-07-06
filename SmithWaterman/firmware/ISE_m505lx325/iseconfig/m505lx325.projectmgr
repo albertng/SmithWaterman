@@ -17,13 +17,13 @@
          <ClosedNode>/Pico_Toplevel |home|albert|SeqAlignFPGA|SmithWaterman|SmithWaterman|firmware|ISE_m505lx325|source|Pico_Toplevel.v/UserWrapper - UserWrapper</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Pico_Toplevel (/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/source/Pico_Toplevel.v)</SelectedItem>
+         <SelectedItem>Engine_Ctrl (/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl.v)</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000003e3000000020000000000000000000000000200000064ffffffff000000810000000300000002000003e30000000100000003000000000000000100000003</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000002020000000100000001000000640000046f000000020000000000000000000000000200000064ffffffff0000008100000003000000020000046f0000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>Pico_Toplevel (/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/source/Pico_Toplevel.v)</CurrentItem>
+      <CurrentItem>Engine_Ctrl (/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
@@ -38,7 +38,7 @@
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000152000000010000000100000000000000000000000064ffffffff000000810000000000000001000001520000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000132000000010000000100000000000000000000000064ffffffff000000810000000000000001000001320000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
       <CurrentItem></CurrentItem>
    </ItemView>
@@ -46,14 +46,12 @@
       <ClosedNodes>
          <ClosedNodesVersion>1</ClosedNodesVersion>
       </ClosedNodes>
-      <SelectedItems>
-         <SelectedItem>BasePicoDefines.v</SelectedItem>
-      </SelectedItems>
+      <SelectedItems/>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000000000000010000000000000000000000000000000000000660000000040101000100000000000000000000000064ffffffff0000008100000000000000040000016800000001000000000000011b0000000100000000000000840000000100000000000003590000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>BasePicoDefines.v</CurrentItem>
+      <CurrentItem>/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/bram_test.v</CurrentItem>
    </ItemView>
    <ItemView guiview="Library" >
       <ClosedNodes>
@@ -73,29 +71,31 @@
          <ClosedNode>Design Utilities</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem/>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000172000000010000000100000000000000000000000064ffffffff000000810000000000000001000001720000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000f2000000010000000100000000000000000000000064ffffffff000000810000000000000001000000f20000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem/>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <SourceProcessView>000000ff00000000000000020000014c0000011d01000000060100000002</SourceProcessView>
    <CurrentView>Behavioral Simulation</CurrentView>
    <ItemView engineview="BehavioralSim" guiview="Source" compilemode="AutoCompile" >
       <ClosedNodes>
          <ClosedNodesVersion>2</ClosedNodesVersion>
-         <ClosedNode>/Automatic `includes</ClosedNode>
          <ClosedNode>/PicoTestbench |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v</ClosedNode>
          <ClosedNode>/PicoTestbench |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v/PicoSim - PicoSim</ClosedNode>
          <ClosedNode>/PicoTestbench |home|albertng|SeqAlignFPGA|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v/PicoSim - PicoSim/FPGA - Pico_Toplevel/PicoFramework - PicoFrameworkM505_LX325T1</ClosedNode>
          <ClosedNode>/PicoTestbench |home|albertng|SeqAlignFPGA|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v/PicoSim - PicoSim/FPGA - Pico_Toplevel/UserWrapper - UserWrapper/gen_stream_in - PicoStreamIn</ClosedNode>
          <ClosedNode>/PicoTestbench |home|albertng|SeqAlignFPGA|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v/PicoSim - PicoSim/FPGA - Pico_Toplevel/UserWrapper - UserWrapper/gen_stream_out - PicoStreamOut</ClosedNode>
+         <ClosedNode>/PicoTestbench |home|albert|SeqAlignFPGA|SmithWaterman|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v</ClosedNode>
          <ClosedNode>/SmithWatermanArray_QueryBlocks_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_QueryBlocks_tb.v/uut1 - SmithWatermanArray</ClosedNode>
          <ClosedNode>/SmithWatermanArray_QueryBlocks_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_QueryBlocks_tb.v/uut2 - SmithWatermanArray</ClosedNode>
+         <ClosedNode>/SmithWatermanArray_QueryBlocks_tb |home|albert|SeqAlignFPGA|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_QueryBlocks_tb.v</ClosedNode>
          <ClosedNode>/SmithWatermanArray_ReferenceBlocks_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_ReferenceBlocks_tb.v/uut1 - SmithWatermanArray</ClosedNode>
          <ClosedNode>/SmithWatermanArray_ReferenceBlocks_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_ReferenceBlocks_tb.v/uut2 - SmithWatermanArray</ClosedNode>
+         <ClosedNode>/SmithWatermanArray_ReferenceBlocks_tb |home|albert|SeqAlignFPGA|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_ReferenceBlocks_tb.v</ClosedNode>
          <ClosedNode>/SmithWatermanPE_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanPE_tb.v</ClosedNode>
          <ClosedNode>/SmithWatermanPE_tb |home|albertng|SeqAlignFPGA|SmithWaterman|firmware|SmithWatermanPE_tb.v</ClosedNode>
          <ClosedNode>/fifotest_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|fifotest_tb.v</ClosedNode>
@@ -103,13 +103,13 @@
          <ClosedNode>/pcie_7x_v1_6_8lane_gen2 |home|albertng|SeqAlignFPGA|SmithWaterman|firmware|ISE_m505lx325|source|coregen-LX325T|pcie_7x_v1_6_8lane_gen2|source|pcie_7x_v1_6_8lane_gen2.v</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>uut1 - SmithWatermanArray (/afs/cs.stanford.edu/u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v)</SelectedItem>
+         <SelectedItem>Engine_Ctrl_tb (/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v)</SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >2</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000020200000001000000010000006400000284000000020000000000000000000000000200000064ffffffff000000810000000300000002000002840000000100000003000000000000000100000003</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000020200000001000000010000006400000452000000020000000000000000000000000200000064ffffffff000000810000000300000002000004520000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>uut1 - SmithWatermanArray (/afs/cs.stanford.edu/u/albertng/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray.v)</CurrentItem>
+      <CurrentItem>Engine_Ctrl_tb (/home/albert/SeqAlignFPGA/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="" guiview="Process" >
       <ClosedNodes>
@@ -121,7 +121,7 @@
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000152000000010000000100000000000000000000000064ffffffff000000810000000000000001000001520000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000132000000010000000100000000000000000000000064ffffffff000000810000000000000001000001320000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
       <CurrentItem></CurrentItem>
    </ItemView>
@@ -130,12 +130,12 @@
          <ClosedNodesVersion>1</ClosedNodesVersion>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem>ISim Simulator</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000152000000010000000100000000000000000000000064ffffffff000000810000000000000001000001520000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000132000000010000000100000000000000000000000064ffffffff000000810000000000000001000001320000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem>ISim Simulator</CurrentItem>
    </ItemView>
 </Project>

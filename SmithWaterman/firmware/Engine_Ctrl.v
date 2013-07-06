@@ -427,20 +427,6 @@ module Engine_Ctrl(
         store_S = 0;
         init = 0;
         bypass_fifo = 0;
-        
-        if (ref_block_cnt == 0) begin
-            first_ref_block = 1;
-        end
-        
-        if ((first_ref_block && !(last_block_char && last_query_block)) ||
-            (last_ref_block && (last_block_char && last_query_block))) begin
-            next_first_ref_block = 1;
-        end
-                
-        if (( wr_buffer_sel && (ref_block_cnt == (ref_length0 - 1))) ||
-            (!wr_buffer_sel && (ref_block_cnt == (ref_length1 - 1)))) begin
-            last_ref_block = 1;
-        end
 
         if (query_block_cnt == 0) begin
             first_query_block = 1;
@@ -461,6 +447,20 @@ module Engine_Ctrl(
         
         if (block_char_cnt != -10'b1) begin
             init = 1;
+        end
+        
+        if (ref_block_cnt == 0) begin
+            first_ref_block = 1;
+        end
+                
+        if (( wr_buffer_sel && (ref_block_cnt == (ref_length0 - 1))) ||
+            (!wr_buffer_sel && (ref_block_cnt == (ref_length1 - 1)))) begin
+            last_ref_block = 1;
+        end
+        
+        if ((first_ref_block && !(last_block_char && last_query_block)) ||
+            (last_ref_block && (last_block_char && last_query_block))) begin
+            next_first_ref_block = 1;
         end
         
         if ((!wr_buffer_sel && (num_query_blocks1 == 1)) ||
@@ -563,7 +563,7 @@ module Engine_Ctrl(
             end
             
             LATCH_REF:begin
-                next_block_char_cnt = -1;
+                next_block_char_cnt = 0;
                 rd_buffer_rdy = 0;
                 ref_addr = 0;
                 ref_length = 0;
@@ -585,8 +585,10 @@ module Engine_Ctrl(
                 ref_info_valid = 0;
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
-                if (block_char_cnt != -1) begin
+                if (block_char_cnt != -10'b1) begin
                     shift_T = 1;
+                end else begin
+                    shift_T = 0;
                 end
             end
                 
