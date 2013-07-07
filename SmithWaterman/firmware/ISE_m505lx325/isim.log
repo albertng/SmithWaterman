@@ -550,3 +550,4 @@ Finished circuit initialization process.
 2 query blocks, 1 ref block, stall waiting for query test
 1 query blocks, 2 ref blocks, stall waiting for ref block test
 Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2232
+# exit 0
