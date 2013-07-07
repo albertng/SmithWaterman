@@ -39,12 +39,18 @@
  *                     NOTE: NUM_PES can be no more than 64, since the query sequence buffers have
  *                           data widths of 128.
  *
+ *                     TODO: Move send_ref_addr to the buffer write FSM so that the next ref addr
+ *                           is sent to the ref DRAM reader before the beginning of the next query.
+ *                           This removes the one DRAM read latency at the beginning of each query
+ *                           alignment.
+ *
  *  Revision History :
  *      Albert Ng   Jun 25 2013     Initial Revision
  *      Albert Ng   Jul 02 2013     Finished initial revision, untested
  *      Albert Ng   Jul 03 2013     Made reference length and number of PEs fully parameterizable
  *                                  Added query_info_rdy handshaking
  *                                  Changed query sequence buffer writing to a FSM
+ *      Albert Ng   Jul 06 2013     Changed qsbram_rd_addr to be next_query_block_cnt
  *
  */
  
@@ -102,7 +108,6 @@ module Engine_Ctrl(
     reg [4:0] next_wr_state;
     
     // FSM outputs
-    reg [9:0] next_block_char_cnt;
     reg rd_buffer_rdy;                
     reg [24:0] ref_addr;
     reg [24:0] ref_length;
@@ -113,8 +118,11 @@ module Engine_Ctrl(
     
     // Counters
     reg [24:0] ref_block_cnt;
-    reg [9:0] query_block_cnt;
-    reg [9:0] block_char_cnt;
+    reg [9:0]  query_block_cnt;
+    reg [9:0]  block_char_cnt;
+    reg [24:0] next_ref_block_cnt;
+    reg [9:0]  next_query_block_cnt;
+    reg [9:0]  next_block_char_cnt;
     
     // Signals based off of counters
     reg first_query_block;
@@ -388,35 +396,42 @@ module Engine_Ctrl(
     end
     
     // Counter logic
+    always @(*) begin
+        // Increment reference block counter at the last character of the
+        //   last query block, wrapping back to 0 after the last referenc
+        //   block
+        if (last_block_char && last_query_block && !last_ref_block) begin
+            next_ref_block_cnt <= ref_block_cnt + 1;
+        end else if (last_block_char && last_query_block && last_ref_block) begin
+            next_ref_block_cnt <= 0;
+        end else begin
+            next_ref_block_cnt <= ref_block_cnt;
+        end
+
+        // Increment query block counter at the last character of the block,
+        //   wrapping back to 0 after the last query block
+        if (last_block_char && !last_query_block) begin
+            next_query_block_cnt <= query_block_cnt + 1;
+        end else if (last_block_char && last_query_block) begin
+            next_query_block_cnt <= 0;
+        end else begin
+            next_query_block_cnt <= query_block_cnt;
+        end
+    end
     always @(posedge clk) begin
         if (rst) begin
             ref_block_cnt <= 0;
             query_block_cnt <= 0;
             block_char_cnt <= -1;
         end else if (!stall) begin
-            // Increment reference block counter at the last character of the
-            //   last query block, wrapping back to 0 after the last reference
-            //   block
-            if (last_block_char && last_query_block && !last_ref_block) begin
-                ref_block_cnt <= ref_block_cnt + 1;
-            end else if (last_block_char && last_query_block && last_ref_block) begin
-                ref_block_cnt <= 0;
-            end 
-            
-            // Increment query block counter at the last character of the block,
-            //   wrapping back to 0 after the last query block
-            if (last_block_char && !last_query_block) begin
-                query_block_cnt <= query_block_cnt + 1;
-            end else if (last_block_char && last_query_block) begin
-                query_block_cnt <= 0;
-            end
-            
+            ref_block_cnt <= next_ref_block_cnt;
+            query_block_cnt <= next_query_block_cnt;
             block_char_cnt <= next_block_char_cnt;
         end
     end
     
     // Logic based off of counters
-    assign qsbram_rd_addr = query_block_cnt;
+    assign qsbram_rd_addr = next_query_block_cnt;
     always @(*) begin
         first_query_block = 0;
         last_query_block = 0;
