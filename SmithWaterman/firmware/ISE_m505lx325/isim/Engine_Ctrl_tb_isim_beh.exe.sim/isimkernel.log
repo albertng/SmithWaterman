@@ -2,9 +2,9 @@ Command line:
    Engine_Ctrl_tb_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  52326
+     -socket  34904
 
-Sat Jul  6 22:54:08 2013
+Sun Jul  7 00:14:42 2013
 
 
  Elaboration Time: 0.04 sec

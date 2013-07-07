@@ -15,12 +15,15 @@
  *                     query sequence. Each query sequence comes with some bookkeeping info, 
  *                     including the reference sequence DRAM start address, the number of blocks 
  *                     in the reference sequence, and the number of blocks in the query sequence. 
- *                     All pieces of bookkeeping info are expected to be synchronous to , 
- *                     bookkeeping_info_valid which latches the values to the appropriate buffer.
+ *                     All pieces of query bookkeeping info are expected to be synchronous to 
+ *                     query_info_valid, which latches the values to the appropriate buffer. After
+ *                     receiving the query bookkeeping info, the reference sequence DRAM start
+ *                     address and reference sequence length is sent to the reference reader to
+ *                     start pipelining DRAM reads.
  *
- *                     The engine controller communicates with a reference reader to grab the 
- *                     reference sequence blocks to shift into the systolic array. At the start 
- *                     the alignment for each query sequence, the engine sends the reference
+ *                     The engine controller communicates with the reference reader to grab the 
+ *                     reference sequence blocks to shift into the systolic array. After 
+ *                     receiving the query bookkeeping info, the engine sends the reference
  *                     sequence starting address and reference sequence length (in number of 256
  *                     bp blocks) to the reference reader, synchronous to the ref_info_valid
  *                     signal. It expects a ref_seq_block_valid signal from the reference reader
@@ -39,10 +42,6 @@
  *                     NOTE: NUM_PES can be no more than 64, since the query sequence buffers have
  *                           data widths of 128.
  *
- *                     TODO: Move send_ref_addr to the buffer write FSM so that the next ref addr
- *                           is sent to the ref DRAM reader before the beginning of the next query.
- *                           This removes the one DRAM read latency at the beginning of each query
- *                           alignment.
  *
  *  Revision History :
  *      Albert Ng   Jun 25 2013     Initial Revision
@@ -51,6 +50,7 @@
  *                                  Added query_info_rdy handshaking
  *                                  Changed query sequence buffer writing to a FSM
  *      Albert Ng   Jul 06 2013     Changed qsbram_rd_addr to be next_query_block_cnt
+ *                                  Moved send_ref_addr from read FSM to write FSM
  *
  */
  
@@ -94,14 +94,13 @@ module Engine_Ctrl(
     parameter REF_LENGTH = 256;
     
     // Query sequence buffer read FSM states
-    parameter WAIT_WR_RDY = 5'b00001, SEND_REF_ADDR = 5'b00010, 
-              WAIT_REF_SEQ_BLOCK_VALID = 5'b00100, LATCH_REF = 5'b01000, 
-              ADVANCE_BLOCK_CHAR_CNT = 5'b10000;
-    reg [4:0] rd_state;
-    reg [4:0] next_rd_state;
+    parameter WAIT_WR_RDY = 4'b0001, WAIT_REF_SEQ_BLOCK_VALID = 4'b0010, LATCH_REF = 4'b0100, 
+              ADVANCE_BLOCK_CHAR_CNT = 4'b1000;
+    reg [3:0] rd_state;
+    reg [3:0] next_rd_state;
     
     // Query sequence buffer write FSM states
-    parameter WAIT_QUERY_INFO_VALID = 5'b00001, LATCH_QUERY_INFO = 5'b00010, 
+    parameter WAIT_QUERY_INFO_VALID = 5'b00001, SEND_REF_ADDR = 5'b00010, 
               WAIT_QUERY_SEQ_BLOCK_VALID = 5'b00100, LATCH_QUERY_SEQ_BLOCK = 5'b01000, 
               WAIT_RD_RDY = 5'b10000;
     reg [4:0] wr_state;
@@ -109,8 +108,6 @@ module Engine_Ctrl(
     
     // FSM outputs
     reg rd_buffer_rdy;                
-    reg [24:0] ref_addr;
-    reg [24:0] ref_length;
     reg ref_info_valid;
     reg ref_seq_block_rdy;
     reg latch_T;
@@ -213,9 +210,9 @@ module Engine_Ctrl(
     assign init_out = init;
     assign T_out = T_sreg[0];
     assign query_seq_block_rdy_out = query_seq_block_rdy;
-    assign ref_addr_out = ref_addr;
+    assign ref_addr_out = ref_addr_in;
     assign ref_info_valid_out = ref_info_valid;
-    assign ref_length_out = ref_length;
+    assign ref_length_out = ref_length_in;
     assign ref_seq_block_rdy_out = ref_seq_block_rdy;
     
     // Reference sequence block rotating shift register
@@ -261,13 +258,13 @@ module Engine_Ctrl(
         case(wr_state)
             WAIT_QUERY_INFO_VALID: begin
                 if (query_info_valid) begin
-                    next_wr_state = LATCH_QUERY_INFO;
+                    next_wr_state = SEND_REF_ADDR;
                 end else begin
                     next_wr_state = WAIT_QUERY_INFO_VALID;
                 end
             end
             
-            LATCH_QUERY_INFO: begin
+            SEND_REF_ADDR: begin
                 next_wr_state = WAIT_QUERY_SEQ_BLOCK_VALID;
             end
             
@@ -309,9 +306,10 @@ module Engine_Ctrl(
                 query_seq_block_rdy = 0;
                 wr_buffer_rdy = 0;
                 next_wr_buffer_sel = wr_buffer_sel;
+                ref_info_valid = 0;
             end
             
-            LATCH_QUERY_INFO: begin
+            SEND_REF_ADDR: begin
                 next_qsbram_wr_addr = qsbram_wr_addr;
                 latch_query_info = 1;   
                 query_info_rdy = 1;
@@ -320,6 +318,7 @@ module Engine_Ctrl(
                 query_seq_block_rdy = 0;
                 wr_buffer_rdy = 0;
                 next_wr_buffer_sel = wr_buffer_sel;
+                ref_info_valid = 1;
             end
             
             WAIT_QUERY_SEQ_BLOCK_VALID: begin
@@ -331,6 +330,7 @@ module Engine_Ctrl(
                 query_seq_block_rdy = 0;
                 wr_buffer_rdy = 0;
                 next_wr_buffer_sel = wr_buffer_sel;
+                ref_info_valid = 0;
             end
             
             LATCH_QUERY_SEQ_BLOCK: begin
@@ -347,6 +347,7 @@ module Engine_Ctrl(
                 query_seq_block_rdy = 1;
                 wr_buffer_rdy = 0;
                 next_wr_buffer_sel = wr_buffer_sel;
+                ref_info_valid = 0;
            end
             
             WAIT_RD_RDY: begin
@@ -362,6 +363,7 @@ module Engine_Ctrl(
                 end else begin
                     next_wr_buffer_sel = wr_buffer_sel;
                 end
+                ref_info_valid = 0;
             end
         endcase    
     end
@@ -499,16 +501,12 @@ module Engine_Ctrl(
         case(rd_state)
             WAIT_WR_RDY:begin
                 if (wr_buffer_rdy) begin
-                    next_rd_state = SEND_REF_ADDR;
+                    next_rd_state = WAIT_REF_SEQ_BLOCK_VALID;
                 end else begin
                     next_rd_state = WAIT_WR_RDY;
                 end
             end
             
-            SEND_REF_ADDR:begin
-                next_rd_state = WAIT_REF_SEQ_BLOCK_VALID;
-            end
-   
             WAIT_REF_SEQ_BLOCK_VALID:begin
                 if (ref_seq_block_valid) begin
                     next_rd_state = LATCH_REF;
@@ -542,25 +540,6 @@ module Engine_Ctrl(
             WAIT_WR_RDY:begin
                 next_block_char_cnt = -1;
                 rd_buffer_rdy = 1;                
-                ref_addr = 0;
-                ref_length = 0;
-                ref_info_valid = 0;
-                ref_seq_block_rdy = 0;
-                latch_T = 0;
-                shift_T = 0;
-            end
-            
-            SEND_REF_ADDR:begin
-                next_block_char_cnt = -1;
-                rd_buffer_rdy = 0;
-                if (wr_buffer_sel) begin
-                    ref_addr = ref_addr0;
-                    ref_length = ref_length0;
-                end else begin
-                    ref_addr = ref_addr1;
-                    ref_length = ref_length1;
-                end
-                ref_info_valid = 1;
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 shift_T = 0;
@@ -569,9 +548,6 @@ module Engine_Ctrl(
             WAIT_REF_SEQ_BLOCK_VALID:begin
                 next_block_char_cnt = -1;
                 rd_buffer_rdy = 0;
-                ref_addr = 0;
-                ref_length = 0;
-                ref_info_valid = 0;
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 shift_T = 0;
@@ -580,9 +556,6 @@ module Engine_Ctrl(
             LATCH_REF:begin
                 next_block_char_cnt = 0;
                 rd_buffer_rdy = 0;
-                ref_addr = 0;
-                ref_length = 0;
-                ref_info_valid = 0;
                 ref_seq_block_rdy = 1;
                 latch_T = 1;
                 shift_T = 0;
@@ -595,9 +568,6 @@ module Engine_Ctrl(
                     next_block_char_cnt = -1;
                 end
                 rd_buffer_rdy = 0;
-                ref_addr = 0;
-                ref_length = 0;
-                ref_info_valid = 0;
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 if (block_char_cnt != -10'b1) begin

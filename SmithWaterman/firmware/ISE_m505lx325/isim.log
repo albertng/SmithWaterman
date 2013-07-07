@@ -505,3 +505,48 @@ Finished circuit initialization process.
 2 query blocks, 1 ref block, stall waiting for query test
 1 query blocks, 2 ref blocks, stall waiting for ref block test
 Stopped at time : 1770 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2282
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Finished circuit initialization process.
+3 query blocks, 2 ref blocks, initial state test
+# run all
+2 query blocks, 1 ref block, stall waiting for query test
+1 query blocks, 2 ref blocks, stall waiting for ref block test
+Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2231
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Finished circuit initialization process.
+3 query blocks, 2 ref blocks, initial state test
+# run all
+2 query blocks, 1 ref block, stall waiting for query test
+1 query blocks, 2 ref blocks, stall waiting for ref block test
+Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2231
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Finished circuit initialization process.
+3 query blocks, 2 ref blocks, initial state test
+# run all
+2 query blocks, 1 ref block, stall waiting for query test
+1 query blocks, 2 ref blocks, stall waiting for ref block test
+Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2232
