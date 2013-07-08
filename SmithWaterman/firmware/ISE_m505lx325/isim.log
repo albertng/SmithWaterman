@@ -1,5 +1,5 @@
 ISim log file
-Running: /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -13,391 +13,11 @@ Simulator is doing circuit initialization process.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-3 query blocks, 2 ref blocks test
-# run all
-@1150ns Test 2: ref_length_out error
-@1150ns Test 2: last_ref_block_out error
-@1160ns Test 2: last_ref_block_out error
-@1170ns Test 2: last_ref_block_out error
-@1180ns Test 2: last_ref_block_out error
-@1190ns Test 2: last_ref_block_out error
-@1200ns Test 2: last_ref_block_out error
-@1210ns Test 2: last_ref_block_out error
-@1220ns Test 2: last_ref_block_out error
-Stopped at time : 1330 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1637
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks test
-# run all
-@1150ns Test 2: ref_length_out error
-Stopped at time : 1330 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1637
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks test
-# run all
-Stopped at time : 1330 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1637
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks test
-# run all
-Stopped at time : 1500 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1780
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks test
-# run all
-Stopped at time : 1480 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1840
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks test
-# run all
-2 query blocks, 1 ref block test
-Stopped at time : 1480 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1841
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# restart
-# run all
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-2 query blocks, 1 ref block, stall waiting for query test
-Stopped at time : 1480 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 1841
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# restart
-# run all
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-@1380ns Test 3: last_ref_block_out error
-@1450ns Test 3: T_out error
-@1470ns Test 3: T_out error
-@1480ns Test 3: T_out error
-@1490ns Test 3: T_out error
-@1500ns Test 3: T_out error
-@1510ns Test 3: T_out error
-@1520ns Test 3: T_out error
-@1520ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: first_ref_block_out error
-@1530ns Test 3: last_ref_block_out error
-@1540ns Test 3: next_first_ref_block_out error
-@1540ns Test 3: first_ref_block_out error
-@1540ns Test 3: last_ref_block_out error
-@1550ns Test 3: next_first_ref_block_out error
-@1550ns Test 3: first_ref_block_out error
-@1550ns Test 3: last_ref_block_out error
-@1560ns Test 3: next_first_ref_block_out error
-@1560ns Test 3: first_ref_block_out error
-@1560ns Test 3: last_ref_block_out error
-@1570ns Test 3: ref_seq_block_rdy_out error
-@1580ns Test 3: store_S_out error
-@1580ns Test 3: init_out error
-@1580ns Test 3: T_out error
-@1590ns Test 3: store_S_out error
-@1590ns Test 3: init_out error
-@1590ns Test 3: T_out error
-@1600ns Test 3: store_S_out error
-@1600ns Test 3: init_out error
-@1600ns Test 3: T_out error
-@1610ns Test 3: store_S_out error
-@1610ns Test 3: init_out error
-@1610ns Test 3: T_out error
-@1620ns Test 3: store_S_out error
-@1620ns Test 3: init_out error
-@1620ns Test 3: T_out error
-@1630ns Test 3: store_S_out error
-@1630ns Test 3: init_out error
-@1630ns Test 3: T_out error
-@1640ns Test 3: store_S_out error
-@1640ns Test 3: init_out error
-@1640ns Test 3: T_out error
-@1650ns Test 3: store_S_out error
-@1650ns Test 3: init_out error
-@1650ns Test 3: T_out error
-@1650ns Test 3: last_block_char_out error
-Stopped at time : 1760 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2174
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# restart
-# run all
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-@1380ns Test 3: last_ref_block_out error
-@1520ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: first_ref_block_out error
-@1530ns Test 3: last_ref_block_out error
-@1540ns Test 3: next_first_ref_block_out error
-@1540ns Test 3: first_ref_block_out error
-@1540ns Test 3: last_ref_block_out error
-@1550ns Test 3: next_first_ref_block_out error
-@1550ns Test 3: first_ref_block_out error
-@1550ns Test 3: last_ref_block_out error
-@1560ns Test 3: next_first_ref_block_out error
-@1560ns Test 3: first_ref_block_out error
-@1560ns Test 3: last_ref_block_out error
-@1570ns Test 3: ref_seq_block_rdy_out error
-@1580ns Test 3: store_S_out error
-@1580ns Test 3: init_out error
-@1580ns Test 3: T_out error
-@1590ns Test 3: store_S_out error
-@1590ns Test 3: init_out error
-@1590ns Test 3: T_out error
-@1600ns Test 3: store_S_out error
-@1600ns Test 3: init_out error
-@1610ns Test 3: store_S_out error
-@1610ns Test 3: init_out error
-@1610ns Test 3: T_out error
-@1620ns Test 3: store_S_out error
-@1620ns Test 3: init_out error
-@1620ns Test 3: T_out error
-@1630ns Test 3: store_S_out error
-@1630ns Test 3: init_out error
-@1640ns Test 3: store_S_out error
-@1640ns Test 3: init_out error
-@1640ns Test 3: T_out error
-@1650ns Test 3: store_S_out error
-@1650ns Test 3: init_out error
-@1650ns Test 3: T_out error
-@1650ns Test 3: last_block_char_out error
-Stopped at time : 1760 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2174
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# restart
-# run all
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-@1380ns Test 3: last_ref_block_out error
-@1520ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: first_ref_block_out error
-@1530ns Test 3: last_ref_block_out error
-@1540ns Test 3: next_first_ref_block_out error
-@1540ns Test 3: first_ref_block_out error
-@1540ns Test 3: last_ref_block_out error
-@1550ns Test 3: next_first_ref_block_out error
-@1550ns Test 3: first_ref_block_out error
-@1550ns Test 3: last_ref_block_out error
-@1560ns Test 3: next_first_ref_block_out error
-@1560ns Test 3: first_ref_block_out error
-@1560ns Test 3: last_ref_block_out error
-@1570ns Test 3: ref_seq_block_rdy_out error
-@1580ns Test 3: store_S_out error
-@1580ns Test 3: init_out error
-@1580ns Test 3: T_out error
-@1590ns Test 3: store_S_out error
-@1590ns Test 3: init_out error
-@1590ns Test 3: T_out error
-@1600ns Test 3: store_S_out error
-@1600ns Test 3: init_out error
-@1610ns Test 3: store_S_out error
-@1610ns Test 3: init_out error
-@1610ns Test 3: T_out error
-@1620ns Test 3: store_S_out error
-@1620ns Test 3: init_out error
-@1620ns Test 3: T_out error
-@1630ns Test 3: store_S_out error
-@1630ns Test 3: init_out error
-@1640ns Test 3: store_S_out error
-@1640ns Test 3: init_out error
-@1640ns Test 3: T_out error
-@1650ns Test 3: store_S_out error
-@1650ns Test 3: init_out error
-@1650ns Test 3: T_out error
-@1650ns Test 3: last_block_char_out error
-Stopped at time : 1760 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2175
-# restart
-# run all
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-@1380ns Test 3: last_ref_block_out error
-@1520ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: first_ref_block_out error
-@1530ns Test 3: last_ref_block_out error
-@1540ns Test 3: next_first_ref_block_out error
-@1540ns Test 3: first_ref_block_out error
-@1540ns Test 3: last_ref_block_out error
-@1550ns Test 3: next_first_ref_block_out error
-@1550ns Test 3: first_ref_block_out error
-@1550ns Test 3: last_ref_block_out error
-@1560ns Test 3: next_first_ref_block_out error
-@1560ns Test 3: first_ref_block_out error
-@1560ns Test 3: last_ref_block_out error
-@1570ns Test 3: ref_seq_block_rdy_out error
-@1580ns Test 3: store_S_out error
-@1580ns Test 3: init_out error
-@1580ns Test 3: T_out error
-@1590ns Test 3: store_S_out error
-@1590ns Test 3: init_out error
-@1590ns Test 3: T_out error
-@1600ns Test 3: store_S_out error
-@1600ns Test 3: init_out error
-@1610ns Test 3: store_S_out error
-@1610ns Test 3: init_out error
-@1610ns Test 3: T_out error
-@1620ns Test 3: store_S_out error
-@1620ns Test 3: init_out error
-@1620ns Test 3: T_out error
-@1630ns Test 3: store_S_out error
-@1630ns Test 3: init_out error
-@1640ns Test 3: store_S_out error
-@1640ns Test 3: init_out error
-@1640ns Test 3: T_out error
-@1650ns Test 3: store_S_out error
-@1650ns Test 3: init_out error
-@1650ns Test 3: T_out error
-@1650ns Test 3: last_block_char_out error
-Stopped at time : 1760 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2175
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
+3 query blocks, 2 ref blocks, initial state, output stall test
 # run all
 2 query blocks, 1 ref block, stall waiting for query test
 1 query blocks, 2 ref blocks, stall waiting for ref block test
-@1520ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: first_ref_block_out error
-@1530ns Test 3: last_ref_block_out error
-@1540ns Test 3: next_first_ref_block_out error
-@1540ns Test 3: first_ref_block_out error
-@1540ns Test 3: last_ref_block_out error
-@1550ns Test 3: next_first_ref_block_out error
-@1550ns Test 3: first_ref_block_out error
-@1550ns Test 3: last_ref_block_out error
-@1560ns Test 3: next_first_ref_block_out error
-@1560ns Test 3: first_ref_block_out error
-@1560ns Test 3: last_ref_block_out error
-@1570ns Test 3: ref_seq_block_rdy_out error
-@1580ns Test 3: store_S_out error
-@1580ns Test 3: init_out error
-@1580ns Test 3: T_out error
-@1590ns Test 3: store_S_out error
-@1590ns Test 3: init_out error
-@1590ns Test 3: T_out error
-@1600ns Test 3: store_S_out error
-@1600ns Test 3: init_out error
-@1610ns Test 3: store_S_out error
-@1610ns Test 3: init_out error
-@1610ns Test 3: T_out error
-@1620ns Test 3: store_S_out error
-@1620ns Test 3: init_out error
-@1620ns Test 3: T_out error
-@1630ns Test 3: store_S_out error
-@1630ns Test 3: init_out error
-@1640ns Test 3: store_S_out error
-@1640ns Test 3: init_out error
-@1640ns Test 3: T_out error
-@1650ns Test 3: store_S_out error
-@1650ns Test 3: init_out error
-@1650ns Test 3: T_out error
-@1650ns Test 3: last_block_char_out error
-Stopped at time : 1760 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2175
+Stopped at time : 1790 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2355
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -408,88 +28,468 @@ Simulator is doing circuit initialization process.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# restart
-# run all
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-@1520ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: next_first_ref_block_out error
-@1530ns Test 3: first_ref_block_out error
-@1530ns Test 3: last_ref_block_out error
-@1540ns Test 3: next_first_ref_block_out error
-@1540ns Test 3: first_ref_block_out error
-@1540ns Test 3: last_ref_block_out error
-@1550ns Test 3: next_first_ref_block_out error
-@1550ns Test 3: first_ref_block_out error
-@1550ns Test 3: last_ref_block_out error
-@1560ns Test 3: next_first_ref_block_out error
-@1560ns Test 3: first_ref_block_out error
-@1560ns Test 3: last_ref_block_out error
-@1570ns Test 3: next_first_ref_block_out error
-@1570ns Test 3: first_ref_block_out error
-@1570ns Test 3: last_ref_block_out error
-@1660ns Test 3: next_first_ref_block_out error
-Stopped at time : 1770 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2204
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# run all
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1770 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2204
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# run all
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1770 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2206
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
+3 query blocks, 2 ref blocks, initial state, output stall test
+@60ns Test 1: query_info_rdy_out error
+@70ns Test 1: query_info_rdy_out error
+@70ns Test 1: ref_info_valid_out error
+@90ns Test 1: query_seq_block_rdy_out error
+@120ns Test 1: query_seq_block_rdy_out error
+@140ns Test 1: query_seq_block_rdy_out error
+@220ns Test 1: ref_seq_block_rdy_out error
+@220ns Test 1: S_out error
+@230ns Test 1: store_S_out error
+@230ns Test 1: init_out error
+@230ns Test 1: S_out error
+@230ns Test 1: T_out error
+@240ns Test 1: store_S_out error
+@240ns Test 1: init_out error
+@240ns Test 1: S_out error
+@250ns Test 1: store_S_out error
+@250ns Test 1: init_out error
+@250ns Test 1: S_out error
+@250ns Test 1: T_out error
+@260ns Test 1: store_S_out error
+@260ns Test 1: init_out error
+@260ns Test 1: S_out error
+@270ns Test 1: store_S_out error
+@270ns Test 1: init_out error
+@270ns Test 1: S_out error
+@270ns Test 1: T_out error
+@280ns Test 1: store_S_out error
+@280ns Test 1: init_out error
+@280ns Test 1: S_out error
+@280ns Test 1: T_out error
+@290ns Test 1: store_S_out error
+@290ns Test 1: init_out error
+@290ns Test 1: S_out error
+@290ns Test 1: T_out error
+@300ns Test 1: store_S_out error
+@300ns Test 1: init_out error
+@300ns Test 1: S_out error
+@300ns Test 1: T_out error
+@300ns Test 1: last_block_char_out error
 @310ns Test 1: S_out error
+@310ns Test 1: first_query_block_out error
+@320ns Test 1: store_S_out error
+@320ns Test 1: init_out error
+@320ns Test 1: S_out error
+@320ns Test 1: T_out error
+@320ns Test 1: first_query_block_out error
+@330ns Test 1: store_S_out error
+@330ns Test 1: init_out error
+@330ns Test 1: S_out error
+@330ns Test 1: first_query_block_out error
+@340ns Test 1: store_S_out error
+@340ns Test 1: init_out error
+@340ns Test 1: S_out error
+@340ns Test 1: T_out error
+@340ns Test 1: first_query_block_out error
+@350ns Test 1: store_S_out error
+@350ns Test 1: init_out error
+@350ns Test 1: S_out error
+@350ns Test 1: first_query_block_out error
+@360ns Test 1: store_S_out error
+@360ns Test 1: init_out error
+@360ns Test 1: S_out error
+@360ns Test 1: T_out error
+@360ns Test 1: first_query_block_out error
+@370ns Test 1: store_S_out error
+@370ns Test 1: init_out error
+@370ns Test 1: S_out error
+@370ns Test 1: T_out error
+@370ns Test 1: first_query_block_out error
+@380ns Test 1: store_S_out error
+@380ns Test 1: init_out error
+@380ns Test 1: S_out error
+@380ns Test 1: T_out error
+@380ns Test 1: first_query_block_out error
+@390ns Test 1: store_S_out error
+@390ns Test 1: init_out error
+@390ns Test 1: S_out error
+@390ns Test 1: T_out error
+@390ns Test 1: first_query_block_out error
+@390ns Test 1: last_block_char_out error
 @400ns Test 1: S_out error
+@400ns Test 1: first_query_block_out error
+@410ns Test 1: store_S_out error
+@410ns Test 1: init_out error
+@410ns Test 1: S_out error
+@410ns Test 1: T_out error
+@410ns Test 1: first_query_block_out error
+@420ns Test 1: store_S_out error
+@420ns Test 1: init_out error
+@420ns Test 1: S_out error
+@420ns Test 1: first_query_block_out error
+@430ns Test 1: store_S_out error
+@430ns Test 1: init_out error
+@430ns Test 1: S_out error
+@430ns Test 1: T_out error
+@430ns Test 1: first_query_block_out error
+@440ns Test 1: store_S_out error
+@440ns Test 1: init_out error
+@440ns Test 1: S_out error
+@440ns Test 1: first_query_block_out error
+@450ns Test 1: store_S_out error
+@450ns Test 1: init_out error
+@450ns Test 1: S_out error
+@450ns Test 1: first_query_block_out error
+@460ns Test 1: store_S_out error
+@460ns Test 1: init_out error
+@460ns Test 1: S_out error
+@460ns Test 1: first_query_block_out error
+@470ns Test 1: store_S_out error
+@470ns Test 1: init_out error
+@470ns Test 1: S_out error
+@470ns Test 1: first_query_block_out error
+@480ns Test 1: store_S_out error
+@480ns Test 1: init_out error
+@480ns Test 1: S_out error
+@480ns Test 1: first_query_block_out error
+@490ns Test 1: store_S_out error
+@490ns Test 1: init_out error
 @490ns Test 1: S_out error
+@490ns Test 1: T_out error
+@490ns Test 1: first_query_block_out error
+@500ns Test 1: store_S_out error
+@500ns Test 1: init_out error
+@500ns Test 1: S_out error
+@500ns Test 1: T_out error
+@500ns Test 1: first_query_block_out error
+@510ns Test 1: store_S_out error
+@510ns Test 1: init_out error
+@510ns Test 1: S_out error
+@510ns Test 1: T_out error
+@510ns Test 1: first_query_block_out error
+@520ns Test 1: store_S_out error
+@520ns Test 1: init_out error
+@520ns Test 1: S_out error
+@520ns Test 1: T_out error
+@520ns Test 1: first_query_block_out error
+@520ns Test 1: next_first_ref_block_out error
+@520ns Test 1: last_block_char_out error
+@530ns Test 1: ref_seq_block_rdy_out error
+@530ns Test 1: S_out error
+@530ns Test 1: next_first_ref_block_out error
+@530ns Test 1: first_ref_block_out error
+@540ns Test 1: store_S_out error
+@540ns Test 1: init_out error
+@540ns Test 1: S_out error
+@540ns Test 1: T_out error
+@540ns Test 1: next_first_ref_block_out error
+@540ns Test 1: first_ref_block_out error
+@550ns Test 1: store_S_out error
+@550ns Test 1: init_out error
+@550ns Test 1: S_out error
+@550ns Test 1: next_first_ref_block_out error
+@550ns Test 1: first_ref_block_out error
+@560ns Test 1: store_S_out error
+@560ns Test 1: init_out error
+@560ns Test 1: S_out error
+@560ns Test 1: T_out error
+@560ns Test 1: next_first_ref_block_out error
+@560ns Test 1: first_ref_block_out error
+@570ns Test 1: store_S_out error
+@570ns Test 1: init_out error
+@570ns Test 1: S_out error
+@570ns Test 1: T_out error
+@570ns Test 1: next_first_ref_block_out error
+@570ns Test 1: first_ref_block_out error
+@580ns Test 1: store_S_out error
+@580ns Test 1: init_out error
 @580ns Test 1: S_out error
+@580ns Test 1: T_out error
+@580ns Test 1: next_first_ref_block_out error
+@580ns Test 1: first_ref_block_out error
+@590ns Test 1: store_S_out error
+@590ns Test 1: init_out error
+@590ns Test 1: S_out error
+@590ns Test 1: T_out error
+@590ns Test 1: next_first_ref_block_out error
+@590ns Test 1: first_ref_block_out error
+@600ns Test 1: store_S_out error
+@600ns Test 1: init_out error
+@600ns Test 1: S_out error
+@600ns Test 1: T_out error
+@600ns Test 1: next_first_ref_block_out error
+@600ns Test 1: first_ref_block_out error
+@610ns Test 1: store_S_out error
+@610ns Test 1: init_out error
+@610ns Test 1: S_out error
+@610ns Test 1: T_out error
+@610ns Test 1: next_first_ref_block_out error
+@610ns Test 1: first_ref_block_out error
+@610ns Test 1: last_block_char_out error
+@620ns Test 1: S_out error
+@620ns Test 1: first_query_block_out error
+@620ns Test 1: next_first_ref_block_out error
+@620ns Test 1: first_ref_block_out error
+@630ns Test 1: store_S_out error
+@630ns Test 1: init_out error
+@630ns Test 1: S_out error
+@630ns Q1R1 Test 1: T_out error           0
+@630ns Test 1: first_query_block_out error
+@630ns Test 1: next_first_ref_block_out error
+@630ns Test 1: first_ref_block_out error
+@640ns Test 1: store_S_out error
+@640ns Test 1: init_out error
+@640ns Test 1: S_out error
+@640ns Test 1: first_query_block_out error
+@640ns Test 1: next_first_ref_block_out error
+@640ns Test 1: first_ref_block_out error
+@650ns Test 1: store_S_out error
+@650ns Test 1: init_out error
+@650ns Test 1: S_out error
+@650ns Q1R1 Test 1: T_out error           2
+@650ns Test 1: first_query_block_out error
+@650ns Test 1: next_first_ref_block_out error
+@650ns Test 1: first_ref_block_out error
+@660ns Test 1: store_S_out error
+@660ns Test 1: init_out error
+@660ns Test 1: S_out error
+@660ns Q1R1 Test 1: T_out error           3
+@660ns Test 1: first_query_block_out error
+@660ns Test 1: next_first_ref_block_out error
+@660ns Test 1: first_ref_block_out error
+@670ns Test 1: store_S_out error
+@670ns Test 1: init_out error
 @670ns Test 1: S_out error
+@670ns Q1R1 Test 1: T_out error           4
+@670ns Test 1: first_query_block_out error
+@670ns Test 1: next_first_ref_block_out error
+@670ns Test 1: first_ref_block_out error
+@680ns Test 1: store_S_out error
+@680ns Test 1: init_out error
+@680ns Test 1: S_out error
+@680ns Q1R1 Test 1: T_out error           5
+@680ns Test 1: first_query_block_out error
+@680ns Test 1: next_first_ref_block_out error
+@680ns Test 1: first_ref_block_out error
+@690ns Test 1: store_S_out error
+@690ns Test 1: init_out error
+@690ns Test 1: S_out error
+@690ns Q1R1 Test 1: T_out error           6
+@690ns Test 1: first_query_block_out error
+@690ns Test 1: next_first_ref_block_out error
+@690ns Test 1: first_ref_block_out error
+@700ns Test 1: store_S_out error
+@700ns Test 1: init_out error
+@700ns Test 1: S_out error
+@700ns Q1R1 End Test 1: T_out error
+@700ns Test 1: first_query_block_out error
+@700ns Test 1: next_first_ref_block_out error
+@700ns Test 1: first_ref_block_out error
+@700ns Test 1: last_block_char_out error
+@710ns Test 1: S_out error
+@710ns Test 1: first_query_block_out error
+@710ns Test 1: next_first_ref_block_out error
+@710ns Test 1: first_ref_block_out error
+@720ns Test 1: store_S_out error
+@720ns Test 1: init_out error
+@720ns Test 1: S_out error
+@720ns Test 1: T_out error
+@720ns Test 1: first_query_block_out error
+@720ns Test 1: next_first_ref_block_out error
+@720ns Test 1: first_ref_block_out error
+@730ns Test 1: store_S_out error
+@730ns Test 1: init_out error
+@730ns Test 1: S_out error
+@730ns Test 1: first_query_block_out error
+@730ns Test 1: next_first_ref_block_out error
+@730ns Test 1: first_ref_block_out error
+@740ns Test 1: store_S_out error
+@740ns Test 1: init_out error
+@740ns Test 1: S_out error
+@740ns Test 1: T_out error
+@740ns Test 1: first_query_block_out error
+@740ns Test 1: next_first_ref_block_out error
+@740ns Test 1: first_ref_block_out error
+@750ns Test 1: store_S_out error
+@750ns Test 1: init_out error
+@750ns Test 1: S_out error
+@750ns Test 1: T_out error
+@750ns Test 1: first_query_block_out error
+@750ns Test 1: next_first_ref_block_out error
+@750ns Test 1: first_ref_block_out error
+@760ns Test 1: store_S_out error
+@760ns Test 1: init_out error
 @760ns Test 1: S_out error
+@760ns Test 1: T_out error
+@760ns Test 1: first_query_block_out error
+@760ns Test 1: next_first_ref_block_out error
+@760ns Test 1: first_ref_block_out error
+@770ns Test 1: store_S_out error
+@770ns Test 1: init_out error
+@770ns Test 1: S_out error
+@770ns Test 1: T_out error
+@770ns Test 1: first_query_block_out error
+@770ns Test 1: next_first_ref_block_out error
+@770ns Test 1: first_ref_block_out error
+@780ns Test 1: store_S_out error
+@780ns Test 1: init_out error
+@780ns Test 1: S_out error
+@780ns Test 1: T_out error
+@780ns Test 1: first_query_block_out error
+@780ns Test 1: next_first_ref_block_out error
+@780ns Test 1: first_ref_block_out error
+@790ns Test 1: store_S_out error
+@790ns Test 1: init_out error
+@790ns Test 1: S_out error
+@790ns Test 1: T_out error
+@790ns Test 1: first_query_block_out error
+@790ns Test 1: next_first_ref_block_out error
+@790ns Test 1: first_ref_block_out error
+@790ns Test 1: last_block_char_out error
+@800ns Test 1: ref_seq_block_rdy_out error
+@800ns Test 1: S_out error
+@800ns Test 1: next_first_ref_block_out error
+@800ns Test 1: first_ref_block_out error
+@800ns Test 1: last_ref_block_out error
+@810ns Test 1: store_S_out error
+@810ns Test 1: init_out error
+@810ns Test 1: S_out error
+@810ns Test 1: T_out error
+@810ns Test 1: next_first_ref_block_out error
+@810ns Test 1: first_ref_block_out error
+@810ns Test 1: last_ref_block_out error
+@820ns Test 1: store_S_out error
+@820ns Test 1: init_out error
+@820ns Test 1: S_out error
+@820ns Test 1: T_out error
+@820ns Test 1: next_first_ref_block_out error
+@820ns Test 1: first_ref_block_out error
+@820ns Test 1: last_ref_block_out error
+@830ns Test 1: store_S_out error
+@830ns Test 1: init_out error
+@830ns Test 1: S_out error
+@830ns Test 1: T_out error
+@830ns Test 1: next_first_ref_block_out error
+@830ns Test 1: first_ref_block_out error
+@830ns Test 1: last_ref_block_out error
+@840ns Test 1: store_S_out error
+@840ns Test 1: init_out error
+@840ns Test 1: S_out error
+@840ns Test 1: T_out error
+@840ns Test 1: next_first_ref_block_out error
+@840ns Test 1: first_ref_block_out error
+@840ns Test 1: last_ref_block_out error
+@850ns Test 1: store_S_out error
+@850ns Test 1: init_out error
 @850ns Test 1: S_out error
+@850ns Test 1: T_out error
+@850ns Test 1: next_first_ref_block_out error
+@850ns Test 1: first_ref_block_out error
+@850ns Test 1: last_ref_block_out error
+@860ns Test 1: store_S_out error
+@860ns Test 1: init_out error
+@860ns Test 1: S_out error
+@860ns Test 1: next_first_ref_block_out error
+@860ns Test 1: first_ref_block_out error
+@860ns Test 1: last_ref_block_out error
+@870ns Test 1: store_S_out error
+@870ns Test 1: init_out error
+@870ns Test 1: S_out error
+@870ns Test 1: T_out error
+@870ns Test 1: next_first_ref_block_out error
+@870ns Test 1: first_ref_block_out error
+@870ns Test 1: last_ref_block_out error
+@880ns Test 1: store_S_out error
+@880ns Test 1: init_out error
+@880ns Test 1: S_out error
+@880ns Test 1: T_out error
+@880ns Test 1: next_first_ref_block_out error
+@880ns Test 1: first_ref_block_out error
+@880ns Test 1: last_ref_block_out error
+@880ns Test 1: last_block_char_out error
+@890ns Test 1: S_out error
+@890ns Test 1: first_query_block_out error
+@890ns Test 1: next_first_ref_block_out error
+@890ns Test 1: first_ref_block_out error
+@890ns Test 1: last_ref_block_out error
+@900ns Test 1: store_S_out error
+@900ns Test 1: init_out error
+@900ns Test 1: S_out error
+@900ns Test 1: T_out error
+@900ns Test 1: first_query_block_out error
+@900ns Test 1: next_first_ref_block_out error
+@900ns Test 1: first_ref_block_out error
+@900ns Test 1: last_ref_block_out error
+@910ns Test 1: store_S_out error
+@910ns Test 1: init_out error
+@910ns Test 1: S_out error
+@910ns Test 1: T_out error
+@910ns Test 1: first_query_block_out error
+@910ns Test 1: next_first_ref_block_out error
+@910ns Test 1: first_ref_block_out error
+@910ns Test 1: last_ref_block_out error
+@920ns Test 1: store_S_out error
+@920ns Test 1: init_out error
+@920ns Test 1: S_out error
+@920ns Test 1: T_out error
+@920ns Test 1: first_query_block_out error
+@920ns Test 1: next_first_ref_block_out error
+@920ns Test 1: first_ref_block_out error
+@920ns Test 1: last_ref_block_out error
+@930ns Test 1: store_S_out error
+@930ns Test 1: init_out error
+@930ns Test 1: S_out error
+@930ns Test 1: T_out error
+@930ns Test 1: first_query_block_out error
+@930ns Test 1: next_first_ref_block_out error
+@930ns Test 1: first_ref_block_out error
+@930ns Test 1: last_ref_block_out error
+@940ns Test 1: store_S_out error
+@940ns Test 1: init_out error
 @940ns Test 1: S_out error
-# run all
-2 query blocks, 1 ref block, stall waiting for query test
-@1290ns Test 2: S_out error
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1770 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2282
+@940ns Test 1: T_out error
+@940ns Test 1: first_query_block_out error
+@940ns Test 1: next_first_ref_block_out error
+@940ns Test 1: first_ref_block_out error
+@940ns Test 1: last_ref_block_out error
+@950ns Test 1: store_S_out error
+@950ns Test 1: init_out error
+@950ns Test 1: S_out error
+@950ns Test 1: first_query_block_out error
+@950ns Test 1: next_first_ref_block_out error
+@950ns Test 1: first_ref_block_out error
+@950ns Test 1: last_ref_block_out error
+@960ns Test 1: store_S_out error
+@960ns Test 1: init_out error
+@960ns Test 1: S_out error
+@960ns Test 1: T_out error
+@960ns Test 1: first_query_block_out error
+@960ns Test 1: next_first_ref_block_out error
+@960ns Test 1: first_ref_block_out error
+@960ns Test 1: last_ref_block_out error
+@970ns Test 1: store_S_out error
+@970ns Test 1: init_out error
+@970ns Test 1: S_out error
+@970ns Test 1: T_out error
+@970ns Test 1: first_query_block_out error
+@970ns Test 1: next_first_ref_block_out error
+@970ns Test 1: first_ref_block_out error
+@970ns Test 1: last_ref_block_out error
+@970ns Test 1: last_block_char_out error
+@980ns Test 1: S_out error
+@980ns Test 1: first_query_block_out error
+@980ns Test 1: next_first_ref_block_out error
+@980ns Test 1: first_ref_block_out error
+@980ns Test 1: last_ref_block_out error
+@990ns Test 1: store_S_out error
+@990ns Test 1: init_out error
+@990ns Test 1: S_out error
+@990ns Test 1: T_out error
+@990ns Test 1: first_query_block_out error
+@990ns Test 1: next_first_ref_block_out error
+@990ns Test 1: first_ref_block_out error
+@990ns Test 1: last_ref_block_out error
+@1000ns Test 1: store_S_out error
+@1000ns Test 1: init_out error
+@1000ns Test 1: S_out error
+@1000ns Test 1: T_out error
+@1000ns Test 1: first_query_block_out error
+@1000ns Test 1: next_first_ref_block_out error
+@1000ns Test 1: first_ref_block_out error
+@1000ns Test 1: last_ref_block_out error
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -500,11 +500,10 @@ Simulator is doing circuit initialization process.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
-# run all
-2 query blocks, 1 ref block, stall waiting for query test
-1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1770 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2282
+3 query blocks, 2 ref blocks, initial state, output stall test
+@60ns Test 1: query_info_rdy_out error
+@70ns Test 1: query_info_rdy_out error
+@70ns Test 1: ref_info_valid_out error
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -515,11 +514,12 @@ Simulator is doing circuit initialization process.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
+3 query blocks, 2 ref blocks, initial state, output stall test
+@61ns Test 1: ref_info_valid_out error
 # run all
 2 query blocks, 1 ref block, stall waiting for query test
 1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2231
+Stopped at time : 1800 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2390
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -530,11 +530,11 @@ Simulator is doing circuit initialization process.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
+3 query blocks, 2 ref blocks, initial state, output stall test
 # run all
 2 query blocks, 1 ref block, stall waiting for query test
 1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2231
+Stopped at time : 1810 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2421
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -545,9 +545,42 @@ Simulator is doing circuit initialization process.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-3 query blocks, 2 ref blocks, initial state test
+3 query blocks, 2 ref blocks, initial state, output stall test
 # run all
 2 query blocks, 1 ref block, stall waiting for query test
 1 query blocks, 2 ref blocks, stall waiting for ref block test
-Stopped at time : 1750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2232
+Tests complete!
+Stopped at time : 1810 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2422
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Finished circuit initialization process.
+3 query blocks, 2 ref blocks, initial state, output stall test
+# run all
+2 query blocks, 1 ref block, stall waiting for query test
+1 query blocks, 2 ref blocks, stall waiting for ref block test
+Tests complete!
+Stopped at time : 1820 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2455
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module Engine_Ctrl_tb.uut.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Finished circuit initialization process.
+3 query blocks, 2 ref blocks, initial state, output stall test
+# run all
+2 query blocks, 1 ref block, stall waiting for query test
+1 query blocks, 2 ref blocks, stall waiting for ref block test
+Tests complete!
+Stopped at time : 1970 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/Engine_Ctrl_tb.v" Line 2408
 # exit 0

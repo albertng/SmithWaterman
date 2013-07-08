@@ -1,16 +1,16 @@
-Running: /media/albert/Data/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe" -prj "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_beh.prj" "work.Engine_Ctrl_tb" "work.glbl" 
+Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe" -prj "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_beh.prj" "work.Engine_Ctrl_tb" "work.glbl" 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ipcore_dir/query_seq_bram.v" into library work
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../Engine_Ctrl.v" into library work
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../Engine_Ctrl_tb.v" into library work
-Analyzing Verilog file "/media/albert/Data/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ipcore_dir/query_seq_bram.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../Engine_Ctrl.v" into library work
+Analyzing Verilog file "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../Engine_Ctrl_tb.v" into library work
+Analyzing Verilog file "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
 Completed static elaboration
-Fuse Memory Usage: 96864 KB
-Fuse CPU Usage: 1150 ms
+Fuse Memory Usage: 96940 KB
+Fuse CPU Usage: 1390 ms
 Compiling module BLK_MEM_GEN_V7_3_output_stage(C_...
 Compiling module BLK_MEM_GEN_V7_3_softecc_output_...
 Compiling module BLK_MEM_GEN_V7_3_mem_module(C_CO...
@@ -22,7 +22,7 @@ Compiling module glbl
 Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 8 Verilog Units
-Built simulation executable /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe
-Fuse Memory Usage: 668024 KB
-Fuse CPU Usage: 1420 ms
-GCC CPU Usage: 3560 ms
+Built simulation executable /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/Engine_Ctrl_tb_isim_beh.exe
+Fuse Memory Usage: 669392 KB
+Fuse CPU Usage: 1720 ms
+GCC CPU Usage: 5560 ms

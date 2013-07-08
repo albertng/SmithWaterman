@@ -3,10 +3,11 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 03 2013     Initial Revision
- *      Albert Ng   Jul 06 2013     3 query block, 2 ref block, initial state test
+ *      Albert Ng   Jul 06 2013     3 query block, 2 ref block, initial state, output stall test
  *                                  2 query block, 1 ref block, stall waiting for query seq test
  *                                  1 query block, 2 ref block, stall waiting for ref block test
  *                                  Moved send_ref from read FSM to write FSM
+ *      Albert Ng   Jul 08 2013     Added stall tests
  *
  */
 
@@ -134,7 +135,7 @@ module Engine_Ctrl_tb;
         rst <= 0;
         #10;
         
-        $display("3 query blocks, 2 ref blocks, initial state test");
+        $display("3 query blocks, 2 ref blocks, initial state, output stall test");
         for (i = 0; i < 2; i = i + 1) begin
             // Wait_query_info_valid
             if (query_info_rdy_out != 0)
@@ -195,7 +196,44 @@ module Engine_Ctrl_tb;
         query_info_valid <= 1;
         #10;
         
+        // Send_ref_addr stall
+        for (i = 0; i < 4; i = i + 1) begin
+            stall <= 1;
+            #1;
+            if (query_info_rdy_out != 0)
+                $display("@%0dns Test 1: query_info_rdy_out error", $time);     
+            if (query_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: query_seq_block_rdy_out error", $time);
+            if (ref_info_valid_out != 0)
+                $display("@%0dns Test 1: ref_info_valid_out error", $time);
+            if (ref_addr_out != ref_addr1) 
+                $display("@%0dns Test 1: ref_addr_out error", $time);
+            if (ref_length_out != ref_length1)
+                $display("@%0dns Test 1: ref_length_out_error", $time);
+            if (ref_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: ref_seq_block_rdy_out error", $time);
+            if (store_S_out != 1)
+                $display("@%0dns Test 1: store_S_out error", $time);
+            if (init_out != 0)
+                $display("@%0dns Test 1: init_out error", $time);
+            if (first_query_block_out != 1)
+                $display("@%0dns Test 1: first_query_block_out error", $time);
+            if (next_first_ref_block_out != 1)
+                $display("@%0dns Test 1: next_first_ref_block_out error", $time);
+            if (first_ref_block_out != 1)
+                $display("@%0dns Test 1: first_ref_block_out error", $time);
+            if (last_ref_block_out != 0)
+                $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_block_char_out != 0)
+                $display("@%0dns Test 1: last_block_char_out error", $time);
+            if (bypass_fifo_out != 0)
+                $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            #9;
+        end
+        
         // Send_ref_addr
+        stall <= 0;
+        #1;
         if (query_info_rdy_out != 1)
             $display("@%0dns Test 1: query_info_rdy_out error", $time);     
         if (query_seq_block_rdy_out != 0)
@@ -224,7 +262,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        #10;
+        #9;
         
         // Wait_query_seq_block_valid
         if (query_info_rdy_out != 0)
@@ -340,7 +378,40 @@ module Engine_Ctrl_tb;
         query_seq_block_valid <= 1;
         #10;
         
+        // Latch_query_seq_block stall
+        for (i = 0; i < 10; i = i + 1) begin
+            stall <= 1;
+            #1;
+            if (query_info_rdy_out != 0)
+                $display("@%0dns Test 1: query_info_rdy_out error", $time);     
+            if (query_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: query_seq_block_rdy_out error", $time);
+            if (ref_info_valid_out != 0)
+                $display("@%0dns Test 1: ref_info_valid_out error", $time);
+            if (ref_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: ref_seq_block_rdy_out error", $time);
+            if (store_S_out != 1)
+                $display("@%0dns Test 1: store_S_out error", $time);
+            if (init_out != 0)
+                $display("@%0dns Test 1: init_out error", $time);
+            if (first_query_block_out != 1)
+                $display("@%0dns Test 1: first_query_block_out error", $time);
+            if (next_first_ref_block_out != 1)
+                $display("@%0dns Test 1: next_first_ref_block_out error", $time);
+            if (first_ref_block_out != 1)
+                $display("@%0dns Test 1: first_ref_block_out error", $time);
+            if (last_ref_block_out != 0)
+                $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_block_char_out != 0)
+                $display("@%0dns Test 1: last_block_char_out error", $time);
+            if (bypass_fifo_out != 0)
+                $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            #9;
+        end
+        
         // Latch_query_seq_block
+        stall <= 0;
+        #1;
         if (query_info_rdy_out != 0)
             $display("@%0dns Test 1: query_info_rdy_out error", $time);     
         if (query_seq_block_rdy_out != 1)
@@ -365,7 +436,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        #10;
+        #9;
         
         // Wait_query_seq_block_valid
         if (query_info_rdy_out != 0)
@@ -508,7 +579,42 @@ module Engine_Ctrl_tb;
         ref_seq_block_valid = 1;
         #10;
         
+        // Latch_ref stall
+        for (i = 0; i < 5; i = i + 1) begin
+            stall <= 1;
+            #1;
+            if (query_info_rdy_out != 0)
+                $display("@%0dns Test 1: query_info_rdy_out error", $time);     
+            if (query_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: query_seq_block_rdy_out error", $time);
+            if (ref_info_valid_out != 0)
+                $display("@%0dns Test 1: ref_info_valid_out error", $time);
+            if (ref_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: ref_seq_block_rdy_out error", $time);
+            if (store_S_out != 1)
+                $display("@%0dns Test 1: store_S_out error", $time);
+            if (init_out != 0)
+                $display("@%0dns Test 1: init_out error", $time);
+            if (S_out != query1[0])
+                $display("@%0dns Test 1: S_out error", $time);
+            if (first_query_block_out != 1)
+                $display("@%0dns Test 1: first_query_block_out error", $time);
+            if (next_first_ref_block_out != 1)
+                $display("@%0dns Test 1: next_first_ref_block_out error", $time);
+            if (first_ref_block_out != 1)
+                $display("@%0dns Test 1: first_ref_block_out error", $time);
+            if (last_ref_block_out != 0)
+                $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_block_char_out != 0)
+                $display("@%0dns Test 1: last_block_char_out error", $time);
+            if (bypass_fifo_out != 0)
+                $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            #9;
+        end
+
         // Latch_ref
+        stall <= 0;
+        #1;
         if (query_info_rdy_out != 0)
             $display("@%0dns Test 1: query_info_rdy_out error", $time);     
         if (query_seq_block_rdy_out != 0)
@@ -535,7 +641,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        #10;
+        #9;;
 
         // Advance_BCC
         ref_seq_block_valid = 0;
@@ -722,7 +828,7 @@ module Engine_Ctrl_tb;
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
         #10;
-        for (i = 0; i < 7; i = i + 1) begin
+        for (i = 0; i < 3; i = i + 1) begin
             if (query_info_rdy_out != 0)
                 $display("@%0dns Test 1: query_info_rdy_out error", $time);     
             if (query_seq_block_rdy_out != 0)
@@ -752,6 +858,76 @@ module Engine_Ctrl_tb;
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
             #10;
+        end
+        
+        // Advance BCC stall
+        for (i = 0; i < 3; i = i + 1) begin
+            stall <= 1;
+            #1;
+            if (query_info_rdy_out != 0)
+                $display("@%0dns Test 1: query_info_rdy_out error", $time);     
+            if (query_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: query_seq_block_rdy_out error", $time);
+            if (ref_info_valid_out != 0)
+                $display("@%0dns Test 1: ref_info_valid_out error", $time);
+            if (ref_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: ref_seq_block_rdy_out error", $time);
+            if (store_S_out != 0)
+                $display("@%0dns Test 1: store_S_out error", $time);
+            if (init_out != 1)
+                $display("@%0dns Test 1: init_out error", $time);
+            if (S_out != query1[2])
+                $display("@%0dns Test 1: S_out error", $time);
+            if (T_out != ref1[0][7:6])
+                $display("@%0dns Test 1: T_out error", $time);
+            if (first_query_block_out != 0)
+                $display("@%0dns Test 1: first_query_block_out error", $time);
+            if (next_first_ref_block_out != 1)
+                $display("@%0dns Test 1: next_first_ref_block_out error", $time);
+            if (first_ref_block_out != 1)
+                $display("@%0dns Test 1: first_ref_block_out error", $time);
+            if (last_ref_block_out != 0)
+                $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_block_char_out != 0)
+                $display("@%0dns Test 1: last_block_char_out error", $time);
+            if (bypass_fifo_out != 0)
+                $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            #9;
+        end
+        
+        // Advance BCC      
+        for (i = 3; i < 7; i = i + 1) begin
+            stall <= 0;
+            #1;
+            if (query_info_rdy_out != 0)
+                $display("@%0dns Test 1: query_info_rdy_out error", $time);     
+            if (query_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: query_seq_block_rdy_out error", $time);
+            if (ref_info_valid_out != 0)
+                $display("@%0dns Test 1: ref_info_valid_out error", $time);
+            if (ref_seq_block_rdy_out != 0)
+                $display("@%0dns Test 1: ref_seq_block_rdy_out error", $time);
+            if (store_S_out != 0)
+                $display("@%0dns Test 1: store_S_out error", $time);
+            if (init_out != 1)
+                $display("@%0dns Test 1: init_out error", $time);
+            if (S_out != query1[2])
+                $display("@%0dns Test 1: S_out error", $time);
+            if (T_out != ref1[0][i*2 + 1 -: 2])
+                $display("@%0dns Test 1: T_out error", $time);
+            if (first_query_block_out != 0)
+                $display("@%0dns Test 1: first_query_block_out error", $time);
+            if (next_first_ref_block_out != 1)
+                $display("@%0dns Test 1: next_first_ref_block_out error", $time);
+            if (first_ref_block_out != 1)
+                $display("@%0dns Test 1: first_ref_block_out error", $time);
+            if (last_ref_block_out != 0)
+                $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_block_char_out != 0)
+                $display("@%0dns Test 1: last_block_char_out error", $time);
+            if (bypass_fifo_out != 0)
+                $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            #9;
         end
         if (query_info_rdy_out != 0)
             $display("@%0dns Test 1: query_info_rdy_out error", $time);     
@@ -2227,8 +2403,9 @@ module Engine_Ctrl_tb;
         #10;
 
 
-        // Wait 100 ns for global reset to finish
+        // Wait 100 ns
 		#100;
+        $display("Tests complete!");
         $finish;
 
 	end

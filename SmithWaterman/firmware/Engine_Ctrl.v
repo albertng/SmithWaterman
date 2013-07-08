@@ -51,6 +51,7 @@
  *                                  Changed query sequence buffer writing to a FSM
  *      Albert Ng   Jul 06 2013     Changed qsbram_rd_addr to be next_query_block_cnt
  *                                  Moved send_ref_addr from read FSM to write FSM
+ *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals  
  *
  */
  
@@ -312,13 +313,21 @@ module Engine_Ctrl(
             SEND_REF_ADDR: begin
                 next_qsbram_wr_addr = qsbram_wr_addr;
                 latch_query_info = 1;   
-                query_info_rdy = 1;
+                if (!stall) begin       // Only handshake for one clock
+                    query_info_rdy = 1;
+                end else begin
+                    query_info_rdy = 0;
+                end
                 qsbram_wr_en0 = 0;
                 qsbram_wr_en1 = 0;
                 query_seq_block_rdy = 0;
                 wr_buffer_rdy = 0;
                 next_wr_buffer_sel = wr_buffer_sel;
-                ref_info_valid = 1;
+                if (!stall) begin       // Only signal valid for one clock
+                    ref_info_valid = 1;
+                end else begin
+                    ref_info_valid = 0;
+                end
             end
             
             WAIT_QUERY_SEQ_BLOCK_VALID: begin
@@ -337,14 +346,21 @@ module Engine_Ctrl(
                 next_qsbram_wr_addr = qsbram_wr_addr + 1;
                 latch_query_info = 0;
                 query_info_rdy = 0;
-                if (!wr_buffer_sel) begin
+                if (!wr_buffer_sel && !stall) begin // Only write once when stalling
                     qsbram_wr_en0 = 1;
                     qsbram_wr_en1 = 0;
-                end else begin
+                end else if (wr_buffer_sel && !stall) begin
                     qsbram_wr_en0 = 0;
                     qsbram_wr_en1 = 1;
+                end else begin
+                    qsbram_wr_en0 = 0;
+                    qsbram_wr_en1 = 0;
                 end
-                query_seq_block_rdy = 1;
+                if (!stall) begin            // Only handshake for one clock
+                    query_seq_block_rdy = 1;
+                end else begin
+                    query_seq_block_rdy = 0;
+                end
                 wr_buffer_rdy = 0;
                 next_wr_buffer_sel = wr_buffer_sel;
                 ref_info_valid = 0;
@@ -556,7 +572,11 @@ module Engine_Ctrl(
             LATCH_REF:begin
                 next_block_char_cnt = 0;
                 rd_buffer_rdy = 0;
-                ref_seq_block_rdy = 1;
+                if (!stall) begin
+                    ref_seq_block_rdy = 1;
+                end else begin
+                    ref_seq_block_rdy = 0;
+                end
                 latch_T = 1;
                 shift_T = 0;
             end
