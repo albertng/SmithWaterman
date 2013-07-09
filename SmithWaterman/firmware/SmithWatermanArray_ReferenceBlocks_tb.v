@@ -80,8 +80,6 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     integer i;
     integer j;
     initial begin
-        stall = 0;
-    
         $display("Multiple query block, multiple reference block, 3 PEs per FIFO test");
         short_read1[0] = 2'b00;   // ACTAGC
         short_read1[1] = 2'b01;
@@ -164,6 +162,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         // Initialize Inputs
         clk <= 0;
         rst <= 1;
+        stall <= 0;
         S_in1 <= 0;
         T_in <= 0;
         init_in <= 0;

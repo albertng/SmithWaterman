@@ -2,9 +2,9 @@ Command line:
    Engine_Ctrl_tb_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  56781
+     -socket  38942
 
-Mon Jul  8 12:17:55 2013
+Mon Jul  8 18:14:22 2013
 
 
  Elaboration Time: 0.03 sec
@@ -25,5 +25,5 @@ Total Line Count : 3259
 
  Current Memory Usage: 262.435 Meg
 
-Mon Jul  8 12:19:16 2013
+Mon Jul  8 18:14:29 2013
 

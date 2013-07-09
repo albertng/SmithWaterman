@@ -56,7 +56,7 @@ module Engine(
     wire last_block_char;
     wire bypass_fifo;
 
-    Engine_Ctrl #(NUM_PES, REF_LENGTH) eng_cntrl (
+    Engine_Ctrl #(NUM_PES, REF_LENGTH) eng_ctrl (
         .clk(clk),
         .rst(rst),
         .stall(stall),

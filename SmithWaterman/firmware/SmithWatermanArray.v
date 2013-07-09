@@ -79,7 +79,8 @@
  *      Albert Ng   Jun 26 2013     Removed S shift register buffer
  *                                  Changed S_in port from single nucleotide to NUM_PEs nucleotides
  *                                  First_ref_block and Next_first_ref_block shift regs reset to 1
- *      Albert Ng   Jun 27 2013     Stopped FIFO read/write when stalling    
+ *      Albert Ng   Jun 27 2013     Stopped FIFO read/write when stalling 
+ *      Albert Ng   Jul 08 2013     Stopped shift register shifting when stalling 
  *
  */
 
@@ -146,7 +147,7 @@ module SmithWatermanArray(
         if (rst) begin
             V_interm[0] <= 0;
             F_interm[0] <= 0;
-        end else begin
+        end else if (!stall) begin
             V_interm[0] <= V[NUM_PES];
             F_interm[0] <= F[NUM_PES];
         end
@@ -157,7 +158,7 @@ module SmithWatermanArray(
                 if (rst) begin
                     V_interm[i] <= 0;
                     F_interm[i] <= 0;
-                end else begin
+                end else if (!stall) begin
                     V_interm[i] <= V_interm[i-1];
                     F_interm[i] <= F_interm[i-1];
                 end
@@ -283,7 +284,7 @@ module SmithWatermanArray(
             last_ref_block[0] <= 0;
             last_block_char[0] <= 0;
             bypass_fifo[0] <= 0;
-        end else begin
+        end else if (!stall) begin
             next_first_ref_block[0] <= next_first_ref_block_in;
             first_ref_block[0] <= first_ref_block_in;
             last_ref_block[0] <= last_ref_block_in;
@@ -300,7 +301,7 @@ module SmithWatermanArray(
                     last_ref_block[i] <= 0;
                     last_block_char[i] <= 0;
                     bypass_fifo[i] <= 0;
-                end else begin
+                end else if (!stall) begin
                     next_first_ref_block[i] <= next_first_ref_block[i-1];
                     first_ref_block[i] <= first_ref_block[i-1];
                     last_ref_block[i] <= last_ref_block[i-1];
