@@ -26,31 +26,35 @@ module fifotest_tb;
 
 	// Inputs
 	reg clk;
+    reg si_clk;
 	reg rst;
-	reg [17:0] din;
+	reg [127:0] din;
 	reg wr_en;
 	reg rd_en;
 
 	// Outputs
-	wire [17:0] dout;
+	wire [127:0] dout;
 	wire full;
 	wire empty;
 
 	// Instantiate the Unit Under Test (UUT)
-	fifotest uut (
-		.clk(clk), 
-		.rst(rst), 
-		.din(din), 
-		.wr_en(wr_en), 
-		.rd_en(rd_en), 
-		.dout(dout), 
-		.full(full), 
-		.empty(empty)
-	);
+    stream_data_sync_buffer sdsb (
+        .rst(rst),
+        .wr_clk(si_clk),
+        .rd_clk(clk),
+        .din(din),
+        .wr_en(wr_en),
+        .rd_en(rd_en),
+        .dout(dout),
+        .full(full),
+        .empty(empty)
+    );
 
+    integer i;
 	initial begin
 		// Initialize Inputs
 		clk = 0;
+        si_clk = 0;
 		rst = 1;
 		din = 0;
 		wr_en = 0;
@@ -62,15 +66,34 @@ module fifotest_tb;
         wr_en <= 1;
         #10;
         wr_en <= 0;
-        #10;
-        rd_en <= 1;
         #100;
+        rd_en <= 1;
+        #10;
+        rd_en <= 0;
+        #100;
+        for (i = 0; i < 17; i = i + 1) begin
+            wr_en <= 1;
+            din <= i + 1;
+            #10;
+        end
+        wr_en <= 0;
+        #100;
+        for (i = 0; i < 17; i = i + 1) begin
+            rd_en <= 1;
+            #10;
+        end
+        rd_en <= 0;
+        #200;
         $finish;
 
 	end
     
     always begin
         #5 clk = !clk;
+    end
+    
+    always begin
+        #5 si_clk = !si_clk;
     end
     
 endmodule

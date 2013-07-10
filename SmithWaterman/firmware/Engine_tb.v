@@ -868,11 +868,10 @@ module Engine_tb;
             #10;
         end
         
-		// Wait 100 ns for global reset to finish
+		// Wait 100 ns
 		#100;
         $display("Tests complete!");
         $finish;
-
 	end
     always begin
         #5 clk = !clk;
