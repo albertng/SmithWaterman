@@ -1,0 +1,10 @@
+Command line:
+   ReferenceReader_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  34370
+
+Thu Jul 11 13:49:25 2013
+
+
+ Elaboration Time: 0.04 sec

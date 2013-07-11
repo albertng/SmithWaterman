@@ -1,0 +1,4 @@
+verilog work "ipcore_dir/ref_seq_block_buffer.v"
+verilog work "../ReferenceReader.v"
+verilog work "../ReferenceReader_tb.v"
+verilog work "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v"

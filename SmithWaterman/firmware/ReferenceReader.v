@@ -27,6 +27,7 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 10 2013     Initial Revision
+ *      Albert Ng   Jul 11 2013     Fixed initial revision bugs
  *
  */
  
@@ -65,7 +66,7 @@ module ReferenceReader(
     // Reference sequence block buffer signals
     wire [511:0] rsbb_din;
     wire rsbb_wr_en;
-    reg  rsbb_rd_en;
+    wire rsbb_rd_en;
     wire [511:0] rsbb_dout;
     wire rsbb_full;
     wire rsbb_empty;
@@ -170,26 +171,35 @@ module ReferenceReader(
         case(state)
             WAIT_REF_INFO_VALID: begin
                 next_cur_addr = {7'b0, ref_addr_buf};
-                next_end_addr = {7'b0, ref_addr_buf} + {7'b0, ref_length_buf};
-                clear_ref_info_valid = 0;
+                next_end_addr = {7'b0, ref_addr_buf} + {7'b0, ref_length_buf} - 1;
+                if (ref_info_valid) begin
+                    clear_ref_info_valid = 1;
+                end else begin
+                    clear_ref_info_valid = 0;
+                end
                 next_rd_id = rd_id;
                 rd_info_valid = 0;
             end
             
             SEND_RD_INFO: begin
-                next_cur_addr = cur_addr + 1;
-                next_end_addr = end_addr;
-                clear_ref_info_valid = 1;
-                next_rd_id = rd_id + 1;
-                rd_info_valid = 1;
-            end
-            
-            WAIT_RD_INFO_RDY: begin
                 next_cur_addr = cur_addr;
                 next_end_addr = end_addr;
                 clear_ref_info_valid = 0;
                 next_rd_id = rd_id;
-                rd_info_valid = 0;
+                rd_info_valid = 1;
+            end
+            
+            WAIT_RD_INFO_RDY: begin
+                next_end_addr = end_addr;
+                clear_ref_info_valid = 0;
+                rd_info_valid = 1;
+                if (rd_info_rdy_in) begin
+                    next_cur_addr = cur_addr + 1;
+                    next_rd_id = rd_id + 1;
+                end else begin
+                    next_cur_addr = cur_addr;
+                    next_rd_id = rd_id;
+                end
             end
         endcase
     end
