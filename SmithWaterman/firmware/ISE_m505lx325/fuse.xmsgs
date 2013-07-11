@@ -5,5 +5,8 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../ReferenceReader.v" Line 125: Target &lt;<arg fmt="%s" index="1">rsbb_rd_en</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
 </messages>
 

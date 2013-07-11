@@ -1,5 +1,5 @@
 ISim log file
-Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_Engine_Interface_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ReferenceReader_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -11,71 +11,42 @@ Time resolution is 1 ps
 # run 1000 ns
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module StreamInputHandler_Engine_Interface_tb.uut.uut.eng_ctrl.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module StreamInputHandler_Engine_Interface_tb.uut.uut.eng_ctrl.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
+  10    0    0
+   8    8    0
+  10    8    7
+   8    8   18
+   0    8   16
+  10    0   15
+  16    8    0
+  28   15    7
+  26   26   14
+   8   38   25
+   7    8   36
+   6    6   15
+  10   17   18
+   8   15   16
+  26   14   15
+  25   38   25
+  24   36   36
+  26   35   36
+  24   34   46
+   0   33   44
+   0    0   43
+   0    0    0
+  10    0    0
+   8    8    0
+  10    8    7
+   8    8    6
+   8   20    7
+   7   20   18
+   6   18   18
+  10   17   18
+   8   16   28
+   0   15   26
+   0    0   26
 Tests complete!
-Stopped at time : 900 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/StreamInputHandler_tb.v" Line 389
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Finished circuit initialization process.
-Tests complete!
-Stopped at time : 900 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/StreamInputHandler_tb.v" Line 399
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Finished circuit initialization process.
-@790ns ref_length_out error
-@790ns ref_addr_out error
-@790ns num_query_blocks_out error
-@800ns ref_length_out error
-@800ns ref_addr_out error
-@800ns num_query_blocks_out error
-@810ns query_info_valid_out error
-@810ns query_seq_block_valid_out error
-@810ns query_seq_block error
-@820ns query_info_valid_out error
-@820ns query_seq_block_valid_out error
-@820ns query_seq_block error
-@830ns query_info_valid_out error
-Tests complete!
-Stopped at time : 940 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/StreamInputHandler_tb.v" Line 507
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Finished circuit initialization process.
-@810ns query_info_valid_out error
-@810ns query_seq_block_valid_out error
-@810ns query_seq_block error
-@820ns query_info_valid_out error
-@820ns query_seq_block_valid_out error
-@820ns query_seq_block error
-@830ns query_info_valid_out error
-Tests complete!
-Stopped at time : 940 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/StreamInputHandler_tb.v" Line 507
-ISim P.58f (signature 0xfbc00daa)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Finished circuit initialization process.
-Tests complete!
-Stopped at time : 940 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/StreamInputHandler_tb.v" Line 507
+Stopped at time : 670 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/StreamInputHandler_Engine_Interface_tb.v" Line 551
 # exit 0

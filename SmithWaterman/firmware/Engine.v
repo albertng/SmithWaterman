@@ -19,10 +19,10 @@ module Engine(
     input [24:0]  ref_length_in,            // Number of blocks in the reference sequence
     input [24:0]  ref_addr_in,              // DRAM starting address for reference sequence
     input [15:0]  num_query_blocks_in,      // Number of blocks in the query sequence
-    input         query_info_valid,         // Store bookkeeping info for the query sequence
+    input         query_info_valid_in,         // Store bookkeeping info for the query sequence
     output        query_info_rdy_out,       // Bookkeeping info input acknowledged
     input [(NUM_PES * 2) - 1:0] query_seq_block_in, // Query sequence block
-    input         query_seq_block_valid,    // Query sequence block input valid
+    input         query_seq_block_valid_in,    // Query sequence block input valid
     output        query_seq_block_rdy_out,  // Query sequence block input acknowledged
 
     // DRAM reference reader interface
@@ -30,7 +30,7 @@ module Engine(
     output [24:0] ref_length_out,           // Number of blocks in the reference sequence
     output        ref_info_valid_out,       // Reference sequence info output valid
     input [2*REF_LENGTH - 1:0] ref_seq_block_in, // Reference sequence block read from DRAM
-    input         ref_seq_block_valid,      // Reference sequence block input valid
+    input         ref_seq_block_valid_in,      // Reference sequence block input valid
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
 
     // Smith Waterman systolic array output
@@ -64,16 +64,16 @@ module Engine(
         .ref_length_in(ref_length_in),
         .ref_addr_in(ref_addr_in),
         .num_query_blocks_in(num_query_blocks_in),
-        .query_info_valid(query_info_valid),
+        .query_info_valid_in(query_info_valid_in),
         .query_info_rdy_out(query_info_rdy_out),
         .query_seq_block_in(query_seq_block_in),
-        .query_seq_block_valid(query_seq_block_valid),
+        .query_seq_block_valid_in(query_seq_block_valid_in),
         .query_seq_block_rdy_out(query_seq_block_rdy_out),
         .ref_addr_out(ref_addr_out),
         .ref_length_out(ref_length_out),
         .ref_info_valid_out(ref_info_valid_out),
         .ref_seq_block_in(ref_seq_block_in),
-        .ref_seq_block_valid(ref_seq_block_valid),
+        .ref_seq_block_valid_in(ref_seq_block_valid_in),
         .ref_seq_block_rdy_out(ref_seq_block_rdy_out),
         .S_out(S),
         .T_out(T),

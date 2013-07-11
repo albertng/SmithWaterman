@@ -32,10 +32,10 @@ module StreamInputHandler(
     parameter NUM_PES = 64;
     
     // FSM states
-    parameter WAIT_QUERY_INFO_VALID      = 4'b0001,
-              WAIT_QUERY_INFO_RDY        = 4'b0010,
-              WAIT_QUERY_SEQ_BLOCK_VALID = 4'b0100,
-              WAIT_QUERY_SEQ_BLOCK_RDY   = 4'b1000;
+    localparam WAIT_QUERY_INFO_VALID      = 4'b0001,
+               WAIT_QUERY_INFO_RDY        = 4'b0010,
+               WAIT_QUERY_SEQ_BLOCK_VALID = 4'b0100,
+               WAIT_QUERY_SEQ_BLOCK_RDY   = 4'b1000;
     reg [3:0] state;
     reg [3:0] next_state;
     
@@ -50,7 +50,7 @@ module StreamInputHandler(
     // Stream data sync buffer signals
     wire [127:0] sdsb_din;
     wire sdsb_wr_en;
-    reg sdsb_rd_en;
+    reg  sdsb_rd_en;
     wire [127:0] sdsb_dout;
     wire sdsb_full;
     wire sdsb_empty;

@@ -20,11 +20,11 @@ module Engine_Ctrl_tb;
 	reg [24:0] ref_length_in;
 	reg [24:0] ref_addr_in;
 	reg [15:0] num_query_blocks_in;
-	reg query_info_valid;
+	reg query_info_valid_in;
 	reg [7:0] query_seq_block_in;
-	reg query_seq_block_valid;
+	reg query_seq_block_valid_in;
 	reg [15:0] ref_seq_block_in;
-	reg ref_seq_block_valid;
+	reg ref_seq_block_valid_in;
 
 	// Outputs
     wire query_info_rdy_out;
@@ -52,16 +52,16 @@ module Engine_Ctrl_tb;
 		.ref_length_in(ref_length_in), 
 		.ref_addr_in(ref_addr_in), 
 		.num_query_blocks_in(num_query_blocks_in), 
-		.query_info_valid(query_info_valid), 
+		.query_info_valid_in(query_info_valid_in), 
         .query_info_rdy_out(query_info_rdy_out),
 		.query_seq_block_in(query_seq_block_in), 
-		.query_seq_block_valid(query_seq_block_valid), 
+		.query_seq_block_valid_in(query_seq_block_valid_in), 
 		.query_seq_block_rdy_out(query_seq_block_rdy_out), 
 		.ref_addr_out(ref_addr_out), 
 		.ref_length_out(ref_length_out), 
 		.ref_info_valid_out(ref_info_valid_out), 
 		.ref_seq_block_in(ref_seq_block_in), 
-		.ref_seq_block_valid(ref_seq_block_valid), 
+		.ref_seq_block_valid_in(ref_seq_block_valid_in), 
 		.ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
 		.S_out(S_out), 
 		.T_out(T_out), 
@@ -93,7 +93,7 @@ module Engine_Ctrl_tb;
     reg [24:0] ref_addr3;
     reg [15:0] num_query_blocks3;
     
-    integer i, j;
+    integer i;
 	initial begin
         query1[0] <= 8'b00011011;
         query1[1] <= 8'b01101001;
@@ -126,11 +126,11 @@ module Engine_Ctrl_tb;
 		ref_length_in <= 0;
 		ref_addr_in <= 0;
 		num_query_blocks_in <= 0;
-		query_info_valid <= 0;
+		query_info_valid_in <= 0;
 		query_seq_block_in <= 0;
-		query_seq_block_valid <= 0;
+		query_seq_block_valid_in <= 0;
 		ref_seq_block_in <= 0;
-		ref_seq_block_valid <= 0;
+		ref_seq_block_valid_in <= 0;
         #20;
         rst <= 0;
         #10;
@@ -193,7 +193,7 @@ module Engine_Ctrl_tb;
         ref_length_in <= ref_length1;
         ref_addr_in <= ref_addr1;
         num_query_blocks_in <= num_query_blocks1;
-        query_info_valid <= 1;
+        query_info_valid_in <= 1;
         #10;
         
         // Send_ref_addr stall
@@ -289,9 +289,9 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        query_info_valid <= 0;
+        query_info_valid_in <= 0;
         query_seq_block_in <= query1[0];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
         
         // Latch_query_seq_block
@@ -346,7 +346,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        query_seq_block_valid <= 0;
+        query_seq_block_valid_in <= 0;
         #10;
         
         // Wait_query_seq_block_valid
@@ -375,7 +375,7 @@ module Engine_Ctrl_tb;
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
         query_seq_block_in <= query1[1];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
         
         // Latch_query_seq_block stall
@@ -518,7 +518,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        query_seq_block_valid <= 0;  
+        query_seq_block_valid_in <= 0;  
         #10;
         
         // Wait_ref_seq_block_valid
@@ -576,7 +576,7 @@ module Engine_Ctrl_tb;
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
         ref_seq_block_in = ref1[0];
-        ref_seq_block_valid = 1;
+        ref_seq_block_valid_in = 1;
         #10;
         
         // Latch_ref stall
@@ -644,7 +644,7 @@ module Engine_Ctrl_tb;
         #9;;
 
         // Advance_BCC
-        ref_seq_block_valid = 0;
+        ref_seq_block_valid_in = 0;
         // Query block 0, Ref block 0
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -795,7 +795,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        ref_seq_block_valid = 1;
+        ref_seq_block_valid_in = 1;
         ref_seq_block_in = ref1[1];
         #10;    
         
@@ -1265,7 +1265,7 @@ module Engine_Ctrl_tb;
         
         // Advance_BCC
         // Query block 0, Ref block 2
-        ref_seq_block_valid = 0;
+        ref_seq_block_valid_in = 0;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
                 $display("@%0dns Test 1: query_info_rdy_out error", $time);     
@@ -1564,7 +1564,7 @@ module Engine_Ctrl_tb;
         ref_length_in <= ref_length2;
         ref_addr_in <= ref_addr2;
         num_query_blocks_in <= num_query_blocks2;
-        query_info_valid <= 1;
+        query_info_valid_in <= 1;
         #10;  
 		       
         // Send_ref_addr
@@ -1623,9 +1623,9 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
-        query_info_valid <= 0;
+        query_info_valid_in <= 0;
         query_seq_block_in <= query2[0];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
         
         // Latch_query_seq_block
@@ -1736,7 +1736,7 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
-        query_seq_block_valid <= 0;  
+        query_seq_block_valid_in <= 0;  
         #10;
         
         // Wait_ref_seq_block_valid
@@ -1767,7 +1767,7 @@ module Engine_Ctrl_tb;
         ref_length_in <= ref_length3;
         ref_addr_in <= ref_addr3;
         num_query_blocks_in <= num_query_blocks3;
-        query_info_valid <= 1;
+        query_info_valid_in <= 1;
         #10;
         
         // Wait_ref_seq_block_valid
@@ -1826,9 +1826,9 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
-        query_info_valid <= 0;
+        query_info_valid_in <= 0;
         query_seq_block_in <= query3[0];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
 
         // Wait_ref_seq_block_valid
@@ -1884,8 +1884,8 @@ module Engine_Ctrl_tb;
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
         ref_seq_block_in = ref2[0];
-        ref_seq_block_valid = 1;
-        query_seq_block_valid <= 0;
+        ref_seq_block_valid_in = 1;
+        query_seq_block_valid_in <= 0;
         #10;
         
         // Latch_ref
@@ -1918,7 +1918,7 @@ module Engine_Ctrl_tb;
         #10;
 
         // Advance_BCC
-        ref_seq_block_valid = 0;
+        ref_seq_block_valid_in = 0;
         // Query block 0, Ref block 0
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -2154,7 +2154,7 @@ module Engine_Ctrl_tb;
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
         ref_seq_block_in = ref3[0];
-        ref_seq_block_valid = 1;
+        ref_seq_block_valid_in = 1;
         #10;
         
         // Latch_ref
@@ -2187,7 +2187,7 @@ module Engine_Ctrl_tb;
         #10;
 
         // Advance_BCC
-        ref_seq_block_valid = 0;
+        ref_seq_block_valid_in = 0;
         // Query block 0, Ref block 0
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -2306,7 +2306,7 @@ module Engine_Ctrl_tb;
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
         ref_seq_block_in <= ref3[1];
-        ref_seq_block_valid <= 1;
+        ref_seq_block_valid_in <= 1;
         #10;
 
         // Latch_ref
@@ -2340,7 +2340,7 @@ module Engine_Ctrl_tb;
         
         // Advance_BCC
         // Query block 0, Ref block 1
-        ref_seq_block_valid = 0;
+        ref_seq_block_valid_in = 0;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
                 $display("@%0dns Test 3: query_info_rdy_out error", $time);     

@@ -18,11 +18,11 @@ module Engine_tb;
 	reg [24:0] ref_length_in;
 	reg [24:0] ref_addr_in;
 	reg [15:0] num_query_blocks_in;
-	reg query_info_valid;
+	reg query_info_valid_in;
 	reg [5:0] query_seq_block_in;
-	reg query_seq_block_valid;
+	reg query_seq_block_valid_in;
 	reg [7:0] ref_seq_block_in;
-	reg ref_seq_block_valid;
+	reg ref_seq_block_valid_in;
 
 	// Outputs
 	wire query_info_rdy_out;
@@ -61,16 +61,16 @@ module Engine_tb;
 		.ref_length_in(ref_length_in), 
 		.ref_addr_in(ref_addr_in), 
 		.num_query_blocks_in(num_query_blocks_in), 
-		.query_info_valid(query_info_valid), 
+		.query_info_valid_in(query_info_valid_in), 
 		.query_info_rdy_out(query_info_rdy_out), 
 		.query_seq_block_in(query_seq_block_in), 
-		.query_seq_block_valid(query_seq_block_valid), 
+		.query_seq_block_valid_in(query_seq_block_valid_in), 
 		.query_seq_block_rdy_out(query_seq_block_rdy_out), 
 		.ref_addr_out(ref_addr_out), 
 		.ref_length_out(ref_length_out), 
 		.ref_info_valid_out(ref_info_valid_out), 
 		.ref_seq_block_in(ref_seq_block_in), 
-		.ref_seq_block_valid(ref_seq_block_valid), 
+		.ref_seq_block_valid_in(ref_seq_block_valid_in), 
 		.ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
 		.V_out(V_out)
 	);
@@ -240,11 +240,11 @@ module Engine_tb;
 		ref_length_in <= 0;
 		ref_addr_in <= 0;
 		num_query_blocks_in <= 0;
-		query_info_valid <= 0;
+		query_info_valid_in <= 0;
 		query_seq_block_in <= 0;
-		query_seq_block_valid <= 0;
+		query_seq_block_valid_in <= 0;
 		ref_seq_block_in <= 0;
-		ref_seq_block_valid <= 0;
+		ref_seq_block_valid_in <= 0;
         #20;
         rst <= 0;
         
@@ -273,7 +273,7 @@ module Engine_tb;
         ref_length_in <= ref_length1;
         ref_addr_in <= ref_addr1;
         num_query_blocks_in <= num_query_blocks1;
-        query_info_valid <= 1;
+        query_info_valid_in <= 1;
         #10;
         
         // Send_ref_addr
@@ -300,9 +300,9 @@ module Engine_tb;
             $display("@%0dns Test 1 Wait_query_seq_block_valid: ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns Test 1 Wait_query_seq_block_valid: ref_seq_block_rdy_out error", $time);
-        query_info_valid <= 0;
+        query_info_valid_in <= 0;
         query_seq_block_in <= query1[0];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
         
         // Latch_query_seq_block
@@ -348,7 +348,7 @@ module Engine_tb;
             $display("@%0dns Test 1 Wait_rd_rdy: ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns Test 1 Wait_rd_rdy: ref_seq_block_rdy_out error", $time);
-        query_seq_block_valid <= 0;  
+        query_seq_block_valid_in <= 0;  
         #10;
         
         // Wait_ref_seq_block_valid
@@ -374,7 +374,7 @@ module Engine_tb;
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns Test 1 Wait_ref_seq_block_valid: ref_seq_block_rdy_out error", $time);
         ref_seq_block_in = ref1[0];
-        ref_seq_block_valid = 1;
+        ref_seq_block_valid_in = 1;
         #10;
         
         // Latch_ref
@@ -431,7 +431,7 @@ module Engine_tb;
         $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[8][j]) begin
-                $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[8][j]);
+                $display("@%0dns Test 1 Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[8][j]);
             end
         end
         #10;
@@ -451,11 +451,11 @@ module Engine_tb;
                 $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[9][j]);
             end
         end
-        ref_seq_block_valid <= 0;
+        ref_seq_block_valid_in <= 0;
         ref_length_in <= ref_length2;
         ref_addr_in <= ref_addr2;
         num_query_blocks_in <= num_query_blocks2;
-        query_info_valid <= 1;
+        query_info_valid_in <= 1;
         #10;
         
         // Advance_BCC, Send_ref_addr
@@ -494,9 +494,9 @@ module Engine_tb;
                 $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[11][j]);
             end
         end
-        query_info_valid <= 0;
+        query_info_valid_in <= 0;
         query_seq_block_in <= query2[0];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
         
         // Advance_BCC, Latch_query_seq_block
@@ -515,11 +515,11 @@ module Engine_tb;
             end
         end
         ref_seq_block_in <= ref2[0];
-        ref_seq_block_valid <= 1;
+        ref_seq_block_valid_in <= 1;
         #10;
         
         // Advance_BCC
-        query_seq_block_valid <= 0;
+        query_seq_block_valid_in <= 0;
         for (i = 13; i < 18; i = i + 1) begin
             if (query_info_rdy_out != 0)
                 $display("@%0dns Test 1 Advance_BCC: query_info_rdy_out error", $time);     
@@ -627,7 +627,7 @@ module Engine_tb;
         #10;
         
         // Advance_BCC
-        ref_seq_block_valid <= 0;
+        ref_seq_block_valid_in <= 0;
         for (i = 26; i < 30; i = i + 1) begin
             if (query_info_rdy_out != 0)
                 $display("@%0dns Test 2 Advance_BCC: query_info_rdy_out error", $time);     
@@ -678,7 +678,7 @@ module Engine_tb;
         ref_length_in <= ref_length3;
         ref_addr_in <= ref_addr3;
         num_query_blocks_in <= num_query_blocks3;
-        query_info_valid <= 3;
+        query_info_valid_in <= 3;
         #10;
         
         // Send_ref_addr
@@ -705,9 +705,9 @@ module Engine_tb;
             $display("@%0dns Test 3 Wait_query_seq_block_valid: ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns Test 3 Wait_query_seq_block_valid: ref_seq_block_rdy_out error", $time);
-        query_info_valid <= 0;
+        query_info_valid_in <= 0;
         query_seq_block_in <= query3[0];
-        query_seq_block_valid <= 1;
+        query_seq_block_valid_in <= 1;
         #10;
         
         // Latch_query_seq_block
@@ -730,7 +730,7 @@ module Engine_tb;
             $display("@%0dns Test 3 Wait_rd_rdy: ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns Test 3 Wait_rd_rdy: ref_seq_block_rdy_out error", $time);
-        query_seq_block_valid <= 0;  
+        query_seq_block_valid_in <= 0;  
         #10;
         
         // Wait_ref_seq_block_valid
@@ -743,7 +743,7 @@ module Engine_tb;
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns Test 3 Wait_ref_seq_block_valid: ref_seq_block_rdy_out error", $time);
         ref_seq_block_in = ref3[0];
-        ref_seq_block_valid = 1;
+        ref_seq_block_valid_in = 1;
         #10;
         
         // Latch_ref
@@ -758,7 +758,7 @@ module Engine_tb;
         #10;
         
         // Advance_BCC
-        ref_seq_block_valid = 0;
+        ref_seq_block_valid_in = 0;
         if (query_info_rdy_out != 0)
             $display("@%0dns Test 3 Advance_BCC: query_info_rdy_out error", $time);     
         if (query_seq_block_rdy_out != 0)
