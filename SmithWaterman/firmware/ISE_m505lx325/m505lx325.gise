@@ -110,6 +110,9 @@
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="SmithWatermanPE_xst.xrpt"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="StreamInputHandler_Engine_Interface_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_Engine_Interface_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.wdb"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="_ngo"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/map.xmsgs"/>
@@ -153,7 +156,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373575758" xil_pn:in_ck="-4882197310263025766" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1373575758">
+    <transform xil_pn:end_ts="1373580850" xil_pn:in_ck="-2297175302935990323" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1373580850">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../Engine.v"/>
@@ -170,6 +173,8 @@
       <outfile xil_pn:name="../StreamInputHandler.v"/>
       <outfile xil_pn:name="../StreamInputHandler_Engine_Interface.v"/>
       <outfile xil_pn:name="../StreamInputHandler_Engine_Interface_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_Engine_Interface.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_Engine_Interface_tb.v"/>
       <outfile xil_pn:name="../StreamInputHandler_tb.v"/>
       <outfile xil_pn:name="../bram_test.v"/>
       <outfile xil_pn:name="../fifotest.v"/>
@@ -233,11 +238,11 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373573116" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="7133566087496423982" xil_pn:start_ts="1373573116">
+    <transform xil_pn:end_ts="1373580657" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-5604473131110012244" xil_pn:start_ts="1373580657">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373573116" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-6658132562090301598" xil_pn:start_ts="1373573116">
+    <transform xil_pn:end_ts="1373580657" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="8432268675924458592" xil_pn:start_ts="1373580657">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
@@ -253,7 +258,7 @@
       <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
       <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373575758" xil_pn:in_ck="5371907664052359987" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1373575758">
+    <transform xil_pn:end_ts="1373580850" xil_pn:in_ck="6644496740991571014" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1373580850">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../Engine.v"/>
@@ -270,6 +275,8 @@
       <outfile xil_pn:name="../StreamInputHandler.v"/>
       <outfile xil_pn:name="../StreamInputHandler_Engine_Interface.v"/>
       <outfile xil_pn:name="../StreamInputHandler_Engine_Interface_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_Engine_Interface.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_Engine_Interface_tb.v"/>
       <outfile xil_pn:name="../StreamInputHandler_tb.v"/>
       <outfile xil_pn:name="../bram_test.v"/>
       <outfile xil_pn:name="../fifotest.v"/>
@@ -338,22 +345,22 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373575762" xil_pn:in_ck="5371907664052359987" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="5524089296435158326" xil_pn:start_ts="1373575758">
+    <transform xil_pn:end_ts="1373580856" xil_pn:in_ck="6644496740991571014" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-530551635057845326" xil_pn:start_ts="1373580850">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="ReferenceReader_tb_beh.prj"/>
-      <outfile xil_pn:name="ReferenceReader_tb_isim_beh.exe"/>
+      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_beh.prj"/>
+      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1373575763" xil_pn:in_ck="1629581973732039545" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="6732263975312812121" xil_pn:start_ts="1373575762">
+    <transform xil_pn:end_ts="1373580856" xil_pn:in_ck="-3731538714437352457" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="8246707899493695765" xil_pn:start_ts="1373580856">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="ReferenceReader_tb_isim_beh.wdb"/>
+      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
     </transform>

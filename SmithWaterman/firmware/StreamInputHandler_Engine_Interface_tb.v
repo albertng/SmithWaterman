@@ -8,23 +8,23 @@
 
 module StreamInputHandler_Engine_Interface_tb;
 
-	// Inputs
-	reg clk;
-	reg rst;
-	reg stall;
-	reg si_clk;
-	reg si_valid;
-	reg [127:0] si_data;
-	reg [7:0] ref_seq_block_in;
-	reg ref_seq_block_valid_in;
+    // Inputs
+    reg clk;
+    reg rst;
+    reg stall;
+    reg si_clk;
+    reg si_valid;
+    reg [127:0] si_data;
+    reg [7:0] ref_seq_block_in;
+    reg ref_seq_block_valid_in;
 
-	// Outputs
-	wire si_rdy;
-	wire [24:0] ref_addr_out;
-	wire [24:0] ref_length_out;
-	wire ref_info_valid_out;
-	wire ref_seq_block_rdy_out;
-	wire [29:0] V_out;
+    // Outputs
+    wire si_rdy;
+    wire [24:0] ref_addr_out;
+    wire [24:0] ref_length_out;
+    wire ref_info_valid_out;
+    wire ref_seq_block_rdy_out;
+    wire [29:0] V_out;
 
     reg [31:0] ref_length1;
     reg [31:0] ref_addr1;
@@ -40,26 +40,26 @@ module StreamInputHandler_Engine_Interface_tb;
 
     reg [9:0] V_out_expected[32:0][2:0];
 
-	// Instantiate the Unit Under Test (UUT)
-	StreamInputHandler_Engine_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
-		.clk(clk), 
-		.rst(rst), 
-		.stall(stall), 
-		.si_clk(si_clk), 
-		.si_valid(si_valid), 
-		.si_data(si_data), 
-		.si_rdy(si_rdy), 
-		.ref_addr_out(ref_addr_out), 
-		.ref_length_out(ref_length_out), 
-		.ref_info_valid_out(ref_info_valid_out), 
-		.ref_seq_block_in(ref_seq_block_in), 
-		.ref_seq_block_valid_in(ref_seq_block_valid_in), 
-		.ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
-		.V_out(V_out)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    StreamInputHandler_Engine_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
+        .clk(clk), 
+        .rst(rst), 
+        .stall(stall), 
+        .si_clk(si_clk), 
+        .si_valid(si_valid), 
+        .si_data(si_data), 
+        .si_rdy(si_rdy), 
+        .ref_addr_out(ref_addr_out), 
+        .ref_length_out(ref_length_out), 
+        .ref_info_valid_out(ref_info_valid_out), 
+        .ref_seq_block_in(ref_seq_block_in), 
+        .ref_seq_block_valid_in(ref_seq_block_valid_in), 
+        .ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
+        .V_out(V_out)
+    );
 
     integer i, j;
-	initial begin
+    initial begin
         query1[0] = 128'b110100;    // ACTAGC
         query1[1] = 128'b011000;
         ref1[0] = 8'b10001100;      // ATAGTCAT
@@ -175,15 +175,15 @@ module StreamInputHandler_Engine_Interface_tb;
         V_out_expected[32][1] = 0;
         V_out_expected[32][2] = 26;
     
-		// Initialize Inputs
-		clk = 0;
-		rst = 1;
-		stall = 0;
-		si_clk = 0;
-		si_valid = 0;
-		si_data = 0;
-		ref_seq_block_in = 0;
-		ref_seq_block_valid_in = 0;
+        // Initialize Inputs
+        clk = 0;
+        rst = 1;
+        stall = 0;
+        si_clk = 0;
+        si_valid = 0;
+        si_data = 0;
+        ref_seq_block_in = 0;
+        ref_seq_block_valid_in = 0;
         #20;
         rst <= 0;
 
@@ -545,11 +545,11 @@ module StreamInputHandler_Engine_Interface_tb;
             #10;
         end
         
-		// Wait 100 ns
-		#100;
+        // Wait 100 ns
+        #100;
         $display("Tests complete!");
         $finish;
-	end
+    end
       
     
     always begin
