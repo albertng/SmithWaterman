@@ -28,6 +28,7 @@
  *  Revision History :
  *      Albert Ng   Jul 10 2013     Initial Revision
  *      Albert Ng   Jul 11 2013     Fixed initial revision bugs
+ *                                  Changed default ref length to 128
  *
  */
  
@@ -49,12 +50,12 @@ module ReferenceReader(
     output [7:0]   rd_len_out,          // Read burst length (in terms of 256 bit blocks)
     output         rd_info_valid_out,   // Read info valid
     input          rd_info_rdy_in,      // Read request acknowledged 
-    input  [511:0] rd_data_in,          // DRAM read data
+    input  [255:0] rd_data_in,          // DRAM read data
     input          rd_data_valid_in,    // DRAM read data valid    
     output         rd_data_rdy_out      // DRAM read data acknowledged    
     );
 
-    parameter REF_LENGTH = 256;
+    parameter REF_LENGTH = 128;
     
     // FSM states
     localparam WAIT_REF_INFO_VALID = 3'b001,
@@ -64,10 +65,10 @@ module ReferenceReader(
     reg[2:0] next_state;
     
     // Reference sequence block buffer signals
-    wire [511:0] rsbb_din;
+    wire [255:0] rsbb_din;
     wire rsbb_wr_en;
     wire rsbb_rd_en;
-    wire [511:0] rsbb_dout;
+    wire [255:0] rsbb_dout;
     wire rsbb_full;
     wire rsbb_empty;
 
@@ -105,7 +106,7 @@ module ReferenceReader(
     // AXI bus arbiter interface
     assign rd_id_out = rd_id;
     assign rd_addr_out = cur_addr;
-    assign rd_len_out = 2;
+    assign rd_len_out = 0;
     assign rd_info_valid_out = rd_info_valid;
     
     // Reference sequence buffer and associated logic

@@ -2,9 +2,9 @@ Command line:
    StreamInputHandler_Engine_Interface_tb_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  53534
+     -socket  47844
 
-Wed Jul 10 17:38:14 2013
+Thu Jul 11 17:39:52 2013
 
 
  Elaboration Time: 0.08 sec
@@ -25,5 +25,5 @@ Total Line Count : 3275
 
  Current Memory Usage: 271.897 Meg
 
-Wed Jul 10 17:38:18 2013
+Thu Jul 11 17:39:59 2013
 

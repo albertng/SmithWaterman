@@ -3,6 +3,7 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 10 2013     Initial Revision
+ *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *
  */
  
@@ -30,7 +31,7 @@ module StreamInputHandler_Engine_Interface(
     );
 
     parameter NUM_PES = 64;
-    parameter REF_LENGTH = 256;
+    parameter REF_LENGTH = 128;
     parameter WIDTH = 10;
     parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;

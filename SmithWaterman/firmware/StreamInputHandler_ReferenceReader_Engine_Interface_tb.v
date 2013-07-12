@@ -17,7 +17,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
     reg si_valid;
     reg [127:0] si_data;
     reg rd_info_rdy_in;
-    reg [511:0] rd_data_in;
+    reg [255:0] rd_data_in;
     reg rd_data_valid_in;
 
     // Outputs
@@ -33,13 +33,13 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
     reg [31:0] ref_addr1;
     reg [31:0] num_query_blocks1;
     reg [127:0] query1[1:0];
-    reg [511:0] ref1[1:0];
+    reg [255:0] ref1[1:0];
 
     reg [31:0] ref_length2;
     reg [31:0] ref_addr2;
     reg [31:0] num_query_blocks2;
     reg [127:0] query2[0:0];
-    reg [511:0] ref2[1:0];
+    reg [255:0] ref2[1:0];
 
     reg [9:0] V_out_expected[32:0][2:0];
 
@@ -67,15 +67,15 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
     initial begin
         query1[0] = 128'b110100;    // ACTAGC
         query1[1] = 128'b011000;
-        ref1[0] = 512'b10001100;    // ATAGTCAT
-        ref1[1] = 512'b11000111;
+        ref1[0] = 256'b10001100;    // ATAGTCAT
+        ref1[1] = 256'b11000111;
         ref_length1 = 2;
         ref_addr1 = 5;
         num_query_blocks1 = 2;
         
         query2[0] = 128'b011000;    // AGC
-        ref2[0] = 512'b10001100;    // ATAGTCAC
-        ref2[1] = 512'b01000111;
+        ref2[0] = 256'b10001100;    // ATAGTCAC
+        ref2[1] = 256'b01000111;
         ref_length2 = 2;
         ref_addr2 = 10;
         num_query_blocks2 = 1;
@@ -298,7 +298,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -313,7 +313,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -329,7 +329,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -345,7 +345,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -389,7 +389,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -404,7 +404,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -420,7 +420,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -436,7 +436,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);

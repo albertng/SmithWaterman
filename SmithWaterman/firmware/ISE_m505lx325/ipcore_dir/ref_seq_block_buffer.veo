@@ -60,10 +60,10 @@
 ref_seq_block_buffer your_instance_name (
   .clk(clk), // input clk
   .rst(rst), // input rst
-  .din(din), // input [511 : 0] din
+  .din(din), // input [255 : 0] din
   .wr_en(wr_en), // input wr_en
   .rd_en(rd_en), // input rd_en
-  .dout(dout), // output [511 : 0] dout
+  .dout(dout), // output [255 : 0] dout
   .full(full), // output full
   .empty(empty) // output empty
 );

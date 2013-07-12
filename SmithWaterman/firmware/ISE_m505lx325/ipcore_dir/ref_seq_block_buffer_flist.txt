@@ -49,6 +49,7 @@ ref_seq_block_buffer/simulation/timing/wave_ncsim.sv
 ref_seq_block_buffer.asy
 ref_seq_block_buffer.gise
 ref_seq_block_buffer.ngc
+ref_seq_block_buffer.sym
 ref_seq_block_buffer.v
 ref_seq_block_buffer.veo
 ref_seq_block_buffer.xco

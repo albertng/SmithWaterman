@@ -49,10 +49,10 @@ module ref_seq_block_buffer(
 
 input clk;
 input rst;
-input [511 : 0] din;
+input [255 : 0] din;
 input wr_en;
 input rd_en;
-output [511 : 0] dout;
+output [255 : 0] dout;
 output full;
 output empty;
 
@@ -86,7 +86,7 @@ output empty;
     .C_COUNT_TYPE(0),
     .C_DATA_COUNT_WIDTH(5),
     .C_DEFAULT_VALUE("BlankString"),
-    .C_DIN_WIDTH(512),
+    .C_DIN_WIDTH(256),
     .C_DIN_WIDTH_AXIS(1),
     .C_DIN_WIDTH_RACH(32),
     .C_DIN_WIDTH_RDCH(64),
@@ -94,7 +94,7 @@ output empty;
     .C_DIN_WIDTH_WDCH(64),
     .C_DIN_WIDTH_WRCH(2),
     .C_DOUT_RST_VAL("0"),
-    .C_DOUT_WIDTH(512),
+    .C_DOUT_WIDTH(256),
     .C_ENABLE_RLOCS(0),
     .C_ENABLE_RST_SYNC(1),
     .C_ERROR_INJECTION_TYPE(0),

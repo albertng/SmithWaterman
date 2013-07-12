@@ -16,11 +16,11 @@ module ReferenceReader_tb;
 	reg ref_info_valid_in;
 	reg ref_seq_block_rdy_in;
 	reg rd_info_rdy_in;
-	reg [511:0] rd_data_in;
+	reg [255:0] rd_data_in;
 	reg rd_data_valid_in;
 
 	// Outputs
-	wire [511:0] ref_seq_block_out;
+	wire [255:0] ref_seq_block_out;
 	wire ref_seq_block_valid_out;
 	wire [5:0] rd_id_out;
 	wire [31:0] rd_addr_out;
@@ -30,19 +30,19 @@ module ReferenceReader_tb;
 
     reg [24:0] ref_addr1;
     reg [24:0] ref_length1;
-    reg [511:0] rd_data1[3:0];
+    reg [255:0] rd_data1[3:0];
     
     reg [24:0] ref_addr2;
     reg [24:0] ref_length2;
-    reg [511:0] rd_data2[2:0];
+    reg [255:0] rd_data2[2:0];
     
     reg [24:0] ref_addr3;
     reg [24:0] ref_length3;
-    reg [511:0] rd_data3[0:0];
+    reg [255:0] rd_data3[0:0];
     
     reg [24:0] ref_addr4;
     reg [24:0] ref_length4;
-    reg [511:0] rd_data4[18:0];
+    reg [255:0] rd_data4[18:0];
     
 	// Instantiate the Unit Under Test (UUT)
 	ReferenceReader uut (
@@ -133,7 +133,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -149,7 +149,7 @@ module ReferenceReader_tb;
                 $display("@%0dns rd_addr_out error", $time);
             if (rd_id_out != 0)
                 $display("@%0dns rd_id_out error", $time);
-            if (rd_len_out != 2)
+            if (rd_len_out != 0)
                 $display("@%0dns rd_len_out error", $time);
             if (rd_data_rdy_out != 0)
                 $display("@%0dns rd_data_rdy_out error", $time);
@@ -165,7 +165,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -181,7 +181,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -197,7 +197,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -213,7 +213,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -229,7 +229,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -245,7 +245,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -261,7 +261,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -310,7 +310,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 4)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -325,7 +325,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 4)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -341,7 +341,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 5)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -360,7 +360,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 5)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -377,7 +377,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 6)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -393,7 +393,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 6)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -418,7 +418,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 7)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -433,7 +433,7 @@ module ReferenceReader_tb;
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 7)
             $display("@%0dns rd_id_out error", $time);
-        if (rd_len_out != 2)
+        if (rd_len_out != 0)
             $display("@%0dns rd_len_out error", $time);
         if (rd_data_rdy_out != 0)
             $display("@%0dns rd_data_rdy_out error", $time);
@@ -719,7 +719,7 @@ module ReferenceReader_tb;
                 $display("@%0dns rd_addr_out error", $time);
             if (rd_id_out != i + 8)
                 $display("@%0dns rd_id_out error", $time);
-            if (rd_len_out != 2)
+            if (rd_len_out != 0)
                 $display("@%0dns rd_len_out error", $time);
             if (rd_data_rdy_out != 0)
                 $display("@%0dns rd_data_rdy_out error", $time);
@@ -734,7 +734,7 @@ module ReferenceReader_tb;
                 $display("@%0dns rd_addr_out error", $time);
             if (rd_id_out != i + 8)
                 $display("@%0dns rd_id_out error", $time);
-            if (rd_len_out != 2)
+            if (rd_len_out != 0)
                 $display("@%0dns rd_len_out error", $time);
             if (rd_data_rdy_out != 0)
                 $display("@%0dns rd_data_rdy_out error", $time);

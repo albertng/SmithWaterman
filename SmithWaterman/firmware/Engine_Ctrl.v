@@ -51,7 +51,8 @@
  *                                  Changed query sequence buffer writing to a FSM
  *      Albert Ng   Jul 06 2013     Changed qsbram_rd_addr to be next_query_block_cnt
  *                                  Moved send_ref_addr from read FSM to write FSM
- *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals  
+ *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals
+ *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *
  */
  
@@ -92,7 +93,7 @@ module Engine_Ctrl(
     );
 
     parameter NUM_PES = 64;
-    parameter REF_LENGTH = 256;
+    parameter REF_LENGTH = 128;
     
     // Query sequence buffer read FSM states
     localparam WAIT_WR_RDY = 4'b0001, 

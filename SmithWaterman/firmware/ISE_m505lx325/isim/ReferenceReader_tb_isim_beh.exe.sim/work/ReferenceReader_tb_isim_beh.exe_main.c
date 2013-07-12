@@ -22,10 +22,10 @@ int main(int argc, char **argv)
     xsi_register_info(&xsi_info);
 
     xsi_register_min_prec_unit(-12);
-    xilinxcorelib_ver_m_13880558823444695255_3491632229_init();
-    xilinxcorelib_ver_m_02693843609087607046_3566275113_init();
-    xilinxcorelib_ver_m_09003160300769859152_3668156805_init();
-    xilinxcorelib_ver_m_14518455072116702019_0190450084_init();
+    xilinxcorelib_ver_m_13880558823444695255_3668597862_init();
+    xilinxcorelib_ver_m_02693843609087607046_3879259901_init();
+    xilinxcorelib_ver_m_09003160300769859152_0718778187_init();
+    xilinxcorelib_ver_m_14518455072116702019_0845693349_init();
     work_m_18219643850453676170_1185934629_init();
     work_m_12462826048998305829_2627010146_init();
     work_m_00553723662635941550_1678361156_init();

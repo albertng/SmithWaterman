@@ -227,6 +227,10 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ref_seq_bloc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ref_seq_block_buffer.sym
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
+incr fcount
+
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ref_seq_block_buffer.v
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog
 incr fcount

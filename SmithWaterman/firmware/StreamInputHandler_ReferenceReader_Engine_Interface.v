@@ -24,7 +24,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface(
     output [7:0]   rd_len_out,          // Read burst length (in terms of 256 bit blocks)
     output         rd_info_valid_out,   // Read info valid
     input          rd_info_rdy_in,      // Read request acknowledged 
-    input  [511:0] rd_data_in,          // DRAM read data
+    input  [255:0] rd_data_in,          // DRAM read data
     input          rd_data_valid_in,    // DRAM read data valid    
     output         rd_data_rdy_out,     // DRAM read data acknowledged   
 
@@ -33,7 +33,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface(
     );
 
     parameter NUM_PES = 64;
-    parameter REF_LENGTH = 256;
+    parameter REF_LENGTH = 128;
     parameter WIDTH = 10;
     parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;
