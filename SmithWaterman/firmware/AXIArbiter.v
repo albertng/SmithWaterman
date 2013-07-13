@@ -1,8 +1,8 @@
 /*  File Name        : AXIArbiter.v
  *  Description      : AXI Bus Arbiter
  *
- *                     Arbitrates between 4 reference reader ports and the
- *                     AXI bus port.
+ *                     Arbitrates between the AXI bus port and up to 4 reference
+ *                     reader ports, indicated by the active_ports_in mask.
  *
  *                     The arbiter round-robin selects the next port to service,
  *                     if any. When selecting a port, it connects the handshaking
@@ -13,10 +13,11 @@
  *                     the AXI bus handshaking lines to the port whos number is on
  *                     the top of the outstanding requests FIFO. When both the valid
  *                     and ready signals are asserted (i.e. data transfer is done),
- *                     the outstanding request is dequeued from the FIFO.  
+ *                     the outstanding request is dequeued from the FIFO. 
  *
  *  Revision History :
  *      Albert Ng   Jul 11 2013     Initial Revision
+ *      Albert Ng   Jul 12 2013     Added active_ports flags
  *
  */
  
@@ -36,6 +37,8 @@ module AXIArbiter(
     input [255:0] axi_rdata_in,          // AXI bus read data
     output        axi_rready_out,        // AXI bus read data ready
     
+    input [3:0] active_ports_in,         // Flags indicating which ports are active
+
     // Reference Reader 0
     input  [5:0]   rd_id_0_in,           // Read burst ID
     input  [31:0]  rd_addr_0_in,         // Read burst address
@@ -84,8 +87,8 @@ module AXIArbiter(
     reg [2:0] state;
     reg [2:0] next_state;
     
-    reg [1:0] priority_port;
-    reg [1:0] next_priority_port;
+    reg [3:0] priority_port;
+    reg [3:0] next_priority_port;
     reg [1:0] cur_port;
         
     wire port_valid;
@@ -138,7 +141,7 @@ module AXIArbiter(
 
     // Next port logic
     always @(*) begin
-        if (priority_port == 2'b00) begin
+        if (priority_port[0]) begin
             if (rd_info_valid_0_in) begin
                 cur_port = 0;
             end else if (rd_info_valid_1_in) begin
@@ -148,7 +151,7 @@ module AXIArbiter(
             end else begin
                 cur_port = 3;
             end
-        end else if (priority_port == 2'b01) begin
+        end else if (priority_port[1]) begin
             if (rd_info_valid_1_in) begin
                 cur_port = 1;
             end else if (rd_info_valid_2_in) begin
@@ -158,7 +161,7 @@ module AXIArbiter(
             end else begin
                 cur_port = 0;
             end
-        end else if (priority_port == 2'b10) begin
+        end else if (priority_port[2]) begin
             if (rd_info_valid_2_in) begin
                 cur_port = 2;
             end else if (rd_info_valid_3_in) begin
@@ -168,7 +171,7 @@ module AXIArbiter(
             end else begin
                 cur_port = 1;
             end
-        end else if (priority_port == 2'b11) begin
+        end else if (priority_port[3]) begin
             if (rd_info_valid_3_in) begin
                 cur_port = 3;
             end else if (rd_info_valid_0_in) begin
@@ -185,7 +188,7 @@ module AXIArbiter(
     always @(posedge clk) begin
         if (rst) begin
             state <= WAIT_PORT_VALID;
-            priority_port <= 0;
+            priority_port <= 4'b0001;
         end else begin
             state <= next_state;
             priority_port <= next_priority_port;
@@ -321,7 +324,15 @@ module AXIArbiter(
                     rd_info_rdy_3 = axi_arready_in;
                 end
                 if (axi_arready_in) begin
-                    next_priority_port = priority_port + 1;
+                    if (|(active_ports_in & {priority_port[2], priority_port[1], priority_port[0], priority_port[3]})) begin 
+                        next_priority_port = {priority_port[2], priority_port[1], priority_port[0], priority_port[3]};
+                    end else if (|(active_ports_in & {priority_port[1], priority_port[0], priority_port[3], priority_port[2]})) begin
+                        next_priority_port = {priority_port[1], priority_port[0], priority_port[3], priority_port[2]};
+                    end else if (|(active_ports_in & {priority_port[0], priority_port[3], priority_port[2], priority_port[1]})) begin
+                        next_priority_port = {priority_port[0], priority_port[3], priority_port[2], priority_port[1]};
+                    end else begin
+                        next_priority_port = priority_port;
+                    end
                 end else begin
                     next_priority_port = priority_port;
                 end

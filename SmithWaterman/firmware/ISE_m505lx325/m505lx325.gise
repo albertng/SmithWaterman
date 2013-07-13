@@ -22,6 +22,9 @@
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="m505lx325.xise"/>
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="AXIArbiter_tb_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="AXIArbiter_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="AXIArbiter_tb_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="Engine_Ctrl_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_tb_stx_beh.prj"/>
@@ -108,9 +111,7 @@
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="SmithWatermanPE_xst.xrpt"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="StreamInputHandler_Engine_Interface_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_Engine_Interface_tb_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.wdb"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="_ngo"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/map.xmsgs"/>
@@ -151,14 +152,19 @@
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1367260652" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1367260652">
+    <transform xil_pn:end_ts="1373680619" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1373680619">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373589902" xil_pn:in_ck="-2528476466713583641" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1373589901">
+    <transform xil_pn:end_ts="1373682707" xil_pn:in_ck="3355498796380929654" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1373682707">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../AXIArbiter.v"/>
+      <outfile xil_pn:name="../AXIArbiter_tb.v"/>
       <outfile xil_pn:name="../Engine.v"/>
       <outfile xil_pn:name="../Engine_Ctrl.v"/>
       <outfile xil_pn:name="../Engine_Ctrl_tb.v"/>
@@ -238,15 +244,15 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373589902" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-5604473131110012244" xil_pn:start_ts="1373589902">
+    <transform xil_pn:end_ts="1373680619" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="6730919406946632919" xil_pn:start_ts="1373680619">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373589902" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="8432268675924458592" xil_pn:start_ts="1373589902">
+    <transform xil_pn:end_ts="1373680619" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="7698398184119551435" xil_pn:start_ts="1373680619">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373589568" xil_pn:in_ck="9191351447139955677" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-3811161745415399036" xil_pn:start_ts="1373589567">
+    <transform xil_pn:end_ts="1373680621" xil_pn:in_ck="9191351447139955677" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-3811161745415399036" xil_pn:start_ts="1373680619">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="ipcore_dir/query_seq_bram.ngc"/>
@@ -258,10 +264,16 @@
       <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
       <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373589902" xil_pn:in_ck="-8690552692223315296" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1373589902">
+    <transform xil_pn:end_ts="1373682707" xil_pn:in_ck="-8342800759459614833" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1373682707">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../AXIArbiter.v"/>
+      <outfile xil_pn:name="../AXIArbiter_tb.v"/>
       <outfile xil_pn:name="../Engine.v"/>
       <outfile xil_pn:name="../Engine_Ctrl.v"/>
       <outfile xil_pn:name="../Engine_Ctrl_tb.v"/>
@@ -346,22 +358,30 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373589908" xil_pn:in_ck="-8690552692223315296" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-530551635057845326" xil_pn:start_ts="1373589902">
+    <transform xil_pn:end_ts="1373682711" xil_pn:in_ck="-8342800759459614833" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-8059300742498355992" xil_pn:start_ts="1373682707">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_beh.prj"/>
-      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe"/>
+      <outfile xil_pn:name="AXIArbiter_tb_beh.prj"/>
+      <outfile xil_pn:name="AXIArbiter_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1373589908" xil_pn:in_ck="-3130427619373044739" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="8246707899493695765" xil_pn:start_ts="1373589908">
+    <transform xil_pn:end_ts="1373682712" xil_pn:in_ck="6162517652669820300" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2942272817210786741" xil_pn:start_ts="1373682711">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.wdb"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="AXIArbiter_tb_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
     </transform>

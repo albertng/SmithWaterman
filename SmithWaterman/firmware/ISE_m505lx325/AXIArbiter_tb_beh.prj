@@ -1,0 +1,3 @@
+verilog work "../AXIArbiter.v"
+verilog work "../AXIArbiter_tb.v"
+verilog work "/media/albert/Data/14.5/ISE_DS/ISE//verilog/src/glbl.v"
