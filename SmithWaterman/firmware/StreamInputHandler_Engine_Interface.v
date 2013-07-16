@@ -4,6 +4,8 @@
  *  Revision History :
  *      Albert Ng   Jul 10 2013     Initial Revision
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
  
@@ -42,6 +44,8 @@ module StreamInputHandler_Engine_Interface(
     wire [24:0] ref_length;
     wire [24:0] ref_addr;
     wire [15:0] num_query_blocks;
+    wire [15:0] query_id;
+    wire [31:0] cell_score_threshold;
     wire query_info_valid;
     wire query_info_rdy;
     wire [(NUM_PES * 2) - 1:0] query_seq_block;
@@ -58,6 +62,8 @@ module StreamInputHandler_Engine_Interface(
         .ref_length_out(ref_length),
         .ref_addr_out(ref_addr),
         .num_query_blocks_out(num_query_blocks),
+        .query_id_out(query_id),
+        .cell_score_threshold_out(cell_score_threshold),
         .query_info_valid_out(query_info_valid),
         .query_info_rdy_in(query_info_rdy),
         .query_seq_block_out(query_seq_block),
@@ -72,6 +78,8 @@ module StreamInputHandler_Engine_Interface(
 		.ref_length_in(ref_length), 
 		.ref_addr_in(ref_addr), 
 		.num_query_blocks_in(num_query_blocks), 
+        .query_id_in(query_id),
+        .cell_score_threshold_in(cell_score_threshold),
 		.query_info_valid_in(query_info_valid), 
 		.query_info_rdy_out(query_info_rdy), 
 		.query_seq_block_in(query_seq_block), 

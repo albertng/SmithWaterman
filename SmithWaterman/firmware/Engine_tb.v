@@ -6,6 +6,8 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 08 2013     Initial Revision
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
 
@@ -18,6 +20,8 @@ module Engine_tb;
 	reg [24:0] ref_length_in;
 	reg [24:0] ref_addr_in;
 	reg [15:0] num_query_blocks_in;
+    reg [15:0] query_id_in;
+    reg [31:0] cell_score_threshold_in;
 	reg query_info_valid_in;
 	reg [5:0] query_seq_block_in;
 	reg query_seq_block_valid_in;
@@ -38,18 +42,24 @@ module Engine_tb;
     reg [24:0] ref_length1;
     reg [24:0] ref_addr1;
     reg [15:0] num_query_blocks1;
+    reg [15:0] query_id1;
+    reg [31:0] cell_score_threshold1;
     
     reg [5:0] query2[0:0];
     reg [7:0] ref2[1:0];
     reg [24:0] ref_length2;
     reg [24:0] ref_addr2;
     reg [15:0] num_query_blocks2;
+    reg [15:0] query_id2;
+    reg [31:0] cell_score_threshold2;
     
     reg [5:0] query3[0:0];
     reg [7:0] ref3[0:0];
     reg [24:0] ref_length3;
     reg [24:0] ref_addr3;
     reg [15:0] num_query_blocks3;
+    reg [15:0] query_id3;
+    reg [31:0] cell_score_threshold3;
     
     reg [9:0] V_out_expected[42:0][2:0];
 
@@ -61,6 +71,7 @@ module Engine_tb;
 		.ref_length_in(ref_length_in), 
 		.ref_addr_in(ref_addr_in), 
 		.num_query_blocks_in(num_query_blocks_in), 
+        .query_id_in(query_id_in),
 		.query_info_valid_in(query_info_valid_in), 
 		.query_info_rdy_out(query_info_rdy_out), 
 		.query_seq_block_in(query_seq_block_in), 
@@ -85,6 +96,8 @@ module Engine_tb;
         ref_length1 = 2;
         ref_addr1 = 5;
         num_query_blocks1 = 2;
+        query_id1 = 1;
+        cell_score_threshold1 = 10;
         
         // Test 2
         query2[0] = 6'b011000;  // AGC
@@ -93,6 +106,8 @@ module Engine_tb;
         ref_length2 = 2;
         ref_addr2 = 10;
         num_query_blocks2 = 1;
+        query_id2 = 2;
+        cell_score_threshold2 = 20;
         
         // Test 3
         query3[0] = 6'b011000;  // AGC
@@ -100,6 +115,8 @@ module Engine_tb;
         ref_length3 = 1;
         ref_addr3 = 15;
         num_query_blocks3 = 1;
+        query_id3 = 3;
+        cell_score_threshold3 = 30;
         
         V_out_expected[0][0] = 10;
         V_out_expected[0][1] = 0;
@@ -240,6 +257,8 @@ module Engine_tb;
 		ref_length_in <= 0;
 		ref_addr_in <= 0;
 		num_query_blocks_in <= 0;
+        query_id_in <= 0;
+        cell_score_threshold_in <= 0;
 		query_info_valid_in <= 0;
 		query_seq_block_in <= 0;
 		query_seq_block_valid_in <= 0;
@@ -273,6 +292,8 @@ module Engine_tb;
         ref_length_in <= ref_length1;
         ref_addr_in <= ref_addr1;
         num_query_blocks_in <= num_query_blocks1;
+        query_id_in <= query_id1;
+        cell_score_threshold_in <= cell_score_threshold1;
         query_info_valid_in <= 1;
         #10;
         
@@ -455,6 +476,8 @@ module Engine_tb;
         ref_length_in <= ref_length2;
         ref_addr_in <= ref_addr2;
         num_query_blocks_in <= num_query_blocks2;
+        query_id_in <= query_id2;
+        cell_score_threshold_in <= cell_score_threshold2;
         query_info_valid_in <= 1;
         #10;
         
@@ -678,6 +701,8 @@ module Engine_tb;
         ref_length_in <= ref_length3;
         ref_addr_in <= ref_addr3;
         num_query_blocks_in <= num_query_blocks3;
+        query_id_in <= query_id3;
+        cell_score_threshold_in <= cell_score_threshold3;
         query_info_valid_in <= 3;
         #10;
         

@@ -8,6 +8,8 @@
  *  Revision History :
  *      Albert Ng   Jul 06 2013     Initial Revision
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
  
@@ -20,7 +22,9 @@ module Engine(
     input [24:0]  ref_length_in,            // Number of blocks in the reference sequence
     input [24:0]  ref_addr_in,              // DRAM starting address for reference sequence
     input [15:0]  num_query_blocks_in,      // Number of blocks in the query sequence
-    input         query_info_valid_in,         // Store bookkeeping info for the query sequence
+    input [15:0]  query_id_in,              // Query ID #
+    input [31:0]  cell_score_threshold_in,  // Cell score threshold for reporting
+    input         query_info_valid_in,      // Store bookkeeping info for the query sequence
     output        query_info_rdy_out,       // Bookkeeping info input acknowledged
     input [(NUM_PES * 2) - 1:0] query_seq_block_in, // Query sequence block
     input         query_seq_block_valid_in,    // Query sequence block input valid
@@ -65,6 +69,8 @@ module Engine(
         .ref_length_in(ref_length_in),
         .ref_addr_in(ref_addr_in),
         .num_query_blocks_in(num_query_blocks_in),
+        .query_id_in(query_id_in),
+        .cell_score_threshold_in(cell_score_threshold_in),
         .query_info_valid_in(query_info_valid_in),
         .query_info_rdy_out(query_info_rdy_out),
         .query_seq_block_in(query_seq_block_in),

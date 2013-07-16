@@ -8,6 +8,8 @@
  *                                  1 query block, 2 ref block, stall waiting for ref block test
  *                                  Moved send_ref from read FSM to write FSM
  *      Albert Ng   Jul 08 2013     Added stall tests
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
 
@@ -20,6 +22,8 @@ module Engine_Ctrl_tb;
 	reg [24:0] ref_length_in;
 	reg [24:0] ref_addr_in;
 	reg [15:0] num_query_blocks_in;
+    reg [15:0] query_id_in;
+    reg [31:0] cell_score_threshold_in;
 	reg query_info_valid_in;
 	reg [7:0] query_seq_block_in;
 	reg query_seq_block_valid_in;
@@ -52,6 +56,7 @@ module Engine_Ctrl_tb;
 		.ref_length_in(ref_length_in), 
 		.ref_addr_in(ref_addr_in), 
 		.num_query_blocks_in(num_query_blocks_in), 
+        .query_id_in(query_id_in),
 		.query_info_valid_in(query_info_valid_in), 
         .query_info_rdy_out(query_info_rdy_out),
 		.query_seq_block_in(query_seq_block_in), 
@@ -80,18 +85,24 @@ module Engine_Ctrl_tb;
     reg [24:0] ref_length1;
     reg [24:0] ref_addr1;
     reg [15:0] num_query_blocks1;
+    reg [15:0] query_id1;
+    reg [31:0] cell_score_threshold1;
     
     reg [7:0] query2 [1:0];
     reg [15:0] ref2[0:0];
     reg [24:0] ref_length2;
     reg [24:0] ref_addr2;
     reg [15:0] num_query_blocks2;
+    reg [15:0] query_id2;
+    reg [31:0] cell_score_threshold2;
     
     reg [7:0] query3 [0:0];
     reg [15:0] ref3[1:0];
     reg [24:0] ref_length3;
     reg [24:0] ref_addr3;
     reg [15:0] num_query_blocks3;
+    reg [15:0] query_id3;
+    reg [31:0] cell_score_threshold3;
     
     integer i;
 	initial begin
@@ -104,6 +115,8 @@ module Engine_Ctrl_tb;
         ref_length1 <= 3;
         ref_addr1 <= 5;
         num_query_blocks1 <= 3;
+        query_id1 <= 1;
+        cell_score_threshold1 <= 20;
 
         query2[0] <= 8'b10001010;
         query2[1] <= 8'b00101110;
@@ -111,6 +124,8 @@ module Engine_Ctrl_tb;
         ref_length2 <= 1;
         ref_addr2 <= 62521;
         num_query_blocks2 <= 2;
+        query_id2 <= 2;
+        cell_score_threshold2 <= 30;
 
         query3[0] <= 8'b01011010;
         ref3[0] <= 16'b0001110010100011;
@@ -118,6 +133,8 @@ module Engine_Ctrl_tb;
         ref_length3 <= 2;
         ref_addr3 <= 255;
         num_query_blocks3 <= 1;
+        query_id3 <= 3;
+        cell_score_threshold3 <= 40;
         
 		// Initialize Inputs
 		clk <= 0;
@@ -126,6 +143,7 @@ module Engine_Ctrl_tb;
 		ref_length_in <= 0;
 		ref_addr_in <= 0;
 		num_query_blocks_in <= 0;
+        query_id_in <= 0;
 		query_info_valid_in <= 0;
 		query_seq_block_in <= 0;
 		query_seq_block_valid_in <= 0;
@@ -193,6 +211,8 @@ module Engine_Ctrl_tb;
         ref_length_in <= ref_length1;
         ref_addr_in <= ref_addr1;
         num_query_blocks_in <= num_query_blocks1;
+        query_id_in <= query_id1;
+        cell_score_threshold_in <= cell_score_threshold1;
         query_info_valid_in <= 1;
         #10;
         
@@ -1564,6 +1584,8 @@ module Engine_Ctrl_tb;
         ref_length_in <= ref_length2;
         ref_addr_in <= ref_addr2;
         num_query_blocks_in <= num_query_blocks2;
+        query_id_in <= query_id2;
+        cell_score_threshold_in <= cell_score_threshold2;
         query_info_valid_in <= 1;
         #10;  
 		       
@@ -1767,6 +1789,8 @@ module Engine_Ctrl_tb;
         ref_length_in <= ref_length3;
         ref_addr_in <= ref_addr3;
         num_query_blocks_in <= num_query_blocks3;
+        query_id_in <= query_id3;
+        cell_score_threshold_in <= cell_score_threshold3;
         query_info_valid_in <= 1;
         #10;
         

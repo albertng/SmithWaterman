@@ -53,6 +53,8 @@
  *                                  Moved send_ref_addr from read FSM to write FSM
  *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
  
@@ -65,7 +67,9 @@ module Engine_Ctrl(
     input [24:0]  ref_length_in,            // Number of blocks in the reference sequence
     input [24:0]  ref_addr_in,              // DRAM starting address for reference sequence
     input [15:0]  num_query_blocks_in,      // Number of blocks in the query sequence
-    input         query_info_valid_in,         // Store bookkeeping info for the query sequence
+    input [15:0]  query_id_in,              // Query ID #
+    input [31:0]  cell_score_threshold_in,  // Cell score threshold for reporting
+    input         query_info_valid_in,      // Store bookkeeping info for the query sequence
     output        query_info_rdy_out,       // Bookkeeping info input acknowledged
     input [(NUM_PES * 2) - 1:0] query_seq_block_in, // Query sequence block
     input         query_seq_block_valid_in,    // Query sequence block input valid
@@ -148,6 +152,10 @@ module Engine_Ctrl(
     reg [24:0] ref_addr1;
     reg [9:0] num_query_blocks0;
     reg [9:0] num_query_blocks1;
+    reg [15:0] query_id0;
+    reg [15:0] query_id1;
+    reg [31:0] cell_score_threshold0;
+    reg [31:0] cell_score_threshold1;
     reg latch_query_info;
     reg query_info_rdy;
 
@@ -398,6 +406,10 @@ module Engine_Ctrl(
             ref_addr1 <= 0;
             num_query_blocks0 <= 0;
             num_query_blocks1 <= 0;
+            query_id0 <= 0;
+            query_id1 <= 0;
+            cell_score_threshold0 <= 0;
+            cell_score_threshold1 <= 0;
             qsbram_wr_addr <= 0;
             wr_buffer_sel <= 0;
         end else if (!stall) begin
@@ -406,10 +418,14 @@ module Engine_Ctrl(
                     ref_length0 <= ref_length_in;
                     ref_addr0 <= ref_addr_in;
                     num_query_blocks0 <= num_query_blocks_in;
+                    query_id0 <= query_id_in;
+                    cell_score_threshold0 <= cell_score_threshold_in;
                 end else begin
                     ref_length1 <= ref_length_in;
                     ref_addr1 <= ref_addr_in;
                     num_query_blocks1 <= num_query_blocks_in;
+                    query_id1 <= query_id_in;
+                    cell_score_threshold1 <= cell_score_threshold_in;
                 end
             end
             

@@ -3,6 +3,8 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 10 2013     Initial Revision
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
 
@@ -28,13 +30,17 @@ module StreamInputHandler_Engine_Interface_tb;
 
     reg [31:0] ref_length1;
     reg [31:0] ref_addr1;
-    reg [31:0] num_query_blocks1;
+    reg [15:0] num_query_blocks1;
+    reg [15:0] query_id1;
+    reg [31:0] cell_score_threshold1;
     reg [127:0] query1[1:0];
     reg [7:0] ref1[1:0];
 
     reg [31:0] ref_length2;
     reg [31:0] ref_addr2;
-    reg [31:0] num_query_blocks2;
+    reg [15:0] num_query_blocks2;
+    reg [15:0] query_id2;
+    reg [31:0] cell_score_threshold2;
     reg [127:0] query2[0:0];
     reg [7:0] ref2[1:0];
 
@@ -67,6 +73,8 @@ module StreamInputHandler_Engine_Interface_tb;
         ref_length1 = 2;
         ref_addr1 = 5;
         num_query_blocks1 = 2;
+        query_id1 = 1;
+        cell_score_threshold1 = 10;
         
         query2[0] = 128'b011000;    // AGC
         ref2[0] = 8'b10001100;      // ATAGTCAC
@@ -74,6 +82,8 @@ module StreamInputHandler_Engine_Interface_tb;
         ref_length2 = 2;
         ref_addr2 = 10;
         num_query_blocks2 = 1;
+        query_id2 = 2;
+        cell_score_threshold2 = 20;
         
         V_out_expected[0][0] = 10;
         V_out_expected[0][1] = 0;
@@ -198,7 +208,9 @@ module StreamInputHandler_Engine_Interface_tb;
         si_valid <= 1;
         si_data[31:0] <= ref_length1;
         si_data[63:32] <= ref_addr1;
-        si_data[95:64] <= num_query_blocks1;
+        si_data[79:64] <= num_query_blocks1;
+        si_data[95:80] <= query_id1;
+        si_data[127:96] <= cell_score_threshold1;
         #1;
         if (si_rdy != 1)
             $display("@%0dns si_rdy error", $time);
@@ -230,7 +242,9 @@ module StreamInputHandler_Engine_Interface_tb;
     
         si_data[31:0] <= ref_length2;
         si_data[63:32] <= ref_addr2;
-        si_data[95:64] <= num_query_blocks2;
+        si_data[79:64] <= num_query_blocks2;
+        si_data[95:80] <= query_id2;
+        si_data[127:96] <= cell_score_threshold2;
         #1;
         if (si_rdy != 1)
             $display("@%0dns si_rdy error", $time);

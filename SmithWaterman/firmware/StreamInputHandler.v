@@ -9,6 +9,8 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 09 2013     Initial Revision
+ *      Albert Ng   Jul 15 2013     Added query ID #
+ *                                  Added cell score threshold
  *
  */
  
@@ -22,6 +24,8 @@ module StreamInputHandler(
     output [24:0]  ref_length_out,                     // Reference sequence length
     output [24:0]  ref_addr_out,                       // Reference sequence address
     output [15:0]  num_query_blocks_out,               // Number of query blocks
+    output [15:0]  query_id_out,                       // Query ID #
+    output [31:0]  cell_score_threshold_out,           // Cell score threshold for reporting
     output         query_info_valid_out,               // Query information valid
     input          query_info_rdy_in,                  // Query information ready
     output [(NUM_PES * 2) - 1:0] query_seq_block_out,  // Query sequence block
@@ -76,6 +80,8 @@ module StreamInputHandler(
     assign ref_length_out       = sdsb_dout[24:0];
     assign ref_addr_out         = sdsb_dout[56:32];
     assign num_query_blocks_out = sdsb_dout[79:64];
+    assign query_id_out         = sdsb_dout[95:80];
+    assign cell_score_threshold_out = sdsb_dout[127:96];
     assign query_info_valid_out = query_info_valid;
     assign query_seq_block_out = sdsb_dout[(NUM_PES * 2) - 1:0];
     assign query_seq_block_valid_out = query_seq_block_valid;
