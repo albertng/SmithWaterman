@@ -10,6 +10,7 @@
  *                                      test
  *                                  Added stall
  *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
+ *      Albert Ng   Jul 16 2013     Added cell score threshold and high score tests
  *
  */
 
@@ -24,6 +25,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     reg [1:0] T_in;
     reg store_S_in;
     reg init_in;
+    reg [9:0] cell_score_threshold_in;
     reg first_query_block;
     reg next_first_ref_block_in;
     reg first_ref_block_in;
@@ -34,11 +36,14 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     // Outputs
     wire [29:0] V_out1;
     wire [39:0] V_out2;
+    wire [2:0] high_score_out1;
+    wire [3:0] high_score_out2;
 
     // Multiple query block, multiple reference block, 3 PEs per FIFO test
     reg [1:0] short_read1 [5:0];
     reg [1:0] reference1  [7:0];
     reg [9:0] V_out_expected1 [20:0][2:0];
+    reg high_score_expected1 [20:0][2:0];
     SmithWatermanArray #(3, 4, 10, 10, -2, -2, -1, 3) uut1 (
         .clk(clk), 
         .rst(rst),
@@ -47,19 +52,22 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .T_in(T_in), 
         .store_S_in(store_S_in),  
         .init_in(init_in), 
+        .cell_score_threshold_in(cell_score_threshold_in),
         .first_query_block(first_query_block), 
         .next_first_ref_block_in(next_first_ref_block_in), 
         .first_ref_block_in(first_ref_block_in), 
         .last_ref_block_in(last_ref_block_in), 
         .last_block_char_in(last_block_char_in), 
         .bypass_fifo_in(bypass_fifo_in), 
-        .V_out(V_out1)
+        .V_out(V_out1),
+        .high_score_out(high_score_out1)
     );
 
     // Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
     reg [1:0] short_read2 [3:0];
     reg [1:0] reference2  [15:0];
     reg [9:0] V_out_expected2 [20:0][3:0];
+    reg high_score_expected2 [20:0][3:0];
     SmithWatermanArray #(4, 8, 10, 10, -2, -2, -1, 2) uut2 (
         .clk(clk), 
         .rst(rst),
@@ -68,19 +76,22 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .T_in(T_in), 
         .store_S_in(store_S_in), 
         .init_in(init_in), 
+        .cell_score_threshold_in(cell_score_threshold_in),
         .first_query_block(first_query_block), 
         .next_first_ref_block_in(next_first_ref_block_in), 
         .first_ref_block_in(first_ref_block_in), 
         .last_ref_block_in(last_ref_block_in), 
         .last_block_char_in(last_block_char_in), 
         .bypass_fifo_in(bypass_fifo_in), 
-        .V_out(V_out2)
+        .V_out(V_out2),
+        .high_score_out(high_score_out2)
     );
 
     integer i;
     integer j;
     initial begin
         $display("Multiple query block, multiple reference block, 3 PEs per FIFO test");
+        cell_score_threshold_in = 40;
         short_read1[0] = 2'b00;   // ACTAGC
         short_read1[1] = 2'b01;
         short_read1[2] = 2'b11;
@@ -159,6 +170,70 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         V_out_expected1[20][1] = 0;
         V_out_expected1[20][2] = 43;
         
+        high_score_expected1[0][0] = 0;
+        high_score_expected1[0][1] = 0;
+        high_score_expected1[0][2] = 0;
+        high_score_expected1[1][0] = 0;
+        high_score_expected1[1][1] = 0;
+        high_score_expected1[1][2] = 0;
+        high_score_expected1[2][0] = 0;
+        high_score_expected1[2][1] = 0;
+        high_score_expected1[2][2] = 0;
+        high_score_expected1[3][0] = 0;
+        high_score_expected1[3][1] = 0;
+        high_score_expected1[3][2] = 0;
+        high_score_expected1[4][0] = 0;
+        high_score_expected1[4][1] = 0;
+        high_score_expected1[4][2] = 0;
+        high_score_expected1[5][0] = 0;
+        high_score_expected1[5][1] = 0;
+        high_score_expected1[5][2] = 0;
+        high_score_expected1[6][0] = 0;
+        high_score_expected1[6][1] = 0;
+        high_score_expected1[6][2] = 0;
+        high_score_expected1[7][0] = 0;
+        high_score_expected1[7][1] = 0;
+        high_score_expected1[7][2] = 0;
+        high_score_expected1[8][0] = 0;
+        high_score_expected1[8][1] = 0;
+        high_score_expected1[8][2] = 0;
+        high_score_expected1[9][0] = 0;
+        high_score_expected1[9][1] = 0;
+        high_score_expected1[9][2] = 0;
+        high_score_expected1[10][0] = 0;
+        high_score_expected1[10][1] = 0;
+        high_score_expected1[10][2] = 0;
+        high_score_expected1[11][0] = 0;
+        high_score_expected1[11][1] = 0;
+        high_score_expected1[11][2] = 0;
+        high_score_expected1[12][0] = 0;
+        high_score_expected1[12][1] = 0;
+        high_score_expected1[12][2] = 0;
+        high_score_expected1[13][0] = 0;
+        high_score_expected1[13][1] = 0;
+        high_score_expected1[13][2] = 0;
+        high_score_expected1[14][0] = 0;
+        high_score_expected1[14][1] = 0;
+        high_score_expected1[14][2] = 0;
+        high_score_expected1[15][0] = 0;
+        high_score_expected1[15][1] = 0;
+        high_score_expected1[15][2] = 0;
+        high_score_expected1[16][0] = 0;
+        high_score_expected1[16][1] = 0;
+        high_score_expected1[16][2] = 0;
+        high_score_expected1[17][0] = 0;
+        high_score_expected1[17][1] = 0;
+        high_score_expected1[17][2] = 0;
+        high_score_expected1[18][0] = 0;
+        high_score_expected1[18][1] = 0;
+        high_score_expected1[18][2] = 1;
+        high_score_expected1[19][0] = 0;
+        high_score_expected1[19][1] = 0;
+        high_score_expected1[19][2] = 1;
+        high_score_expected1[20][0] = 0;
+        high_score_expected1[20][1] = 0;
+        high_score_expected1[20][2] = 1;
+
         // Initialize Inputs
         clk <= 0;
         rst <= 1;
@@ -205,6 +280,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
         
@@ -227,6 +305,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -246,6 +327,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -263,6 +347,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
                 end
             end
         end
@@ -282,6 +369,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
                 end
             end
         end
@@ -305,6 +395,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -324,6 +417,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -341,6 +437,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
                 end
             end
         end
@@ -360,6 +459,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
                 end
             end
         end
@@ -383,6 +485,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -402,6 +507,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -419,6 +527,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
                 end
             end
         end
@@ -439,6 +550,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -458,6 +572,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
 
@@ -475,6 +592,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
                 end
             end
         end
@@ -494,11 +614,15 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (high_score_out1[j] != high_score_expected1[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out1[j], high_score_expected1[i][j]);
+                end
             end
         end
         
         
         $display("Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test");
+        cell_score_threshold_in = 35;
         short_read2[0] = 2'b00;   // AGCA
         short_read2[1] = 2'b10;
         short_read2[2] = 2'b01;
@@ -600,6 +724,67 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         V_out_expected2[19][2] = 0;
         V_out_expected2[19][3] = 35;
         
+        high_score_expected2[0][0] = 0;
+        high_score_expected2[0][1] = 0;
+        high_score_expected2[0][2] = 0;
+        high_score_expected2[0][3] = 0;
+        high_score_expected2[1][0] = 0;
+        high_score_expected2[1][1] = 0;
+        high_score_expected2[1][2] = 0;
+        high_score_expected2[1][3] = 0;
+        high_score_expected2[2][0] = 0;
+        high_score_expected2[2][1] = 0;
+        high_score_expected2[2][2] = 0;
+        high_score_expected2[2][3] = 0;
+        high_score_expected2[3][0] = 0;
+        high_score_expected2[3][1] = 0;
+        high_score_expected2[3][2] = 0;
+        high_score_expected2[3][3] = 0;
+        high_score_expected2[4][0] = 0;
+        high_score_expected2[4][1] = 0;
+        high_score_expected2[4][2] = 0;
+        high_score_expected2[4][3] = 0;
+        high_score_expected2[5][0] = 0;
+        high_score_expected2[5][1] = 0;
+        high_score_expected2[5][2] = 0;
+        high_score_expected2[5][3] = 0;
+        high_score_expected2[6][0] = 0;
+        high_score_expected2[6][1] = 0;
+        high_score_expected2[6][2] = 0;
+        high_score_expected2[6][3] = 0;
+        high_score_expected2[7][0] = 0;
+        high_score_expected2[7][1] = 0;
+        high_score_expected2[7][2] = 0;
+        high_score_expected2[7][3] = 1;
+        high_score_expected2[8][0] = 0;
+        high_score_expected2[8][1] = 0;
+        high_score_expected2[8][2] = 0;
+        high_score_expected2[8][3] = 1;
+        high_score_expected2[9][0] = 0;
+        high_score_expected2[9][1] = 0;
+        high_score_expected2[9][2] = 0;
+        high_score_expected2[9][3] = 1;
+        high_score_expected2[10][0] = 0;
+        high_score_expected2[10][1] = 0;
+        high_score_expected2[10][2] = 0;
+        high_score_expected2[10][3] = 1;    
+        high_score_expected2[11][0] = 0;
+        high_score_expected2[11][1] = 0;
+        high_score_expected2[11][2] = 0;
+        high_score_expected2[11][3] = 0;    // Keep last value
+        high_score_expected2[12][0] = 0;
+        high_score_expected2[12][1] = 0;
+        high_score_expected2[12][2] = 0;
+        high_score_expected2[12][3] = 1;
+        high_score_expected2[13][0] = 0;
+        high_score_expected2[13][1] = 0;
+        high_score_expected2[13][2] = 0;
+        high_score_expected2[13][3] = 0;
+        high_score_expected2[14][0] = 0;
+        high_score_expected2[14][1] = 0;
+        high_score_expected2[14][2] = 0;
+        high_score_expected2[14][3] = 0;
+
         // Initialize inputs, variables, and wait for reset
         clk <= 0;
         rst <= 1;
@@ -644,6 +829,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
+                end
             end
         end
 
@@ -666,6 +854,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
+                end
             end
         end
 
@@ -684,6 +875,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 4; j = j + 1) begin
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
                 end
             end
         end
@@ -704,6 +898,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
+                end
             end
         end
         
@@ -721,6 +918,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 4; j = j + 1) begin
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
                 end
             end
         end
@@ -741,6 +941,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
+                end
             end
         end
         
@@ -760,6 +963,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
+                end
             end
         end
         
@@ -778,10 +984,14 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (high_score_out2[j] != high_score_expected2[i][j]) begin
+                    $display("high_score_out error, Cycle %d PE %d: Got %d expected %d", i, j, high_score_out2[j], high_score_expected2[i][j]);
+                end
             end
         end
         
         #100;
+        $display("Tests complete!");
         $finish;
     end
     always begin

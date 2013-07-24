@@ -81,6 +81,8 @@
  *                                  First_ref_block and Next_first_ref_block shift regs reset to 1
  *      Albert Ng   Jun 27 2013     Stopped FIFO read/write when stalling 
  *      Albert Ng   Jul 08 2013     Stopped shift register shifting when stalling 
+ *      Albert Ng   Jul 16 2013     Added cell score threshold and high score signals
+ *      Albert Ng   Jul 17 2013     Added block info select shift reg
  *
  */
 
@@ -92,13 +94,17 @@ module SmithWatermanArray(
     input [1:0] T_in,                       // Reference sequence shift in
     input store_S_in,                       // Load systolic array with new query seq
     input init_in,                          // Computation active shift in
+    input [WIDTH - 1:0] cell_score_threshold_in, // Cell score threshold for reporting
     input first_query_block,                // Computing first block of the query
     input next_first_ref_block_in,          // Next block is a first block of the reference
     input first_ref_block_in,               // Computing a first block of the reference
     input last_ref_block_in,                // Computing a last block of the reference
     input last_block_char_in,               // Computing last char in the reference block
     input bypass_fifo_in,                   // Bypass inter-ref-block FIFOs
-    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
+    input block_info_sel_in,                // Block info buffer select shift reg input
+    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
+    output [NUM_PES - 1:0] high_score_out,  // Cell score is a high score
+    output [NUM_PES - 1:0] block_info_sel_out // Alignment block info buffer select
     );
 
     parameter NUM_PES = 64;
@@ -118,6 +124,7 @@ module SmithWatermanArray(
     wire [1:0] T[NUM_PES:0];
     wire store_S[NUM_PES:0];
     wire init[NUM_PES:0];
+    wire [WIDTH - 1:0] cell_score_threshold[NUM_PES:0];
     
     wire [17:0] din_V[NUM_PES/PES_PER_FIFO - 1:0];
     wire [17:0] dout_V[NUM_PES/PES_PER_FIFO - 1:0];
@@ -137,6 +144,7 @@ module SmithWatermanArray(
     reg [NUM_PES - 1:0] bypass_fifo;
     reg [WIDTH - 1:0] V_interm[REF_LENGTH - NUM_PES:0];
     reg [WIDTH - 1:0] F_interm[REF_LENGTH - NUM_PES:0];
+    reg [NUM_PES - 1:0] block_info_sel;
        
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_V[NUM_PES/PES_PER_FIFO - 1:0];
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_E[NUM_PES/PES_PER_FIFO - 1:0];
@@ -284,12 +292,14 @@ module SmithWatermanArray(
             last_ref_block[0] <= 0;
             last_block_char[0] <= 0;
             bypass_fifo[0] <= 0;
+            block_info_sel[0] <= 0;
         end else if (!stall) begin
             next_first_ref_block[0] <= next_first_ref_block_in;
             first_ref_block[0] <= first_ref_block_in;
             last_ref_block[0] <= last_ref_block_in;
             last_block_char[0] <= last_block_char_in;
             bypass_fifo[0] <= bypass_fifo_in;
+            block_info_sel[0] <= block_info_sel_in;
         end
     end
     generate
@@ -301,12 +311,14 @@ module SmithWatermanArray(
                     last_ref_block[i] <= 0;
                     last_block_char[i] <= 0;
                     bypass_fifo[i] <= 0;
+                    block_info_sel[i] <= 0;
                 end else if (!stall) begin
                     next_first_ref_block[i] <= next_first_ref_block[i-1];
                     first_ref_block[i] <= first_ref_block[i-1];
                     last_ref_block[i] <= last_ref_block[i-1];
                     last_block_char[i] <= last_block_char[i-1];
                     bypass_fifo[i] <= bypass_fifo[i-1];
+                    block_info_sel[i] <= block_info_sel[i-1];
                 end
             end
         end
@@ -325,6 +337,7 @@ module SmithWatermanArray(
     assign T[0] = T_in;
     assign store_S[0] = store_S_in;
     assign init[0] = init_in;
+    assign cell_score_threshold[0] = cell_score_threshold_in[WIDTH-1:0];
     generate
         for (i = 0; i < NUM_PES; i = i + 1) begin:swpe_gen
             SmithWatermanPE #(WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN) swpe (
@@ -339,14 +352,19 @@ module SmithWatermanArray(
                 .init_in(init[i]),
                 .init_E(init_E[i]),
                 .init_V(init_V[i]),
+                .cell_score_threshold_in(cell_score_threshold[i]),
                 .V_out(V[i+1]),
                 .E_out(E[i+1]),
                 .F_out(F[i+1]), 
                 .T_out(T[i+1]), 
                 .S_out(),
                 .store_S_out(store_S[i+1]),
-                .init_out(init[i+1])
+                .init_out(init[i+1]),
+                .cell_score_threshold_out(cell_score_threshold[i+1]),
+                .high_score_out(high_score_out[i])
             );
         end
     endgenerate
+
+    assign block_info_sel_out <= block_info_sel;
 endmodule

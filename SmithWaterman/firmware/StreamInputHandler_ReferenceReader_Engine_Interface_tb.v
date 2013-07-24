@@ -6,6 +6,7 @@
  *      Albert Ng   Jul 11 2013     Initial Revision
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
+ *      Albert Ng   Jul 16 2013     Added high score tests
  *
  */
 
@@ -30,6 +31,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
     wire rd_info_valid_out;
     wire rd_data_rdy_out;
     wire [29:0] V_out;
+    wire [2:0] high_score_out;
 
     reg [31:0] ref_length1;
     reg [31:0] ref_addr1;
@@ -48,6 +50,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
     reg [255:0] ref2[1:0];
 
     reg [9:0] V_out_expected[32:0][2:0];
+    reg high_score_expected[32:0][2:0];
 
     // Instantiate the Unit Under Test (UUT)
     StreamInputHandler_ReferenceReader_Engine_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
@@ -66,7 +69,8 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
         .rd_data_in(rd_data_in), 
         .rd_data_valid_in(rd_data_valid_in), 
         .rd_data_rdy_out(rd_data_rdy_out), 
-        .V_out(V_out)
+        .V_out(V_out),
+        .high_score_out(high_score_out)
     );
 
     integer i, j;
@@ -189,7 +193,107 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
         V_out_expected[32][0] = 0;
         V_out_expected[32][1] = 0;
         V_out_expected[32][2] = 26;
-        
+               
+        high_score_expected[0][0] = 1;
+        high_score_expected[0][1] = 0;
+        high_score_expected[0][2] = 0;
+        high_score_expected[1][0] = 0;
+        high_score_expected[1][1] = 0;
+        high_score_expected[1][2] = 0;
+        high_score_expected[2][0] = 1;
+        high_score_expected[2][1] = 0;
+        high_score_expected[2][2] = 0;
+        high_score_expected[3][0] = 0;
+        high_score_expected[3][1] = 0;
+        high_score_expected[3][2] = 1;
+        high_score_expected[4][0] = 0;
+        high_score_expected[4][1] = 0;
+        high_score_expected[4][2] = 1;
+        high_score_expected[5][0] = 1;
+        high_score_expected[5][1] = 0;
+        high_score_expected[5][2] = 1;
+        high_score_expected[6][0] = 1;
+        high_score_expected[6][1] = 0;
+        high_score_expected[6][2] = 0;
+        high_score_expected[7][0] = 1;
+        high_score_expected[7][1] = 1;
+        high_score_expected[7][2] = 0;
+        high_score_expected[8][0] = 1;
+        high_score_expected[8][1] = 1;
+        high_score_expected[8][2] = 1;
+        high_score_expected[9][0] = 0;
+        high_score_expected[9][1] = 1;
+        high_score_expected[9][2] = 1;
+        high_score_expected[10][0] = 0;
+        high_score_expected[10][1] = 0;
+        high_score_expected[10][2] = 1;
+        high_score_expected[11][0] = 0;
+        high_score_expected[11][1] = 0;
+        high_score_expected[11][2] = 0;
+        high_score_expected[12][0] = 1;
+        high_score_expected[12][1] = 1;
+        high_score_expected[12][2] = 1;
+        high_score_expected[13][0] = 0;
+        high_score_expected[13][1] = 1;
+        high_score_expected[13][2] = 1;
+        high_score_expected[14][0] = 0;
+        high_score_expected[14][1] = 1;
+        high_score_expected[14][2] = 1;
+        high_score_expected[15][0] = 1;
+        high_score_expected[15][1] = 0;
+        high_score_expected[15][2] = 1;
+        high_score_expected[16][0] = 1;
+        high_score_expected[16][1] = 1;
+        high_score_expected[16][2] = 0;
+        high_score_expected[17][0] = 1;
+        high_score_expected[17][1] = 1;
+        high_score_expected[17][2] = 1;
+        high_score_expected[18][0] = 1;
+        high_score_expected[18][1] = 1;
+        high_score_expected[18][2] = 1;
+        high_score_expected[19][0] = 0;
+        high_score_expected[19][1] = 1;
+        high_score_expected[19][2] = 1;
+        high_score_expected[20][0] = 0;
+        high_score_expected[20][1] = 0;
+        high_score_expected[20][2] = 1;
+        high_score_expected[21][0] = 0;
+        high_score_expected[21][1] = 0;
+        high_score_expected[21][2] = 0;
+        high_score_expected[22][0] = 0;
+        high_score_expected[22][1] = 0;
+        high_score_expected[22][2] = 0;
+        high_score_expected[23][0] = 0;
+        high_score_expected[23][1] = 0;
+        high_score_expected[23][2] = 0;
+        high_score_expected[24][0] = 0;
+        high_score_expected[24][1] = 0;
+        high_score_expected[24][2] = 0;
+        high_score_expected[25][0] = 0;
+        high_score_expected[25][1] = 0;
+        high_score_expected[25][2] = 0;
+        high_score_expected[26][0] = 0;
+        high_score_expected[26][1] = 1;
+        high_score_expected[26][2] = 0;
+        high_score_expected[27][0] = 0;
+        high_score_expected[27][1] = 0;
+        high_score_expected[27][2] = 0;      
+        high_score_expected[28][0] = 0;
+        high_score_expected[28][1] = 0;
+        high_score_expected[28][2] = 0;
+        high_score_expected[29][0] = 0;
+        high_score_expected[29][1] = 0;
+        high_score_expected[29][2] = 0;
+        high_score_expected[30][0] = 0;
+        high_score_expected[30][1] = 0;
+        high_score_expected[30][2] = 1;
+        high_score_expected[31][0] = 0;
+        high_score_expected[31][1] = 0;
+        high_score_expected[31][2] = 1;
+        high_score_expected[32][0] = 0;
+        high_score_expected[32][1] = 0;
+        high_score_expected[32][2] = 1;
+
         // Initialize Inputs
         clk <= 0;
         rst <= 1;
@@ -545,6 +649,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (high_score_out[j] != high_score_expected[i][j]) begin
+                    $display("@%0dns high_score_out error", $time);
+                end
             end
             #10;
         end
@@ -560,6 +667,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[8][j]) begin
                 $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[8][j]);
+            end
+            if (high_score_out[j] != high_score_expected[8][j]) begin
+                $display("@%0dns high_score_out error", $time);
             end
         end
         #10;
@@ -577,6 +687,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (high_score_out[j] != high_score_expected[i][j]) begin
+                    $display("@%0dns high_score_out error", $time);
+                end
             end
             #10;
         end
@@ -593,6 +706,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[18][j]) begin
                 $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[18][j]);
             end
+            if (high_score_out[j] != high_score_expected[18][j]) begin
+                $display("@%0dns high_score_out error", $time);
+            end
         end
         #10;
         
@@ -608,6 +724,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[19][j]) begin
                 $display("@%0dns Wait_ref_seq_block_valid: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[19][j]);
             end
+            if (high_score_out[j] != high_score_expected[19][j]) begin
+                $display("@%0dns high_score_out error", $time);
+            end
         end
         #10;
         
@@ -622,6 +741,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[20][j]) begin
                 $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[20][j]);
+            end
+            if (high_score_out[j] != high_score_expected[20][j]) begin
+                $display("@%0dns high_score_out error", $time);
             end
         end
         #10;
@@ -639,6 +761,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (high_score_out[j] != high_score_expected[i][j]) begin
+                    $display("@%0dns high_score_out error", $time);
+                end
             end
             #10;
         end
@@ -654,6 +779,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[25][j]) begin
                 $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[25][j]);
+            end
+            if (high_score_out[j] != high_score_expected[25][j]) begin
+                $display("@%0dns high_score_out error", $time);
             end
         end
         #10;
@@ -671,6 +799,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (high_score_out[j] != high_score_expected[i][j]) begin
+                    $display("@%0dns high_score_out error", $time);
+                end
             end
             #10;
         end
@@ -687,6 +818,9 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
+                end
+                if (high_score_out[j] != high_score_expected[i][j]) begin
+                    $display("@%0dns high_score_out error", $time);
                 end
             end
             #10;

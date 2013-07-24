@@ -2,8 +2,6 @@
  *  Description      : Fixed implementation of Smith Waterman systolic array PE with
  *                     affine gap penalty.
  *
- *                     TODO: Maybe can make store_S = !init?
- *
  *  Revision History :
  *      Albert Ng   Apr 30 2013     Initial Revision
  *      Albert Ng   May 02 2013     Added store_S_in and store_S_out
@@ -13,6 +11,7 @@
  *                                  Reorganized PE logic to be in separate always block
  *      Albert Ng   Jun 09 2013     Changed V_diag to DFF V_in every clock
  *      Albert Ng   Jun 24 2013     Added stall signal
+ *      Albert Ng   Jul 15 2013     Added cell score threshold comparison and shift reg
  *
  */
 module SmithWatermanPE(
@@ -27,13 +26,16 @@ module SmithWatermanPE(
     input  init_in,                 // Computation active shift in
     input  [WIDTH-1:0] init_V,      // V initialization value
     input  [WIDTH-1:0] init_E,      // E initialization value
+    input  [WIDTH-1:0] cell_score_threshold_in, // Cell score threshold for reporting
     output [WIDTH-1:0] V_out,       // Score of this PE
     output [WIDTH-1:0] E_out,       // Left gap penalty of this cell
     output [WIDTH-1:0] F_out,       // Up Gap penalty of this cell
     output [1:0] T_out,             // Reference seq shift out
     output [1:0] S_out,             // Query seq shift out
     output store_S_out,             // Store query seq shift out
-    output init_out                 // Computation active shift out
+    output init_out,                // Computation active shift out
+    output [WIDTH-1:0] cell_score_threshold_out, // Cell score threshold shift out
+    output high_score_out           // Cell score is a high score
     );
     
     parameter WIDTH = 10;
@@ -48,8 +50,10 @@ module SmithWatermanPE(
     reg signed [WIDTH-1:0] V;
     reg signed [WIDTH-1:0] E;
     reg signed [WIDTH-1:0] F;
+    reg signed [WIDTH-1:0] cell_score_threshold;
     reg store_S;
     reg init;
+    reg high_score;
     
     reg [WIDTH-1:0] V_gap_open;
     reg [WIDTH-1:0] E_gap_extend;
@@ -67,6 +71,8 @@ module SmithWatermanPE(
     assign T_out = T;
     assign init_out = init;
     assign store_S_out = store_S;
+    assign cell_score_threshold_out = cell_score_threshold;
+    assign high_score_out = high_score;
     
     always @(*) begin
         V_gap_open = V + GAP_OPEN_PEN;
@@ -99,6 +105,13 @@ module SmithWatermanPE(
         else
             new_V = match_score;
     end
+
+    always @(*) begin
+        if (($signed(V) >= $signed(cell_score_threshold)) && init)
+            high_score = 1;
+        else
+            high_score = 0;
+    end
     
     always @(posedge clk) begin
         if (rst) begin
@@ -110,6 +123,7 @@ module SmithWatermanPE(
             F <= 0;
             store_S <= 0;
             init <= 0;
+            cell_score_threshold <= 0;
         end else if (!stall) begin
             store_S <= store_S_in;
             init <= init_in;
@@ -126,6 +140,7 @@ module SmithWatermanPE(
                 E <= init_E;
                 V <= init_V;
             end
+            cell_score_threshold <= cell_score_threshold_in;
         end
     end
 endmodule

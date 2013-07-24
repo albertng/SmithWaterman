@@ -9,6 +9,7 @@
  *      Albert Ng   Jun 05 2013     Added init_E, init_V, init_V_diag
  *      Albert Ng   Jun 09 2013     Removed init_V_diag
  *      Albert Ng   Jun 24 2013     Added stall
+ *      Albert Ng   Jul 15 2013     Added cell score threshold comparison
  *
  */
 
@@ -25,6 +26,7 @@ module SmithWatermanPE_tb;
     reg init_in;
     reg [9:0] init_E;
     reg [9:0] init_V;
+    reg [9:0] cell_score_threshold_in;
 
     // Outputs
     wire [9:0] V_out;
@@ -34,6 +36,8 @@ module SmithWatermanPE_tb;
     wire [1:0] T_out;
     wire store_S_out;
     wire init_out;
+    wire [9:0] cell_score_threshold_out;
+    wire high_score_out;
 
     reg [1:0] short_read [5:0];
     reg [1:0] reference  [7:0];
@@ -52,13 +56,16 @@ module SmithWatermanPE_tb;
         .init_in(init_in),
         .init_V(init_V),
         .init_E(init_E),
+        .cell_score_threshold_in(cell_score_threshold_in),
         .V_out(V_out),
         .E_out(E_out),
         .F_out(F_out),
         .S_out(S_out),
         .T_out(T_out), 
         .store_S_out(store_S_out),
-        .init_out(init_out)
+        .init_out(init_out),
+        .cell_score_threshold_out(cell_score_threshold_out),
+        .high_score_out(high_score_out)
     );
 
     integer i;
@@ -92,6 +99,7 @@ module SmithWatermanPE_tb;
         init_in = 0;
         init_E = 0;
         init_V = 0;
+        cell_score_threshold_in = 0;
         i = 0;
         #20
         rst = 0;
@@ -123,10 +131,19 @@ module SmithWatermanPE_tb;
             $display("S_out error: Got %d expected %d", S_out, short_read[0]);
             $finish;
         end
+        if (cell_score_threshold_out != 0) begin
+            $display("cell_score_threshold_out error");
+            $finish;
+        end
+        if (high_score_out != 0) begin
+            $display("high_score_out error");
+            $finish;
+        end
         store_S_in = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
+            cell_score_threshold_in = 9;
             #10;
             $display("%d %d %d %d", V_out, F_out, T_out, init_out);
             if (V_out != V_out_expected[i]) begin
@@ -147,6 +164,14 @@ module SmithWatermanPE_tb;
             end
             if (store_S_out) begin
                 $display("store_S_out error: Got 1 expected 0");
+                $finish;
+            end
+            if (cell_score_threshold_out != 9) begin
+                $display("cell_score_threshold_out error");
+                $finish;
+            end
+            if (high_score_out != ($signed(V_out) >= $signed(cell_score_threshold_out))) begin
+                $display("high_score_out error");
                 $finish;
             end
         end
@@ -177,10 +202,15 @@ module SmithWatermanPE_tb;
             $display("S_out error: Got %d expected %d", S_out, short_read[1]);
             $finish;
         end
+        if (high_score_out != 0) begin
+            $display("high_score_out error");
+            $finish;
+        end
         store_S_in = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
+            cell_score_threshold_in = 8;
             #10;
             $display("%d %d %d %d", V_out, F_out, T_out, init_out);
             if (V_out != V_out_expected[i]) begin
@@ -201,6 +231,14 @@ module SmithWatermanPE_tb;
             end
             if (store_S_out) begin
                 $display("store_S_out error: Got 1 expected 0");
+                $finish;
+            end
+            if (cell_score_threshold_out != 8) begin
+                $display("cell_score_threshold_out error");
+                $finish;
+            end
+            if (high_score_out != ($signed(V_out) >= $signed(cell_score_threshold_out))) begin
+                $display("high_score_out error");
                 $finish;
             end
         end
@@ -233,10 +271,15 @@ module SmithWatermanPE_tb;
             $display("S_out error: Got %d expected %d", S_out, short_read[4]);
             $finish;
         end
+        if (high_score_out != 0) begin
+            $display("high_score_out error");
+            $finish;
+        end
         store_S_in = 0;
         for(i = 0; i < 8; i = i + 1) begin
             T_in = reference[i];
             init_in = 1;
+            cell_score_threshold_in = 15;
             #10;
             $display("%d %d %d %d", V_out, F_out, T_out, init_out);
             if (V_out != V_out_expected[i]) begin
@@ -257,6 +300,14 @@ module SmithWatermanPE_tb;
             end
             if (store_S_out) begin
                 $display("store_S_out error: Got 1 expected 0");
+                $finish;
+            end
+            if (cell_score_threshold_out != 15) begin
+                $display("cell_score_threshold_out error");
+                $finish;
+            end
+            if (high_score_out != ($signed(V_out) >= $signed(cell_score_threshold_out))) begin
+                $display("high_score_out error");
                 $finish;
             end
         end
