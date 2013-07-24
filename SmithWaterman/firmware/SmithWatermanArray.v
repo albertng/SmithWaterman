@@ -81,6 +81,7 @@
  *                                  First_ref_block and Next_first_ref_block shift regs reset to 1
  *      Albert Ng   Jun 27 2013     Stopped FIFO read/write when stalling 
  *      Albert Ng   Jul 08 2013     Stopped shift register shifting when stalling 
+ *      Albert Ng   Jul 24 2013     Added V_out_valid
  *
  */
 
@@ -97,8 +98,9 @@ module SmithWatermanArray(
     input first_ref_block_in,               // Computing a first block of the reference
     input last_ref_block_in,                // Computing a last block of the reference
     input last_block_char_in,               // Computing last char in the reference block
-    input bypass_fifo_in,                   // Bypass inter-ref-block FIFOs
-    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
+    input bypass_fifo_in,                   // Bypass inter-ref-block FIFOs   
+    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
+    output [NUM_PES - 1:0] V_out_valid      // Cell score outputs valid
     );
 
     parameter NUM_PES = 64;
@@ -141,8 +143,16 @@ module SmithWatermanArray(
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_V[NUM_PES/PES_PER_FIFO - 1:0];
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_E[NUM_PES/PES_PER_FIFO - 1:0];
     
-    // Cell score inter-query block intermediate values buffer
+    // Connect output ports
     genvar i, j;
+    generate
+        for (i = 0; i < NUM_PES; i = i + 1) begin:v_out_gen
+            assign V_out[(i*WIDTH)+WIDTH-1 -: WIDTH] = V[i+1];
+            assign V_out_valid[i] = init[i+1] & !stall;
+        end
+    endgenerate
+    
+    // Cell score inter-query block intermediate values buffer
     always @(posedge clk) begin
         if (rst) begin
             V_interm[0] <= 0;
@@ -276,7 +286,7 @@ module SmithWatermanArray(
         end
     endgenerate
     
-    // Last reference block char shift register
+    // Shift registers
     always @(posedge clk) begin
         if (rst) begin
             next_first_ref_block[0] <= 0;
@@ -293,7 +303,7 @@ module SmithWatermanArray(
         end
     end
     generate
-        for (i = 1; i < NUM_PES; i = i + 1) begin:last_block_char_gen
+        for (i = 1; i < NUM_PES; i = i + 1) begin:sreg_gen
             always @(posedge clk) begin
                 if (rst) begin
                     next_first_ref_block[i] <= 1;
@@ -309,13 +319,6 @@ module SmithWatermanArray(
                     bypass_fifo[i] <= bypass_fifo[i-1];
                 end
             end
-        end
-    endgenerate
-
-    // Connect cell scores to output port
-    generate
-        for (i = 0; i < NUM_PES; i = i + 1) begin:v_out_gen
-            assign V_out[(i*WIDTH)+WIDTH-1 -: WIDTH] = V[i+1];
         end
     endgenerate
     

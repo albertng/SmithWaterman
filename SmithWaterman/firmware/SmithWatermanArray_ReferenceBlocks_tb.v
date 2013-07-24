@@ -10,6 +10,7 @@
  *                                      test
  *                                  Added stall
  *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
+ *      Albert Ng   Jul 24 2013     Added V_out_valid tests
  *
  */
 
@@ -33,12 +34,15 @@ module SmithWatermanArray_ReferenceBlocks_tb;
 
     // Outputs
     wire [29:0] V_out1;
+    wire [2:0]  V_out_valid1;
     wire [39:0] V_out2;
+    wire [3:0]  V_out_valid2;
 
     // Multiple query block, multiple reference block, 3 PEs per FIFO test
     reg [1:0] short_read1 [5:0];
     reg [1:0] reference1  [7:0];
     reg [9:0] V_out_expected1 [20:0][2:0];
+    reg V_out_valid_expected1 [20:0][2:0];
     SmithWatermanArray #(3, 4, 10, 10, -2, -2, -1, 3) uut1 (
         .clk(clk), 
         .rst(rst),
@@ -53,13 +57,15 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .last_ref_block_in(last_ref_block_in), 
         .last_block_char_in(last_block_char_in), 
         .bypass_fifo_in(bypass_fifo_in), 
-        .V_out(V_out1)
+        .V_out(V_out1),
+        .V_out_valid(V_out_valid1)
     );
 
     // Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
     reg [1:0] short_read2 [3:0];
     reg [1:0] reference2  [15:0];
     reg [9:0] V_out_expected2 [20:0][3:0];
+    reg V_out_valid_expected2 [20:0][3:0];
     SmithWatermanArray #(4, 8, 10, 10, -2, -2, -1, 2) uut2 (
         .clk(clk), 
         .rst(rst),
@@ -74,7 +80,8 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .last_ref_block_in(last_ref_block_in), 
         .last_block_char_in(last_block_char_in), 
         .bypass_fifo_in(bypass_fifo_in), 
-        .V_out(V_out2)
+        .V_out(V_out2),
+        .V_out_valid(V_out_valid2)
     );
 
     integer i;
@@ -158,6 +165,69 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         V_out_expected1[20][0] = 0;
         V_out_expected1[20][1] = 0;
         V_out_expected1[20][2] = 43;
+        V_out_valid_expected1[0][0] = 1;
+        V_out_valid_expected1[0][1] = 0;
+        V_out_valid_expected1[0][2] = 0;
+        V_out_valid_expected1[1][0] = 1;
+        V_out_valid_expected1[1][1] = 1;
+        V_out_valid_expected1[1][2] = 0;
+        V_out_valid_expected1[2][0] = 1;
+        V_out_valid_expected1[2][1] = 1;
+        V_out_valid_expected1[2][2] = 1;
+        V_out_valid_expected1[3][0] = 1;
+        V_out_valid_expected1[3][1] = 1;
+        V_out_valid_expected1[3][2] = 1;
+        V_out_valid_expected1[4][0] = 0;
+        V_out_valid_expected1[4][1] = 1;
+        V_out_valid_expected1[4][2] = 1;
+        V_out_valid_expected1[5][0] = 1;
+        V_out_valid_expected1[5][1] = 0;
+        V_out_valid_expected1[5][2] = 1;
+        V_out_valid_expected1[6][0] = 1;
+        V_out_valid_expected1[6][1] = 1;
+        V_out_valid_expected1[6][2] = 0;
+        V_out_valid_expected1[7][0] = 1;
+        V_out_valid_expected1[7][1] = 1;
+        V_out_valid_expected1[7][2] = 1;
+        V_out_valid_expected1[8][0] = 1;
+        V_out_valid_expected1[8][1] = 1;
+        V_out_valid_expected1[8][2] = 1;
+        V_out_valid_expected1[9][0] = 0;
+        V_out_valid_expected1[9][1] = 1;
+        V_out_valid_expected1[9][2] = 1;
+        V_out_valid_expected1[10][0] = 1;
+        V_out_valid_expected1[10][1] = 0;
+        V_out_valid_expected1[10][2] = 1;
+        V_out_valid_expected1[11][0] = 1;
+        V_out_valid_expected1[11][1] = 1;
+        V_out_valid_expected1[11][2] = 0;
+        V_out_valid_expected1[12][0] = 1;
+        V_out_valid_expected1[12][1] = 1;
+        V_out_valid_expected1[12][2] = 1;
+        V_out_valid_expected1[13][0] = 1;
+        V_out_valid_expected1[13][1] = 1;
+        V_out_valid_expected1[13][2] = 1;
+        V_out_valid_expected1[14][0] = 0;
+        V_out_valid_expected1[14][1] = 1;
+        V_out_valid_expected1[14][2] = 1;
+        V_out_valid_expected1[15][0] = 1;
+        V_out_valid_expected1[15][1] = 0;
+        V_out_valid_expected1[15][2] = 1;
+        V_out_valid_expected1[16][0] = 1;
+        V_out_valid_expected1[16][1] = 1;
+        V_out_valid_expected1[16][2] = 0;
+        V_out_valid_expected1[17][0] = 1;
+        V_out_valid_expected1[17][1] = 1;
+        V_out_valid_expected1[17][2] = 1;
+        V_out_valid_expected1[18][0] = 1;
+        V_out_valid_expected1[18][1] = 1;
+        V_out_valid_expected1[18][2] = 1;
+        V_out_valid_expected1[19][0] = 0;
+        V_out_valid_expected1[19][1] = 1;
+        V_out_valid_expected1[19][2] = 1;
+        V_out_valid_expected1[20][0] = 0;
+        V_out_valid_expected1[20][1] = 0;
+        V_out_valid_expected1[20][2] = 1;
         
         // Initialize Inputs
         clk <= 0;
@@ -205,6 +275,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -227,6 +300,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -246,6 +322,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -263,6 +342,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -282,6 +364,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -305,6 +390,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -324,6 +412,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -341,6 +432,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -360,6 +454,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -383,6 +480,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -402,6 +502,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -419,6 +522,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -439,6 +545,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -458,6 +567,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -476,6 +588,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -493,6 +608,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -599,6 +717,86 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         V_out_expected2[19][1] = 0;
         V_out_expected2[19][2] = 0;
         V_out_expected2[19][3] = 35;
+        V_out_valid_expected2[0][0] = 1;
+        V_out_valid_expected2[0][1] = 0;
+        V_out_valid_expected2[0][2] = 0;
+        V_out_valid_expected2[0][3] = 0;
+        V_out_valid_expected2[1][0] = 1;
+        V_out_valid_expected2[1][1] = 1;
+        V_out_valid_expected2[1][2] = 0;
+        V_out_valid_expected2[1][3] = 0;
+        V_out_valid_expected2[2][0] = 1;
+        V_out_valid_expected2[2][1] = 1;
+        V_out_valid_expected2[2][2] = 1;
+        V_out_valid_expected2[2][3] = 0;
+        V_out_valid_expected2[3][0] = 1;
+        V_out_valid_expected2[3][1] = 1;
+        V_out_valid_expected2[3][2] = 1;
+        V_out_valid_expected2[3][3] = 1;
+        V_out_valid_expected2[4][0] = 1;
+        V_out_valid_expected2[4][1] = 1;
+        V_out_valid_expected2[4][2] = 1;
+        V_out_valid_expected2[4][3] = 1;
+        V_out_valid_expected2[5][0] = 1;
+        V_out_valid_expected2[5][1] = 1;
+        V_out_valid_expected2[5][2] = 1;
+        V_out_valid_expected2[5][3] = 1;
+        V_out_valid_expected2[6][0] = 1;
+        V_out_valid_expected2[6][1] = 1;
+        V_out_valid_expected2[6][2] = 1;
+        V_out_valid_expected2[6][3] = 1;
+        V_out_valid_expected2[7][0] = 1;
+        V_out_valid_expected2[7][1] = 1;
+        V_out_valid_expected2[7][2] = 1;
+        V_out_valid_expected2[7][3] = 1;
+        V_out_valid_expected2[8][0] = 0;     // Keep last value 
+        V_out_valid_expected2[8][1] = 1;
+        V_out_valid_expected2[8][2] = 1;
+        V_out_valid_expected2[8][3] = 1;
+        V_out_valid_expected2[9][0] = 1;
+        V_out_valid_expected2[9][1] = 0;     // Keep last value
+        V_out_valid_expected2[9][2] = 1;
+        V_out_valid_expected2[9][3] = 1;
+        V_out_valid_expected2[10][0] = 1;
+        V_out_valid_expected2[10][1] = 1;
+        V_out_valid_expected2[10][2] = 0;    // Keep last value
+        V_out_valid_expected2[10][3] = 1;    
+        V_out_valid_expected2[11][0] = 1;
+        V_out_valid_expected2[11][1] = 1;
+        V_out_valid_expected2[11][2] = 1;
+        V_out_valid_expected2[11][3] = 0;    // Keep last value
+        V_out_valid_expected2[12][0] = 1;
+        V_out_valid_expected2[12][1] = 1;
+        V_out_valid_expected2[12][2] = 1;
+        V_out_valid_expected2[12][3] = 1;
+        V_out_valid_expected2[13][0] = 1;
+        V_out_valid_expected2[13][1] = 1;
+        V_out_valid_expected2[13][2] = 1;
+        V_out_valid_expected2[13][3] = 1;
+        V_out_valid_expected2[14][0] = 1;
+        V_out_valid_expected2[14][1] = 1;
+        V_out_valid_expected2[14][2] = 1;
+        V_out_valid_expected2[14][3] = 1;
+        V_out_valid_expected2[15][0] = 1;
+        V_out_valid_expected2[15][1] = 1;
+        V_out_valid_expected2[15][2] = 1;
+        V_out_valid_expected2[15][3] = 1;
+        V_out_valid_expected2[16][0] = 1;
+        V_out_valid_expected2[16][1] = 1;
+        V_out_valid_expected2[16][2] = 1;
+        V_out_valid_expected2[16][3] = 1;
+        V_out_valid_expected2[17][0] = 0;
+        V_out_valid_expected2[17][1] = 1;
+        V_out_valid_expected2[17][2] = 1;
+        V_out_valid_expected2[17][3] = 1;
+        V_out_valid_expected2[18][0] = 0;
+        V_out_valid_expected2[18][1] = 0;
+        V_out_valid_expected2[18][2] = 1;
+        V_out_valid_expected2[18][3] = 1;
+        V_out_valid_expected2[19][0] = 0;
+        V_out_valid_expected2[19][1] = 0;
+        V_out_valid_expected2[19][2] = 0;
+        V_out_valid_expected2[19][3] = 1;
         
         // Initialize inputs, variables, and wait for reset
         clk <= 0;
@@ -644,6 +842,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -666,6 +867,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
 
@@ -685,7 +889,10 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
-            end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+           end
         end
         
         for (i = 7; i < 8; i = i + 1) begin
@@ -704,6 +911,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -721,6 +931,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             for (j = 0; j < 4; j = j + 1) begin
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -741,6 +954,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -760,6 +976,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -778,10 +997,14 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
         #100;
+        $display("Tests complete!");
         $finish;
     end
     always begin

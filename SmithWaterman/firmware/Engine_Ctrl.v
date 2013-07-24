@@ -53,8 +53,7 @@
  *                                  Moved send_ref_addr from read FSM to write FSM
  *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
- *      Albert Ng   Jul 15 2013     Added query ID #
- *                                  Added cell score threshold
+ *      Albert Ng   Jul 15 2013     Added query ID # and cell score threshold input
  *
  */
  
@@ -72,7 +71,7 @@ module Engine_Ctrl(
     input         query_info_valid_in,      // Store bookkeeping info for the query sequence
     output        query_info_rdy_out,       // Bookkeeping info input acknowledged
     input [(NUM_PES * 2) - 1:0] query_seq_block_in, // Query sequence block
-    input         query_seq_block_valid_in,    // Query sequence block input valid
+    input         query_seq_block_valid_in, // Query sequence block input valid
     output        query_seq_block_rdy_out,  // Query sequence block input acknowledged
     
     // DRAM reference reader interface
@@ -80,7 +79,7 @@ module Engine_Ctrl(
     output [24:0] ref_length_out,           // Number of blocks in the reference sequence
     output        ref_info_valid_out,       // Reference sequence info output valid
     input [2*REF_LENGTH - 1:0] ref_seq_block_in, // Reference sequence block read from DRAM
-    input         ref_seq_block_valid_in,      // Reference sequence block input valid
+    input         ref_seq_block_valid_in,   // Reference sequence block input valid
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
     
     // SW Engine interface

@@ -30,6 +30,7 @@
  *                                      last_block_char_in
  *      Albert Ng   Jun 24 2013     Added stall
  *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
+ *      Albert Ng   Jul 24 2013     Added V_out_valid tests
  *
  */
 
@@ -53,22 +54,27 @@ module SmithWatermanArray_QueryBlocks_tb;
 
     // Outputs
     wire [59:0] V_out1;
+    wire [5:0]  V_out_valid1;
     wire [29:0] V_out2;
+    wire [2:0]  V_out_valid2;
 
     // Consecutive alignments w/ bubbles test
     reg [1:0] short_read1 [1:0][5:0];
     reg [1:0] reference1  [7:0];
     reg [9:0] V_out_expected1 [23:0][5:0];
+    reg V_out_valid_expected1 [23:0][5:0];
     
     // Consecutive alignments w/o bubbles test
     reg [1:0] short_read2 [1:0][5:0];
     reg [1:0] reference2  [11:0];
     reg [9:0] V_out_expected2 [29:0][5:0];
+    reg V_out_valid_expected2 [29:0][5:0];
     
     // Multiple query blocks test
     reg [1:0] short_read3 [5:0];
     reg [1:0] reference3  [7:0];
     reg [9:0] V_out_expected3 [18:0][2:0];
+    reg V_out_valid_expected3 [18:0][2:0];
 
     // Instantiate the Unit Under Test (UUT)
     SmithWatermanArray #(6, 8, 10, 10, -2, -2, -1, 3) uut1 (
@@ -85,7 +91,8 @@ module SmithWatermanArray_QueryBlocks_tb;
         .last_ref_block_in(last_ref_block_in),
         .last_block_char_in(last_block_char_in),
         .bypass_fifo_in(bypass_fifo_in),
-        .V_out(V_out1)
+        .V_out(V_out1),
+        .V_out_valid(V_out_valid1)
     );
     
     SmithWatermanArray #(3, 8, 10, 10, -2, -2, -1, 3) uut2 (
@@ -102,7 +109,8 @@ module SmithWatermanArray_QueryBlocks_tb;
         .last_ref_block_in(last_ref_block_in),
         .last_block_char_in(last_block_char_in),
         .bypass_fifo_in(bypass_fifo_in),
-        .V_out(V_out2)
+        .V_out(V_out2),
+        .V_out_valid(V_out_valid2)
     );
 
     integer i;
@@ -276,6 +284,150 @@ module SmithWatermanArray_QueryBlocks_tb;
         V_out_expected1[23][3] = 0;
         V_out_expected1[23][4] = 0;
         V_out_expected1[23][5] = 46;
+        V_out_valid_expected1[0][0] = 1;
+        V_out_valid_expected1[0][1] = 0;
+        V_out_valid_expected1[0][2] = 0;
+        V_out_valid_expected1[0][3] = 0;
+        V_out_valid_expected1[0][4] = 0;
+        V_out_valid_expected1[0][5] = 0;
+        V_out_valid_expected1[1][0] = 1;
+        V_out_valid_expected1[1][1] = 1;
+        V_out_valid_expected1[1][2] = 0;
+        V_out_valid_expected1[1][3] = 0;
+        V_out_valid_expected1[1][4] = 0;
+        V_out_valid_expected1[1][5] = 0;
+        V_out_valid_expected1[2][0] = 1;
+        V_out_valid_expected1[2][1] = 1;
+        V_out_valid_expected1[2][2] = 1;
+        V_out_valid_expected1[2][3] = 0;
+        V_out_valid_expected1[2][4] = 0;
+        V_out_valid_expected1[2][5] = 0;
+        V_out_valid_expected1[3][0] = 1;
+        V_out_valid_expected1[3][1] = 1;
+        V_out_valid_expected1[3][2] = 1;
+        V_out_valid_expected1[3][3] = 1;
+        V_out_valid_expected1[3][4] = 0;
+        V_out_valid_expected1[3][5] = 0;
+        V_out_valid_expected1[4][0] = 1;
+        V_out_valid_expected1[4][1] = 1;
+        V_out_valid_expected1[4][2] = 1;
+        V_out_valid_expected1[4][3] = 1;
+        V_out_valid_expected1[4][4] = 1;
+        V_out_valid_expected1[4][5] = 0;
+        V_out_valid_expected1[5][0] = 1;
+        V_out_valid_expected1[5][1] = 1;
+        V_out_valid_expected1[5][2] = 1;
+        V_out_valid_expected1[5][3] = 1;
+        V_out_valid_expected1[5][4] = 1;
+        V_out_valid_expected1[5][5] = 1;
+        V_out_valid_expected1[6][0] = 1;
+        V_out_valid_expected1[6][1] = 1;
+        V_out_valid_expected1[6][2] = 1;
+        V_out_valid_expected1[6][3] = 1;
+        V_out_valid_expected1[6][4] = 1;
+        V_out_valid_expected1[6][5] = 1;
+        V_out_valid_expected1[7][0] = 1;
+        V_out_valid_expected1[7][1] = 1;
+        V_out_valid_expected1[7][2] = 1;
+        V_out_valid_expected1[7][3] = 1;
+        V_out_valid_expected1[7][4] = 1;
+        V_out_valid_expected1[7][5] = 1;
+        V_out_valid_expected1[8][0] = 0;
+        V_out_valid_expected1[8][1] = 1;
+        V_out_valid_expected1[8][2] = 1;
+        V_out_valid_expected1[8][3] = 1;
+        V_out_valid_expected1[8][4] = 1;
+        V_out_valid_expected1[8][5] = 1;
+        V_out_valid_expected1[9][0] = 0;
+        V_out_valid_expected1[9][1] = 0;
+        V_out_valid_expected1[9][2] = 1;
+        V_out_valid_expected1[9][3] = 1;
+        V_out_valid_expected1[9][4] = 1;
+        V_out_valid_expected1[9][5] = 1;
+        V_out_valid_expected1[10][0] = 0;
+        V_out_valid_expected1[10][1] = 0;
+        V_out_valid_expected1[10][2] = 0;
+        V_out_valid_expected1[10][3] = 1;
+        V_out_valid_expected1[10][4] = 1;
+        V_out_valid_expected1[10][5] = 1;
+        V_out_valid_expected1[11][0] = 1;
+        V_out_valid_expected1[11][1] = 0;
+        V_out_valid_expected1[11][2] = 0;
+        V_out_valid_expected1[11][3] = 0;
+        V_out_valid_expected1[11][4] = 1;
+        V_out_valid_expected1[11][5] = 1;
+        V_out_valid_expected1[12][0] = 1;
+        V_out_valid_expected1[12][1] = 1;
+        V_out_valid_expected1[12][2] = 0;
+        V_out_valid_expected1[12][3] = 0;
+        V_out_valid_expected1[12][4] = 0;
+        V_out_valid_expected1[12][5] = 1;
+        V_out_valid_expected1[13][0] = 1;
+        V_out_valid_expected1[13][1] = 1;
+        V_out_valid_expected1[13][2] = 1;
+        V_out_valid_expected1[13][3] = 0;
+        V_out_valid_expected1[13][4] = 0;
+        V_out_valid_expected1[13][5] = 0;
+        V_out_valid_expected1[14][0] = 1;
+        V_out_valid_expected1[14][1] = 1;
+        V_out_valid_expected1[14][2] = 1;
+        V_out_valid_expected1[14][3] = 1;
+        V_out_valid_expected1[14][4] = 0;
+        V_out_valid_expected1[14][5] = 0;
+        V_out_valid_expected1[15][0] = 1;
+        V_out_valid_expected1[15][1] = 1;
+        V_out_valid_expected1[15][2] = 1;
+        V_out_valid_expected1[15][3] = 1;
+        V_out_valid_expected1[15][4] = 1;
+        V_out_valid_expected1[15][5] = 0;
+        V_out_valid_expected1[16][0] = 1;
+        V_out_valid_expected1[16][1] = 1;
+        V_out_valid_expected1[16][2] = 1;
+        V_out_valid_expected1[16][3] = 1;
+        V_out_valid_expected1[16][4] = 1;
+        V_out_valid_expected1[16][5] = 1;
+        V_out_valid_expected1[17][0] = 1;
+        V_out_valid_expected1[17][1] = 1;
+        V_out_valid_expected1[17][2] = 1;
+        V_out_valid_expected1[17][3] = 1;
+        V_out_valid_expected1[17][4] = 1;
+        V_out_valid_expected1[17][5] = 1;
+        V_out_valid_expected1[18][0] = 1;
+        V_out_valid_expected1[18][1] = 1;
+        V_out_valid_expected1[18][2] = 1;
+        V_out_valid_expected1[18][3] = 1;
+        V_out_valid_expected1[18][4] = 1;
+        V_out_valid_expected1[18][5] = 1;
+        V_out_valid_expected1[19][0] = 0;
+        V_out_valid_expected1[19][1] = 1;
+        V_out_valid_expected1[19][2] = 1;
+        V_out_valid_expected1[19][3] = 1;
+        V_out_valid_expected1[19][4] = 1;
+        V_out_valid_expected1[19][5] = 1;
+        V_out_valid_expected1[20][0] = 0;
+        V_out_valid_expected1[20][1] = 0;
+        V_out_valid_expected1[20][2] = 1;
+        V_out_valid_expected1[20][3] = 1;
+        V_out_valid_expected1[20][4] = 1;
+        V_out_valid_expected1[20][5] = 1;
+        V_out_valid_expected1[21][0] = 0;
+        V_out_valid_expected1[21][1] = 0;
+        V_out_valid_expected1[21][2] = 0;
+        V_out_valid_expected1[21][3] = 1;
+        V_out_valid_expected1[21][4] = 1;
+        V_out_valid_expected1[21][5] = 1;
+        V_out_valid_expected1[22][0] = 0;
+        V_out_valid_expected1[22][1] = 0;
+        V_out_valid_expected1[22][2] = 0;
+        V_out_valid_expected1[22][3] = 0;
+        V_out_valid_expected1[22][4] = 1;
+        V_out_valid_expected1[22][5] = 1;
+        V_out_valid_expected1[23][0] = 0;
+        V_out_valid_expected1[23][1] = 0;
+        V_out_valid_expected1[23][2] = 0;
+        V_out_valid_expected1[23][3] = 0;
+        V_out_valid_expected1[23][4] = 0;
+        V_out_valid_expected1[23][5] = 1;
     
         // Initialize inputs, variables, and wait for reset
         clk <= 0;
@@ -310,6 +462,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -337,6 +492,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -348,6 +506,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -358,6 +519,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             for (j = 0; j < 6; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -372,6 +536,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -382,6 +549,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             for (j = 0; j < 6; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -592,6 +762,186 @@ module SmithWatermanArray_QueryBlocks_tb;
         V_out_expected2[29][3] = 0;
         V_out_expected2[29][4] = 0;
         V_out_expected2[29][5] = 52;
+        V_out_valid_expected2[0][0] = 1;
+        V_out_valid_expected2[0][1] = 0;
+        V_out_valid_expected2[0][2] = 0;
+        V_out_valid_expected2[0][3] = 0;
+        V_out_valid_expected2[0][4] = 0;
+        V_out_valid_expected2[0][5] = 0;
+        V_out_valid_expected2[1][0] = 1;
+        V_out_valid_expected2[1][1] = 1;
+        V_out_valid_expected2[1][2] = 0;
+        V_out_valid_expected2[1][3] = 0;
+        V_out_valid_expected2[1][4] = 0;
+        V_out_valid_expected2[1][5] = 0;
+        V_out_valid_expected2[2][0] = 1;
+        V_out_valid_expected2[2][1] = 1;
+        V_out_valid_expected2[2][2] = 1;
+        V_out_valid_expected2[2][3] = 0;
+        V_out_valid_expected2[2][4] = 0;
+        V_out_valid_expected2[2][5] = 0;
+        V_out_valid_expected2[3][0] = 1;
+        V_out_valid_expected2[3][1] = 1;
+        V_out_valid_expected2[3][2] = 1;
+        V_out_valid_expected2[3][3] = 1;
+        V_out_valid_expected2[3][4] = 0;
+        V_out_valid_expected2[3][5] = 0;
+        V_out_valid_expected2[4][0] = 1;
+        V_out_valid_expected2[4][1] = 1;
+        V_out_valid_expected2[4][2] = 1;
+        V_out_valid_expected2[4][3] = 1;
+        V_out_valid_expected2[4][4] = 1;
+        V_out_valid_expected2[4][5] = 0;
+        V_out_valid_expected2[5][0] = 1;
+        V_out_valid_expected2[5][1] = 1;
+        V_out_valid_expected2[5][2] = 1;
+        V_out_valid_expected2[5][3] = 1;
+        V_out_valid_expected2[5][4] = 1;
+        V_out_valid_expected2[5][5] = 1;
+        V_out_valid_expected2[6][0] = 1;
+        V_out_valid_expected2[6][1] = 1;
+        V_out_valid_expected2[6][2] = 1;
+        V_out_valid_expected2[6][3] = 1;
+        V_out_valid_expected2[6][4] = 1;
+        V_out_valid_expected2[6][5] = 1;
+        V_out_valid_expected2[7][0] = 1;
+        V_out_valid_expected2[7][1] = 1;
+        V_out_valid_expected2[7][2] = 1;
+        V_out_valid_expected2[7][3] = 1;
+        V_out_valid_expected2[7][4] = 1;
+        V_out_valid_expected2[7][5] = 1;
+        V_out_valid_expected2[8][0] = 1;
+        V_out_valid_expected2[8][1] = 1;
+        V_out_valid_expected2[8][2] = 1;
+        V_out_valid_expected2[8][3] = 1;
+        V_out_valid_expected2[8][4] = 1;
+        V_out_valid_expected2[8][5] = 1;
+        V_out_valid_expected2[9][0] = 1;
+        V_out_valid_expected2[9][1] = 1;
+        V_out_valid_expected2[9][2] = 1;
+        V_out_valid_expected2[9][3] = 1;
+        V_out_valid_expected2[9][4] = 1;
+        V_out_valid_expected2[9][5] = 1;
+        V_out_valid_expected2[10][0] = 1;
+        V_out_valid_expected2[10][1] = 1;
+        V_out_valid_expected2[10][2] = 1;
+        V_out_valid_expected2[10][3] = 1;
+        V_out_valid_expected2[10][4] = 1;
+        V_out_valid_expected2[10][5] = 1;
+        V_out_valid_expected2[11][0] = 1;
+        V_out_valid_expected2[11][1] = 1;
+        V_out_valid_expected2[11][2] = 1;
+        V_out_valid_expected2[11][3] = 1;
+        V_out_valid_expected2[11][4] = 1;
+        V_out_valid_expected2[11][5] = 1;
+        V_out_valid_expected2[12][0] = 0;
+        V_out_valid_expected2[12][1] = 1;
+        V_out_valid_expected2[12][2] = 1;
+        V_out_valid_expected2[12][3] = 1;
+        V_out_valid_expected2[12][4] = 1;
+        V_out_valid_expected2[12][5] = 1;
+        V_out_valid_expected2[13][0] = 1;
+        V_out_valid_expected2[13][1] = 0;
+        V_out_valid_expected2[13][2] = 1;
+        V_out_valid_expected2[13][3] = 1;
+        V_out_valid_expected2[13][4] = 1;
+        V_out_valid_expected2[13][5] = 1;
+        V_out_valid_expected2[14][0] = 1;
+        V_out_valid_expected2[14][1] = 1;
+        V_out_valid_expected2[14][2] = 0;
+        V_out_valid_expected2[14][3] = 1;
+        V_out_valid_expected2[14][4] = 1;
+        V_out_valid_expected2[14][5] = 1;
+        V_out_valid_expected2[15][0] = 1;
+        V_out_valid_expected2[15][1] = 1;
+        V_out_valid_expected2[15][2] = 1;
+        V_out_valid_expected2[15][3] = 0;
+        V_out_valid_expected2[15][4] = 1;
+        V_out_valid_expected2[15][5] = 1;
+        V_out_valid_expected2[16][0] = 1;
+        V_out_valid_expected2[16][1] = 1;
+        V_out_valid_expected2[16][2] = 1;
+        V_out_valid_expected2[16][3] = 1;
+        V_out_valid_expected2[16][4] = 0;
+        V_out_valid_expected2[16][5] = 1;
+        V_out_valid_expected2[17][0] = 1;
+        V_out_valid_expected2[17][1] = 1;
+        V_out_valid_expected2[17][2] = 1;
+        V_out_valid_expected2[17][3] = 1;
+        V_out_valid_expected2[17][4] = 1;
+        V_out_valid_expected2[17][5] = 0;
+        V_out_valid_expected2[18][0] = 1;
+        V_out_valid_expected2[18][1] = 1;
+        V_out_valid_expected2[18][2] = 1;
+        V_out_valid_expected2[18][3] = 1;
+        V_out_valid_expected2[18][4] = 1;
+        V_out_valid_expected2[18][5] = 1;
+        V_out_valid_expected2[19][0] = 1;
+        V_out_valid_expected2[19][1] = 1;
+        V_out_valid_expected2[19][2] = 1;
+        V_out_valid_expected2[19][3] = 1;
+        V_out_valid_expected2[19][4] = 1;
+        V_out_valid_expected2[19][5] = 1;
+        V_out_valid_expected2[20][0] = 1;
+        V_out_valid_expected2[20][1] = 1;
+        V_out_valid_expected2[20][2] = 1;
+        V_out_valid_expected2[20][3] = 1;
+        V_out_valid_expected2[20][4] = 1;
+        V_out_valid_expected2[20][5] = 1;
+        V_out_valid_expected2[21][0] = 1;
+        V_out_valid_expected2[21][1] = 1;
+        V_out_valid_expected2[21][2] = 1;
+        V_out_valid_expected2[21][3] = 1;
+        V_out_valid_expected2[21][4] = 1;
+        V_out_valid_expected2[21][5] = 1;
+        V_out_valid_expected2[22][0] = 1;
+        V_out_valid_expected2[22][1] = 1;
+        V_out_valid_expected2[22][2] = 1;
+        V_out_valid_expected2[22][3] = 1;
+        V_out_valid_expected2[22][4] = 1;
+        V_out_valid_expected2[22][5] = 1;
+        V_out_valid_expected2[23][0] = 1;
+        V_out_valid_expected2[23][1] = 1;
+        V_out_valid_expected2[23][2] = 1;
+        V_out_valid_expected2[23][3] = 1;
+        V_out_valid_expected2[23][4] = 1;
+        V_out_valid_expected2[23][5] = 1;
+        V_out_valid_expected2[24][0] = 1;
+        V_out_valid_expected2[24][1] = 1;
+        V_out_valid_expected2[24][2] = 1;
+        V_out_valid_expected2[24][3] = 1;
+        V_out_valid_expected2[24][4] = 1;
+        V_out_valid_expected2[24][5] = 1;
+        V_out_valid_expected2[25][0] = 0;
+        V_out_valid_expected2[25][1] = 1;
+        V_out_valid_expected2[25][2] = 1;
+        V_out_valid_expected2[25][3] = 1;
+        V_out_valid_expected2[25][4] = 1;
+        V_out_valid_expected2[25][5] = 1;
+        V_out_valid_expected2[26][0] = 0;
+        V_out_valid_expected2[26][1] = 0;
+        V_out_valid_expected2[26][2] = 1;
+        V_out_valid_expected2[26][3] = 1;
+        V_out_valid_expected2[26][4] = 1;
+        V_out_valid_expected2[26][5] = 1;
+        V_out_valid_expected2[27][0] = 0;
+        V_out_valid_expected2[27][1] = 0;
+        V_out_valid_expected2[27][2] = 0;
+        V_out_valid_expected2[27][3] = 1;
+        V_out_valid_expected2[27][4] = 1;
+        V_out_valid_expected2[27][5] = 1;
+        V_out_valid_expected2[28][0] = 0;
+        V_out_valid_expected2[28][1] = 0;
+        V_out_valid_expected2[28][2] = 0;
+        V_out_valid_expected2[28][3] = 0;
+        V_out_valid_expected2[28][4] = 1;
+        V_out_valid_expected2[28][5] = 1;
+        V_out_valid_expected2[29][0] = 0;
+        V_out_valid_expected2[29][1] = 0;
+        V_out_valid_expected2[29][2] = 0;
+        V_out_valid_expected2[29][3] = 0;
+        V_out_valid_expected2[29][4] = 0;
+        V_out_valid_expected2[29][5] = 1;
 
         for (i = 0; i < 6; i = i + 1) begin
             S_in1[i*2 + 1 -: 2] <= short_read2[0][i];
@@ -609,6 +959,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -624,6 +977,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -636,6 +992,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -647,6 +1006,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             for (j = 0; j < 6; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -661,6 +1023,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
                 end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -671,6 +1036,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             for (j = 0; j < 6; j = j + 1) begin
                 if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -749,6 +1117,63 @@ module SmithWatermanArray_QueryBlocks_tb;
         V_out_expected3[18][0] = 0;
         V_out_expected3[18][1] = 0;
         V_out_expected3[18][2] = 57;
+        V_out_valid_expected3[0][0] = 1;
+        V_out_valid_expected3[0][1] = 0;
+        V_out_valid_expected3[0][2] = 0;
+        V_out_valid_expected3[1][0] = 1;
+        V_out_valid_expected3[1][1] = 1;
+        V_out_valid_expected3[1][2] = 0;
+        V_out_valid_expected3[2][0] = 1;
+        V_out_valid_expected3[2][1] = 1;
+        V_out_valid_expected3[2][2] = 1;
+        V_out_valid_expected3[3][0] = 1;
+        V_out_valid_expected3[3][1] = 1;
+        V_out_valid_expected3[3][2] = 1;
+        V_out_valid_expected3[4][0] = 1;
+        V_out_valid_expected3[4][1] = 1;
+        V_out_valid_expected3[4][2] = 1;
+        V_out_valid_expected3[5][0] = 1;
+        V_out_valid_expected3[5][1] = 1;
+        V_out_valid_expected3[5][2] = 1;
+        V_out_valid_expected3[6][0] = 1;
+        V_out_valid_expected3[6][1] = 1;
+        V_out_valid_expected3[6][2] = 1;
+        V_out_valid_expected3[7][0] = 1;
+        V_out_valid_expected3[7][1] = 1;
+        V_out_valid_expected3[7][2] = 1;
+        V_out_valid_expected3[8][0] = 0;
+        V_out_valid_expected3[8][1] = 1;
+        V_out_valid_expected3[8][2] = 1;
+        V_out_valid_expected3[9][0] = 1;
+        V_out_valid_expected3[9][1] = 0;
+        V_out_valid_expected3[9][2] = 1;
+        V_out_valid_expected3[10][0] = 1;
+        V_out_valid_expected3[10][1] = 1;
+        V_out_valid_expected3[10][2] = 0;
+        V_out_valid_expected3[11][0] = 1;
+        V_out_valid_expected3[11][1] = 1;
+        V_out_valid_expected3[11][2] = 1;
+        V_out_valid_expected3[12][0] = 1;
+        V_out_valid_expected3[12][1] = 1;
+        V_out_valid_expected3[12][2] = 1;
+        V_out_valid_expected3[13][0] = 1;
+        V_out_valid_expected3[13][1] = 1;
+        V_out_valid_expected3[13][2] = 1;
+        V_out_valid_expected3[14][0] = 1;
+        V_out_valid_expected3[14][1] = 1;
+        V_out_valid_expected3[14][2] = 1;
+        V_out_valid_expected3[15][0] = 1;
+        V_out_valid_expected3[15][1] = 1;
+        V_out_valid_expected3[15][2] = 1;
+        V_out_valid_expected3[16][0] = 1;
+        V_out_valid_expected3[16][1] = 1;
+        V_out_valid_expected3[16][2] = 1;
+        V_out_valid_expected3[17][0] = 0;
+        V_out_valid_expected3[17][1] = 1;
+        V_out_valid_expected3[17][2] = 1;
+        V_out_valid_expected3[18][0] = 0;
+        V_out_valid_expected3[18][1] = 0;
+        V_out_valid_expected3[18][2] = 1;
 
         for (i = 0; i < 3; i = i + 1) begin
             S_in2[i*2+1 -: 2] <= short_read3[i]; // Shift in reverse
@@ -766,6 +1191,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
                     $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -782,6 +1210,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
                     $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -795,6 +1226,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
                     $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -807,6 +1241,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
                     $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
+                end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
         end
@@ -822,6 +1259,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
                     $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
@@ -833,10 +1273,14 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
                     $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
                 end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
             end
         end
         
         #100;
+        $display("Tests complete!");
         $finish;
     end
     

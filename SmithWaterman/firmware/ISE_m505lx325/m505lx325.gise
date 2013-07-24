@@ -56,6 +56,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="SmithWatermanArray.stx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="SmithWatermanArray.syr"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="SmithWatermanArray.xst"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanArray_EngineCtrl_Interface_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="SmithWatermanArray_ParallelLoad.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="SmithWatermanArray_ParallelLoad.lso"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="SmithWatermanArray_ParallelLoad.ngc"/>
@@ -69,7 +70,9 @@
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="SmithWatermanArray_ParallelLoad_xst.xrpt"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_QueryBlocks_tb_stx_beh.prj"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="SmithWatermanArray_SequentialLoad.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="SmithWatermanArray_SequentialLoad.lso"/>
@@ -102,9 +105,7 @@
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="SmithWatermanPE_envsettings.html"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanPE_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="SmithWatermanPE_summary.html"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanPE_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="SmithWatermanPE_tb_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="SmithWatermanPE_tb_isim_beh.wdb"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="SmithWatermanPE_tb_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="SmithWatermanPE_xst.xrpt"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="StreamInputHandler_Engine_Interface_stx_beh.prj"/>
@@ -112,6 +113,8 @@
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_Engine_Interface_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="StreamInputHandler_Engine_Interface_tb_isim_beh.wdb"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb_isim_beh.exe"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb_isim_beh.exe"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="_ngo"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/map.xmsgs"/>
@@ -156,28 +159,108 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373952253" xil_pn:in_ck="3355498796380929654" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1373952253">
+    <transform xil_pn:end_ts="1374700950" xil_pn:in_ck="345116925286514560" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1374700950">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputAdded"/>
       <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <outfile xil_pn:name="../AXIArbiter.v"/>
+      <outfile xil_pn:name="../AXIArbiter_tb.v"/>
+      <outfile xil_pn:name="../Engine_Ctrl.v"/>
+      <outfile xil_pn:name="../Engine_Ctrl_tb.v"/>
+      <outfile xil_pn:name="../ReferenceReader.v"/>
+      <outfile xil_pn:name="../ReferenceReader_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_EngineCtrl_Interface.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_EngineCtrl_Interface_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_QueryBlocks_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_ReferenceBlocks_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanPE.v"/>
+      <outfile xil_pn:name="../SmithWatermanPE_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_tb.v"/>
+      <outfile xil_pn:name="../bram_test.v"/>
+      <outfile xil_pn:name="../fifotest.v"/>
+      <outfile xil_pn:name="../fifotest_tb.v"/>
+      <outfile xil_pn:name="../one_hot_mux.v"/>
+      <outfile xil_pn:name="../one_hot_mux_tb.v"/>
+      <outfile xil_pn:name="source/AXIBuffer.v"/>
+      <outfile xil_pn:name="source/BasePicoDefines.v"/>
+      <outfile xil_pn:name="source/CardInfo32.v"/>
+      <outfile xil_pn:name="source/PCIeHdrAlignSplit.v"/>
+      <outfile xil_pn:name="source/PICO_128_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_EP.v"/>
+      <outfile xil_pn:name="source/PicoDefines.v"/>
+      <outfile xil_pn:name="source/PicoFramework.v"/>
+      <outfile xil_pn:name="source/PicoSimParameters.v"/>
+      <outfile xil_pn:name="source/PicoStreamIn.v"/>
+      <outfile xil_pn:name="source/PicoStreamOut.v"/>
+      <outfile xil_pn:name="source/PicoTestbench.v"/>
+      <outfile xil_pn:name="source/Pico_Toplevel.v"/>
+      <outfile xil_pn:name="source/Reorder.v"/>
+      <outfile xil_pn:name="source/Stream2PicoBus.v"/>
+      <outfile xil_pn:name="source/StreamWidthConversion.v"/>
+      <outfile xil_pn:name="source/TestCounter32.v"/>
+      <outfile xil_pn:name="source/UserWrapper.v"/>
+      <outfile xil_pn:name="source/asyncFifoBRAM.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_null_gen.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_thrtl_ctl.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_rx_valid_filter_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_top_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_brams_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_lane.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_misc.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_clock.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_eq.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_rate.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_sync.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_user.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_rxeq_scan.v"/>
+      <outfile xil_pn:name="source/fifo_512x128.v"/>
+      <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373952326" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="7973366595926085771" xil_pn:start_ts="1373952326">
+    <transform xil_pn:end_ts="1374700905" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-213595581837728549" xil_pn:start_ts="1374700905">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1373952326" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="1514693411244031103" xil_pn:start_ts="1373952326">
+    <transform xil_pn:end_ts="1374700905" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-1673354267622318897" xil_pn:start_ts="1374700905">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
     <transform xil_pn:end_ts="1373680621" xil_pn:in_ck="9191351447139955677" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-3811161745415399036" xil_pn:start_ts="1373680619">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputAdded"/>
       <outfile xil_pn:name="ipcore_dir/query_seq_bram.ngc"/>
       <outfile xil_pn:name="ipcore_dir/query_seq_bram.v"/>
       <outfile xil_pn:name="ipcore_dir/ref_seq_block_buffer.ngc"/>
@@ -187,39 +270,123 @@
       <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
       <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373952253" xil_pn:in_ck="5882974082417838918" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1373952253">
+    <transform xil_pn:end_ts="1374700950" xil_pn:in_ck="8736051952118196048" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1374700950">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <outfile xil_pn:name="../AXIArbiter.v"/>
+      <outfile xil_pn:name="../AXIArbiter_tb.v"/>
+      <outfile xil_pn:name="../Engine_Ctrl.v"/>
+      <outfile xil_pn:name="../Engine_Ctrl_tb.v"/>
+      <outfile xil_pn:name="../ReferenceReader.v"/>
+      <outfile xil_pn:name="../ReferenceReader_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_EngineCtrl_Interface.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_EngineCtrl_Interface_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_QueryBlocks_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanArray_ReferenceBlocks_tb.v"/>
+      <outfile xil_pn:name="../SmithWatermanPE.v"/>
+      <outfile xil_pn:name="../SmithWatermanPE_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb.v"/>
+      <outfile xil_pn:name="../StreamInputHandler_tb.v"/>
+      <outfile xil_pn:name="../bram_test.v"/>
+      <outfile xil_pn:name="../fifotest.v"/>
+      <outfile xil_pn:name="../fifotest_tb.v"/>
+      <outfile xil_pn:name="../one_hot_mux.v"/>
+      <outfile xil_pn:name="../one_hot_mux_tb.v"/>
+      <outfile xil_pn:name="ipcore_dir/inter_ref_block_fifo.v"/>
+      <outfile xil_pn:name="ipcore_dir/query_seq_bram.v"/>
+      <outfile xil_pn:name="source/AXIBuffer.v"/>
+      <outfile xil_pn:name="source/BasePicoDefines.v"/>
+      <outfile xil_pn:name="source/CardInfo32.v"/>
+      <outfile xil_pn:name="source/PCIeHdrAlignSplit.v"/>
+      <outfile xil_pn:name="source/PICO_128_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_EP.v"/>
+      <outfile xil_pn:name="source/PicoDefines.v"/>
+      <outfile xil_pn:name="source/PicoFramework.v"/>
+      <outfile xil_pn:name="source/PicoSimParameters.v"/>
+      <outfile xil_pn:name="source/PicoStreamIn.v"/>
+      <outfile xil_pn:name="source/PicoStreamOut.v"/>
+      <outfile xil_pn:name="source/PicoTestbench.v"/>
+      <outfile xil_pn:name="source/Pico_Toplevel.v"/>
+      <outfile xil_pn:name="source/Reorder.v"/>
+      <outfile xil_pn:name="source/Stream2PicoBus.v"/>
+      <outfile xil_pn:name="source/StreamWidthConversion.v"/>
+      <outfile xil_pn:name="source/TestCounter32.v"/>
+      <outfile xil_pn:name="source/UserWrapper.v"/>
+      <outfile xil_pn:name="source/asyncFifoBRAM.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_null_gen.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_thrtl_ctl.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_rx_valid_filter_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_top_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_brams_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_lane.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_misc.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_clock.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_eq.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_rate.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_sync.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_user.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_rxeq_scan.v"/>
+      <outfile xil_pn:name="source/fifo_512x128.v"/>
+      <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1373952332" xil_pn:in_ck="-8342800759459614833" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="4622146245698959280" xil_pn:start_ts="1373952326">
+    <transform xil_pn:end_ts="1374700956" xil_pn:in_ck="-7842528797353245479" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="6477268809959949424" xil_pn:start_ts="1374700950">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForProperties"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputAdded"/>
       <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <outfile xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_beh.prj"/>
+      <outfile xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe"/>
+      <outfile xil_pn:name="fuse.log"/>
+      <outfile xil_pn:name="isim"/>
+      <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1373952332" xil_pn:in_ck="6162517652669820300" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-6472244309146391949" xil_pn:start_ts="1373952332">
+    <transform xil_pn:end_ts="1374700956" xil_pn:in_ck="6256000425156848063" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="1461169179269417811" xil_pn:start_ts="1374700956">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForProperties"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <outfile xil_pn:name="SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb"/>
+      <outfile xil_pn:name="isim.cmd"/>
+      <outfile xil_pn:name="isim.log"/>
     </transform>
     <transform xil_pn:end_ts="1370565212" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1370565212">
       <status xil_pn:value="SuccessfullyRun"/>

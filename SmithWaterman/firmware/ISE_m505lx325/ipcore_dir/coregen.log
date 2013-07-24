@@ -1,82 +1,80 @@
-INFO:sim:172 - Generating IP...
+Welcome to Xilinx CORE Generator.
+Help system initialized.
+The IP Catalog has been reloaded.
+Opening project file
+/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
+re/ISE_m505lx325/ipcore_dir/coregen.cgp.
+Customize and GenerateINFO:sim:172 - Generating IP...
 Applying current project options...
 Finished applying current project options.
-WARNING:sim - A core named 'ref_seq_block_buffer' already exists in the project.
-   Output products for this core may be overwritten.
-Resolving generics for 'ref_seq_block_buffer'...
-WARNING:sim - A core named 'ref_seq_block_buffer' already exists in the project.
-   Output products for this core may be overwritten.
-Applying external generics to 'ref_seq_block_buffer'...
-Delivering associated files for 'ref_seq_block_buffer'...
-Delivering EJava files for 'ref_seq_block_buffer'...
-Generating implementation netlist for 'ref_seq_block_buffer'...
-INFO:sim - Pre-processing HDL files for 'ref_seq_block_buffer'...
+Resolving generics for 'cellscorefilter_fifo'...
+Applying external generics to 'cellscorefilter_fifo'...
+Delivering associated files for 'cellscorefilter_fifo'...
+Delivering EJava files for 'cellscorefilter_fifo'...
+Generating implementation netlist for 'cellscorefilter_fifo'...
+INFO:sim - Pre-processing HDL files for 'cellscorefilter_fifo'...
 WARNING:sim - BlackBox generator run option '-ifmt' found multiple times. Only
    the first occurence is considered.
-Running synthesis for 'ref_seq_block_buffer'
+Running synthesis for 'cellscorefilter_fifo'
 Running ngcbuild...
-Writing VEO instantiation template for 'ref_seq_block_buffer'...
-Writing Verilog behavioral simulation model for 'ref_seq_block_buffer'...
+Writing VEO instantiation template for 'cellscorefilter_fifo'...
+Writing Verilog behavioral simulation model for 'cellscorefilter_fifo'...
 WARNING:sim - Overwriting existing file
    /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/fir
-   mware/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer/doc/fifo_generato
+   mware/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo/doc/fifo_generato
    r_v9_3_vinfo.html with file from view xilinx_documentation
 Delivered 3 files into directory
 /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer
+re/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo
 Delivered 1 file into directory
 /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer
+re/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo
 Generating ASY schematic symbol...
 INFO:sim:949 - Finished generation of ASY schematic symbol.
-Generating SYM schematic symbol for 'ref_seq_block_buffer'...
 Generating metadata file...
-Regenerating ISE project file for 'ref_seq_block_buffer'...
+Generating ISE project file for 'cellscorefilter_fifo'...
 Generating ISE project...
-XCO file found: ref_seq_block_buffer.xco
-XMDF file found: ref_seq_block_buffer_xmdf.tcl
+XCO file found: cellscorefilter_fifo.xco
+XMDF file found: cellscorefilter_fifo_xmdf.tcl
 Adding
 /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.asy -view all
+re/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.asy -view all
 -origin_type imported
 Adding
 /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.ngc -view all
+re/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.ngc -view all
 -origin_type created
 Checking file
 "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmw
-are/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.ngc" for project
+are/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.ngc" for project
 device match ...
 File
 "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmw
-are/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.ngc" device
+are/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.ngc" device
 information matches project device.
 Adding
 /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.sym -view all
--origin_type imported
-Adding
-/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.v -view all
+re/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.v -view all
 -origin_type created
 INFO:HDLCompiler:1845 - Analyzing Verilog file
    "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/fi
-   rmware/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.v" into library
+   rmware/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.v" into library
    work
 INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
 Adding
 /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
-re/ISE_m505lx325/ipcore_dir/tmp/_cg/ref_seq_block_buffer.veo -view all
+re/ISE_m505lx325/ipcore_dir/tmp/_cg/cellscorefilter_fifo.veo -view all
 -origin_type imported
 INFO:TclTasksC:2116 - The automatic calculation of top has been turned-off.
    Please set the new top explicitly by running the "project set top" command.
    To re-calculate the new top automatically, set the "Auto Implementation Top"
    property to true.
-Top level has been set to "/ref_seq_block_buffer"
+Top level has been set to "/cellscorefilter_fifo"
 Generating README file...
 Generating FLIST file...
 INFO:sim:948 - Finished FLIST file generation.
 Launching README viewer...
 Moving files to output directory...
 Finished moving files to output directory
-Wrote CGP file for project 'ref_seq_block_buffer'.
+Saved CGP file for project 'coregen'.
+Closed project file.

@@ -262,6 +262,7 @@ module SmithWatermanPE_tb;
         end
         
         #100;
+        $display("Tests complete!");
         $finish;
     end
     

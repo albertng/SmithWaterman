@@ -36,7 +36,7 @@ module ReferenceReader(
     input         clk,                    // System clock
     input         rst,                    // System reset
     
-    // Engine interface
+    // Engine controller interface
     input [24:0] ref_addr_in,             // DRAM starting address for reference sequence
     input [24:0] ref_length_in,           // Number of blocks in the reference sequence
     input        ref_info_valid_in,       // Reference sequence info output valid
