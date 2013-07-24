@@ -1,15 +1,16 @@
-/*  File Name        : StreamInputHandler_ReferenceReader_Engine_Interface_tb.v
- *  Description      : Testbench for stream input handler, reference reader, and
- *                     Smith Waterman engine interfaced together.
+/*  File Name        : StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb.v
+ *  Description      : Testbench for stream input handler, reference reader,
+ *                     Smith Waterman Array and Engine Controller interfaced together.
  *
  *  Revision History :
  *      Albert Ng   Jul 11 2013     Initial Revision
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
+ *      Albert Ng   Jul 24 2013     Changed engine to SmithWatermanArray_EngineCtrl_Interface
  *
  */
 
-module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
+module StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb;
 
     // Inputs
     reg clk;
@@ -50,7 +51,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface_tb;
     reg [9:0] V_out_expected[32:0][2:0];
 
     // Instantiate the Unit Under Test (UUT)
-    StreamInputHandler_ReferenceReader_Engine_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
+    StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
         .clk(clk), 
         .rst(rst), 
         .stall(stall), 

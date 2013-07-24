@@ -1,5 +1,5 @@
-/*  File Name        : Engine.v
- *  Description      : Smith Waterman Engine
+/*  File Name        : SmithWatermanArray_EngineCtrl_Interface.v
+ *  Description      : Smith Waterman Array interfaced with Engine Controller
  *
  *                     An engine unit, including a Smith Waterman systolic array 
  *                     and its controller.
@@ -10,10 +10,12 @@
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
+ *      Albert Ng   Jul 24 2013     Changed module and filename from Engine to
+ *                                      SmithWatermanArray_EngineCtrl_Interface
  *
  */
  
-module Engine(
+module SmithWatermanArray_EngineCtrl_Interface(
     input         clk,                      // System clock
     input         rst,                      // System reset
     input         stall,                    // Pipeline stall

@@ -1,17 +1,17 @@
-/*  File Name        : Engine_tb.v
- *  Description      : Smith Waterman Engine testbench
- *
- *                     Test bench for Smith Waterman engine unit
+/*  File Name        : SmithWatermanArray_EngineCtrl_Interface_tb.v
+ *  Description      : Test bench for Smith Waterman Array interfaced with 
+ *                     Engine Controller
  *
  *
  *  Revision History :
  *      Albert Ng   Jul 08 2013     Initial Revision
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
+ *      Albert Ng   Jul 24 2013     Changed from Engine to SmithWatermanArray_EngineCtrl_Interface
  *
  */
 
-module Engine_tb;
+module SmithWatermanArray_EngineCtrl_Interface_tb;
 
 	// Inputs
 	reg clk;
@@ -64,7 +64,7 @@ module Engine_tb;
     reg [9:0] V_out_expected[42:0][2:0];
 
 	// Instantiate the Unit Under Test (UUT)
-	Engine #(3, 4, 10, 10, -2, -2, -1, 3) uut (
+	SmithWatermanArray_EngineCtrl_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
 		.clk(clk), 
 		.rst(rst), 
 		.stall(stall), 

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-07-15T22:23:36</DateModified>
+  <DateModified>2013-07-24T12:30:36</DateModified>
   <ModuleName>Pico_Toplevel</ModuleName>
   <SummaryTimeStamp>2013-06-06T17:28:14</SummaryTimeStamp>
-  <SavedFilePath>/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
+  <SavedFilePath>/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
   <DateInitialized>2013-05-01T11:54:47</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

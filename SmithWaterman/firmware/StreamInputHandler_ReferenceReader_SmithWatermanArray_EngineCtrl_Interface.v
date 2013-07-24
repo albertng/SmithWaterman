@@ -1,13 +1,14 @@
-/*  File Name        : StreamInputHandler_ReferenceReader_Engine_Interface.v
- *  Description      : A stream input handler, reference reader, and engine
- *                     all interfaced together
+/*  File Name        : StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface.v
+ *  Description      : A stream input handler, reference reader, Smith Waterman
+ *                     Array and Engine Controller all interfaced together
  *
  *  Revision History :
  *      Albert Ng   Jul 11 2013     Initial Revision
+ *      Albert Ng   Jul 24 2013     Changed Engine to SmithWatermanArray_EngineCtrl_Interface
  *
  */
  
-module StreamInputHandler_ReferenceReader_Engine_Interface(
+module StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface(
     input          clk,                                // Engine clock 
     input          rst,                                // System reset
     input          stall,                              // Pipeline stall
@@ -49,7 +50,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface(
     wire ref_seq_block_valid;
     wire ref_seq_block_rdy;
     
-    StreamInputHandler_Engine_Interface #(NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) sihe (
+    StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface #(NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) sihe (
         .clk(clk),
         .rst(rst),
         .stall(stall),
