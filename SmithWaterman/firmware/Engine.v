@@ -9,9 +9,7 @@
  *      Albert Ng   Jul 06 2013     Initial Revision
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *      Albert Ng   Jul 15 2013     Added query ID #
- *                                  Added cell score threshold input
- *      Albert Ng   Jul 16 2013     Added cell score threshold wire between engine ctrl and engine
- *                                  Added high score output
+ *                                  Added cell score threshold
  *
  */
  
@@ -41,8 +39,7 @@ module Engine(
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
 
     // Smith Waterman systolic array output
-    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
-    output [NUM_PES-1:0] high_score_out     // Cell score is a high score
+    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
     );
 
     parameter NUM_PES = 64;
@@ -64,7 +61,6 @@ module Engine(
     wire last_ref_block;
     wire last_block_char;
     wire bypass_fifo;
-    wire [WIDTH-1:0] cell_score_threshold;
 
     Engine_Ctrl #(NUM_PES, REF_LENGTH) eng_ctrl (
         .clk(clk),
@@ -90,7 +86,6 @@ module Engine(
         .T_out(T),
         .store_S_out(store_S),
         .init_out(init),
-        .cell_score_threshold_out(cell_score_threshold),
         .first_query_block_out(first_query_block),
         .next_first_ref_block_out(next_first_ref_block),
         .first_ref_block_out(first_ref_block),
@@ -107,15 +102,13 @@ module Engine(
         .T_in(T),
         .store_S_in(store_S),
         .init_in(init),
-        .cell_score_threshold_in(cell_score_threshold),
         .first_query_block(first_query_block),
         .next_first_ref_block_in(next_first_ref_block),
         .first_ref_block_in(first_ref_block),
         .last_ref_block_in(last_ref_block),
         .last_block_char_in(last_block_char),
         .bypass_fifo_in(bypass_fifo),
-        .V_out(V_out),
-        .high_score_out(high_score_out)
+        .V_out(V_out)
     );
 
 

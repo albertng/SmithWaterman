@@ -1,5 +1,5 @@
 ISim log file
-Running: /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.wdb 
+Running: /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_Engine_Interface_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_Engine_Interface_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -11,8 +11,8 @@ Time resolution is 1 ps
 # run 1000 ns
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Block Memory Generator CORE Generator module StreamInputHandler_ReferenceReader_Engine_Interface_tb.uut.sihe.uut.eng_ctrl.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module StreamInputHandler_ReferenceReader_Engine_Interface_tb.uut.sihe.uut.eng_ctrl.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module StreamInputHandler_Engine_Interface_tb.uut.uut.eng_ctrl.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module StreamInputHandler_Engine_Interface_tb.uut.uut.eng_ctrl.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
   10    0    0
    8    8    0
@@ -48,5 +48,5 @@ Finished circuit initialization process.
    0   15   26
    0    0   26
 Tests complete!
-Stopped at time : 750 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_ReferenceReader_Engine_Interface_tb.v" Line 832
+Stopped at time : 670 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_Engine_Interface_tb.v" Line 565
 # exit 0

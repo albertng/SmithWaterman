@@ -1,4 +1,4 @@
-Running: /media/albert/Data/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe -prj /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_Engine_Interface_tb_beh.prj work.StreamInputHandler_ReferenceReader_Engine_Interface_tb work.glbl 
+Running: /media/albert/Data/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_Engine_Interface_tb_isim_beh.exe -prj /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_Engine_Interface_tb_beh.prj work.StreamInputHandler_Engine_Interface_tb work.glbl 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
@@ -11,17 +11,14 @@ Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505l
 Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ipcore_dir/stream_data_sync_buffer.v" into library work
 Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../Engine_Ctrl.v" into library work
 Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../StreamInputHandler.v" into library work
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/ipcore_dir/ref_seq_block_buffer.v" into library work
 Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../Engine.v" into library work
 Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../StreamInputHandler_Engine_Interface.v" into library work
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../ReferenceReader.v" into library work
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../StreamInputHandler_ReferenceReader_Engine_Interface.v" into library work
-Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../StreamInputHandler_ReferenceReader_Engine_Interface_tb.v" into library work
+Analyzing Verilog file "/media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/../StreamInputHandler_Engine_Interface_tb.v" into library work
 Analyzing Verilog file "/media/albert/Data/14.5/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
 Completed static elaboration
-Fuse Memory Usage: 101732 KB
-Fuse CPU Usage: 1320 ms
+Fuse Memory Usage: 100612 KB
+Fuse CPU Usage: 1370 ms
 Compiling module fifo_generator_v9_3_sync_stage(C...
 Compiling module fifo_generator_v9_3_bhv_ver_as(C...
 Compiling module fifo_generator_v9_3_bhv_ver_prel...
@@ -44,19 +41,12 @@ Compiling module SmithWatermanPE(WIDTH=10,MATCH_R...
 Compiling module SmithWatermanArray(NUM_PES=3,REF...
 Compiling module Engine(NUM_PES=3,REF_LENGTH=4,WI...
 Compiling module StreamInputHandler_Engine_Interf...
-Compiling module fifo_generator_v9_3_bhv_ver_ss(C...
-Compiling module fifo_generator_v9_3_bhv_ver_prel...
-Compiling module FIFO_GENERATOR_V9_3_CONV_VER(C_C...
-Compiling module FIFO_GENERATOR_V9_3(C_COMMON_CLO...
-Compiling module ref_seq_block_buffer
-Compiling module ReferenceReader(REF_LENGTH=4)
-Compiling module StreamInputHandler_ReferenceRead...
-Compiling module StreamInputHandler_ReferenceRead...
+Compiling module StreamInputHandler_Engine_Interf...
 Compiling module glbl
 Time Resolution for simulation is 1ps.
-Waiting for 6 sub-compilation(s) to finish...
-Compiled 31 Verilog Units
-Built simulation executable /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe
-Fuse Memory Usage: 665508 KB
-Fuse CPU Usage: 2150 ms
-GCC CPU Usage: 10350 ms
+Waiting for 3 sub-compilation(s) to finish...
+Compiled 24 Verilog Units
+Built simulation executable /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_Engine_Interface_tb_isim_beh.exe
+Fuse Memory Usage: 663936 KB
+Fuse CPU Usage: 2020 ms
+GCC CPU Usage: 7840 ms

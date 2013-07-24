@@ -8,7 +8,6 @@
  *      Albert Ng   Jul 08 2013     Initial Revision
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
- *      Albert Ng   Jul 16 2013     Added high score tests
  *
  */
 
@@ -37,7 +36,6 @@ module Engine_tb;
 	wire ref_info_valid_out;
 	wire ref_seq_block_rdy_out;
 	wire [29:0] V_out;
-    wire [2:0] high_score_out;
 
     reg [5:0] query1[1:0];
     reg [7:0] ref1[1:0];
@@ -64,7 +62,6 @@ module Engine_tb;
     reg [31:0] cell_score_threshold3;
     
     reg [9:0] V_out_expected[42:0][2:0];
-    reg high_score_expected[42:0][2:0];
 
 	// Instantiate the Unit Under Test (UUT)
 	Engine #(3, 4, 10, 10, -2, -2, -1, 3) uut (
@@ -75,7 +72,6 @@ module Engine_tb;
 		.ref_addr_in(ref_addr_in), 
 		.num_query_blocks_in(num_query_blocks_in), 
         .query_id_in(query_id_in),
-        .cell_score_threshold_in(cell_score_threshold_in),
 		.query_info_valid_in(query_info_valid_in), 
 		.query_info_rdy_out(query_info_rdy_out), 
 		.query_seq_block_in(query_seq_block_in), 
@@ -87,8 +83,7 @@ module Engine_tb;
 		.ref_seq_block_in(ref_seq_block_in), 
 		.ref_seq_block_valid_in(ref_seq_block_valid_in), 
 		.ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
-		.V_out(V_out),
-        .high_score_out(high_score_out)
+		.V_out(V_out)
 	);
 
     integer i, j;
@@ -112,7 +107,7 @@ module Engine_tb;
         ref_addr2 = 10;
         num_query_blocks2 = 1;
         query_id2 = 2;
-        cell_score_threshold2 = 15;
+        cell_score_threshold2 = 20;
         
         // Test 3
         query3[0] = 6'b011000;  // AGC
@@ -121,7 +116,7 @@ module Engine_tb;
         ref_addr3 = 15;
         num_query_blocks3 = 1;
         query_id3 = 3;
-        cell_score_threshold3 = 20;
+        cell_score_threshold3 = 30;
         
         V_out_expected[0][0] = 10;
         V_out_expected[0][1] = 0;
@@ -253,135 +248,6 @@ module Engine_tb;
         V_out_expected[42][1] = 0;
         V_out_expected[42][2] = 18;
 
-        high_score_expected[0][0] = 1;
-        high_score_expected[0][1] = 0;
-        high_score_expected[0][2] = 0;
-        high_score_expected[1][0] = 0;
-        high_score_expected[1][1] = 0;
-        high_score_expected[1][2] = 0;
-        high_score_expected[2][0] = 1;
-        high_score_expected[2][1] = 0;
-        high_score_expected[2][2] = 0;
-        high_score_expected[3][0] = 0;
-        high_score_expected[3][1] = 0;
-        high_score_expected[3][2] = 1;
-        high_score_expected[4][0] = 0;
-        high_score_expected[4][1] = 0;
-        high_score_expected[4][2] = 1;
-        high_score_expected[5][0] = 1;
-        high_score_expected[5][1] = 0;
-        high_score_expected[5][2] = 1;
-        high_score_expected[6][0] = 1;
-        high_score_expected[6][1] = 0;
-        high_score_expected[6][2] = 0;
-        high_score_expected[7][0] = 1;
-        high_score_expected[7][1] = 1;
-        high_score_expected[7][2] = 0;
-        high_score_expected[8][0] = 1;
-        high_score_expected[8][1] = 1;
-        high_score_expected[8][2] = 1;
-        high_score_expected[9][0] = 0;
-        high_score_expected[9][1] = 1;
-        high_score_expected[9][2] = 1;
-        high_score_expected[10][0] = 0;
-        high_score_expected[10][1] = 0;
-        high_score_expected[10][2] = 1;
-        high_score_expected[11][0] = 0;
-        high_score_expected[11][1] = 0;
-        high_score_expected[11][2] = 0;
-        high_score_expected[12][0] = 1;
-        high_score_expected[12][1] = 1;
-        high_score_expected[12][2] = 1;
-        high_score_expected[13][0] = 0;
-        high_score_expected[13][1] = 1;
-        high_score_expected[13][2] = 1;
-        high_score_expected[14][0] = 0;
-        high_score_expected[14][1] = 1;
-        high_score_expected[14][2] = 1;
-        high_score_expected[15][0] = 1;
-        high_score_expected[15][1] = 0;
-        high_score_expected[15][2] = 1;
-        high_score_expected[16][0] = 1;
-        high_score_expected[16][1] = 1;
-        high_score_expected[16][2] = 0;
-        high_score_expected[17][0] = 1;
-        high_score_expected[17][1] = 1;
-        high_score_expected[17][2] = 1;
-        high_score_expected[18][0] = 1;
-        high_score_expected[18][1] = 1;
-        high_score_expected[18][2] = 1;
-        high_score_expected[19][0] = 0;
-        high_score_expected[19][1] = 1;
-        high_score_expected[19][2] = 1;
-        high_score_expected[20][0] = 0;
-        high_score_expected[20][1] = 0;
-        high_score_expected[20][2] = 1;
-        high_score_expected[21][0] = 0;
-        high_score_expected[21][1] = 0;
-        high_score_expected[21][2] = 0;
-        high_score_expected[22][0] = 0;
-        high_score_expected[22][1] = 0;
-        high_score_expected[22][2] = 0;
-        high_score_expected[23][0] = 0;
-        high_score_expected[23][1] = 0;
-        high_score_expected[23][2] = 0;
-        high_score_expected[24][0] = 0;
-        high_score_expected[24][1] = 0;
-        high_score_expected[24][2] = 0;
-        high_score_expected[25][0] = 0;
-        high_score_expected[25][1] = 0;
-        high_score_expected[25][2] = 0;
-        high_score_expected[26][0] = 0;
-        high_score_expected[26][1] = 1;
-        high_score_expected[26][2] = 0;
-        high_score_expected[27][0] = 0;
-        high_score_expected[27][1] = 0;
-        high_score_expected[27][2] = 1;      
-        high_score_expected[28][0] = 0;
-        high_score_expected[28][1] = 1;
-        high_score_expected[28][2] = 0;
-        high_score_expected[29][0] = 0;
-        high_score_expected[29][1] = 1;
-        high_score_expected[29][2] = 1;
-        high_score_expected[30][0] = 0;
-        high_score_expected[30][1] = 1;
-        high_score_expected[30][2] = 1;
-        high_score_expected[31][0] = 0;
-        high_score_expected[31][1] = 1;
-        high_score_expected[31][2] = 1;
-        high_score_expected[32][0] = 0;
-        high_score_expected[32][1] = 0;
-        high_score_expected[32][2] = 1;
-        high_score_expected[33][0] = 0;
-        high_score_expected[33][1] = 0;
-        high_score_expected[33][2] = 0;
-        high_score_expected[34][0] = 0;
-        high_score_expected[34][1] = 0;
-        high_score_expected[34][2] = 0;
-        high_score_expected[35][0] = 0;
-        high_score_expected[35][1] = 0;
-        high_score_expected[35][2] = 0;
-        high_score_expected[36][0] = 0;
-        high_score_expected[36][1] = 0;
-        high_score_expected[36][2] = 0;
-        high_score_expected[37][0] = 0;
-        high_score_expected[37][1] = 0;
-        high_score_expected[37][2] = 0;
-        high_score_expected[38][0] = 0;
-        high_score_expected[38][1] = 0;
-        high_score_expected[38][2] = 0;
-        high_score_expected[39][0] = 0;
-        high_score_expected[39][1] = 0;
-        high_score_expected[39][2] = 0;
-        high_score_expected[40][0] = 0;
-        high_score_expected[40][1] = 0;
-        high_score_expected[40][2] = 0;
-        high_score_expected[41][0] = 0;
-        high_score_expected[41][1] = 1;
-        high_score_expected[41][2] = 0;
-        high_score_expected[42][0] = 0;
-        high_score_expected[42][1] = 0;
-        high_score_expected[42][2] = 0;
 
 
 		// Initialize Inputs
@@ -570,9 +436,6 @@ module Engine_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
-                end
             end
             #10;
         end
@@ -591,9 +454,6 @@ module Engine_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[8][j]) begin
                 $display("@%0dns Test 1 Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[8][j]);
             end
-            if (high_score_out[j] != high_score_expected[8][j]) begin
-                $display("@%0dns high_score_out error", $time);
-            end
         end
         #10;
         
@@ -610,9 +470,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[9][j]) begin
                 $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[9][j]);
-            end
-            if (high_score_out[j] != high_score_expected[9][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         ref_seq_block_valid_in <= 0;
@@ -642,9 +499,6 @@ module Engine_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[10][j]) begin
                 $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[10][j]);
             end
-            if (high_score_out[j] != high_score_expected[10][j]) begin
-                $display("@%0dns high_score_out error", $time);
-            end
         end
         #10;
         
@@ -661,9 +515,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[11][j]) begin
                 $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[11][j]);
-            end
-            if (high_score_out[j] != high_score_expected[11][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         query_info_valid_in <= 0;
@@ -684,9 +535,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[12][j]) begin
                 $display("@%0dns Test 1 Advance_BCC Latch_query_seq_block: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[12][j]);
-            end
-            if (high_score_out[j] != high_score_expected[12][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         ref_seq_block_in <= ref2[0];
@@ -709,9 +557,6 @@ module Engine_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 1 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
-                end
             end
             #10;
         end
@@ -730,9 +575,6 @@ module Engine_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[18][j]) begin
                 $display("@%0dns Test 2 Wait_wr_rdy: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[18][j]);
             end
-            if (high_score_out[j] != high_score_expected[18][j]) begin
-                $display("@%0dns high_score_out error", $time);
-            end
         end
         #10;
         
@@ -750,9 +592,6 @@ module Engine_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[19][j]) begin
                 $display("@%0dns Test 2 Wait_ref_seq_block_valid: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[19][j]);
             end
-            if (high_score_out[j] != high_score_expected[19][j]) begin
-                $display("@%0dns high_score_out error", $time);
-            end
         end
         #10;
         
@@ -769,9 +608,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[20][j]) begin
                 $display("@%0dns Test 2 Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[20][j]);
-            end
-            if (high_score_out[j] != high_score_expected[20][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         #10;
@@ -792,9 +628,6 @@ module Engine_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 2 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
-                end
             end
             #10;
         end
@@ -812,9 +645,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[25][j]) begin
                 $display("@%0dns Test 2 Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[25][j]);
-            end
-            if (high_score_out[j] != high_score_expected[25][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         #10;
@@ -835,9 +665,6 @@ module Engine_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 2 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
-                end
             end
             #10;
         end
@@ -856,9 +683,6 @@ module Engine_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 2 Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
-                end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
                 end
             end
             #10;
@@ -973,9 +797,6 @@ module Engine_tb;
             if (V_out[j*10+9 -: 10] != V_out_expected[33][j]) begin
                 $display("@%0dns Test 3 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[33][j]);
             end
-            if (high_score_out[j] != high_score_expected[33][j]) begin
-                $display("@%0dns high_score_out error", $time);
-            end
         end
         #10;
         
@@ -992,9 +813,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[34][j]) begin
                 $display("@%0dns Test 3 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[34][j]);
-            end
-            if (high_score_out[j] != high_score_expected[34][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         stall <= 1;
@@ -1015,9 +833,6 @@ module Engine_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 3 Advance_BCC stall: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
-                end
             end
             #10;
         end
@@ -1035,9 +850,6 @@ module Engine_tb;
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[37][j]) begin
                 $display("@%0dns Test 3 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[37][j]);
-            end
-            if (high_score_out[j] != high_score_expected[37][j]) begin
-                $display("@%0dns high_score_out error", $time);
             end
         end
         stall <= 0;
@@ -1058,9 +870,6 @@ module Engine_tb;
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 3 Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
-                end
             end
             #10;
         end
@@ -1079,9 +888,6 @@ module Engine_tb;
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Test 3 Wait_wr_rdy: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
-                end
-                if (high_score_out[j] != high_score_expected[i][j]) begin
-                    $display("@%0dns high_score_out error", $time);
                 end
             end
             #10;

@@ -6,7 +6,6 @@
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
- *      Albert Ng   Jul 16 2013     Added high score output
  *
  */
  
@@ -30,8 +29,7 @@ module StreamInputHandler_Engine_Interface(
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
 
     // Smith Waterman systolic array output
-    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
-    output [NUM_PES-1:0] high_score_out     // Cell score is a high score
+    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
     );
 
     parameter NUM_PES = 64;
@@ -93,8 +91,7 @@ module StreamInputHandler_Engine_Interface(
 		.ref_seq_block_in(ref_seq_block_in), 
 		.ref_seq_block_valid_in(ref_seq_block_valid_in), 
 		.ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
-		.V_out(V_out),
-        .high_score_out(high_score_out)
+		.V_out(V_out)
 	);
         
         

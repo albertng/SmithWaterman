@@ -9,8 +9,7 @@
  *                                  Moved send_ref from read FSM to write FSM
  *      Albert Ng   Jul 08 2013     Added stall tests
  *      Albert Ng   Jul 15 2013     Added query ID #
- *                                  Added cell score threshold input
- *      Albert Ng   Jul 16 2013     Added cell score threshold output tests
+ *                                  Added cell score threshold
  *
  */
 
@@ -42,8 +41,6 @@ module Engine_Ctrl_tb;
 	wire [1:0] T_out;
 	wire store_S_out;
 	wire init_out;
-    wire [9:0] cell_score_threshold_out;
-    
 	wire first_query_block_out;
 	wire next_first_ref_block_out;
 	wire first_ref_block_out;
@@ -52,7 +49,7 @@ module Engine_Ctrl_tb;
 	wire bypass_fifo_out;
 
 	// Instantiate the Unit Under Test (UUT)
-	Engine_Ctrl #(4, 8, 10) uut (
+	Engine_Ctrl #(4, 8) uut (
 		.clk(clk), 
 		.rst(rst), 
 		.stall(stall), 
@@ -75,7 +72,6 @@ module Engine_Ctrl_tb;
 		.T_out(T_out), 
 		.store_S_out(store_S_out), 
 		.init_out(init_out), 
-        .cell_score_threshold_out(cell_score_threshold_out),
 		.first_query_block_out(first_query_block_out), 
 		.next_first_ref_block_out(next_first_ref_block_out), 
 		.first_ref_block_out(first_ref_block_out), 
@@ -559,8 +555,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 0)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (first_query_block_out != 1)
                 $display("@%0dns Test 1: first_query_block_out error", $time);
             if (next_first_ref_block_out != 1)
@@ -589,8 +583,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 1: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -623,8 +615,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 0)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[0])
                 $display("@%0dns Test 1: S_out error", $time);
             if (first_query_block_out != 1)
@@ -657,8 +647,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[0])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 1)
@@ -691,8 +679,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[0])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[0][i*2 + 1 -: 2])
@@ -723,8 +709,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[0])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[0][15:14])
@@ -757,8 +741,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[1])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 0)
@@ -787,8 +769,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[1])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[0][i*2 + 1 -: 2])
@@ -819,8 +799,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[1])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[0][15:14])
@@ -855,8 +833,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[2])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 0)
@@ -885,8 +861,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[2])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[0][i*2 + 1 -: 2])
@@ -922,8 +896,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[2])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[0][7:6])
@@ -959,8 +931,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[2])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[0][i*2 + 1 -: 2])
@@ -991,8 +961,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[2])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[0][15:14])
@@ -1024,8 +992,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[0])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 1)
@@ -1059,8 +1025,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[0])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[1][i*2 + 1 -: 2])
@@ -1091,8 +1055,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[0])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[1][15:14])
@@ -1125,8 +1087,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[1])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 0)
@@ -1155,8 +1115,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[1])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[1][i*2 + 1 -: 2])
@@ -1187,8 +1145,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[1])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[1][15:14])
@@ -1221,8 +1177,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[2])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 0)
@@ -1251,8 +1205,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[2])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[1][i*2 + 1 -: 2])
@@ -1283,8 +1235,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[2])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[1][15:14])
@@ -1316,8 +1266,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[0])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 1)
@@ -1351,8 +1299,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[0])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[2][i*2 + 1 -: 2])
@@ -1383,8 +1329,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[0])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[2][15:14])
@@ -1417,8 +1361,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[1])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 0)
@@ -1447,8 +1389,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[1])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[2][i*2 + 1 -: 2])
@@ -1479,8 +1419,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[1])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[2][15:14])
@@ -1513,8 +1451,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[2])
             $display("@%0dns Test 1: S_out error", $time);
         if (first_query_block_out != 0)
@@ -1543,8 +1479,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 1: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 1: cell_score_threshold_out error", $time);
             if (S_out != query1[2])
                 $display("@%0dns Test 1: S_out error", $time);
             if (T_out != ref1[2][i*2 + 1 -: 2])
@@ -1575,8 +1509,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 1: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 1: cell_score_threshold_out error", $time);
         if (S_out != query1[2])
             $display("@%0dns Test 1: S_out error", $time);
         if (T_out != ref1[2][15:14])
@@ -1611,8 +1543,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 2, Waiting for next query: store_S_out error", $time);
             if (init_out != 0)
                 $display("@%0dns Test 2, Waiting for next query: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold1)
-                $display("@%0dns Test 2: cell_score_threshold_out error", $time);
             if (first_query_block_out != 1)
                 $display("@%0dns Test 2, Waiting for next query: first_query_block_out error", $time);
             if (next_first_ref_block_out != 1)
@@ -1639,8 +1569,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2, Waiting for next query: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2, Waiting for next query: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2, Waiting for next query: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1678,8 +1606,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1707,8 +1633,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1739,8 +1663,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1768,8 +1690,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1798,8 +1718,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1828,8 +1746,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold1)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1858,8 +1774,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1897,8 +1811,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1926,8 +1838,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1958,8 +1868,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -1987,8 +1895,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 2: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -2019,8 +1925,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (S_out != query2[0])
             $display("@%0dns Test 2: S_out error", $time);
         if (first_query_block_out != 1)
@@ -2053,8 +1957,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 2: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 2: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold2)
-                $display("@%0dns Test 2: cell_score_threshold_out error", $time);
             if (S_out != query2[0])
                 $display("@%0dns Test 2: S_out error", $time);
             if (T_out != ref2[0][i*2 + 1 -: 2])
@@ -2085,8 +1987,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (S_out != query2[0])
             $display("@%0dns Test 2: S_out error", $time);
         if (T_out != ref2[0][15:14])
@@ -2119,8 +2019,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (S_out != query2[1])
             $display("@%0dns Test 2: S_out error", $time);
         if (first_query_block_out != 0)
@@ -2149,8 +2047,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 2: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 2: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold2)
-                $display("@%0dns Test 2: cell_score_threshold_out error", $time);
             if (S_out != query2[1])
                 $display("@%0dns Test 2: S_out error", $time);
             if (T_out != ref2[0][i*2 + 1 -: 2])
@@ -2181,8 +2077,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 2: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 2: cell_score_threshold_out error", $time);
         if (S_out != query2[1])
             $display("@%0dns Test 2: S_out error", $time);
         if (T_out != ref2[0][15:14])
@@ -2215,8 +2109,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold2)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 3: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -2245,8 +2137,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: store_S_out error", $time);
             if (init_out != 0)
                 $display("@%0dns Test 3: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold3)
-                $display("@%0dns Test 3: cell_score_threshold_out error", $time);
             if (first_query_block_out != 1)
                 $display("@%0dns Test 3: first_query_block_out error", $time);
             if (next_first_ref_block_out != 1)
@@ -2275,8 +2165,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold3)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 3: first_query_block_out error", $time);
         if (next_first_ref_block_out != 1)
@@ -2306,8 +2194,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold3)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (S_out != query3[0])
             $display("@%0dns Test 3: S_out error", $time);
         if (first_query_block_out != 1)
@@ -2340,8 +2226,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 3: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold3)
-                $display("@%0dns Test 3: cell_score_threshold_out error", $time);
             if (S_out != query3[0])
                 $display("@%0dns Test 3: S_out error", $time);
             if (T_out != ref3[0][i*2 + 1 -: 2])
@@ -2372,8 +2256,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold3)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (S_out != query3[0])
             $display("@%0dns Test 3: S_out error", $time);
         if (T_out != ref3[0][15:14])
@@ -2407,8 +2289,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: store_S_out error", $time);
             if (init_out != 0)
                 $display("@%0dns Test 3: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold3)
-                $display("@%0dns Test 3: cell_score_threshold_out error", $time);
             if (first_query_block_out != 1)
                 $display("@%0dns Test 3: first_query_block_out error", $time);
             if (next_first_ref_block_out != 0)
@@ -2437,8 +2317,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold3)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (first_query_block_out != 1)
             $display("@%0dns Test 3: first_query_block_out error", $time);
         if (next_first_ref_block_out != 0)
@@ -2468,8 +2346,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 0)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold3)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (S_out != query3[0])
             $display("@%0dns Test 3: S_out error", $time);
         if (first_query_block_out != 1)
@@ -2502,8 +2378,6 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: store_S_out error", $time);
             if (init_out != 1)
                 $display("@%0dns Test 3: init_out error", $time);
-            if (cell_score_threshold_out != cell_score_threshold3)
-                $display("@%0dns Test 3: cell_score_threshold_out error", $time);
             if (S_out != query3[0])
                 $display("@%0dns Test 3: S_out error", $time);
             if (T_out != ref3[1][i*2 + 1 -: 2])
@@ -2534,8 +2408,6 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: store_S_out error", $time);
         if (init_out != 1)
             $display("@%0dns Test 3: init_out error", $time);
-        if (cell_score_threshold_out != cell_score_threshold3)
-            $display("@%0dns Test 3: cell_score_threshold_out error", $time);
         if (S_out != query3[0])
             $display("@%0dns Test 3: S_out error", $time);
         if (T_out != ref3[1][15:14])

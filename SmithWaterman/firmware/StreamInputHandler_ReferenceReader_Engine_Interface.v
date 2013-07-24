@@ -4,7 +4,6 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 11 2013     Initial Revision
- *      Albert Ng   Jul 16 2013     Added high score output
  *
  */
  
@@ -30,8 +29,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface(
     output         rd_data_rdy_out,     // DRAM read data acknowledged   
 
     // Smith Waterman systolic array output
-    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
-    output [NUM_PES - 1:0] high_score_out   // Cell score is a high score
+    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
     );
 
     parameter NUM_PES = 64;
@@ -65,8 +63,7 @@ module StreamInputHandler_ReferenceReader_Engine_Interface(
         .ref_seq_block_in(ref_seq_block),
         .ref_seq_block_valid_in(ref_seq_block_valid),
         .ref_seq_block_rdy_out(ref_seq_block_rdy),
-        .V_out(V_out),
-        .high_score_out(high_score_out)
+        .V_out(V_out)
     );
     
     ReferenceReader #(REF_LENGTH) rr (

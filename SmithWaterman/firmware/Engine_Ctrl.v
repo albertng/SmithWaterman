@@ -54,8 +54,7 @@
  *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *      Albert Ng   Jul 15 2013     Added query ID #
- *                                  Added cell score threshold input and reg
- *      Albert Ng   Jul 16 2013     Added cell score threshold output
+ *                                  Added cell score threshold
  *
  */
  
@@ -89,20 +88,16 @@ module Engine_Ctrl(
     output [1:0] T_out,                     // Reference sequence shift
     output store_S_out,                     // Load systolic array with new query seq
     output init_out,                        // Computation active shift in
-    output [WIDTH - 1:0] cell_score_threshold_out, // Cell score threshold for reporting
     output first_query_block_out,           // Computing first block of the query
     output next_first_ref_block_out,        // Next block is a first block of the reference
     output first_ref_block_out,             // Computing a first block of the reference
     output last_ref_block_out,              // Computing a last block of the reference
     output last_block_char_out,             // Computing last char in the reference block
-    output bypass_fifo_out,                 // Bypass inter-ref-block FIFOs
-    output block_info_sel_out,              // Block info buffer select shift reg input
-    output block_info_wren_out              // Write block info buffer
+    output bypass_fifo_out                  // Bypass inter-ref-block FIFOs
     );
 
     parameter NUM_PES = 64;
     parameter REF_LENGTH = 128;
-    parameter WIDTH = 10;
     
     // Query sequence buffer read FSM states
     localparam WAIT_WR_RDY = 4'b0001, 
@@ -159,8 +154,8 @@ module Engine_Ctrl(
     reg [9:0] num_query_blocks1;
     reg [15:0] query_id0;
     reg [15:0] query_id1;
-    reg [WIDTH-1:0] cell_score_threshold0;
-    reg [WIDTH-1:0] cell_score_threshold1;
+    reg [31:0] cell_score_threshold0;
+    reg [31:0] cell_score_threshold1;
     reg latch_query_info;
     reg query_info_rdy;
 
@@ -178,12 +173,6 @@ module Engine_Ctrl(
     wire [127:0] qsbram_rd_out1;
     reg [(NUM_PES * 2) - 1:0] S;
     reg query_seq_block_rdy;
-
-    // Alignment block info select signals 
-    reg block_info_sel;
-    reg next_block_info_sel;
-    reg block_info_wren;
-    reg next_block_info_wren;
 
     genvar i;
 
@@ -234,14 +223,11 @@ module Engine_Ctrl(
     assign store_S_out = store_S;
     assign init_out = init;
     assign T_out = T_sreg[0];
-    assign cell_score_threshold_out = wr_buffer_sel ? cell_score_threshold0 : cell_score_threshold1;
     assign query_seq_block_rdy_out = query_seq_block_rdy;
     assign ref_addr_out = ref_addr_in;
     assign ref_info_valid_out = ref_info_valid;
     assign ref_length_out = ref_length_in;
     assign ref_seq_block_rdy_out = ref_seq_block_rdy;
-    assign block_info_sel_out = block_info_sel;
-    assign block_info_wren_out = block_info_wren;
     
     // Reference sequence block rotating shift register
     always @(posedge clk) begin
@@ -433,13 +419,13 @@ module Engine_Ctrl(
                     ref_addr0 <= ref_addr_in;
                     num_query_blocks0 <= num_query_blocks_in;
                     query_id0 <= query_id_in;
-                    cell_score_threshold0 <= cell_score_threshold_in[WIDTH-1:0];
+                    cell_score_threshold0 <= cell_score_threshold_in;
                 end else begin
                     ref_length1 <= ref_length_in;
                     ref_addr1 <= ref_addr_in;
                     num_query_blocks1 <= num_query_blocks_in;
                     query_id1 <= query_id_in;
-                    cell_score_threshold1 <= cell_score_threshold_in[WIDTH-1:0];
+                    cell_score_threshold1 <= cell_score_threshold_in;
                 end
             end
             
@@ -594,8 +580,6 @@ module Engine_Ctrl(
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 shift_T = 0;
-                next_block_info_sel = block_info_sel;
-                next_block_info_wren = 0;
             end
             
             WAIT_REF_SEQ_BLOCK_VALID:begin
@@ -604,8 +588,6 @@ module Engine_Ctrl(
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 shift_T = 0;
-                next_block_info_sel = block_info_sel;
-                next_block_info_wren = 0;
             end
             
             LATCH_REF:begin
@@ -618,8 +600,6 @@ module Engine_Ctrl(
                 end
                 latch_T = 1;
                 shift_T = 0;
-                next_block_info_sel = !block_info_sel;
-                next_block_info_wren = 1;
             end
             
             ADVANCE_BLOCK_CHAR_CNT:begin
@@ -636,23 +616,8 @@ module Engine_Ctrl(
                 end else begin
                     shift_T = 0;
                 end
-                next_block_info_sel = block_info_sel;
-                next_block_info_wren = 0;
             end
                 
         endcase
-    end
-
-    // Block info select clocking
-    always @(posedge clk) begin
-        if (rst) begin
-            block_info_sel <= 0;
-            block_info_wren <= 0;
-        end else if (!stall) begin
-            block_info_sel <= next_block_info_sel;
-            block_info_wren <= next_block_info_wren;
-        end else begin
-            block_info_wren <= 0;
-        end
     end
 endmodule
