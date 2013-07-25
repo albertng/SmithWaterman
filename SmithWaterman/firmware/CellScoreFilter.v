@@ -51,11 +51,11 @@ module CellScoreFilter(
     
     // Stream output handler interface
     output [40:0] result_0_data_out,        // Buffer 0 results
-    output result_0_valid,                  // Buffer 0 results valid
-    input result_0_rdy,                     // Buffer 0 results acknowledge
+    output result_0_valid_out,              // Buffer 0 results valid
+    input result_0_rdy_in,                  // Buffer 0 results acknowledge
     output [40:0] result_1_data_out,        // Buffer 1 results
-    output result_1_valid,                  // Buffer 1 results valid
-    input result_1_rdy                      // Buffer 1 results acknowledge
+    output result_1_valid_out,              // Buffer 1 results valid
+    input result_1_rdy_in                   // Buffer 1 results acknowledge
     );
 
     parameter NUM_PES = 64;
@@ -101,7 +101,7 @@ module CellScoreFilter(
     wire [39:0] csff0_dout;
     wire        csff0_full;
     wire        csff0_empty;
-    reg [39:0]  csff1_din;
+    wire [39:0] csff1_din;
     reg         csff1_wr_en;
     wire        csff1_rd_en;
     wire [39:0] csff1_dout;
@@ -143,12 +143,8 @@ module CellScoreFilter(
     end
                 
     // Buffer select shift register
-    always @(posedge clk) begin
-        if (rst) begin
-            buffer_sel[0] <= 0;
-        end else if (!stall) begin
-            buffer_sel[0] <= !write_buffer;
-        end
+    always @(*) begin
+        buffer_sel[0] = !write_buffer;
     end
     generate
         for (i = 1; i < NUM_PES; i = i + 1) begin:buffer_sel_gen
@@ -306,10 +302,10 @@ module CellScoreFilter(
     
     // Stream Output Handler interface
     assign result_0_data_out = csff0_dout;
-    assign result_0_valid = !csff0_empty;
-    assign csff0_rd_en = result_0_rdy;
+    assign result_0_valid_out = !csff0_empty;
+    assign csff0_rd_en = result_0_rdy_in;
     assign result_1_data_out = csff1_dout;
-    assign result_1_valid = !csff1_empty;
-    assign csff1_rd_en = result_1_rdy;
+    assign result_1_valid_out = !csff1_empty;
+    assign csff1_rd_en = result_1_rdy_in;
                     
 endmodule

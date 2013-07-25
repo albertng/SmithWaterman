@@ -1,5 +1,5 @@
 ISim log file
-Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/SmithWatermanArray_ReferenceBlocks_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/CellScoreFilter_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/CellScoreFilter_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -10,58 +10,9 @@ Time resolution is 1 ps
 # wave add /
 # run 1000 ns
 Simulator is doing circuit initialization process.
-Multiple query block, multiple reference block, 3 PEs per FIFO test
-Finished circuit initialization process.
-  10    0    0
-   8    8    0
-  10    8    7
-   8    8   18
-   0    8   16
-  10    0   15
-  16    8    0
-  28   15    7
-  26   26   14
-   8   38   25
-@130ns V_out_valid error, Cycle           9 PE           0
-   7    8   36
-@140ns V_out_valid error, Cycle          10 PE           1
-   6    6   15
-@150ns V_out_valid error, Cycle          11 PE           2
-  10   17   18
-   8   15   16
-  26   14   15
-@180ns V_out_valid error, Cycle          14 PE           0
-  25   38   25
-@190ns V_out_valid error, Cycle          15 PE           1
-  24   36   36
-@200ns V_out_valid error, Cycle          16 PE           2
-  26   35   36
-  24   34   46
-   0   33   44
-   0    0   43
-Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
-   0    0    0    0
-  10    0    0    0
-   8    8   10    0
-   7   20    8    8
-  10   18   18   20
-   8   17   30   18
-   7   20   28   28
-  10   18   27   40
-  10   17   26   38
-  10   17   25   37
-   8   16   25   36
-   7   20   24   36
-  10   18   23   35
-   8   17   30   34
-   7   20   28   33
-  10   18   27   40
-  10   17   26   38
-   0   16   25   37
-   0    0   24   36
-   0    0    0   35
-Tests complete!
-Stopped at time : 570 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ReferenceBlocks_tb.v" Line 903
+ERROR: In process CellScoreFilter.vCont_299_15 
+ FATAL ERROR:ISim: This application has discovered an exceptional condition from which it cannot recover. Process will terminate. To search for possible resolutions to this issue, refer to the Xilinx answer database by going to http://www.xilinx.com/support/answers/index.htm and search with keywords 'ISim' and 'FATAL ERROR'. For technical support on this issue, please open a WebCase with this project attached at http://www.xilinx.com/support.
+INFO: Simulator is stopped.
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -69,52 +20,639 @@ WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for 
 This is a Lite version of ISim.
 # run 1000 ns
 Simulator is doing circuit initialization process.
-Multiple query block, multiple reference block, 3 PEs per FIFO test
 Finished circuit initialization process.
-  10    0    0
-   8    8    0
-  10    8    7
-   8    8   18
-   0    8   16
-  10    0   15
-  16    8    0
-  28   15    7
-  26   26   14
-   8   38   25
-   7    8   36
-   6    6   15
-  10   17   18
-   8   15   16
-  26   14   15
-  25   38   25
-  24   36   36
-  26   35   36
-  24   34   46
-   0   33   44
-   0    0   43
-Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
-   0    0    0    0
-  10    0    0    0
-   8    8   10    0
-   7   20    8    8
-  10   18   18   20
-   8   17   30   18
-   7   20   28   28
-  10   18   27   40
-  10   17   26   38
-  10   17   25   37
-   8   16   25   36
-   7   20   24   36
-  10   18   23   35
-   8   17   30   34
-   7   20   28   33
-  10   18   27   40
-  10   17   26   38
-   0   16   25   37
-   0    0   24   36
-   0    0    0   35
+@90ns result_0_valid_out error
+@90ns result_0_data_out error
+@180ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_valid_out error
+@190ns result_1_data_out error
+@200ns result_1_valid_out error
+@200ns result_1_data_out error
+@210ns result_1_valid_out error
+@210ns result_1_data_out error
+@220ns result_1_valid_out error
+@220ns result_1_data_out error
+@230ns result_1_valid_out error
+@230ns result_1_data_out error
+@240ns result_1_valid_out error
+@240ns result_1_data_out error
+@250ns result_1_valid_out error
+@250ns result_1_data_out error
+@260ns result_1_valid_out error
+@260ns result_1_data_out error
+@270ns result_1_valid_out error
+@270ns result_1_data_out error
+@280ns result_0_valid_out error
+@280ns result_0_data_out error
+@280ns result_1_valid_out error
+@280ns result_1_data_out error
+@290ns result_0_valid_out error
+@290ns result_0_data_out error
+@290ns result_1_valid_out error
+@290ns result_1_data_out error
+@300ns result_0_valid_out error
+@300ns result_0_data_out error
+@300ns result_1_valid_out error
+@300ns result_1_data_out error
+@310ns result_0_valid_out error
+@310ns result_0_data_out error
+@310ns result_1_valid_out error
+@310ns result_1_data_out error
+@320ns result_0_valid_out error
+@320ns result_0_data_out error
+@320ns result_1_valid_out error
+@320ns result_1_data_out error
+@330ns result_0_valid_out error
+@330ns result_0_data_out error
+@330ns result_1_valid_out error
+@330ns result_1_data_out error
+@340ns result_0_valid_out error
+@340ns result_0_data_out error
+@340ns result_1_valid_out error
+@340ns result_1_data_out error
+@350ns result_0_valid_out error
+@350ns result_0_data_out error
+@350ns result_1_valid_out error
+@350ns result_1_data_out error
+@360ns result_0_valid_out error
+@360ns result_0_data_out error
+@360ns result_1_valid_out error
+@360ns result_1_data_out error
+@370ns result_0_valid_out error
+@370ns result_0_data_out error
+@370ns result_1_valid_out error
+@370ns result_1_data_out error
+@380ns result_0_valid_out error
+@380ns result_0_data_out error
+@380ns result_1_valid_out error
+@380ns result_1_data_out error
+@390ns result_0_valid_out error
+@390ns result_0_data_out error
+@390ns result_1_valid_out error
+@390ns result_1_data_out error
+@400ns result_0_valid_out error
+@400ns result_0_data_out error
+@400ns result_1_valid_out error
+@400ns result_1_data_out error
+@410ns result_0_valid_out error
+@410ns result_0_data_out error
+@410ns result_1_valid_out error
+@410ns result_1_data_out error
+@420ns result_0_valid_out error
+@420ns result_0_data_out error
+@420ns result_1_valid_out error
+@420ns result_1_data_out error
+@430ns result_0_valid_out error
+@430ns result_0_data_out error
+@430ns result_1_valid_out error
+@430ns result_1_data_out error
+@440ns result_0_valid_out error
+@440ns result_0_data_out error
+@440ns result_1_valid_out error
+@440ns result_1_data_out error
+@450ns result_0_valid_out error
+@450ns result_0_data_out error
+@450ns result_1_valid_out error
+@450ns result_1_data_out error
+@460ns result_0_valid_out error
+@460ns result_0_data_out error
+@460ns result_1_valid_out error
+@460ns result_1_data_out error
+@470ns result_0_valid_out error
+@470ns result_0_data_out error
+@470ns result_1_valid_out error
+@470ns result_1_data_out error
+@480ns result_0_valid_out error
+@480ns result_0_data_out error
+@480ns result_1_valid_out error
+@480ns result_1_data_out error
+@490ns result_0_valid_out error
+@490ns result_0_data_out error
+@490ns result_1_valid_out error
+@490ns result_1_data_out error
+@500ns result_0_valid_out error
+@500ns result_0_data_out error
+@500ns result_1_valid_out error
+@500ns result_1_data_out error
+@510ns result_0_valid_out error
+@510ns result_0_data_out error
+@510ns result_1_valid_out error
+@510ns result_1_data_out error
+@520ns result_0_valid_out error
+@520ns result_0_data_out error
+@520ns result_1_valid_out error
+@520ns result_1_data_out error
+@530ns result_0_valid_out error
+@530ns result_0_data_out error
+@530ns result_1_valid_out error
+@530ns result_1_data_out error
+@540ns result_0_valid_out error
+@540ns result_0_data_out error
+@540ns result_1_valid_out error
+@540ns result_1_data_out error
+@550ns result_0_valid_out error
+@550ns result_0_data_out error
+@550ns result_1_valid_out error
+@550ns result_1_data_out error
+@560ns result_0_valid_out error
+@560ns result_0_data_out error
+@560ns result_1_valid_out error
+@560ns result_1_data_out error
+@570ns result_0_valid_out error
+@570ns result_0_data_out error
+@570ns result_1_valid_out error
+@570ns result_1_data_out error
+@580ns result_0_valid_out error
+@580ns result_0_data_out error
+@580ns result_1_valid_out error
+@580ns result_1_data_out error
+@590ns result_0_valid_out error
+@590ns result_0_data_out error
+@590ns result_1_valid_out error
+@590ns result_1_data_out error
+@600ns result_0_valid_out error
+@600ns result_0_data_out error
+@600ns result_1_valid_out error
+@600ns result_1_data_out error
+@610ns result_0_valid_out error
+@610ns result_0_data_out error
+@610ns result_1_valid_out error
+@610ns result_1_data_out error
+@620ns result_0_valid_out error
+@620ns result_0_data_out error
+@620ns result_1_valid_out error
+@620ns result_1_data_out error
+@630ns result_0_valid_out error
+@630ns result_0_data_out error
+@630ns result_1_valid_out error
+@630ns result_1_data_out error
+@640ns result_0_valid_out error
+@640ns result_0_data_out error
+@640ns result_1_valid_out error
+@640ns result_1_data_out error
+@650ns result_0_valid_out error
+@650ns result_0_data_out error
+@650ns result_1_valid_out error
+@650ns result_1_data_out error
+@660ns result_0_valid_out error
+@660ns result_0_data_out error
+@660ns result_1_valid_out error
+@660ns result_1_data_out error
+@670ns result_0_valid_out error
+@670ns result_0_data_out error
+@670ns result_1_valid_out error
+@670ns result_1_data_out error
+@680ns result_0_valid_out error
+@680ns result_0_data_out error
+@680ns result_1_valid_out error
+@680ns result_1_data_out error
+@690ns result_0_valid_out error
+@690ns result_0_data_out error
+@690ns result_1_valid_out error
+@690ns result_1_data_out error
+@700ns result_0_valid_out error
+@700ns result_0_data_out error
+@700ns result_1_valid_out error
+@700ns result_1_data_out error
+@710ns result_0_valid_out error
+@710ns result_0_data_out error
+@710ns result_1_valid_out error
+@710ns result_1_data_out error
+@720ns result_0_valid_out error
+@720ns result_0_data_out error
+@720ns result_1_valid_out error
+@720ns result_1_data_out error
+@730ns result_0_valid_out error
+@730ns result_0_data_out error
+@730ns result_1_valid_out error
+@730ns result_1_data_out error
+@740ns result_0_valid_out error
+@740ns result_0_data_out error
+@740ns result_1_valid_out error
+@740ns result_1_data_out error
+@750ns result_0_valid_out error
+@750ns result_0_data_out error
+@750ns result_1_valid_out error
+@750ns result_1_data_out error
+@760ns result_0_valid_out error
+@760ns result_0_data_out error
+@760ns result_1_valid_out error
+@760ns result_1_data_out error
+@770ns result_0_valid_out error
+@770ns result_0_data_out error
+@770ns result_1_valid_out error
+@770ns result_1_data_out error
+@780ns result_0_valid_out error
+@780ns result_0_data_out error
+@780ns result_1_valid_out error
+@780ns result_1_data_out error
+@790ns result_0_valid_out error
+@790ns result_0_data_out error
+@790ns result_1_valid_out error
+@790ns result_1_data_out error
+@800ns result_0_valid_out error
+@800ns result_0_data_out error
+@800ns result_1_valid_out error
+@800ns result_1_data_out error
+@810ns result_0_valid_out error
+@810ns result_0_data_out error
+@810ns result_1_valid_out error
+@810ns result_1_data_out error
+@820ns result_0_valid_out error
+@820ns result_0_data_out error
+@820ns result_1_valid_out error
+@820ns result_1_data_out error
+@830ns result_0_valid_out error
+@830ns result_0_data_out error
+@830ns result_1_valid_out error
+@830ns result_1_data_out error
+@840ns result_0_valid_out error
+@840ns result_0_data_out error
+@840ns result_1_valid_out error
+@840ns result_1_data_out error
+@850ns result_0_valid_out error
+@850ns result_0_data_out error
+@850ns result_1_valid_out error
+@850ns result_1_data_out error
+@860ns result_0_valid_out error
+@860ns result_0_data_out error
+@860ns result_1_valid_out error
+@860ns result_1_data_out error
+@870ns result_0_valid_out error
+@870ns result_0_data_out error
+@870ns result_1_valid_out error
+@870ns result_1_data_out error
+@880ns result_0_valid_out error
+@880ns result_0_data_out error
+@880ns result_1_valid_out error
+@880ns result_1_data_out error
+@890ns result_0_valid_out error
+@890ns result_0_data_out error
+@890ns result_1_valid_out error
+@890ns result_1_data_out error
+@900ns result_0_valid_out error
+@900ns result_0_data_out error
+@900ns result_1_valid_out error
+@900ns result_1_data_out error
+@910ns result_0_valid_out error
+@910ns result_0_data_out error
+@910ns result_1_valid_out error
+@910ns result_1_data_out error
+@920ns result_0_valid_out error
+@920ns result_0_data_out error
+@920ns result_1_valid_out error
+@920ns result_1_data_out error
+@930ns result_0_valid_out error
+@930ns result_0_data_out error
+@930ns result_1_valid_out error
+@930ns result_1_data_out error
+@940ns result_0_valid_out error
+@940ns result_0_data_out error
+@940ns result_1_valid_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_0_valid_out error
+@950ns result_0_data_out error
+@950ns result_1_valid_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_0_valid_out error
+@960ns result_0_data_out error
+@960ns result_1_valid_out error
+@960ns result_1_data_out error
+@970ns result_0_valid_out error
+@970ns result_0_data_out error
+@970ns result_1_valid_out error
+@970ns result_1_data_out error
+@980ns stall_out error
+@980ns result_0_valid_out error
+@980ns result_0_data_out error
+@980ns result_1_valid_out error
+@980ns result_1_data_out error
+@990ns result_0_valid_out error
+@990ns result_0_data_out error
+@990ns result_1_valid_out error
+@990ns result_1_data_out error
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@90ns result_0_valid_out error
+@90ns result_0_data_out error
+@180ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_valid_out error
+@190ns result_1_data_out error
+@200ns result_1_valid_out error
+@200ns result_1_data_out error
+@210ns result_1_valid_out error
+@210ns result_1_data_out error
+@220ns result_1_valid_out error
+@220ns result_1_data_out error
+@230ns result_1_valid_out error
+@230ns result_1_data_out error
+@240ns result_1_valid_out error
+@240ns result_1_data_out error
+@250ns result_1_valid_out error
+@250ns result_1_data_out error
+@260ns result_1_valid_out error
+@260ns result_1_data_out error
+@270ns result_1_valid_out error
+@270ns result_1_data_out error
+@280ns result_0_valid_out error
+@280ns result_0_data_out error
+@280ns result_1_valid_out error
+@280ns result_1_data_out error
+@290ns result_0_valid_out error
+@290ns result_0_data_out error
+@290ns result_1_valid_out error
+@290ns result_1_data_out error
+@300ns result_0_valid_out error
+@300ns result_0_data_out error
+@300ns result_1_valid_out error
+@300ns result_1_data_out error
+@310ns result_0_valid_out error
+@310ns result_0_data_out error
+@310ns result_1_valid_out error
+@310ns result_1_data_out error
+@320ns result_0_valid_out error
+@320ns result_0_data_out error
+@320ns result_1_valid_out error
+@320ns result_1_data_out error
+@330ns result_0_valid_out error
+@330ns result_0_data_out error
+@330ns result_1_valid_out error
+@330ns result_1_data_out error
+@340ns result_0_valid_out error
+@340ns result_0_data_out error
+@340ns result_1_valid_out error
+@340ns result_1_data_out error
+@350ns result_0_valid_out error
+@350ns result_0_data_out error
+@350ns result_1_valid_out error
+@350ns result_1_data_out error
+@360ns result_0_valid_out error
+@360ns result_0_data_out error
+@360ns result_1_valid_out error
+@360ns result_1_data_out error
+@370ns result_0_valid_out error
+@370ns result_0_data_out error
+@370ns result_1_valid_out error
+@370ns result_1_data_out error
+@380ns result_0_valid_out error
+@380ns result_0_data_out error
+@380ns result_1_valid_out error
+@380ns result_1_data_out error
+@390ns result_0_valid_out error
+@390ns result_0_data_out error
+@390ns result_1_valid_out error
+@390ns result_1_data_out error
+@400ns result_0_valid_out error
+@400ns result_0_data_out error
+@400ns result_1_valid_out error
+@400ns result_1_data_out error
+@410ns result_0_valid_out error
+@410ns result_0_data_out error
+@410ns result_1_valid_out error
+@410ns result_1_data_out error
+@420ns result_0_valid_out error
+@420ns result_0_data_out error
+@420ns result_1_valid_out error
+@420ns result_1_data_out error
+@430ns result_0_valid_out error
+@430ns result_0_data_out error
+@430ns result_1_valid_out error
+@430ns result_1_data_out error
+@440ns result_0_valid_out error
+@440ns result_0_data_out error
+@440ns result_1_valid_out error
+@440ns result_1_data_out error
+@450ns result_0_valid_out error
+@450ns result_0_data_out error
+@450ns result_1_valid_out error
+@450ns result_1_data_out error
+@460ns result_0_valid_out error
+@460ns result_0_data_out error
+@460ns result_1_valid_out error
+@460ns result_1_data_out error
+@470ns result_0_valid_out error
+@470ns result_0_data_out error
+@470ns result_1_valid_out error
+@470ns result_1_data_out error
+@480ns result_0_valid_out error
+@480ns result_0_data_out error
+@480ns result_1_valid_out error
+@480ns result_1_data_out error
+@490ns result_0_valid_out error
+@490ns result_0_data_out error
+@490ns result_1_valid_out error
+@490ns result_1_data_out error
+@500ns result_0_valid_out error
+@500ns result_0_data_out error
+@500ns result_1_valid_out error
+@500ns result_1_data_out error
+@510ns result_0_valid_out error
+@510ns result_0_data_out error
+@510ns result_1_valid_out error
+@510ns result_1_data_out error
+@520ns result_0_valid_out error
+@520ns result_0_data_out error
+@520ns result_1_valid_out error
+@520ns result_1_data_out error
+@530ns result_0_valid_out error
+@530ns result_0_data_out error
+@530ns result_1_valid_out error
+@530ns result_1_data_out error
+@540ns result_0_valid_out error
+@540ns result_0_data_out error
+@540ns result_1_valid_out error
+@540ns result_1_data_out error
+@550ns result_0_valid_out error
+@550ns result_0_data_out error
+@550ns result_1_valid_out error
+@550ns result_1_data_out error
+@560ns result_0_valid_out error
+@560ns result_0_data_out error
+@560ns result_1_valid_out error
+@560ns result_1_data_out error
+@570ns result_0_valid_out error
+@570ns result_0_data_out error
+@570ns result_1_valid_out error
+@570ns result_1_data_out error
+@580ns result_0_valid_out error
+@580ns result_0_data_out error
+@580ns result_1_valid_out error
+@580ns result_1_data_out error
+@590ns result_0_valid_out error
+@590ns result_0_data_out error
+@590ns result_1_valid_out error
+@590ns result_1_data_out error
+@600ns result_0_valid_out error
+@600ns result_0_data_out error
+@600ns result_1_valid_out error
+@600ns result_1_data_out error
+@610ns result_0_valid_out error
+@610ns result_0_data_out error
+@610ns result_1_valid_out error
+@610ns result_1_data_out error
+@620ns result_0_valid_out error
+@620ns result_0_data_out error
+@620ns result_1_valid_out error
+@620ns result_1_data_out error
+@630ns result_0_valid_out error
+@630ns result_0_data_out error
+@630ns result_1_valid_out error
+@630ns result_1_data_out error
+@640ns result_0_valid_out error
+@640ns result_0_data_out error
+@640ns result_1_valid_out error
+@640ns result_1_data_out error
+@650ns result_0_valid_out error
+@650ns result_0_data_out error
+@650ns result_1_valid_out error
+@650ns result_1_data_out error
+@660ns result_0_valid_out error
+@660ns result_0_data_out error
+@660ns result_1_valid_out error
+@660ns result_1_data_out error
+@670ns result_0_valid_out error
+@670ns result_0_data_out error
+@670ns result_1_valid_out error
+@670ns result_1_data_out error
+@680ns result_0_valid_out error
+@680ns result_0_data_out error
+@680ns result_1_valid_out error
+@680ns result_1_data_out error
+@690ns result_0_valid_out error
+@690ns result_0_data_out error
+@690ns result_1_valid_out error
+@690ns result_1_data_out error
+@700ns result_0_valid_out error
+@700ns result_0_data_out error
+@700ns result_1_valid_out error
+@700ns result_1_data_out error
+@710ns result_0_valid_out error
+@710ns result_0_data_out error
+@710ns result_1_valid_out error
+@710ns result_1_data_out error
+@720ns result_0_valid_out error
+@720ns result_0_data_out error
+@720ns result_1_valid_out error
+@720ns result_1_data_out error
+@730ns result_0_valid_out error
+@730ns result_0_data_out error
+@730ns result_1_valid_out error
+@730ns result_1_data_out error
+@740ns result_0_valid_out error
+@740ns result_0_data_out error
+@740ns result_1_valid_out error
+@740ns result_1_data_out error
+@750ns result_0_valid_out error
+@750ns result_0_data_out error
+@750ns result_1_valid_out error
+@750ns result_1_data_out error
+@760ns result_0_valid_out error
+@760ns result_0_data_out error
+@760ns result_1_valid_out error
+@760ns result_1_data_out error
+@770ns result_0_valid_out error
+@770ns result_0_data_out error
+@770ns result_1_valid_out error
+@770ns result_1_data_out error
+@780ns result_0_valid_out error
+@780ns result_0_data_out error
+@780ns result_1_valid_out error
+@780ns result_1_data_out error
+@790ns result_0_valid_out error
+@790ns result_0_data_out error
+@790ns result_1_valid_out error
+@790ns result_1_data_out error
+@800ns result_0_valid_out error
+@800ns result_0_data_out error
+@800ns result_1_valid_out error
+@800ns result_1_data_out error
+@810ns result_0_valid_out error
+@810ns result_0_data_out error
+@810ns result_1_valid_out error
+@810ns result_1_data_out error
+@820ns result_0_valid_out error
+@820ns result_0_data_out error
+@820ns result_1_valid_out error
+@820ns result_1_data_out error
+@830ns result_0_valid_out error
+@830ns result_0_data_out error
+@830ns result_1_valid_out error
+@830ns result_1_data_out error
+@840ns result_0_valid_out error
+@840ns result_0_data_out error
+@840ns result_1_valid_out error
+@840ns result_1_data_out error
+@850ns result_0_valid_out error
+@850ns result_0_data_out error
+@850ns result_1_valid_out error
+@850ns result_1_data_out error
+@860ns result_0_valid_out error
+@860ns result_0_data_out error
+@860ns result_1_valid_out error
+@860ns result_1_data_out error
+@870ns result_0_valid_out error
+@870ns result_0_data_out error
+@870ns result_1_valid_out error
+@870ns result_1_data_out error
+@880ns result_0_valid_out error
+@880ns result_0_data_out error
+@880ns result_1_valid_out error
+@880ns result_1_data_out error
+@890ns result_0_valid_out error
+@890ns result_0_data_out error
+@890ns result_1_valid_out error
+@890ns result_1_data_out error
+@900ns result_0_valid_out error
+@900ns result_0_data_out error
+@900ns result_1_valid_out error
+@900ns result_1_data_out error
+@910ns result_0_valid_out error
+@910ns result_0_data_out error
+@910ns result_1_valid_out error
+@910ns result_1_data_out error
+@920ns result_0_valid_out error
+@920ns result_0_data_out error
+@920ns result_1_valid_out error
+@920ns result_1_data_out error
+@930ns result_0_valid_out error
+@930ns result_0_data_out error
+@930ns result_1_valid_out error
+@930ns result_1_data_out error
+@940ns result_0_valid_out error
+@940ns result_0_data_out error
+@940ns result_1_valid_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_0_valid_out error
+@950ns result_0_data_out error
+@950ns result_1_valid_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_0_valid_out error
+@960ns result_0_data_out error
+@960ns result_1_valid_out error
+@960ns result_1_data_out error
+@970ns result_0_valid_out error
+@970ns result_0_data_out error
+@970ns result_1_valid_out error
+@970ns result_1_data_out error
+@980ns stall_out error
+@980ns result_0_valid_out error
+@980ns result_0_data_out error
+@980ns result_1_valid_out error
+@980ns result_1_data_out error
+@990ns result_0_valid_out error
+@990ns result_0_data_out error
+@990ns result_1_valid_out error
+@990ns result_1_data_out error
 Tests complete!
-Stopped at time : 570 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ReferenceBlocks_tb.v" Line 903
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 680
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -122,50 +660,823 @@ WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for 
 This is a Lite version of ISim.
 # run 1000 ns
 Simulator is doing circuit initialization process.
-Multiple query block, multiple reference block, 3 PEs per FIFO test
 Finished circuit initialization process.
-  10    0    0
-   8    8    0
-  10    8    7
-   8    8   18
-   0    8   16
-  10    0   15
-  16    8    0
-  28   15    7
-  26   26   14
-   8   38   25
-   7    8   36
-   6    6   15
-  10   17   18
-   8   15   16
-  26   14   15
-  25   38   25
-  24   36   36
-  26   35   36
-  24   34   46
-   0   33   44
-   0    0   43
-Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
-   0    0    0    0
-  10    0    0    0
-   8    8   10    0
-   7   20    8    8
-  10   18   18   20
-   8   17   30   18
-   7   20   28   28
-  10   18   27   40
-  10   17   26   38
-  10   17   25   37
-   8   16   25   36
-   7   20   24   36
-  10   18   23   35
-   8   17   30   34
-   7   20   28   33
-  10   18   27   40
-  10   17   26   38
-   0   16   25   37
-   0    0   24   36
-   0    0    0   35
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
 Tests complete!
-Stopped at time : 570 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanArray_ReferenceBlocks_tb.v" Line 1007
-# exit 0
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+Tests complete!
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+Tests complete!
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+Tests complete!
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+Tests complete!
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+# restart
+# run all
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@60ns result_1_valid_out error
+@70ns result_1_valid_out error
+@80ns result_1_valid_out error
+@90ns result_1_valid_out error
+@100ns result_1_valid_out error
+@110ns result_1_valid_out error
+@120ns result_1_valid_out error
+@130ns result_1_valid_out error
+@140ns result_1_valid_out error
+@150ns result_1_valid_out error
+@160ns result_1_valid_out error
+@170ns result_1_valid_out error
+@180ns result_1_data_out error
+@190ns result_1_data_out error
+@200ns result_1_data_out error
+@210ns result_1_data_out error
+@220ns result_1_data_out error
+@230ns result_1_data_out error
+@240ns result_1_data_out error
+@250ns result_1_data_out error
+@260ns result_1_data_out error
+@270ns result_1_data_out error
+@280ns result_1_data_out error
+@290ns result_1_data_out error
+@300ns result_1_data_out error
+@310ns result_1_data_out error
+@320ns result_1_data_out error
+@330ns result_1_data_out error
+@340ns result_1_data_out error
+@350ns result_1_data_out error
+@360ns result_1_data_out error
+@370ns result_1_data_out error
+@380ns result_1_data_out error
+@390ns result_1_data_out error
+@400ns result_1_data_out error
+@410ns result_1_data_out error
+@420ns result_1_data_out error
+@430ns result_1_data_out error
+@440ns result_1_data_out error
+@450ns result_1_data_out error
+@460ns result_1_data_out error
+@470ns result_1_data_out error
+@480ns result_1_data_out error
+@490ns result_1_data_out error
+@500ns result_1_data_out error
+@510ns result_1_data_out error
+@520ns result_1_data_out error
+@530ns result_1_data_out error
+@540ns result_1_data_out error
+@550ns result_1_data_out error
+@560ns result_1_data_out error
+@570ns result_1_data_out error
+@580ns result_1_data_out error
+@590ns result_1_data_out error
+@600ns result_1_data_out error
+@610ns result_1_data_out error
+@620ns result_1_data_out error
+@630ns result_1_data_out error
+@640ns result_1_data_out error
+@650ns result_1_data_out error
+@660ns result_1_data_out error
+@670ns result_1_data_out error
+@680ns result_1_data_out error
+@690ns result_1_data_out error
+@700ns result_1_data_out error
+@710ns result_1_data_out error
+@720ns result_1_data_out error
+@730ns result_1_data_out error
+@740ns result_1_data_out error
+@750ns result_1_data_out error
+@760ns result_1_data_out error
+@770ns result_1_data_out error
+@780ns result_1_data_out error
+@790ns result_1_data_out error
+@800ns result_1_data_out error
+@810ns result_1_data_out error
+@820ns result_1_data_out error
+@830ns result_1_data_out error
+@840ns result_1_data_out error
+@850ns result_1_data_out error
+@860ns result_1_data_out error
+@870ns result_1_data_out error
+@880ns result_1_data_out error
+@890ns result_1_data_out error
+@900ns result_1_data_out error
+@910ns result_1_data_out error
+@920ns result_1_data_out error
+@930ns result_1_data_out error
+@940ns result_1_data_out error
+@950ns stall_out error
+@950ns result_1_data_out error
+@960ns stall_out error
+@960ns result_1_data_out error
+@980ns stall_out error
+Tests complete!
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+@980ns stall_out error
+# run all
+Tests complete!
+Stopped at time : 1090 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 681
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+# run all
+Tests complete!
+Stopped at time : 1070 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 649

@@ -1,0 +1,10 @@
+Command line:
+   CellScoreFilter_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  47530
+
+Wed Jul 24 18:14:22 2013
+
+
+ Elaboration Time: 0.04 sec
