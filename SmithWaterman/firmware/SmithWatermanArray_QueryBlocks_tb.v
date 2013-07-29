@@ -31,6 +31,7 @@
  *      Albert Ng   Jun 24 2013     Added stall
  *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
  *      Albert Ng   Jul 24 2013     Added V_out_valid tests
+ *      Albert Ng   Jul 26 2013     Added last_query_block_in and end_of_query_out tests
  *
  */
 
@@ -49,14 +50,17 @@ module SmithWatermanArray_QueryBlocks_tb;
     reg next_first_ref_block_in;
     reg first_ref_block_in;
     reg last_ref_block_in;
+    reg last_query_block_in;
     reg last_block_char_in;
     reg bypass_fifo_in;
 
     // Outputs
     wire [59:0] V_out1;
     wire [5:0]  V_out_valid1;
+    wire end_of_query_out1;
     wire [29:0] V_out2;
     wire [2:0]  V_out_valid2;
+    wire end_of_query_out2;
 
     // Consecutive alignments w/ bubbles test
     reg [1:0] short_read1 [1:0][5:0];
@@ -89,10 +93,12 @@ module SmithWatermanArray_QueryBlocks_tb;
         .next_first_ref_block_in(next_first_ref_block_in),
         .first_ref_block_in(first_ref_block_in),
         .last_ref_block_in(last_ref_block_in),
+        .last_query_block_in(last_query_block_in),
         .last_block_char_in(last_block_char_in),
         .bypass_fifo_in(bypass_fifo_in),
         .V_out(V_out1),
-        .V_out_valid(V_out_valid1)
+        .V_out_valid(V_out_valid1),
+        .end_of_query_out(end_of_query_out1)
     );
     
     SmithWatermanArray #(3, 8, 10, 10, -2, -2, -1, 3) uut2 (
@@ -107,10 +113,12 @@ module SmithWatermanArray_QueryBlocks_tb;
         .next_first_ref_block_in(next_first_ref_block_in),
         .first_ref_block_in(first_ref_block_in),
         .last_ref_block_in(last_ref_block_in),
+        .last_query_block_in(last_query_block_in),
         .last_block_char_in(last_block_char_in),
         .bypass_fifo_in(bypass_fifo_in),
         .V_out(V_out2),
-        .V_out_valid(V_out_valid2)
+        .V_out_valid(V_out_valid2),
+        .end_of_query_out(end_of_query_out2)
     );
 
     integer i;
@@ -440,6 +448,7 @@ module SmithWatermanArray_QueryBlocks_tb;
         next_first_ref_block_in <= 1;
         first_ref_block_in <= 1;
         last_ref_block_in <= 0;
+        last_query_block_in <= 0;
         last_block_char_in <= 0;
         bypass_fifo_in <= 1;
         #20;
@@ -450,7 +459,9 @@ module SmithWatermanArray_QueryBlocks_tb;
             S_in1[i*2 + 1 -: 2] <= short_read1[0][i];
         end
         store_S_in <= 1;
+        last_ref_block_in <= 1;
         first_query_block <= 1;
+        last_query_block_in <= 1;
         #10;
         for (i = 0; i < 5; i = i + 1) begin
             T_in <= reference1[i];
@@ -465,6 +476,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
         
@@ -481,9 +495,12 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 6; i < 8; i = i + 1) begin
+        for (i = 6; i < 7; i = i + 1) begin
             T_in <= reference1[i];
             init_in <= 1;
             #10;
@@ -496,10 +513,15 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 8; i < 10; i = i + 1) begin
-            init_in <= 0;
+        for (i = 7; i < 8; i = i + 1) begin
+            T_in <= reference1[i];
+            init_in <= 1;
+            last_block_char_in <= 1;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -509,6 +531,27 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 8; i < 10; i = i + 1) begin
+            init_in <= 0;
+            last_block_char_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
         
@@ -524,9 +567,12 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 11; i < 19; i = i + 1) begin
+        for (i = 11; i < 12; i = i + 1) begin
             T_in <= reference1[i - 11];
             init_in <= 1;
             store_S_in <= 0;
@@ -540,9 +586,88 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 19; i < 24; i = i + 1) begin
+        for (i = 12; i < 13; i = i + 1) begin
+            T_in <= reference1[i - 11];
+            init_in <= 1;
+            store_S_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 1) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 13; i < 18; i = i + 1) begin
+            T_in <= reference1[i - 11];
+            init_in <= 1;
+            store_S_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 18; i < 19; i = i + 1) begin
+            T_in <= reference1[i - 11];
+            init_in <= 1;
+            store_S_in <= 0;
+            last_block_char_in <= 1;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 19; i < 23; i = i + 1) begin
+            init_in <= 0;
+            last_block_char_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected1[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected1[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+
+        for (i = 23; i < 24; i = i + 1) begin
             init_in <= 0;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
@@ -553,6 +678,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out1 != 1) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
 
@@ -963,6 +1091,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
         for (i = 5; i < 6; i = i + 1) begin
@@ -981,9 +1112,12 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 6; i < 12; i = i + 1) begin
+        for (i = 6; i < 11; i = i + 1) begin
             T_in <= reference2[i];
             init_in <= 1;
             #10;
@@ -996,11 +1130,15 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 12; i < 13; i = i + 1) begin
-            init_in <= 0;
-            store_S_in <= 1;
+        for (i = 11; i < 12; i = i + 1) begin
+            T_in <= reference2[i];
+            init_in <= 1;
+            last_block_char_in <= 1;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
             for (j = 0; j < 6; j = j + 1) begin
@@ -1011,9 +1149,31 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 13; i < 25; i = i + 1) begin
+        for (i = 12; i < 13; i = i + 1) begin
+            init_in <= 0;
+            store_S_in <= 1;
+            last_block_char_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 13; i < 16; i = i + 1) begin
             T_in <= reference2[i - 13];
             init_in <= 1;
             store_S_in <= 0;
@@ -1027,9 +1187,88 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 25; i < 30; i = i + 1) begin
+        for (i = 16; i < 17; i = i + 1) begin
+            T_in <= reference2[i - 13];
+            init_in <= 1;
+            store_S_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 1) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 17; i < 24; i = i + 1) begin
+            T_in <= reference2[i - 13];
+            init_in <= 1;
+            store_S_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 24; i < 25; i = i + 1) begin
+            T_in <= reference2[i - 13];
+            init_in <= 1;
+            store_S_in <= 0;
+            last_block_char_in <= 1;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 25; i < 29; i = i + 1) begin
+            init_in <= 0;
+            last_block_char_in <= 0;
+            #10;
+            $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
+            for (j = 0; j < 6; j = j + 1) begin
+                if (V_out1[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out1[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out1 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 29; i < 30; i = i + 1) begin
             init_in <= 0;
             #10;
             $display("%d %d %d %d %d %d", V_out1[9:0], V_out1[19:10], V_out1[29:20], V_out1[39:30], V_out1[49:40], V_out1[59:50]);
@@ -1040,6 +1279,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out1 != 1) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
         
@@ -1179,12 +1421,15 @@ module SmithWatermanArray_QueryBlocks_tb;
             S_in2[i*2+1 -: 2] <= short_read3[i]; // Shift in reverse
         end
         store_S_in <= 1;
+        last_query_block_in <= 0;
         #10;
         for (i = 0; i < 2; i = i + 1) begin
             T_in <= reference3[i];
             init_in <= 1;
             store_S_in <= 0;
             first_query_block <= 1;
+            last_query_block_in <= 0;
+            last_block_char_in <= 0;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
@@ -1194,6 +1439,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
         
@@ -1204,6 +1452,8 @@ module SmithWatermanArray_QueryBlocks_tb;
                 S_in2[j*2 + 1 -: 2] <= short_read3[j+3];
             end
             first_query_block <= 1;
+            last_query_block_in <= 0;
+            last_block_char_in <= 0;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
@@ -1214,12 +1464,17 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 3; i < 8; i = i + 1) begin
+        for (i = 3; i < 7; i = i + 1) begin
             T_in <= reference3[i];
             init_in <= 1;
             first_query_block <= 1;
+            last_query_block_in <= 0;
+            last_block_char_in <= 0;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
@@ -1229,6 +1484,30 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+        
+        for (i = 7; i < 8; i = i + 1) begin
+            T_in <= reference3[i];
+            init_in <= 1;
+            first_query_block <= 1;
+            last_query_block_in <= 0;
+            last_block_char_in <= 1;
+            #10;
+            $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
+                    $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
+                end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
         
@@ -1236,6 +1515,8 @@ module SmithWatermanArray_QueryBlocks_tb;
             init_in <= 0;
             store_S_in <= 1;
             first_query_block <= 0;
+            last_query_block_in <= 1;
+            last_block_char_in <= 0;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
@@ -1246,13 +1527,18 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 9; i < 17; i = i + 1) begin
+        for (i = 9; i < 16; i = i + 1) begin
             T_in <= reference3[i-9];
             store_S_in <= 0;
             init_in <= 1;
             first_query_block <= 0;
+            last_query_block_in <= 1;
+            last_block_char_in <= 0;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
@@ -1263,9 +1549,52 @@ module SmithWatermanArray_QueryBlocks_tb;
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
             end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+
+        for (i = 16; i < 17; i = i + 1) begin
+            T_in <= reference3[i-9];
+            store_S_in <= 0;
+            init_in <= 1;
+            first_query_block <= 0;
+            last_query_block_in <= 1;
+            last_block_char_in <= 1;
+            #10;
+            $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
+                    $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
+                end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
         end
         
-        for (i = 17; i < 19; i = i + 1) begin
+        for (i = 17; i < 18; i = i + 1) begin
+            init_in <= 0;
+            last_block_char_in <= 0;
+            #10;
+            $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected3[i][j]) begin
+                    $display("%d ns: V_out error, Cycle %d PE %d: Got %d expected %d", $time, i, j, V_out2[j*10+9 -: 10], V_out_expected3[i][j]);
+                end
+                if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+            end
+            if (end_of_query_out2 != 0) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
+            end
+        end
+
+        for (i = 18; i < 19; i = i + 1) begin
             init_in <= 0;
             #10;
             $display("%d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20]);
@@ -1276,6 +1605,9 @@ module SmithWatermanArray_QueryBlocks_tb;
                 if (V_out_valid2[j] != V_out_valid_expected3[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+            end
+            if (end_of_query_out2 != 1) begin
+                $display("@%0dns end_of_query_out error, Cycle %d", $time, i);
             end
         end
         

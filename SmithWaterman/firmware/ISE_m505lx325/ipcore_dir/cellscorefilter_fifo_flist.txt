@@ -49,6 +49,7 @@ cellscorefilter_fifo/simulation/timing/wave_ncsim.sv
 cellscorefilter_fifo.asy
 cellscorefilter_fifo.gise
 cellscorefilter_fifo.ngc
+cellscorefilter_fifo.sym
 cellscorefilter_fifo.v
 cellscorefilter_fifo.veo
 cellscorefilter_fifo.xco

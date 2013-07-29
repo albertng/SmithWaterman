@@ -10,6 +10,8 @@
  *      Albert Ng   Jul 08 2013     Added stall tests
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
+ *      Albert Ng   Jul 26 2013     Added cell score filter interface tests
+ *                                  Added last_query_block_out tests
  *
  */
 
@@ -45,8 +47,13 @@ module Engine_Ctrl_tb;
 	wire next_first_ref_block_out;
 	wire first_ref_block_out;
 	wire last_ref_block_out;
+    wire last_query_block_out;
 	wire last_block_char_out;
 	wire bypass_fifo_out;
+    wire [24:0] ref_block_cnt_out;
+    wire [15:0] query_id_out;
+    wire [31:0] cell_score_threshold_out;
+    wire tracking_info_valid_out;
 
 	// Instantiate the Unit Under Test (UUT)
 	Engine_Ctrl #(4, 8) uut (
@@ -57,6 +64,7 @@ module Engine_Ctrl_tb;
 		.ref_addr_in(ref_addr_in), 
 		.num_query_blocks_in(num_query_blocks_in), 
         .query_id_in(query_id_in),
+        .cell_score_threshold_in(cell_score_threshold_in),
 		.query_info_valid_in(query_info_valid_in), 
         .query_info_rdy_out(query_info_rdy_out),
 		.query_seq_block_in(query_seq_block_in), 
@@ -76,8 +84,13 @@ module Engine_Ctrl_tb;
 		.next_first_ref_block_out(next_first_ref_block_out), 
 		.first_ref_block_out(first_ref_block_out), 
 		.last_ref_block_out(last_ref_block_out), 
+        .last_query_block_out(last_query_block_out),
 		.last_block_char_out(last_block_char_out), 
-		.bypass_fifo_out(bypass_fifo_out)
+		.bypass_fifo_out(bypass_fifo_out),
+        .ref_block_cnt_out(ref_block_cnt_out),
+        .query_id_out(query_id_out),
+        .cell_score_threshold_out(cell_score_threshold_out),
+        .tracking_info_valid_out(tracking_info_valid_out)
 	);
 
     reg [7:0] query1 [2:0];
@@ -144,6 +157,7 @@ module Engine_Ctrl_tb;
 		ref_addr_in <= 0;
 		num_query_blocks_in <= 0;
         query_id_in <= 0;
+        cell_score_threshold_in <= 0;
 		query_info_valid_in <= 0;
 		query_seq_block_in <= 0;
 		query_seq_block_valid_in <= 0;
@@ -176,10 +190,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         
@@ -204,10 +222,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_length_in <= ref_length1;
         ref_addr_in <= ref_addr1;
         num_query_blocks_in <= num_query_blocks1;
@@ -244,10 +266,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #9;
         end
         
@@ -278,10 +304,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #9;
         
         // Wait_query_seq_block_valid
@@ -305,10 +335,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_info_valid_in <= 0;
         query_seq_block_in <= query1[0];
         query_seq_block_valid_in <= 1;
@@ -335,10 +369,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Wait_query_seq_block_valid
@@ -362,10 +400,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_seq_block_valid_in <= 0;
         #10;
         
@@ -390,10 +432,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_seq_block_in <= query1[1];
         query_seq_block_valid_in <= 1;
         #10;
@@ -422,10 +468,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #9;
         end
         
@@ -452,10 +502,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #9;
         
         // Wait_query_seq_block_valid
@@ -479,10 +533,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_seq_block_in <= query1[2];
         #10;
         
@@ -507,10 +565,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Wait_rd_rdy
@@ -534,10 +596,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_seq_block_valid_in <= 0;  
         #10;
         
@@ -563,10 +629,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         
@@ -591,10 +661,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_seq_block_in = ref1[0];
         ref_seq_block_valid_in = 1;
         #10;
@@ -625,10 +699,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #9;
         end
 
@@ -657,11 +735,21 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
-        #9;;
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 0)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id1)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold1)
+            $display("@%0dns cell_score_threshold_out error", $time);
+        #9;
 
         // Advance_BCC
         ref_seq_block_valid_in = 0;
@@ -691,10 +779,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -721,10 +813,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Advance_BCC
@@ -751,10 +847,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -781,10 +881,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -811,10 +915,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_seq_block_valid_in = 1;
         ref_seq_block_in = ref1[1];
         #10;    
@@ -843,10 +951,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 3; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -873,10 +985,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         
@@ -908,10 +1024,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #9;
         end
         
@@ -943,10 +1063,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #9;
         end
         if (query_info_rdy_out != 0)
@@ -973,10 +1097,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
         
         // Latch_ref
@@ -1002,10 +1130,20 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 1)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id1)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold1)
+            $display("@%0dns cell_score_threshold_out error", $time);
         #10;
 
         
@@ -1037,10 +1175,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1067,10 +1209,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Advance_BCC
@@ -1097,10 +1243,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -1127,10 +1277,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1157,10 +1311,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
         
         // Advance_BCC
@@ -1187,10 +1345,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -1217,10 +1379,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1247,10 +1413,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
         
         // Latch_ref
@@ -1276,10 +1446,20 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 2)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id1)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold1)
+            $display("@%0dns cell_score_threshold_out error", $time);
         #10;
 
         
@@ -1311,10 +1491,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1341,10 +1525,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Advance_BCC
@@ -1371,10 +1559,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -1401,10 +1593,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1431,10 +1627,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
         
         // Advance_BCC
@@ -1461,10 +1661,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -1491,10 +1695,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 1: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 1: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 1: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 1: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1521,10 +1729,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 1: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 1: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 1: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 1: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
         
         // Stall waiting for next query
@@ -1551,10 +1763,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 2, Waiting for next query: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 2, Waiting for next query: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 2, Waiting for next query: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 2, Waiting for next query: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;  
         end
         if (query_info_rdy_out != 0)
@@ -1577,10 +1793,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2, Waiting for next query: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2, Waiting for next query: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2, Waiting for next query: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2, Waiting for next query: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_length_in <= ref_length2;
         ref_addr_in <= ref_addr2;
         num_query_blocks_in <= num_query_blocks2;
@@ -1614,10 +1834,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
 
         // Wait_query_seq_block_valid
@@ -1641,10 +1865,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_info_valid_in <= 0;
         query_seq_block_in <= query2[0];
         query_seq_block_valid_in <= 1;
@@ -1671,10 +1899,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
 
         // Wait_query_seq_block_valid
@@ -1698,10 +1930,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_seq_block_in <= query2[1];
         #10;
 
@@ -1726,10 +1962,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
 
 
@@ -1754,10 +1994,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_seq_block_valid_in <= 0;  
         #10;
         
@@ -1782,10 +2026,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_length_in <= ref_length3;
         ref_addr_in <= ref_addr3;
         num_query_blocks_in <= num_query_blocks3;
@@ -1819,10 +2067,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Wait_ref_seq_block_valid
@@ -1846,10 +2098,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         query_info_valid_in <= 0;
         query_seq_block_in <= query3[0];
         query_seq_block_valid_in <= 1;
@@ -1876,10 +2132,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
 
         // Wait_ref_seq_block_valid
@@ -1903,10 +2163,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_seq_block_in = ref2[0];
         ref_seq_block_valid_in = 1;
         query_seq_block_valid_in <= 0;
@@ -1935,10 +2199,20 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 0)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id2)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold2)
+            $display("@%0dns cell_score_threshold_out error", $time);
         #10;
 
         // Advance_BCC
@@ -1969,10 +2243,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 2: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 2: last_ref_block_out error", $time);
+            if (last_query_block_out != 0)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 2: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 2: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -1999,10 +2277,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         
         // Advance_BCC
@@ -2029,10 +2311,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
         for (i = 0; i < 7; i = i + 1) begin
             if (query_info_rdy_out != 0)
@@ -2059,10 +2345,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 2: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 2: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 2: last_block_char_out error", $time);
             if (bypass_fifo_out != 0)
                 $display("@%0dns Test 2: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -2089,10 +2379,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 2: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 2: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 2: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 2: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
 
         // Wait_wr_rdy
@@ -2117,10 +2411,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 0)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 0)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;    
 
         // Wait_ref_seq_block_valid
@@ -2145,10 +2443,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 3: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 3: last_block_char_out error", $time);
             if (bypass_fifo_out != 1)
                 $display("@%0dns Test 3: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         
@@ -2173,10 +2475,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_seq_block_in = ref3[0];
         ref_seq_block_valid_in = 1;
         #10;
@@ -2204,10 +2510,20 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 0)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id3)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold3)
+            $display("@%0dns cell_score_threshold_out error", $time);
         #10;
 
         // Advance_BCC
@@ -2238,10 +2554,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: first_ref_block_out error", $time);
             if (last_ref_block_out != 0)
                 $display("@%0dns Test 3: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 3: last_block_char_out error", $time);
             if (bypass_fifo_out != 1)
                 $display("@%0dns Test 3: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -2268,10 +2588,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 0)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
 
         // Stall waiting for ref block
@@ -2297,10 +2621,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 3: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 3: last_block_char_out error", $time);
             if (bypass_fifo_out != 1)
                 $display("@%0dns Test 3: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
 
@@ -2325,10 +2653,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         ref_seq_block_in <= ref3[1];
         ref_seq_block_valid_in <= 1;
         #10;
@@ -2356,10 +2688,20 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 0)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 1)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id3)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold3)
+            $display("@%0dns cell_score_threshold_out error", $time);
         #10;
         
         // Advance_BCC
@@ -2390,10 +2732,14 @@ module Engine_Ctrl_tb;
                 $display("@%0dns Test 3: first_ref_block_out error", $time);
             if (last_ref_block_out != 1)
                 $display("@%0dns Test 3: last_ref_block_out error", $time);
+            if (last_query_block_out != 1)
+                $display("@%0dns last_query_block_out error", $time);
             if (last_block_char_out != 0)
                 $display("@%0dns Test 3: last_block_char_out error", $time);
             if (bypass_fifo_out != 1)
                 $display("@%0dns Test 3: bypass_fifo_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             #10;
         end
         if (query_info_rdy_out != 0)
@@ -2420,10 +2766,14 @@ module Engine_Ctrl_tb;
             $display("@%0dns Test 3: first_ref_block_out error", $time);
         if (last_ref_block_out != 1)
             $display("@%0dns Test 3: last_ref_block_out error", $time);
+        if (last_query_block_out != 1)
+            $display("@%0dns last_query_block_out error", $time);
         if (last_block_char_out != 1)
             $display("@%0dns Test 3: last_block_char_out error", $time);
         if (bypass_fifo_out != 1)
             $display("@%0dns Test 3: bypass_fifo_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         #10;
 
 

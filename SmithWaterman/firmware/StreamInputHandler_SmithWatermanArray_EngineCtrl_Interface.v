@@ -8,7 +8,9 @@
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
  *      Albert Ng   Jul 24 2013     Changed Engine to SmithWatermanArray_EngineCtrl_Interface
- *
+ *      Albert Ng   Jul 26 2013     Added cell score filter interface
+ *                                  Added V_out_valid
+ *      Albert Ng   Jul 27 2013     Added end_of_query_out
  */
  
 module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface(
@@ -29,9 +31,17 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface(
     input [2*REF_LENGTH - 1:0] ref_seq_block_in, // Reference sequence block read from DRAM
     input         ref_seq_block_valid_in,   // Reference sequence block input valid
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
+    
+    // Cell Score Filter interface
+    output [24:0] ref_block_cnt_out,        // Current ref seq block
+    output [15:0] query_id_out,             // Current query ID
+    output [31:0] cell_score_threshold_out, // Current cell score threshold
+    output tracking_info_valid_out,         // Tracking info is valid
 
     // Smith Waterman systolic array output
-    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
+    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
+    output [NUM_PES - 1:0] V_out_valid,     // Cell score outputs valid
+    output end_of_query_out                 // Last PE score is end of query
     );
 
     parameter NUM_PES = 64;
@@ -93,7 +103,13 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface(
 		.ref_seq_block_in(ref_seq_block_in), 
 		.ref_seq_block_valid_in(ref_seq_block_valid_in), 
 		.ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
-		.V_out(V_out)
+        .ref_block_cnt_out(ref_block_cnt_out),
+        .query_id_out(query_id_out),
+        .cell_score_threshold_out(cell_score_threshold_out),
+        .tracking_info_valid_out(tracking_info_valid_out),
+		.V_out(V_out),
+        .V_out_valid(V_out_valid),
+        .end_of_query_out(end_of_query_out)
 	);
         
         

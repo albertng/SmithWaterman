@@ -60,10 +60,10 @@
 cellscorefilter_fifo your_instance_name (
   .clk(clk), // input clk
   .rst(rst), // input rst
-  .din(din), // input [39 : 0] din
+  .din(din), // input [40 : 0] din
   .wr_en(wr_en), // input wr_en
   .rd_en(rd_en), // input rd_en
-  .dout(dout), // output [39 : 0] dout
+  .dout(dout), // output [40 : 0] dout
   .full(full), // output full
   .empty(empty) // output empty
 );

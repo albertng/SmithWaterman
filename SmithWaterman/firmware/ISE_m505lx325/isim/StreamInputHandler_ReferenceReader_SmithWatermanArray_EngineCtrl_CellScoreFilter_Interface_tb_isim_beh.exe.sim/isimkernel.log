@@ -1,0 +1,29 @@
+Command line:
+   StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  35424
+
+Mon Jul 29 14:54:53 2013
+
+
+ Elaboration Time: 0.17 sec
+
+ Current Memory Usage: 207.348 Meg
+
+ Total Signals          : 3755
+ Total Nets             : 20382
+ Total Signal Drivers   : 943
+ Total Blocks           : 108
+ Total Primitive Blocks : 64
+ Total Processes        : 1287
+ Total Traceable Variables  : 4026
+ Total Scalar Nets and Variables : 483041
+Total Line Count : 5288
+
+ Total Simulation Time: 0.33 sec
+
+ Current Memory Usage: 282.849 Meg
+
+Mon Jul 29 14:55:36 2013
+

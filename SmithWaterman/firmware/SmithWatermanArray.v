@@ -82,6 +82,7 @@
  *      Albert Ng   Jun 27 2013     Stopped FIFO read/write when stalling 
  *      Albert Ng   Jul 08 2013     Stopped shift register shifting when stalling 
  *      Albert Ng   Jul 24 2013     Added V_out_valid
+ *      Albert Ng   Jul 26 2013     Added last_query_block
  *
  */
 
@@ -97,10 +98,12 @@ module SmithWatermanArray(
     input next_first_ref_block_in,          // Next block is a first block of the reference
     input first_ref_block_in,               // Computing a first block of the reference
     input last_ref_block_in,                // Computing a last block of the reference
+    input last_query_block_in,              // Computing a last block of the query
     input last_block_char_in,               // Computing last char in the reference block
     input bypass_fifo_in,                   // Bypass inter-ref-block FIFOs   
     output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
-    output [NUM_PES - 1:0] V_out_valid      // Cell score outputs valid
+    output [NUM_PES - 1:0] V_out_valid,     // Cell score outputs valid
+    output end_of_query_out                 // Last PE score is end of query
     );
 
     parameter NUM_PES = 64;
@@ -131,10 +134,11 @@ module SmithWatermanArray(
     wire empty_E[NUM_PES/PES_PER_FIFO - 1:0];
     reg wr_en[NUM_PES/PES_PER_FIFO - 1:0];
     reg rd_en[NUM_PES/PES_PER_FIFO - 1:0];
-    
+   
     reg [NUM_PES - 1:0] next_first_ref_block;
     reg [NUM_PES - 1:0] first_ref_block;
     reg [NUM_PES - 1:0] last_ref_block;
+    reg [NUM_PES - 1:0] last_query_block; 
     reg [NUM_PES - 1:0] last_block_char;
     reg [NUM_PES - 1:0] bypass_fifo;
     reg [WIDTH - 1:0] V_interm[REF_LENGTH - NUM_PES:0];
@@ -151,6 +155,8 @@ module SmithWatermanArray(
             assign V_out_valid[i] = init[i+1] & !stall;
         end
     endgenerate
+    assign end_of_query_out = last_ref_block[NUM_PES-1] & last_query_block[NUM_PES-1] & 
+                              last_block_char[NUM_PES-1];
     
     // Cell score inter-query block intermediate values buffer
     always @(posedge clk) begin
@@ -292,12 +298,14 @@ module SmithWatermanArray(
             next_first_ref_block[0] <= 0;
             first_ref_block[0] <= 0;
             last_ref_block[0] <= 0;
+            last_query_block[0] <= 0;
             last_block_char[0] <= 0;
             bypass_fifo[0] <= 0;
         end else if (!stall) begin
             next_first_ref_block[0] <= next_first_ref_block_in;
             first_ref_block[0] <= first_ref_block_in;
             last_ref_block[0] <= last_ref_block_in;
+            last_query_block[0] <= last_query_block_in;
             last_block_char[0] <= last_block_char_in;
             bypass_fifo[0] <= bypass_fifo_in;
         end
@@ -309,12 +317,14 @@ module SmithWatermanArray(
                     next_first_ref_block[i] <= 1;
                     first_ref_block[i] <= 1;
                     last_ref_block[i] <= 0;
+                    last_query_block[i] <= 0;
                     last_block_char[i] <= 0;
                     bypass_fifo[i] <= 0;
                 end else if (!stall) begin
                     next_first_ref_block[i] <= next_first_ref_block[i-1];
                     first_ref_block[i] <= first_ref_block[i-1];
                     last_ref_block[i] <= last_ref_block[i-1];
+                    last_query_block[i] <= last_query_block[i-1];
                     last_block_char[i] <= last_block_char[i-1];
                     bypass_fifo[i] <= bypass_fifo[i-1];
                 end

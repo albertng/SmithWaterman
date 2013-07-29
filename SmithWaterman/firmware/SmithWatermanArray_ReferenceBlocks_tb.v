@@ -11,6 +11,7 @@
  *                                  Added stall
  *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
  *      Albert Ng   Jul 24 2013     Added V_out_valid tests
+ *      Albert Ng   Jul 27 2013     Added last_query_block_in and end_of_query_out tests
  *
  */
 
@@ -29,14 +30,17 @@ module SmithWatermanArray_ReferenceBlocks_tb;
     reg next_first_ref_block_in;
     reg first_ref_block_in;
     reg last_ref_block_in;
+    reg last_query_block_in;
     reg last_block_char_in;
     reg bypass_fifo_in;
 
     // Outputs
     wire [29:0] V_out1;
     wire [2:0]  V_out_valid1;
+    wire end_of_query_out1;
     wire [39:0] V_out2;
     wire [3:0]  V_out_valid2;
+    wire end_of_query_out2;
 
     // Multiple query block, multiple reference block, 3 PEs per FIFO test
     reg [1:0] short_read1 [5:0];
@@ -55,10 +59,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .next_first_ref_block_in(next_first_ref_block_in), 
         .first_ref_block_in(first_ref_block_in), 
         .last_ref_block_in(last_ref_block_in), 
+        .last_query_block_in(last_query_block_in),
         .last_block_char_in(last_block_char_in), 
         .bypass_fifo_in(bypass_fifo_in), 
         .V_out(V_out1),
-        .V_out_valid(V_out_valid1)
+        .V_out_valid(V_out_valid1),
+        .end_of_query_out(end_of_query_out1)
     );
 
     // Single query block, multiple reference block, 2 PEs per FIFO, multiple FIFOs test
@@ -78,10 +84,12 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         .next_first_ref_block_in(next_first_ref_block_in), 
         .first_ref_block_in(first_ref_block_in), 
         .last_ref_block_in(last_ref_block_in), 
+        .last_query_block_in(last_query_block_in),
         .last_block_char_in(last_block_char_in), 
         .bypass_fifo_in(bypass_fifo_in), 
         .V_out(V_out2),
-        .V_out_valid(V_out_valid2)
+        .V_out_valid(V_out_valid2),
+        .end_of_query_out(end_of_query_out2)
     );
 
     integer i;
@@ -241,6 +249,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         next_first_ref_block_in <= 0;
         first_ref_block_in <= 0;
         last_ref_block_in <= 0;
+        last_query_block_in <= 0;
         last_block_char_in <= 0;
         bypass_fifo_in <= 0;
         #20;
@@ -256,6 +265,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         next_first_ref_block_in <= 1;
         first_ref_block_in <= 1;
         last_ref_block_in <= 0;
+        last_query_block_in <= 0;
         last_block_char_in <= 0;
         bypass_fifo_in <= 0;
         #10;
@@ -267,6 +277,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 0;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -277,6 +288,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -292,6 +306,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 0;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -302,6 +317,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -314,6 +332,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 0;
             last_block_char_in <= 1;
             bypass_fifo_in <= 0;
             #10;
@@ -325,6 +344,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
             end
         end
 
@@ -335,6 +357,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -345,6 +368,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -357,6 +383,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -367,6 +394,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -382,6 +412,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -392,6 +423,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -404,6 +438,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 1;
             bypass_fifo_in <= 0;
             #10;
@@ -415,6 +450,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
             end
         end
 
@@ -425,6 +463,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 0;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -435,6 +474,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -447,6 +489,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 0;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -457,6 +500,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -472,6 +518,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 0;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -482,6 +529,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -494,6 +544,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 0;
             last_block_char_in <= 1;
             bypass_fifo_in <= 0;
             #10;
@@ -505,6 +556,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
             end
         end
 
@@ -515,6 +569,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -525,6 +580,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -537,6 +595,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -547,6 +606,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -559,6 +621,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 1;
             last_block_char_in <= 1;
             bypass_fifo_in <= 0;
             #10;
@@ -570,6 +633,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
             end
         end
 
@@ -580,6 +646,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -590,6 +657,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -601,6 +671,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -611,6 +682,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid1[j] != V_out_valid_expected1[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out1 != 1) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -809,6 +883,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         next_first_ref_block_in <= 0;
         first_ref_block_in <= 0;
         last_ref_block_in <= 0;
+        last_query_block_in <= 0;
         last_block_char_in <= 0;
         bypass_fifo_in <= 0;
         #20;
@@ -823,6 +898,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
         next_first_ref_block_in <= 1;
         first_ref_block_in <= 1;
         last_ref_block_in <= 0;
+        last_query_block_in <= 1;
         last_block_char_in <= 0;
         bypass_fifo_in <= 1;
         #10;
@@ -834,6 +910,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 1;
             #10;
@@ -844,6 +921,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -859,6 +939,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 1;
             #10;
@@ -869,6 +950,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -881,6 +965,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 1;
             #10;
@@ -891,6 +976,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
            end
         end
@@ -903,6 +991,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 1;
             bypass_fifo_in <= 1;
             #10;
@@ -914,6 +1003,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
             end
         end
         
@@ -924,6 +1016,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 1;
             #10;
@@ -934,6 +1027,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -946,6 +1042,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 0;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 1;
             #10;
@@ -956,6 +1053,9 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end
@@ -968,6 +1068,7 @@ module SmithWatermanArray_ReferenceBlocks_tb;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 0;
             last_ref_block_in <= 1;
+            last_query_block_in <= 1;
             last_block_char_in <= 1;
             bypass_fifo_in <= 1;
             #10;
@@ -979,16 +1080,20 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
                 end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
             end
         end
         
-        for (i = 17; i < 20; i = i + 1) begin
+        for (i = 17; i < 19; i = i + 1) begin
             init_in <= 0;
             store_S_in <= 0;
             first_query_block <= 0;
             next_first_ref_block_in <= 1;
             first_ref_block_in <= 1;
             last_ref_block_in <= 0;
+            last_query_block_in <= 1;
             last_block_char_in <= 0;
             bypass_fifo_in <= 0;
             #10;
@@ -999,6 +1104,34 @@ module SmithWatermanArray_ReferenceBlocks_tb;
                 end
                 if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
                     $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 0) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
+                end
+            end
+        end
+
+        for (i = 19; i < 20; i = i + 1) begin
+            init_in <= 0;
+            store_S_in <= 0;
+            first_query_block <= 0;
+            next_first_ref_block_in <= 1;
+            first_ref_block_in <= 1;
+            last_ref_block_in <= 0;
+            last_query_block_in <= 1;
+            last_block_char_in <= 0;
+            bypass_fifo_in <= 0;
+            #10;
+            $display("%d %d %d %d", V_out2[9:0], V_out2[19:10], V_out2[29:20], V_out2[39:30]);
+            for (j = 0; j < 4; j = j + 1) begin
+                if (V_out2[j*10+9 -: 10] != V_out_expected2[i][j]) begin
+                    $display("V_out error, Cycle %d PE %d: Got %d expected %d", i, j, V_out2[j*10+9 -: 10], V_out_expected2[i][j]);
+                end
+                if (V_out_valid2[j] != V_out_valid_expected2[i][j]) begin
+                    $display("@%0dns V_out_valid error, Cycle %d PE %d", $time, i, j);
+                end
+                if (end_of_query_out2 != 1) begin
+                    $display("@%0dns end_of_query_out_error, Cyc;e %d", $time, i);
                 end
             end
         end

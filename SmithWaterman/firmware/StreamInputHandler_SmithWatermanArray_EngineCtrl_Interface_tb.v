@@ -7,7 +7,9 @@
  *      Albert Ng   Jul 15 2013     Added query ID #
  *                                  Added cell score threshold
  *      Albert Ng   Jul 24 2013     Changed Engine to SmithWatermanArray_EngineCtrl_Interface
- *
+ *      Albert Ng   Jul 26 2013     Added cell score filter interface tests
+ *                                  Added V_out_valid tests
+ *      Albert Ng   Jul 27 2013     Added end_of_query tests
  */
 
 module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
@@ -28,7 +30,13 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
     wire [24:0] ref_length_out;
     wire ref_info_valid_out;
     wire ref_seq_block_rdy_out;
+    wire [24:0] ref_block_cnt_out; 
+    wire [15:0] query_id_out;
+    wire [31:0] cell_score_threshold_out;
+    wire tracking_info_valid_out;
     wire [29:0] V_out;
+    wire [2:0] V_out_valid;
+    wire end_of_query_out;
 
     reg [31:0] ref_length1;
     reg [31:0] ref_addr1;
@@ -47,6 +55,7 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
     reg [7:0] ref2[1:0];
 
     reg [9:0] V_out_expected[32:0][2:0];
+    reg V_out_valid_expected[32:0][2:0];
 
     // Instantiate the Unit Under Test (UUT)
     StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface #(3, 4, 10, 10, -2, -2, -1, 3) uut (
@@ -63,7 +72,13 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
         .ref_seq_block_in(ref_seq_block_in), 
         .ref_seq_block_valid_in(ref_seq_block_valid_in), 
         .ref_seq_block_rdy_out(ref_seq_block_rdy_out), 
-        .V_out(V_out)
+        .ref_block_cnt_out(ref_block_cnt_out),
+        .query_id_out(query_id_out),
+        .cell_score_threshold_out(cell_score_threshold_out),
+        .tracking_info_valid_out(tracking_info_valid_out),
+        .V_out(V_out),
+        .V_out_valid(V_out_valid),
+        .end_of_query_out(end_of_query_out)
     );
 
     integer i, j;
@@ -186,7 +201,106 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
         V_out_expected[32][0] = 0;
         V_out_expected[32][1] = 0;
         V_out_expected[32][2] = 26;
-    
+        V_out_valid_expected[0][0] = 1;
+        V_out_valid_expected[0][1] = 0;
+        V_out_valid_expected[0][2] = 0;
+        V_out_valid_expected[1][0] = 1;
+        V_out_valid_expected[1][1] = 1;
+        V_out_valid_expected[1][2] = 0;
+        V_out_valid_expected[2][0] = 1;
+        V_out_valid_expected[2][1] = 1;
+        V_out_valid_expected[2][2] = 1;
+        V_out_valid_expected[3][0] = 1;
+        V_out_valid_expected[3][1] = 1;
+        V_out_valid_expected[3][2] = 1;
+        V_out_valid_expected[4][0] = 0;
+        V_out_valid_expected[4][1] = 1;
+        V_out_valid_expected[4][2] = 1;
+        V_out_valid_expected[5][0] = 1;
+        V_out_valid_expected[5][1] = 0;
+        V_out_valid_expected[5][2] = 1;
+        V_out_valid_expected[6][0] = 1;
+        V_out_valid_expected[6][1] = 1;
+        V_out_valid_expected[6][2] = 0;
+        V_out_valid_expected[7][0] = 1;
+        V_out_valid_expected[7][1] = 1;
+        V_out_valid_expected[7][2] = 1;
+        V_out_valid_expected[8][0] = 1;
+        V_out_valid_expected[8][1] = 1;
+        V_out_valid_expected[8][2] = 1;
+        V_out_valid_expected[9][0] = 0;
+        V_out_valid_expected[9][1] = 1;
+        V_out_valid_expected[9][2] = 1;
+        V_out_valid_expected[10][0] = 1;
+        V_out_valid_expected[10][1] = 0;
+        V_out_valid_expected[10][2] = 1;
+        V_out_valid_expected[11][0] = 1;
+        V_out_valid_expected[11][1] = 1;
+        V_out_valid_expected[11][2] = 0;
+        V_out_valid_expected[12][0] = 1;
+        V_out_valid_expected[12][1] = 1;
+        V_out_valid_expected[12][2] = 1;
+        V_out_valid_expected[13][0] = 1;
+        V_out_valid_expected[13][1] = 1;
+        V_out_valid_expected[13][2] = 1;
+        V_out_valid_expected[14][0] = 0;
+        V_out_valid_expected[14][1] = 1;
+        V_out_valid_expected[14][2] = 1;
+        V_out_valid_expected[15][0] = 1;
+        V_out_valid_expected[15][1] = 0;
+        V_out_valid_expected[15][2] = 1;
+        V_out_valid_expected[16][0] = 1;
+        V_out_valid_expected[16][1] = 1;
+        V_out_valid_expected[16][2] = 0;
+        V_out_valid_expected[17][0] = 1;
+        V_out_valid_expected[17][1] = 1;
+        V_out_valid_expected[17][2] = 1;
+        V_out_valid_expected[18][0] = 1;
+        V_out_valid_expected[18][1] = 1;
+        V_out_valid_expected[18][2] = 1;
+        V_out_valid_expected[19][0] = 0;
+        V_out_valid_expected[19][1] = 1;
+        V_out_valid_expected[19][2] = 1;
+        V_out_valid_expected[20][0] = 0;
+        V_out_valid_expected[20][1] = 0;
+        V_out_valid_expected[20][2] = 1;
+        V_out_valid_expected[21][0] = 0;
+        V_out_valid_expected[21][1] = 0;
+        V_out_valid_expected[21][2] = 0;
+        V_out_valid_expected[22][0] = 1;
+        V_out_valid_expected[22][1] = 0;
+        V_out_valid_expected[22][2] = 0;
+        V_out_valid_expected[23][0] = 1;
+        V_out_valid_expected[23][1] = 1;
+        V_out_valid_expected[23][2] = 0;
+        V_out_valid_expected[24][0] = 1;
+        V_out_valid_expected[24][1] = 1;
+        V_out_valid_expected[24][2] = 1;
+        V_out_valid_expected[25][0] = 1;
+        V_out_valid_expected[25][1] = 1;
+        V_out_valid_expected[25][2] = 1;
+        V_out_valid_expected[26][0] = 0;
+        V_out_valid_expected[26][1] = 1;
+        V_out_valid_expected[26][2] = 1;
+        V_out_valid_expected[27][0] = 1;
+        V_out_valid_expected[27][1] = 0;
+        V_out_valid_expected[27][2] = 1;      
+        V_out_valid_expected[28][0] = 1;
+        V_out_valid_expected[28][1] = 1;
+        V_out_valid_expected[28][2] = 0;
+        V_out_valid_expected[29][0] = 1;
+        V_out_valid_expected[29][1] = 1;
+        V_out_valid_expected[29][2] = 1;
+        V_out_valid_expected[30][0] = 1;
+        V_out_valid_expected[30][1] = 1;
+        V_out_valid_expected[30][2] = 1;
+        V_out_valid_expected[31][0] = 0;
+        V_out_valid_expected[31][1] = 1;
+        V_out_valid_expected[31][2] = 1;
+        V_out_valid_expected[32][0] = 0;
+        V_out_valid_expected[32][1] = 0;
+        V_out_valid_expected[32][2] = 1;
+
         // Initialize Inputs
         clk = 0;
         rst = 1;
@@ -205,6 +319,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         si_valid <= 1;
@@ -220,6 +343,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #9;
     
         si_data <= query1[0];
@@ -230,6 +362,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #9;
     
         si_data <= query1[1];
@@ -240,6 +381,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #9;
     
         si_data[31:0] <= ref_length2;
@@ -254,6 +404,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #9;
         
         si_data <= query2[0];
@@ -264,6 +423,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #9;
     
         // Wait_query_info_valid        /   Wait_wr_rdy
@@ -276,6 +444,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
                 $display("@%0dns ref_info_valid_out error", $time);
             if (ref_seq_block_rdy_out != 0)
                 $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out_valid[j] != 0) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
+            end
+            if (end_of_query_out != 0)
+                $display("@%0dns end_of_query_out error", $time);
             #9;
         end
         
@@ -290,6 +467,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_length_out error"< $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
     
         // Wait_query_seq_block_valid   /   Wait_wr_rdy
@@ -299,6 +485,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Latch_query_seq_block        /   Wait_wr_rdy
@@ -308,6 +503,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_query_seq_block_valid   /   Wait_wr_rdy
@@ -317,6 +521,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Latch_query_seq_block        /   Wait_wr_rdy
@@ -326,6 +539,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_rd_rdy                  /   Wait_wr_rdy
@@ -335,6 +557,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_query_info_valid        /   Wait_ref_seq_block_valid
@@ -344,6 +575,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
 
         // Send_ref_addr                /   Wait_ref_seq_block_valid
@@ -357,6 +597,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_length_out error"< $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
 
         // Wait_query_seq_block_valid   /   Wait_ref_seq_block_valid
@@ -366,6 +615,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Latch_query_seq_block        /   Wait_ref_seq_block_valid
@@ -375,6 +633,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         ref_seq_block_valid_in <= 1;
         ref_seq_block_in <= ref1[0];
         #10;
@@ -386,6 +653,21 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 1)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 0)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id1)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold1)
+            $display("@%0dns cell_score_threshold_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_rd_rdy                  /   Advance_BCC
@@ -395,6 +677,15 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        for (j = 0; j < 3; j = j + 1) begin
+            if (V_out_valid[j] != 0) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
+        end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         ref_seq_block_in <= ref1[1];
         #10;
         
@@ -406,12 +697,19 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
                 $display("@%0dns ref_info_valid_out error", $time);
             if (ref_seq_block_rdy_out != 0)
                 $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (V_out_valid[j] != V_out_valid_expected[i][j]) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
             end
+            if (end_of_query_out != 0)
+                $display("@%0dns end_of_query_out error", $time);
             #10;
         end
 
@@ -422,12 +720,25 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 1)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 1)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id1)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold1)
+            $display("@%0dns cell_score_threshold_out error", $time);
         $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[8][j]) begin
                 $display("@%0dns Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[8][j]);
             end
+            if (V_out_valid[j] != V_out_valid_expected[8][j]) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
         end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
 
         // Wait_rd_rdy                  /   Advance_BCC
@@ -439,12 +750,19 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
                 $display("@%0dns ref_info_valid_out error", $time);
             if (ref_seq_block_rdy_out != 0)
                 $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (V_out_valid[j] != V_out_valid_expected[i][j]) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
             end
+            if (end_of_query_out != 0)
+                $display("@%0dns end_of_query_out error", $time);
             #10;
         end
         
@@ -455,12 +773,19 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[18][j]) begin
-                $display("@%0dns Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[18][j]);
+                $display("@%0dns V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[18][j]);
+            end
+            if (V_out_valid[j] != V_out_valid_expected[18][j]) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
             end
         end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_query_info_valid        /   Wait_ref_seq_block_valid
@@ -470,12 +795,19 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 0)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 0)
+            $display("@%0dns tracking_info_valid_out error", $time);
         $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[19][j]) begin
-                $display("@%0dns Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[19][j]);
+                $display("@%0dns V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[19][j]);
+            end
+            if (V_out_valid[j] != V_out_valid_expected[19][j]) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
             end
         end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_query_info_valid        /   Latch_ref
@@ -485,12 +817,25 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 1)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 0)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id2)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold2)
+            $display("@%0dns cell_score_threshold_out error", $time);
         $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[20][j]) begin
                 $display("@%0dns Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[20][j]);
             end
+            if (V_out_valid[j] != V_out_valid_expected[20][j]) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
         end
+        if (end_of_query_out != 1)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_query_info_valid        /   Advance_BCC
@@ -502,12 +847,19 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
                 $display("@%0dns ref_info_valid_out error", $time);
             if (ref_seq_block_rdy_out != 0)
                 $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (V_out_valid[j] != V_out_valid_expected[i][j]) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
             end
+            if (end_of_query_out != 0)
+                $display("@%0dns end_of_query_out error", $time);
             #10;
         end
         
@@ -518,12 +870,25 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
             $display("@%0dns ref_info_valid_out error", $time);
         if (ref_seq_block_rdy_out != 1)
             $display("@%0dns ref_seq_block_rdy_out error", $time);
+        if (tracking_info_valid_out != 1)
+            $display("@%0dns tracking_info_valid_out error", $time);
+        if (ref_block_cnt_out != 1)
+            $display("@%0dns ref_block_cnt_out error", $time);
+        if (query_id_out != query_id2)
+            $display("@%0dns query_id_out error", $time);
+        if (cell_score_threshold_out != cell_score_threshold2)
+            $display("@%0dns cell_score_threshold_out error", $time);
         $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
         for (j = 0; j < 3; j = j + 1) begin
             if (V_out[j*10+9 -: 10] != V_out_expected[25][j]) begin
                 $display("@%0dns Latch_ref: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[25][j]);
             end
+            if (V_out_valid[j] != V_out_valid_expected[25][j]) begin
+                $display("@%0dns V_out_valid error, PE %d", $time, j);
+            end
         end
+        if (end_of_query_out != 0)
+            $display("@%0dns end_of_query_out error", $time);
         #10;
         
         // Wait_query_info_valid        /   Advance_BCC
@@ -535,29 +900,67 @@ module StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb;
                 $display("@%0dns ref_info_valid_out error", $time);
             if (ref_seq_block_rdy_out != 0)
                 $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (V_out_valid[j] != V_out_valid_expected[i][j]) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
             end
+            if (end_of_query_out != 0)
+                $display("@%0dns end_of_query_out error", $time);
             #10;
         end
         
         // Wait_query_info_valid        /   Wait_wr_rdy
-        for (i = 30; i < 33; i = i + 1) begin
+        for (i = 30; i < 32; i = i + 1) begin
             if (si_rdy != 0)
                 $display("@%0dns si_rdy error", $time);
             if (ref_info_valid_out != 0)
                 $display("@%0dns ref_info_valid_out error", $time);
             if (ref_seq_block_rdy_out != 0)
                 $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
             $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
             for (j = 0; j < 3; j = j + 1) begin
                 if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
                     $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
                 end
+                if (V_out_valid[j] != V_out_valid_expected[i][j]) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
             end
+            if (end_of_query_out != 0)
+                $display("@%0dns end_of_query_out error", $time);
+            #10;
+        end
+
+        // Wait_query_info_valid        /   Wait_wr_rdy
+        for (i = 32; i < 33; i = i + 1) begin
+            if (si_rdy != 0)
+                $display("@%0dns si_rdy error", $time);
+            if (ref_info_valid_out != 0)
+                $display("@%0dns ref_info_valid_out error", $time);
+            if (ref_seq_block_rdy_out != 0)
+                $display("@%0dns ref_seq_block_rdy_out error", $time);
+            if (tracking_info_valid_out != 0)
+                $display("@%0dns tracking_info_valid_out error", $time);
+            $display("%d %d %d", V_out[9:0], V_out[19:10], V_out[29:20]);
+            for (j = 0; j < 3; j = j + 1) begin
+                if (V_out[j*10+9 -: 10] != V_out_expected[i][j]) begin
+                    $display("@%0dns Advance_BCC: V_out error, PE %d: Got %d expected %d", $time, j, V_out[j*10+9 -: 10], V_out_expected[i][j]);
+                end
+                if (V_out_valid[j] != V_out_valid_expected[i][j]) begin
+                    $display("@%0dns V_out_valid error, PE %d", $time, j);
+                end
+            end
+            if (end_of_query_out != 1)
+                $display("@%0dns end_of_query_out error", $time);
             #10;
         end
         

@@ -54,7 +54,8 @@
  *      Albert Ng   Jul 08 2013     Added stall checks for handshaking and BRAM wr_en signals
  *      Albert Ng   Jul 11 2013     Changed default ref length to 128
  *      Albert Ng   Jul 15 2013     Added query ID # and cell score threshold input
- *
+ *      Albert Ng   Jul 26 2013     Added Cell Score Filter interface
+ *                                  Added last_query_block_out
  */
  
 module Engine_Ctrl(
@@ -91,8 +92,15 @@ module Engine_Ctrl(
     output next_first_ref_block_out,        // Next block is a first block of the reference
     output first_ref_block_out,             // Computing a first block of the reference
     output last_ref_block_out,              // Computing a last block of the reference
+    output last_query_block_out,            // Computing a last block of the query
     output last_block_char_out,             // Computing last char in the reference block
-    output bypass_fifo_out                  // Bypass inter-ref-block FIFOs
+    output bypass_fifo_out,                 // Bypass inter-ref-block FIFOs
+    
+    // Cell Score Filter interface
+    output [24:0] ref_block_cnt_out,        // Current ref seq block
+    output [15:0] query_id_out,             // Current query ID
+    output [31:0] cell_score_threshold_out, // Current cell score threshold
+    output tracking_info_valid_out          // Tracking info is valid
     );
 
     parameter NUM_PES = 64;
@@ -121,6 +129,7 @@ module Engine_Ctrl(
     reg ref_seq_block_rdy;
     reg latch_T;
     reg shift_T;
+    reg tracking_info_valid;
     
     // Counters
     reg [24:0] ref_block_cnt;
@@ -217,6 +226,7 @@ module Engine_Ctrl(
     assign next_first_ref_block_out = next_first_ref_block;
     assign first_ref_block_out = first_ref_block;
     assign last_ref_block_out = last_ref_block;
+    assign last_query_block_out = last_query_block;
     assign last_block_char_out = last_block_char;
     assign bypass_fifo_out = bypass_fifo;
     assign store_S_out = store_S;
@@ -227,6 +237,10 @@ module Engine_Ctrl(
     assign ref_info_valid_out = ref_info_valid;
     assign ref_length_out = ref_length_in;
     assign ref_seq_block_rdy_out = ref_seq_block_rdy;
+    assign ref_block_cnt_out = ref_block_cnt;
+    assign query_id_out = wr_buffer_sel ? query_id0 : query_id1;
+    assign cell_score_threshold_out = wr_buffer_sel ? cell_score_threshold0 : cell_score_threshold1;
+    assign tracking_info_valid_out = tracking_info_valid;
     
     // Reference sequence block rotating shift register
     always @(posedge clk) begin
@@ -436,7 +450,7 @@ module Engine_Ctrl(
     // Counter logic
     always @(*) begin
         // Increment reference block counter at the last character of the
-        //   last query block, wrapping back to 0 after the last referenc
+        //   last query block, wrapping back to 0 after the last reference
         //   block
         if (last_block_char && last_query_block && !last_ref_block) begin
             next_ref_block_cnt <= ref_block_cnt + 1;
@@ -579,6 +593,7 @@ module Engine_Ctrl(
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 shift_T = 0;
+                tracking_info_valid = 0;
             end
             
             WAIT_REF_SEQ_BLOCK_VALID:begin
@@ -587,6 +602,7 @@ module Engine_Ctrl(
                 ref_seq_block_rdy = 0;
                 latch_T = 0;
                 shift_T = 0;
+                tracking_info_valid = 0;
             end
             
             LATCH_REF:begin
@@ -599,6 +615,11 @@ module Engine_Ctrl(
                 end
                 latch_T = 1;
                 shift_T = 0;
+                if (!stall) begin
+                    tracking_info_valid = 1;
+                end else begin
+                    tracking_info_valid = 0;
+                end
             end
             
             ADVANCE_BLOCK_CHAR_CNT:begin
@@ -615,6 +636,7 @@ module Engine_Ctrl(
                 end else begin
                     shift_T = 0;
                 end
+                tracking_info_valid = 0;
             end
                 
         endcase

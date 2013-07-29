@@ -54,7 +54,7 @@
       <SelectedItems/>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000000000000010000000000000000000000000000000000000555000000040101000100000000000000000000000064ffffffff0000008100000000000000040000016800000001000000000000011b00000001000000000000008400000001000000000000024e0000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000000000000010000000000000000000000000000000000000641000000040101000100000000000000000000000064ffffffff000000810000000000000004000003a300000001000000000000011b0000000100000000000000840000000100000000000000ff0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
       <CurrentItem>/media/sf_SmithWaterman/SmithWaterman/firmware/AXIArbiter.v</CurrentItem>
    </ItemView>
@@ -102,6 +102,7 @@
          <ClosedNode>/PicoTestbench |home|albert|SeqAlignFPGA|SmithWaterman|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v</ClosedNode>
          <ClosedNode>/PicoTestbench |media|sf_SmithWaterman|SmithWaterman|firmware|ISE_m505lx325|source|PicoTestbench.v</ClosedNode>
          <ClosedNode>/ReferenceReader_tb |media|sf_SmithWaterman|SmithWaterman|firmware|ReferenceReader_tb.v</ClosedNode>
+         <ClosedNode>/SmithWatermanArray_EngineCtrl_Interface_tb |media|sf_SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_EngineCtrl_Interface_tb.v</ClosedNode>
          <ClosedNode>/SmithWatermanArray_QueryBlocks_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_QueryBlocks_tb.v/uut1 - SmithWatermanArray</ClosedNode>
          <ClosedNode>/SmithWatermanArray_QueryBlocks_tb |afs|cs.stanford.edu|group|evodevo|u|albertng|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_QueryBlocks_tb.v/uut2 - SmithWatermanArray</ClosedNode>
          <ClosedNode>/SmithWatermanArray_QueryBlocks_tb |home|albert|SeqAlignFPGA|SmithWaterman|SmithWaterman|firmware|SmithWatermanArray_QueryBlocks_tb.v</ClosedNode>
@@ -115,6 +116,10 @@
          <ClosedNode>/SmithWatermanPE_tb |media|sf_SmithWaterman|SmithWaterman|firmware|SmithWatermanPE_tb.v</ClosedNode>
          <ClosedNode>/StreamInputHandler_Engine_Interface_tb |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_Engine_Interface_tb.v</ClosedNode>
          <ClosedNode>/StreamInputHandler_ReferenceReader_Engine_Interface_tb |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_ReferenceReader_Engine_Interface_tb.v</ClosedNode>
+         <ClosedNode>/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface.v</ClosedNode>
+         <ClosedNode>/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.v</ClosedNode>
+         <ClosedNode>/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb.v</ClosedNode>
+         <ClosedNode>/StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb.v</ClosedNode>
          <ClosedNode>/StreamInputHandler_tb |media|sf_SmithWaterman|SmithWaterman|firmware|StreamInputHandler_tb.v</ClosedNode>
          <ClosedNode>/bram_tb |media|sf_SmithWaterman|SmithWaterman|firmware|bram_test.v</ClosedNode>
          <ClosedNode>/fifotest |media|sf_SmithWaterman|SmithWaterman|firmware|fifotest.v</ClosedNode>
@@ -124,13 +129,13 @@
          <ClosedNode>/pcie_7x_v1_6_8lane_gen2 |home|albertng|SeqAlignFPGA|SmithWaterman|firmware|ISE_m505lx325|source|coregen-LX325T|pcie_7x_v1_6_8lane_gen2|source|pcie_7x_v1_6_8lane_gen2.v</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>StreamInputHandler_Engine_Interface_tb (/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_Engine_Interface_tb.v)</SelectedItem>
+         <SelectedItem>StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb (/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.v)</SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >7</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >9</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000004ba000000020000000000000000000000000200000064ffffffff000000810000000300000002000004ba0000000100000003000000000000000100000003</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000006d6000000020000000000000000000000000200000064ffffffff000000810000000300000002000006d60000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>StreamInputHandler_Engine_Interface_tb (/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_Engine_Interface_tb.v)</CurrentItem>
+      <CurrentItem>StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb (/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="" guiview="Process" >
       <ClosedNodes>
@@ -138,25 +143,25 @@
          <ClosedNode>Design Utilities</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem/>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000132000000010000000100000000000000000000000064ffffffff000000810000000000000001000001320000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000002e6000000010000000100000000000000000000000064ffffffff000000810000000000000001000002e60000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem/>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
          <ClosedNodesVersion>1</ClosedNodesVersion>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Simulate Behavioral Model</SelectedItem>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000000000000000000018e000000010000000100000000000000000000000064ffffffff0000008100000000000000010000018e0000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000001dd000000010000000100000000000000000000000064ffffffff000000810000000000000001000001dd0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Simulate Behavioral Model</CurrentItem>
+      <CurrentItem></CurrentItem>
    </ItemView>
 </Project>

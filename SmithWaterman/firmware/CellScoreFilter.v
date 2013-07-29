@@ -32,6 +32,7 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 24 2013     Initial Revision
+ *      Albert Ng   Jul 27 2013     Added end of query tagging
  */
  
 module CellScoreFilter(
@@ -48,6 +49,7 @@ module CellScoreFilter(
     // Systolic Array interface
     input [NUM_PES * WIDTH - 1:0] V_out_in, // Cell scores    
     input [NUM_PES - 1:0] V_out_valid_in,   // Cell scores valid
+    input end_of_query_in,                  // Last PE score is end of query
     
     // Stream output handler interface
     output [40:0] result_0_data_out,        // Buffer 0 results
@@ -60,18 +62,23 @@ module CellScoreFilter(
 
     parameter NUM_PES = 64;
     parameter WIDTH = 10;
-    
+    localparam EOQ = 25'b1111111111111111111111111;
+
     // FSM states
-    localparam NO_HIGH_SCORE0 = 1'b0,
-               HIGH_SCORE0    = 1'b1,
-               NO_HIGH_SCORE1 = 1'b0,
-               HIGH_SCORE1    = 1'b1;
-    reg state0;
-    reg next_state0;
-    reg state1;
-    reg next_state1;
+    localparam NO_HIGH_SCORE0 = 3'b001,
+               HIGH_SCORE0    = 3'b010,
+               END_OF_QUERY0  = 3'b100,
+               NO_HIGH_SCORE1 = 3'b001,
+               HIGH_SCORE1    = 3'b010,
+               END_OF_QUERY1  = 3'b100;
+    reg [2:0] state0;
+    reg [2:0] next_state0;
+    reg [2:0] state1;
+    reg [2:0] next_state1;
     
     // Tracking info buffers
+    wire tracking_info_valid0;
+    wire tracking_info_valid1;
     reg [24:0] ref_block_cnt0;
     reg [24:0] ref_block_cnt1;
     reg [15:0] query_id0;
@@ -85,7 +92,13 @@ module CellScoreFilter(
     
     // Stall signal
     reg stall;
-    
+   
+    // End of query signals
+    reg end_of_query_sel0;
+    reg end_of_query_sel1;
+    wire end_of_query0;
+    wire end_of_query1;
+ 
     // High score logic signals
     reg [WIDTH - 1:0] cell_score_threshold [NUM_PES - 1:0];
     reg [NUM_PES - 1:0] V_out_cmp;
@@ -95,21 +108,25 @@ module CellScoreFilter(
     reg high_score1;
     
     // Output FIFO signals
-    wire [39:0] csff0_din;
+    wire [40:0] csff0_din;
     reg         csff0_wr_en;
     wire        csff0_rd_en;
-    wire [39:0] csff0_dout;
+    wire [40:0] csff0_dout;
     wire        csff0_full;
     wire        csff0_empty;
-    wire [39:0] csff1_din;
+    wire [40:0] csff1_din;
     reg         csff1_wr_en;
     wire        csff1_rd_en;
-    wire [39:0] csff1_dout;
+    wire [40:0] csff1_dout;
     wire        csff1_full;
     wire        csff1_empty;
 
     genvar i;    
 
+    // End of query logic
+    assign end_of_query0 = end_of_query_in & !buffer_sel[NUM_PES - 1];
+    assign end_of_query1 = end_of_query_in & buffer_sel[NUM_PES - 1];
+    
     // High score logic
     generate
         for (i = 0; i < NUM_PES; i = i + 1) begin:v_out_cmp_gen
@@ -159,6 +176,8 @@ module CellScoreFilter(
     endgenerate
     
     // Tracking info buffer
+    assign tracking_info_valid0 = tracking_info_valid_in & !write_buffer;
+    assign tracking_info_valid1 = tracking_info_valid_in & write_buffer;
     always @(posedge clk) begin
         if (rst) begin
             write_buffer <= 0;
@@ -169,16 +188,17 @@ module CellScoreFilter(
             cell_score_threshold0 <= 0;
             cell_score_threshold1 <= 0;
         end else begin
+            if (tracking_info_valid0) begin
+                ref_block_cnt0 <= ref_block_cnt_in;
+                query_id0 <= query_id_in;
+                cell_score_threshold0 <= cell_score_threshold_in;
+            end
+            if (tracking_info_valid1) begin
+                ref_block_cnt1 <= ref_block_cnt_in;
+                query_id1 <= query_id_in;
+                cell_score_threshold1 <= cell_score_threshold_in;
+            end
             if (tracking_info_valid_in) begin
-                if (!write_buffer) begin
-                    ref_block_cnt0 <= ref_block_cnt_in;
-                    query_id0 <= query_id_in;
-                    cell_score_threshold0 <= cell_score_threshold_in;
-                end else begin
-                    ref_block_cnt1 <= ref_block_cnt_in;
-                    query_id1 <= query_id_in;
-                    cell_score_threshold1 <= cell_score_threshold_in;
-                end
                 write_buffer <= !write_buffer;
             end
         end
@@ -195,19 +215,27 @@ module CellScoreFilter(
     always @(*) begin
         case(state0)
             NO_HIGH_SCORE0: begin
-                if (high_score0) begin
+                if (high_score0 && !end_of_query0) begin
                     next_state0 <= HIGH_SCORE0;
-                end else begin
+                end else if (!high_score0 && !end_of_query0) begin
                     next_state0 <= NO_HIGH_SCORE0;
+                end else begin
+                    next_state0 <= END_OF_QUERY0;
                 end
             end
             
             HIGH_SCORE0: begin
-                if (tracking_info_valid_in && write_buffer == 0) begin
+                if (tracking_info_valid0) begin
                     next_state0 <= NO_HIGH_SCORE0;
+                end else if (end_of_query0) begin
+                    next_state0 <= END_OF_QUERY0;
                 end else begin
                     next_state0 <= HIGH_SCORE0;
                 end
+            end
+
+            END_OF_QUERY0: begin
+                next_state0 <= NO_HIGH_SCORE0;
             end
         endcase
     end
@@ -219,10 +247,21 @@ module CellScoreFilter(
                 end else begin
                     csff0_wr_en <= 0;
                 end
+                end_of_query_sel0 <= 0;
             end
             
             HIGH_SCORE0: begin
                 csff0_wr_en <= 0;
+                end_of_query_sel0 <= 0;
+            end
+
+            END_OF_QUERY0: begin
+                if (!stall) begin
+                    csff0_wr_en <= 1;
+                end else begin
+                    csff0_wr_en <= 0;
+                end
+                end_of_query_sel0 <= 1;
             end
         endcase
     end
@@ -238,19 +277,27 @@ module CellScoreFilter(
     always @(*) begin
         case(state1)
             NO_HIGH_SCORE1: begin
-                if (high_score1) begin
+                if (high_score1 && !end_of_query1) begin
                     next_state1 <= HIGH_SCORE1;
-                end else begin
+                end else if (!high_score1 && !end_of_query1) begin
                     next_state1 <= NO_HIGH_SCORE1;
+                end else begin
+                    next_state1 <= END_OF_QUERY1;
                 end
             end
             
             HIGH_SCORE1: begin
-                if (tracking_info_valid_in && write_buffer == 1) begin
+                if (tracking_info_valid1) begin
                     next_state1 <= NO_HIGH_SCORE1;
+                end else if (end_of_query1) begin
+                    next_state1 <= END_OF_QUERY1;
                 end else begin
                     next_state1 <= HIGH_SCORE1;
                 end
+            end
+
+            END_OF_QUERY1: begin
+                next_state1 <= NO_HIGH_SCORE1;
             end
         endcase
     end
@@ -262,10 +309,21 @@ module CellScoreFilter(
                 end else begin
                     csff1_wr_en <= 0;
                 end
+                end_of_query_sel1 <= 0;
             end
             
             HIGH_SCORE1: begin
                 csff1_wr_en <= 0;
+                end_of_query_sel1 <= 0;
+            end
+
+            END_OF_QUERY1: begin
+                if (!stall) begin
+                    csff1_wr_en <= 1;
+                end else begin
+                    csff1_wr_en <= 0;
+                end
+                end_of_query_sel1 <= 1;
             end
         endcase
     end
@@ -291,8 +349,8 @@ module CellScoreFilter(
         .full(csff1_full),
         .empty(csff1_empty)
     );
-    assign csff0_din = {ref_block_cnt0, query_id0};
-    assign csff1_din = {ref_block_cnt1, query_id1};
+    assign csff0_din = end_of_query_sel0 ? {EOQ, query_id0} : {ref_block_cnt0, query_id0};
+    assign csff1_din = end_of_query_sel1 ? {EOQ, query_id1} : {ref_block_cnt1, query_id1};
     
     // Stall signal
     assign stall_out = stall;

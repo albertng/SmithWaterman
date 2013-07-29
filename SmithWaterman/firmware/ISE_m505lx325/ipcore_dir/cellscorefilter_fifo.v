@@ -49,10 +49,10 @@ module cellscorefilter_fifo(
 
 input clk;
 input rst;
-input [39 : 0] din;
+input [40 : 0] din;
 input wr_en;
 input rd_en;
-output [39 : 0] dout;
+output [40 : 0] dout;
 output full;
 output empty;
 
@@ -86,7 +86,7 @@ output empty;
     .C_COUNT_TYPE(0),
     .C_DATA_COUNT_WIDTH(5),
     .C_DEFAULT_VALUE("BlankString"),
-    .C_DIN_WIDTH(40),
+    .C_DIN_WIDTH(41),
     .C_DIN_WIDTH_AXIS(1),
     .C_DIN_WIDTH_RACH(32),
     .C_DIN_WIDTH_RDCH(64),
@@ -94,7 +94,7 @@ output empty;
     .C_DIN_WIDTH_WDCH(64),
     .C_DIN_WIDTH_WRCH(2),
     .C_DOUT_RST_VAL("0"),
-    .C_DOUT_WIDTH(40),
+    .C_DOUT_WIDTH(41),
     .C_ENABLE_RLOCS(0),
     .C_ENABLE_RST_SYNC(1),
     .C_ERROR_INJECTION_TYPE(0),

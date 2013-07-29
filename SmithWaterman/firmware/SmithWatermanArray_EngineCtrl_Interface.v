@@ -12,6 +12,9 @@
  *                                  Added cell score threshold
  *      Albert Ng   Jul 24 2013     Changed module and filename from Engine to
  *                                      SmithWatermanArray_EngineCtrl_Interface
+ *      Albert Ng   Jul 26 2013     Added cell score filter interface
+ *                                  Added V_out_valid
+ *      Albert Ng   Jul 27 2013     Added last_query_block and end_of_query
  *
  */
  
@@ -40,8 +43,16 @@ module SmithWatermanArray_EngineCtrl_Interface(
     input         ref_seq_block_valid_in,      // Reference sequence block input valid
     output        ref_seq_block_rdy_out,    // Reference sequence block input acknowledged
 
+    // Cell Score Filter interface
+    output [24:0] ref_block_cnt_out,        // Current ref seq block
+    output [15:0] query_id_out,             // Current query ID
+    output [31:0] cell_score_threshold_out, // Current cell score threshold
+    output tracking_info_valid_out,         // Tracking info is valid
+
     // Smith Waterman systolic array output
-    output [NUM_PES * WIDTH - 1:0] V_out    // Cell score outputs
+    output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
+    output [NUM_PES - 1:0] V_out_valid,     // Cell score outputs valid
+    output end_of_query_out                 // Last PE score is end of query
     );
 
     parameter NUM_PES = 64;
@@ -61,6 +72,7 @@ module SmithWatermanArray_EngineCtrl_Interface(
     wire next_first_ref_block;
     wire first_ref_block;
     wire last_ref_block;
+    wire last_query_block;
     wire last_block_char;
     wire bypass_fifo;
 
@@ -92,8 +104,13 @@ module SmithWatermanArray_EngineCtrl_Interface(
         .next_first_ref_block_out(next_first_ref_block),
         .first_ref_block_out(first_ref_block),
         .last_ref_block_out(last_ref_block),
+        .last_query_block_out(last_query_block),
         .last_block_char_out(last_block_char),
-        .bypass_fifo_out(bypass_fifo)
+        .bypass_fifo_out(bypass_fifo),
+        .ref_block_cnt_out(ref_block_cnt_out),
+        .query_id_out(query_id_out),
+        .cell_score_threshold_out(cell_score_threshold_out),
+        .tracking_info_valid_out(tracking_info_valid_out)
     );
 
     SmithWatermanArray#(NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) swarray (
@@ -108,9 +125,12 @@ module SmithWatermanArray_EngineCtrl_Interface(
         .next_first_ref_block_in(next_first_ref_block),
         .first_ref_block_in(first_ref_block),
         .last_ref_block_in(last_ref_block),
+        .last_query_block_in(last_query_block),
         .last_block_char_in(last_block_char),
         .bypass_fifo_in(bypass_fifo),
-        .V_out(V_out)
+        .V_out(V_out),
+        .V_out_valid(V_out_valid),
+        .end_of_query_out(end_of_query_out)
     );
 
 
