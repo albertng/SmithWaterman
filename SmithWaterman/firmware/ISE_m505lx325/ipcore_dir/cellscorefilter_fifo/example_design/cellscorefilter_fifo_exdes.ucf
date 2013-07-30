@@ -49,6 +49,8 @@
 
 # Core Period Constraint. This constraint can be modified, and is
 # valid as long as it is met after place and route.
-  NET "CLK"  TNM_NET     = "CLK";
-  TIMESPEC "TS_CLK"      = PERIOD "CLK"  50 MHZ;
+  NET "RD_CLK"  TNM_NET     = "RD_CLK";
+  NET "WR_CLK"  TNM_NET     = "WR_CLK";
+  TIMESPEC "TS_RD_CLK"      = PERIOD "RD_CLK" 50 MHZ;
+  TIMESPEC "TS_WR_CLK"      = PERIOD "WR_CLK" 50 MHZ;
 ################################################################################

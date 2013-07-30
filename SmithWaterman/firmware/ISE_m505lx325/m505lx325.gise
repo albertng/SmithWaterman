@@ -23,7 +23,9 @@
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="AXIArbiter_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="CellScoreFilter_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="CellScoreFilter_tb_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="CellScoreFilter_tb_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="Engine_Ctrl_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="Engine_Ctrl_tb_stx_beh.prj"/>
@@ -112,9 +114,7 @@
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_Engine_Interface_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="StreamInputHandler_Engine_Interface_tb_isim_beh.wdb"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_Engine_Interface_tb_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.wdb"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_Interface_tb_isim_beh.exe"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_SmithWatermanArray_EngineCtrl_Interface_tb_isim_beh.exe"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="StreamInputHandler_tb_isim_beh.exe"/>
@@ -162,7 +162,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1375132776" xil_pn:in_ck="-94673302508629414" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1375132776">
+    <transform xil_pn:end_ts="1375146936" xil_pn:in_ck="-94673302508629414" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1375146936">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../AXIArbiter.v"/>
@@ -250,15 +250,15 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1375134682" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="1319386116097187940" xil_pn:start_ts="1375134682">
+    <transform xil_pn:end_ts="1375145869" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="2928136789636270670" xil_pn:start_ts="1375145869">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1375134682" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-7956175713769892840" xil_pn:start_ts="1375134682">
+    <transform xil_pn:end_ts="1375145869" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-5990790522046935166" xil_pn:start_ts="1375145869">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1375132778" xil_pn:in_ck="-4075100904971587351" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-3811161745415399036" xil_pn:start_ts="1375132776">
+    <transform xil_pn:end_ts="1375145870" xil_pn:in_ck="-4075100904971587351" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-3811161745415399036" xil_pn:start_ts="1375145869">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="ipcore_dir/cellscorefilter_fifo.ngc"/>
@@ -272,7 +272,7 @@
       <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
       <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
     </transform>
-    <transform xil_pn:end_ts="1375132778" xil_pn:in_ck="1401343414336060907" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1375132778">
+    <transform xil_pn:end_ts="1375146936" xil_pn:in_ck="1401343414336060907" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1375146936">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../AXIArbiter.v"/>
@@ -366,22 +366,22 @@
       <outfile xil_pn:name="source/fifo_512x128.v"/>
       <outfile xil_pn:name="source/pcie_app_v6.v"/>
     </transform>
-    <transform xil_pn:end_ts="1375134691" xil_pn:in_ck="1401343414336060907" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-5066862230721340382" xil_pn:start_ts="1375134682">
+    <transform xil_pn:end_ts="1375146941" xil_pn:in_ck="1401343414336060907" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="6366659562160956790" xil_pn:start_ts="1375146936">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_beh.prj"/>
-      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.exe"/>
+      <outfile xil_pn:name="CellScoreFilter_tb_beh.prj"/>
+      <outfile xil_pn:name="CellScoreFilter_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1375134691" xil_pn:in_ck="4172828532625690916" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-3255556327784844891" xil_pn:start_ts="1375134691">
+    <transform xil_pn:end_ts="1375146941" xil_pn:in_ck="4172828532625690916" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="6681261692961457305" xil_pn:start_ts="1375146941">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.wdb"/>
+      <outfile xil_pn:name="CellScoreFilter_tb_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
     </transform>

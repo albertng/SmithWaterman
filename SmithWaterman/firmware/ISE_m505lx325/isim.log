@@ -1,5 +1,5 @@
 ISim log file
-Running: /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /media/sf_SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb_isim_beh.wdb 
+Running: /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/CellScoreFilter_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/ISE_m505lx325/CellScoreFilter_tb_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -11,12 +11,236 @@ Time resolution is 1 ps
 # run 1000 ns
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Block Memory Generator CORE Generator module StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.uut.rre.sihe.uut.eng_ctrl.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.uut.rre.sihe.uut.eng_ctrl.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
-@690ns result_1_valid_out error
-Tests complete!
-Stopped at time : 800 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.v" Line 943
+@280ns so_data_out ref_block_cnt error
+@290ns so_data_out ref_block_cnt error
+@300ns so_data_out ref_block_cnt error
+@310ns so_data_out ref_block_cnt error
+@320ns so_data_out ref_block_cnt error
+@330ns so_data_out ref_block_cnt error
+@340ns so_data_out ref_block_cnt error
+@350ns so_data_out ref_block_cnt error
+@360ns so_data_out ref_block_cnt error
+@370ns so_data_out ref_block_cnt error
+@380ns so_data_out ref_block_cnt error
+@390ns so_data_out ref_block_cnt error
+@400ns so_data_out ref_block_cnt error
+@410ns so_data_out ref_block_cnt error
+@420ns so_data_out ref_block_cnt error
+@430ns so_data_out ref_block_cnt error
+@440ns so_data_out ref_block_cnt error
+@450ns so_data_out ref_block_cnt error
+@460ns so_data_out ref_block_cnt error
+@470ns so_data_out ref_block_cnt error
+@480ns so_data_out ref_block_cnt error
+@490ns so_data_out ref_block_cnt error
+@500ns so_data_out ref_block_cnt error
+@510ns so_data_out ref_block_cnt error
+@520ns so_data_out ref_block_cnt error
+@530ns so_data_out ref_block_cnt error
+@540ns so_data_out ref_block_cnt error
+@550ns so_data_out ref_block_cnt error
+@560ns so_data_out ref_block_cnt error
+@570ns so_data_out ref_block_cnt error
+@580ns so_data_out ref_block_cnt error
+@590ns so_data_out ref_block_cnt error
+@600ns so_data_out ref_block_cnt error
+@610ns so_data_out ref_block_cnt error
+@620ns so_data_out ref_block_cnt error
+@630ns so_data_out ref_block_cnt error
+@640ns so_data_out ref_block_cnt error
+@650ns so_data_out ref_block_cnt error
+@660ns so_data_out ref_block_cnt error
+@670ns so_data_out ref_block_cnt error
+@680ns so_data_out ref_block_cnt error
+@690ns so_data_out ref_block_cnt error
+@700ns so_data_out ref_block_cnt error
+@710ns so_data_out ref_block_cnt error
+@720ns so_data_out ref_block_cnt error
+@730ns so_data_out ref_block_cnt error
+@740ns so_data_out ref_block_cnt error
+@750ns so_data_out ref_block_cnt error
+@760ns so_data_out ref_block_cnt error
+@770ns so_data_out ref_block_cnt error
+@780ns so_data_out ref_block_cnt error
+@790ns so_data_out ref_block_cnt error
+@800ns so_data_out ref_block_cnt error
+@810ns so_data_out ref_block_cnt error
+@820ns so_data_out ref_block_cnt error
+@830ns so_data_out ref_block_cnt error
+@840ns so_data_out ref_block_cnt error
+@850ns so_data_out ref_block_cnt error
+@860ns so_data_out ref_block_cnt error
+@870ns so_data_out ref_block_cnt error
+@880ns so_data_out ref_block_cnt error
+@890ns so_data_out ref_block_cnt error
+@900ns so_data_out ref_block_cnt error
+@910ns so_data_out ref_block_cnt error
+@920ns so_data_out ref_block_cnt error
+@930ns so_data_out ref_block_cnt error
+@940ns so_data_out ref_block_cnt error
+@950ns so_data_out ref_block_cnt error
+@960ns so_data_out ref_block_cnt error
+@970ns so_data_out ref_block_cnt error
+@980ns so_data_out ref_block_cnt error
+@990ns so_data_out ref_block_cnt error
+@1000ns so_data_out ref_block_cnt error
+# restart
+# run 1.00us
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+@280ns so_data_out ref_block_cnt error
+@290ns so_data_out ref_block_cnt error
+@300ns so_data_out ref_block_cnt error
+@310ns so_data_out ref_block_cnt error
+@320ns so_data_out ref_block_cnt error
+@330ns so_data_out ref_block_cnt error
+@340ns so_data_out ref_block_cnt error
+@350ns so_data_out ref_block_cnt error
+@360ns so_data_out ref_block_cnt error
+@370ns so_data_out ref_block_cnt error
+@380ns so_data_out ref_block_cnt error
+@390ns so_data_out ref_block_cnt error
+@400ns so_data_out ref_block_cnt error
+@410ns so_data_out ref_block_cnt error
+@420ns so_data_out ref_block_cnt error
+@430ns so_data_out ref_block_cnt error
+@440ns so_data_out ref_block_cnt error
+@450ns so_data_out ref_block_cnt error
+@460ns so_data_out ref_block_cnt error
+@470ns so_data_out ref_block_cnt error
+@480ns so_data_out ref_block_cnt error
+@490ns so_data_out ref_block_cnt error
+@500ns so_data_out ref_block_cnt error
+@510ns so_data_out ref_block_cnt error
+@520ns so_data_out ref_block_cnt error
+@530ns so_data_out ref_block_cnt error
+@540ns so_data_out ref_block_cnt error
+@550ns so_data_out ref_block_cnt error
+@560ns so_data_out ref_block_cnt error
+@570ns so_data_out ref_block_cnt error
+@580ns so_data_out ref_block_cnt error
+@590ns so_data_out ref_block_cnt error
+@600ns so_data_out ref_block_cnt error
+@610ns so_data_out ref_block_cnt error
+@620ns so_data_out ref_block_cnt error
+@630ns so_data_out ref_block_cnt error
+@640ns so_data_out ref_block_cnt error
+@650ns so_data_out ref_block_cnt error
+@660ns so_data_out ref_block_cnt error
+@670ns so_data_out ref_block_cnt error
+@680ns so_data_out ref_block_cnt error
+@690ns so_data_out ref_block_cnt error
+@700ns so_data_out ref_block_cnt error
+@710ns so_data_out ref_block_cnt error
+@720ns so_data_out ref_block_cnt error
+@730ns so_data_out ref_block_cnt error
+@740ns so_data_out ref_block_cnt error
+@750ns so_data_out ref_block_cnt error
+@760ns so_data_out ref_block_cnt error
+@770ns so_data_out ref_block_cnt error
+@780ns so_data_out ref_block_cnt error
+@790ns so_data_out ref_block_cnt error
+@800ns so_data_out ref_block_cnt error
+@810ns so_data_out ref_block_cnt error
+@820ns so_data_out ref_block_cnt error
+@830ns so_data_out ref_block_cnt error
+@840ns so_data_out ref_block_cnt error
+@850ns so_data_out ref_block_cnt error
+@860ns so_data_out ref_block_cnt error
+@870ns so_data_out ref_block_cnt error
+@880ns so_data_out ref_block_cnt error
+@890ns so_data_out ref_block_cnt error
+@900ns so_data_out ref_block_cnt error
+@910ns so_data_out ref_block_cnt error
+@920ns so_data_out ref_block_cnt error
+@930ns so_data_out ref_block_cnt error
+@940ns so_data_out ref_block_cnt error
+@950ns so_data_out ref_block_cnt error
+@960ns so_data_out ref_block_cnt error
+@970ns so_data_out ref_block_cnt error
+@980ns so_data_out ref_block_cnt error
+@990ns so_data_out ref_block_cnt error
+@1000ns so_data_out ref_block_cnt error
+# restart
+# run 1.00us
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+@280ns so_data_out ref_block_cnt error
+@290ns so_data_out ref_block_cnt error
+@300ns so_data_out ref_block_cnt error
+@310ns so_data_out ref_block_cnt error
+@320ns so_data_out ref_block_cnt error
+@330ns so_data_out ref_block_cnt error
+@340ns so_data_out ref_block_cnt error
+@350ns so_data_out ref_block_cnt error
+@360ns so_data_out ref_block_cnt error
+@370ns so_data_out ref_block_cnt error
+@380ns so_data_out ref_block_cnt error
+@390ns so_data_out ref_block_cnt error
+@400ns so_data_out ref_block_cnt error
+@410ns so_data_out ref_block_cnt error
+@420ns so_data_out ref_block_cnt error
+@430ns so_data_out ref_block_cnt error
+@440ns so_data_out ref_block_cnt error
+@450ns so_data_out ref_block_cnt error
+@460ns so_data_out ref_block_cnt error
+@470ns so_data_out ref_block_cnt error
+@480ns so_data_out ref_block_cnt error
+@490ns so_data_out ref_block_cnt error
+@500ns so_data_out ref_block_cnt error
+@510ns so_data_out ref_block_cnt error
+@520ns so_data_out ref_block_cnt error
+@530ns so_data_out ref_block_cnt error
+@540ns so_data_out ref_block_cnt error
+@550ns so_data_out ref_block_cnt error
+@560ns so_data_out ref_block_cnt error
+@570ns so_data_out ref_block_cnt error
+@580ns so_data_out ref_block_cnt error
+@590ns so_data_out ref_block_cnt error
+@600ns so_data_out ref_block_cnt error
+@610ns so_data_out ref_block_cnt error
+@620ns so_data_out ref_block_cnt error
+@630ns so_data_out ref_block_cnt error
+@640ns so_data_out ref_block_cnt error
+@650ns so_data_out ref_block_cnt error
+@660ns so_data_out ref_block_cnt error
+@670ns so_data_out ref_block_cnt error
+@680ns so_data_out ref_block_cnt error
+@690ns so_data_out ref_block_cnt error
+@700ns so_data_out ref_block_cnt error
+@710ns so_data_out ref_block_cnt error
+@720ns so_data_out ref_block_cnt error
+@730ns so_data_out ref_block_cnt error
+@740ns so_data_out ref_block_cnt error
+@750ns so_data_out ref_block_cnt error
+@760ns so_data_out ref_block_cnt error
+@770ns so_data_out ref_block_cnt error
+@780ns so_data_out ref_block_cnt error
+@790ns so_data_out ref_block_cnt error
+@800ns so_data_out ref_block_cnt error
+@810ns so_data_out ref_block_cnt error
+@820ns so_data_out ref_block_cnt error
+@830ns so_data_out ref_block_cnt error
+@840ns so_data_out ref_block_cnt error
+@850ns so_data_out ref_block_cnt error
+@860ns so_data_out ref_block_cnt error
+@870ns so_data_out ref_block_cnt error
+@880ns so_data_out ref_block_cnt error
+@890ns so_data_out ref_block_cnt error
+@900ns so_data_out ref_block_cnt error
+@910ns so_data_out ref_block_cnt error
+@920ns so_data_out ref_block_cnt error
+@930ns so_data_out ref_block_cnt error
+@940ns so_data_out ref_block_cnt error
+@950ns so_data_out ref_block_cnt error
+@960ns so_data_out ref_block_cnt error
+@970ns so_data_out ref_block_cnt error
+@980ns so_data_out ref_block_cnt error
+@990ns so_data_out ref_block_cnt error
+@1000ns so_data_out ref_block_cnt error
 ISim P.58f (signature 0xfbc00daa)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -25,9 +249,153 @@ This is a Lite version of ISim.
 # run 1000 ns
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Block Memory Generator CORE Generator module StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.uut.rre.sihe.uut.eng_ctrl.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.uut.rre.sihe.uut.eng_ctrl.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Finished circuit initialization process.
+# run all
+@20810ns stall_out error
+@20820ns stall_out error
 Tests complete!
-Stopped at time : 810 ns : File "/media/sf_SmithWaterman/SmithWaterman/firmware/StreamInputHandler_ReferenceReader_SmithWatermanArray_EngineCtrl_CellScoreFilter_Interface_tb.v" Line 943
+Stopped at time : 20940 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 793
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# run all
+@20630ns stall_out error
+@20640ns stall_out error
+@20650ns stall_out error
+@20660ns stall_out error
+@20670ns stall_out error
+@20680ns stall_out error
+@20690ns stall_out error
+@20700ns stall_out error
+@20710ns stall_out error
+@20720ns stall_out error
+@20730ns stall_out error
+@20740ns stall_out error
+@20750ns stall_out error
+@20760ns stall_out error
+@20770ns stall_out error
+@20780ns stall_out error
+@20790ns stall_out error
+@20800ns stall_out error
+@20810ns stall_out error
+@20820ns stall_out error
+@20850ns stall_out error
+@20860ns stall_out error
+Tests complete!
+Stopped at time : 20960 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 845
+# restart
+# run 1.00us
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# restart
+# run 1.00us
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# restart
+# run 1.00us
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# run all
+@20790ns stall_out error
+@20800ns stall_out error
+@20810ns stall_out error
+@20820ns stall_out error
+@20850ns stall_out error
+@20860ns stall_out error
+Tests complete!
+Stopped at time : 20960 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 845
+# restart
+# run 1.00us
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# run all
+@20790ns stall_out error
+@20800ns stall_out error
+@20810ns stall_out error
+@20820ns stall_out error
+@20850ns stall_out error
+@20860ns stall_out error
+Tests complete!
+Stopped at time : 20960 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 845
+# restart
+# run all
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+@20790ns stall_out error
+@20800ns stall_out error
+@20810ns stall_out error
+@20820ns stall_out error
+@20850ns stall_out error
+@20860ns stall_out error
+Tests complete!
+Stopped at time : 20960 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 845
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# run all
+@20810ns stall_out error
+@20820ns stall_out error
+Tests complete!
+Stopped at time : 20920 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 845
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# run all
+@20810ns stall_out error
+@20820ns stall_out error
+Tests complete!
+Stopped at time : 20920 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 844
+ISim P.58f (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Finished circuit initialization process.
+# run all
+Tests complete!
+Stopped at time : 20960 ns : File "/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/CellScoreFilter_tb.v" Line 897
 # exit 0

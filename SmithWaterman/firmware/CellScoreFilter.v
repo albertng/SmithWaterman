@@ -13,26 +13,27 @@
  *                     A shift reg with one bit per PE indicates which buffer holds
  *                     each PE's cell score's tracking info.
  *
- *                     The currently used buffer is the buffer that the first PE uses.
+ *                     The "currently used" buffer is the buffer that the first PE uses.
  *                     When the engine controller passes new tracking info (indicated
  *                     by tracking_info_valid), the buffer that's not currently being
- *                     used is updated. The currently used buffer is also toggled to
+ *                     used is updated. The currently used buffer is then toggled to
  *                     the newly written buffer. The old buffer retains its values while
  *                     the pipeline completes the computations for the remainder of that
  *                     ref seq block, and gets updated on the next ref seq block boundary.
  *
  *                     There are two FSM's, one for each buffer. Each FSM makes sure that
- *                     a ref seq block is only stored at most once into the corresponding
- *                     output FIFO.
+ *                     a ref seq block is only stored at most once into the output FIFO.
+ *                     In addition, each FSM ensures that writing to the FIFO occurs after
+ *                     all of the cell scores of the previous block have been computed.
+ *                     This makes sure that the results in the output FIFO are always in
+ *                     order.
  *
- *                     There are two output FIFO's, one for each buffer. The output FIFO's
- *                     pass the results to the stream output handler. If either of the
- *                     output FIFO's are full, the stall signal is asserted to pause
- *                     the systolic array
+ *                     The stall signal is asserted when the output FIFO is full.
  *
  *  Revision History :
  *      Albert Ng   Jul 24 2013     Initial Revision
  *      Albert Ng   Jul 27 2013     Added end of query tagging
+ *      Albert Ng   Jul 29 2013     Changed to single independent clk domain output FIFO
  */
  
 module CellScoreFilter(
@@ -51,30 +52,27 @@ module CellScoreFilter(
     input [NUM_PES - 1:0] V_out_valid_in,   // Cell scores valid
     input end_of_query_in,                  // Last PE score is end of query
     
-    // Stream output handler interface
-    output [40:0] result_0_data_out,        // Buffer 0 results
-    output result_0_valid_out,              // Buffer 0 results valid
-    input result_0_rdy_in,                  // Buffer 0 results acknowledge
-    output [40:0] result_1_data_out,        // Buffer 1 results
-    output result_1_valid_out,              // Buffer 1 results valid
-    input result_1_rdy_in                   // Buffer 1 results acknowledge
+    // Output stream interface
+    input  so_clk,                          // Stream output clock
+    output so_valid_out,                    // Stream output valid
+    output [127:0] so_data_out,             // Stream output data
+    input  so_rdy_in                        // Stream output ready   
     );
 
     parameter NUM_PES = 64;
     parameter WIDTH = 10;
-    localparam EOQ = 25'b1111111111111111111111111;
+    localparam EOQ = 32'hFFFFFFFF;
 
     // FSM states
-    localparam NO_HIGH_SCORE0 = 3'b001,
-               HIGH_SCORE0    = 3'b010,
-               END_OF_QUERY0  = 3'b100,
-               NO_HIGH_SCORE1 = 3'b001,
-               HIGH_SCORE1    = 3'b010,
-               END_OF_QUERY1  = 3'b100;
-    reg [2:0] state0;
-    reg [2:0] next_state0;
-    reg [2:0] state1;
-    reg [2:0] next_state1;
+    localparam INIT = 5'b00001,
+               HIGH_SCORE_WAIT_ALL_SEL = 5'b00010,
+               HIGH_SCORE = 5'b00100,
+               NO_HIGH_SCORE = 5'b01000,
+               END_OF_QUERY = 5'b10000;
+    reg [4:0] state0;
+    reg [4:0] next_state0;
+    reg [4:0] state1;
+    reg [4:0] next_state1;
     
     // Tracking info buffers
     wire tracking_info_valid0;
@@ -89,6 +87,8 @@ module CellScoreFilter(
     
     // Buffer select signals
     reg [NUM_PES - 1:0] buffer_sel;
+    wire all_sel0;
+    wire all_sel1;
     
     // Stall signal
     reg stall;
@@ -108,18 +108,18 @@ module CellScoreFilter(
     reg high_score1;
     
     // Output FIFO signals
-    wire [40:0] csff0_din;
-    reg         csff0_wr_en;
-    wire        csff0_rd_en;
-    wire [40:0] csff0_dout;
-    wire        csff0_full;
-    wire        csff0_empty;
-    wire [40:0] csff1_din;
-    reg         csff1_wr_en;
-    wire        csff1_rd_en;
-    wire [40:0] csff1_dout;
-    wire        csff1_full;
-    wire        csff1_empty;
+    reg fifo_din_sel;
+    reg next_fifo_din_sel;
+    wire [47:0] fifo_din0;
+    wire [47:0] fifo_din1;
+    wire [47:0] fifo_din;
+    reg         fifo_wr_en0;
+    reg         fifo_wr_en1;
+    wire        fifo_wr_en;
+    wire        fifo_rd_en;
+    wire [47:0] fifo_dout;
+    wire        fifo_full;
+    wire        fifo_empty;
 
     genvar i;    
 
@@ -174,6 +174,8 @@ module CellScoreFilter(
             end
         end
     endgenerate
+    assign all_sel0 = ~|(buffer_sel);
+    assign all_sel1 = &(buffer_sel);
     
     // Tracking info buffer
     assign tracking_info_valid0 = tracking_info_valid_in & !write_buffer;
@@ -207,61 +209,99 @@ module CellScoreFilter(
     // FSM 0
     always @(posedge clk) begin
         if (rst) begin
-            state0 <= NO_HIGH_SCORE0;
+            state0 <= INIT;
         end else if (!stall) begin
             state0 <= next_state0;
         end
     end
     always @(*) begin
-        case(state0)
-            NO_HIGH_SCORE0: begin
-                if (high_score0 && !end_of_query0) begin
-                    next_state0 <= HIGH_SCORE0;
-                end else if (!high_score0 && !end_of_query0) begin
-                    next_state0 <= NO_HIGH_SCORE0;
+        case (state0)
+            INIT: begin
+                if (high_score0 && !all_sel0) begin
+                    next_state0 = HIGH_SCORE_WAIT_ALL_SEL;
+                end else if (high_score0 && all_sel0) begin
+                    next_state0 = HIGH_SCORE;
+                end else if (!high_score0 && all_sel0) begin
+                    next_state0 = NO_HIGH_SCORE;
                 end else begin
-                    next_state0 <= END_OF_QUERY0;
+                    next_state0 = INIT;
                 end
             end
             
-            HIGH_SCORE0: begin
-                if (tracking_info_valid0) begin
-                    next_state0 <= NO_HIGH_SCORE0;
-                end else if (end_of_query0) begin
-                    next_state0 <= END_OF_QUERY0;
+            HIGH_SCORE_WAIT_ALL_SEL: begin
+                if (all_sel0) begin
+                    next_state0 = HIGH_SCORE;
                 end else begin
-                    next_state0 <= HIGH_SCORE0;
+                    next_state0 = HIGH_SCORE_WAIT_ALL_SEL;
                 end
             end
-
-            END_OF_QUERY0: begin
-                next_state0 <= NO_HIGH_SCORE0;
+            
+            HIGH_SCORE: begin
+                if (tracking_info_valid0) begin
+                    next_state0 = INIT;
+                end else if (end_of_query0) begin
+                    next_state0 = END_OF_QUERY;
+                end else begin
+                    next_state0 = HIGH_SCORE;
+                end
+            end
+    
+            NO_HIGH_SCORE: begin
+                if (high_score0 && !end_of_query0) begin
+                    next_state0 = HIGH_SCORE;
+                end else if (!high_score0 && !end_of_query0) begin
+                    next_state0 = NO_HIGH_SCORE;
+                end else begin
+                    next_state0 = END_OF_QUERY;
+                end
+            end
+            
+            END_OF_QUERY: begin
+                next_state0 = INIT;
             end
         endcase
     end
     always @(*) begin
-        case(state0)
-            NO_HIGH_SCORE0: begin
-                if (high_score0 && !stall) begin
-                    csff0_wr_en <= 1;
+        case (state0)
+            INIT: begin
+                if (high_score0 && all_sel0 && !stall) begin
+                    fifo_wr_en0 = 1;
                 end else begin
-                    csff0_wr_en <= 0;
+                    fifo_wr_en0 = 0;
                 end
-                end_of_query_sel0 <= 0;
+                end_of_query_sel0 = 0;
             end
             
-            HIGH_SCORE0: begin
-                csff0_wr_en <= 0;
-                end_of_query_sel0 <= 0;
-            end
-
-            END_OF_QUERY0: begin
-                if (!stall) begin
-                    csff0_wr_en <= 1;
+            HIGH_SCORE_WAIT_ALL_SEL: begin
+                if (all_sel0 && !stall) begin
+                    fifo_wr_en0 = 1;
                 end else begin
-                    csff0_wr_en <= 0;
+                    fifo_wr_en0 = 0;
                 end
-                end_of_query_sel0 <= 1;
+                end_of_query_sel0 = 0;
+            end
+            
+            HIGH_SCORE: begin
+                fifo_wr_en0 = 0;
+                end_of_query_sel0 = 0;
+            end
+    
+            NO_HIGH_SCORE: begin
+                if (high_score0 && !stall) begin
+                    fifo_wr_en0 = 1;
+                end else begin
+                    fifo_wr_en0 = 0;
+                end
+                end_of_query_sel0 = 0;
+            end
+            
+            END_OF_QUERY: begin
+                if (!stall) begin
+                    fifo_wr_en0 = 1;
+                end else begin
+                    fifo_wr_en0 = 0;
+                end
+                end_of_query_sel0 = 1;
             end
         endcase
     end
@@ -269,101 +309,145 @@ module CellScoreFilter(
     // FSM 1
     always @(posedge clk) begin
         if (rst) begin
-            state1 <= NO_HIGH_SCORE1;
+            state1 <= INIT;
         end else if (!stall) begin
             state1 <= next_state1;
         end
     end
     always @(*) begin
-        case(state1)
-            NO_HIGH_SCORE1: begin
-                if (high_score1 && !end_of_query1) begin
-                    next_state1 <= HIGH_SCORE1;
-                end else if (!high_score1 && !end_of_query1) begin
-                    next_state1 <= NO_HIGH_SCORE1;
+        case (state1)
+            INIT: begin
+                if (high_score1 && !all_sel1) begin
+                    next_state1 = HIGH_SCORE_WAIT_ALL_SEL;
+                end else if (high_score1 && all_sel1) begin
+                    next_state1 = HIGH_SCORE;
+                end else if (!high_score1 && all_sel1) begin
+                    next_state1 = NO_HIGH_SCORE;
                 end else begin
-                    next_state1 <= END_OF_QUERY1;
+                    next_state1 = INIT;
                 end
             end
             
-            HIGH_SCORE1: begin
-                if (tracking_info_valid1) begin
-                    next_state1 <= NO_HIGH_SCORE1;
-                end else if (end_of_query1) begin
-                    next_state1 <= END_OF_QUERY1;
+            HIGH_SCORE_WAIT_ALL_SEL: begin
+                if (all_sel1) begin
+                    next_state1 = HIGH_SCORE;
                 end else begin
-                    next_state1 <= HIGH_SCORE1;
+                    next_state1 = HIGH_SCORE_WAIT_ALL_SEL;
                 end
             end
-
-            END_OF_QUERY1: begin
-                next_state1 <= NO_HIGH_SCORE1;
+            
+            HIGH_SCORE: begin
+                if (tracking_info_valid1) begin
+                    next_state1 = INIT;
+                end else if (end_of_query1) begin
+                    next_state1 = END_OF_QUERY;
+                end else begin
+                    next_state1 = HIGH_SCORE;
+                end
+            end
+    
+            NO_HIGH_SCORE: begin
+                if (high_score1 && !end_of_query1) begin
+                    next_state1 = HIGH_SCORE;
+                end else if (!high_score1 && !end_of_query1) begin
+                    next_state1 = NO_HIGH_SCORE;
+                end else begin
+                    next_state1 = END_OF_QUERY;
+                end
+            end
+            
+            END_OF_QUERY: begin
+                next_state1 = INIT;
             end
         endcase
     end
     always @(*) begin
-        case(state1)
-            NO_HIGH_SCORE1: begin
-                if (high_score1 && !stall) begin
-                    csff1_wr_en <= 1;
+        case (state1)
+            INIT: begin
+                if (high_score1 && all_sel1 && !stall) begin
+                    fifo_wr_en1 = 1;
                 end else begin
-                    csff1_wr_en <= 0;
+                    fifo_wr_en1 = 0;
                 end
-                end_of_query_sel1 <= 0;
+                end_of_query_sel1 = 0;
             end
             
-            HIGH_SCORE1: begin
-                csff1_wr_en <= 0;
-                end_of_query_sel1 <= 0;
-            end
-
-            END_OF_QUERY1: begin
-                if (!stall) begin
-                    csff1_wr_en <= 1;
+            HIGH_SCORE_WAIT_ALL_SEL: begin
+                if (all_sel1 && !stall) begin
+                    fifo_wr_en1 = 1;
                 end else begin
-                    csff1_wr_en <= 0;
+                    fifo_wr_en1 = 0;
                 end
-                end_of_query_sel1 <= 1;
+                end_of_query_sel1 = 0;
+            end
+            
+            HIGH_SCORE: begin
+                fifo_wr_en1 = 0;
+                end_of_query_sel1 = 0;
+            end
+    
+            NO_HIGH_SCORE: begin
+                if (high_score1 && !stall) begin
+                    fifo_wr_en1 = 1;
+                end else begin
+                    fifo_wr_en1 = 0;
+                end
+                end_of_query_sel1 = 0;
+            end
+            
+            END_OF_QUERY: begin
+                if (!stall) begin
+                    fifo_wr_en1 = 1;
+                end else begin
+                    fifo_wr_en1 = 0;
+                end
+                end_of_query_sel1 = 1;
             end
         endcase
     end
     
-    // Output FIFOs
-    cellscorefilter_fifo csff0 (
-        .clk(clk),
+    // Output FIFO
+    cellscorefilter_fifo output_fifo (
         .rst(rst),
-        .din(csff0_din),
-        .wr_en(csff0_wr_en),
-        .rd_en(csff0_rd_en),
-        .dout(csff0_dout),
-        .full(csff0_full),
-        .empty(csff0_empty)
+        .wr_clk(clk),
+        .rd_clk(so_clk),
+        .din(fifo_din),
+        .wr_en(fifo_wr_en),
+        .rd_en(fifo_rd_en),
+        .dout(fifo_dout),
+        .full(fifo_full),
+        .empty(fifo_empty)
     );
-    cellscorefilter_fifo csff1 (
-        .clk(clk),
-        .rst(rst),
-        .din(csff1_din),
-        .wr_en(csff1_wr_en),
-        .rd_en(csff1_rd_en),
-        .dout(csff1_dout),
-        .full(csff1_full),
-        .empty(csff1_empty)
-    );
-    assign csff0_din = end_of_query_sel0 ? {EOQ, query_id0} : {ref_block_cnt0, query_id0};
-    assign csff1_din = end_of_query_sel1 ? {EOQ, query_id1} : {ref_block_cnt1, query_id1};
+    assign fifo_din0 = end_of_query_sel0 ? {EOQ, query_id0} : {7'b0, ref_block_cnt0, query_id0};
+    assign fifo_din1 = end_of_query_sel1 ? {EOQ, query_id1} : {7'b0, ref_block_cnt1, query_id1};
+    assign fifo_din = next_fifo_din_sel ? fifo_din1 : fifo_din0;
+    always @(posedge clk) begin
+        if (rst) begin
+            fifo_din_sel <= 0;
+        end else begin
+            fifo_din_sel <= next_fifo_din_sel;
+        end
+    end
+    always @(*) begin
+        if (fifo_din_sel && all_sel0) begin
+            next_fifo_din_sel = 0;
+        end else if (!fifo_din_sel && all_sel1) begin
+            next_fifo_din_sel = 1;
+        end else begin
+            next_fifo_din_sel = fifo_din_sel;
+        end
+    end
+    assign fifo_wr_en = fifo_wr_en0 | fifo_wr_en1;
     
     // Stall signal
     assign stall_out = stall;
     always @(*) begin
-        stall = csff0_full | csff1_full;
+        stall = fifo_full;
     end
     
     // Stream Output Handler interface
-    assign result_0_data_out = csff0_dout;
-    assign result_0_valid_out = !csff0_empty;
-    assign csff0_rd_en = result_0_rdy_in;
-    assign result_1_data_out = csff1_dout;
-    assign result_1_valid_out = !csff1_empty;
-    assign csff1_rd_en = result_1_rdy_in;
-                    
+    assign so_data_out[127:48] = 0;
+    assign so_data_out[47:0] = fifo_dout;
+    assign so_valid_out = !fifo_empty;
+    assign fifo_rd_en = so_rdy_in;                    
 endmodule

@@ -56,10 +56,11 @@
 #--------------------------------------------------------------------------------
 wcfg new
 isim set radix hex
-wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/CLK
 wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/RST
+wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/WR_CLK
 wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/WR_EN
 wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/FULL
+wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/RD_CLK
 wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/RD_EN
 wave add /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/EMPTY
 run all

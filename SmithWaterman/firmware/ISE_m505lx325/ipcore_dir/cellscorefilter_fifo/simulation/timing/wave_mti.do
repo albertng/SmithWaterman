@@ -57,13 +57,14 @@
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/CLK
 add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/RST
 add wave -noupdate -divider WRITE
+add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/WR_CLK
 add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/WR_EN
 add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/FULL
 add wave -noupdate -radix hexadecimal /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/DIN
 add wave -noupdate -divider READ
+add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/RD_CLK
 add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/RD_EN
 add wave -noupdate /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/EMPTY
 add wave -noupdate -radix hexadecimal /cellscorefilter_fifo_tb/cellscorefilter_fifo_synth_inst/cellscorefilter_fifo_inst/DOUT

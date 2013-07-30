@@ -37,8 +37,9 @@
 `timescale 1ns/1ps
 
 module cellscorefilter_fifo(
-  clk,
   rst,
+  wr_clk,
+  rd_clk,
   din,
   wr_en,
   rd_en,
@@ -47,12 +48,13 @@ module cellscorefilter_fifo(
   empty
 );
 
-input clk;
 input rst;
-input [40 : 0] din;
+input wr_clk;
+input rd_clk;
+input [47 : 0] din;
 input wr_en;
 input rd_en;
-output [40 : 0] dout;
+output [47 : 0] dout;
 output full;
 output empty;
 
@@ -82,11 +84,11 @@ output empty;
     .C_AXIS_TSTRB_WIDTH(4),
     .C_AXIS_TUSER_WIDTH(4),
     .C_AXIS_TYPE(0),
-    .C_COMMON_CLOCK(1),
+    .C_COMMON_CLOCK(0),
     .C_COUNT_TYPE(0),
-    .C_DATA_COUNT_WIDTH(5),
+    .C_DATA_COUNT_WIDTH(9),
     .C_DEFAULT_VALUE("BlankString"),
-    .C_DIN_WIDTH(41),
+    .C_DIN_WIDTH(48),
     .C_DIN_WIDTH_AXIS(1),
     .C_DIN_WIDTH_RACH(32),
     .C_DIN_WIDTH_RDCH(64),
@@ -94,7 +96,7 @@ output empty;
     .C_DIN_WIDTH_WDCH(64),
     .C_DIN_WIDTH_WRCH(2),
     .C_DOUT_RST_VAL("0"),
-    .C_DOUT_WIDTH(41),
+    .C_DOUT_WIDTH(48),
     .C_ENABLE_RLOCS(0),
     .C_ENABLE_RST_SYNC(1),
     .C_ERROR_INJECTION_TYPE(0),
@@ -151,7 +153,7 @@ output empty;
     .C_HAS_WR_ACK(0),
     .C_HAS_WR_DATA_COUNT(0),
     .C_HAS_WR_RST(0),
-    .C_IMPLEMENTATION_TYPE(0),
+    .C_IMPLEMENTATION_TYPE(2),
     .C_IMPLEMENTATION_TYPE_AXIS(1),
     .C_IMPLEMENTATION_TYPE_RACH(1),
     .C_IMPLEMENTATION_TYPE_RDCH(1),
@@ -160,7 +162,7 @@ output empty;
     .C_IMPLEMENTATION_TYPE_WRCH(1),
     .C_INIT_WR_PNTR_VAL(0),
     .C_INTERFACE_TYPE(0),
-    .C_MEMORY_TYPE(2),
+    .C_MEMORY_TYPE(1),
     .C_MIF_FILE_NAME("BlankString"),
     .C_MSGON_VAL(1),
     .C_OPTIMIZATION_MODE(0),
@@ -183,14 +185,14 @@ output empty;
     .C_PROG_EMPTY_TYPE_WACH(0),
     .C_PROG_EMPTY_TYPE_WDCH(0),
     .C_PROG_EMPTY_TYPE_WRCH(0),
-    .C_PROG_FULL_THRESH_ASSERT_VAL(15),
+    .C_PROG_FULL_THRESH_ASSERT_VAL(511),
     .C_PROG_FULL_THRESH_ASSERT_VAL_AXIS(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_RACH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_RDCH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_WACH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_WDCH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_WRCH(1023),
-    .C_PROG_FULL_THRESH_NEGATE_VAL(14),
+    .C_PROG_FULL_THRESH_NEGATE_VAL(510),
     .C_PROG_FULL_TYPE(0),
     .C_PROG_FULL_TYPE_AXIS(0),
     .C_PROG_FULL_TYPE_RACH(0),
@@ -199,10 +201,10 @@ output empty;
     .C_PROG_FULL_TYPE_WDCH(0),
     .C_PROG_FULL_TYPE_WRCH(0),
     .C_RACH_TYPE(0),
-    .C_RD_DATA_COUNT_WIDTH(5),
-    .C_RD_DEPTH(16),
+    .C_RD_DATA_COUNT_WIDTH(10),
+    .C_RD_DEPTH(512),
     .C_RD_FREQ(1),
-    .C_RD_PNTR_WIDTH(4),
+    .C_RD_PNTR_WIDTH(9),
     .C_RDCH_TYPE(0),
     .C_REG_SLICE_MODE_AXIS(0),
     .C_REG_SLICE_MODE_RACH(0),
@@ -230,8 +232,8 @@ output empty;
     .C_WACH_TYPE(0),
     .C_WDCH_TYPE(0),
     .C_WR_ACK_LOW(0),
-    .C_WR_DATA_COUNT_WIDTH(5),
-    .C_WR_DEPTH(16),
+    .C_WR_DATA_COUNT_WIDTH(10),
+    .C_WR_DEPTH(512),
     .C_WR_DEPTH_AXIS(1024),
     .C_WR_DEPTH_RACH(16),
     .C_WR_DEPTH_RDCH(1024),
@@ -239,7 +241,7 @@ output empty;
     .C_WR_DEPTH_WDCH(1024),
     .C_WR_DEPTH_WRCH(16),
     .C_WR_FREQ(1),
-    .C_WR_PNTR_WIDTH(4),
+    .C_WR_PNTR_WIDTH(9),
     .C_WR_PNTR_WIDTH_AXIS(10),
     .C_WR_PNTR_WIDTH_RACH(4),
     .C_WR_PNTR_WIDTH_RDCH(10),
@@ -250,8 +252,9 @@ output empty;
     .C_WRCH_TYPE(0)
   )
   inst (
-    .CLK(clk),
     .RST(rst),
+    .WR_CLK(wr_clk),
+    .RD_CLK(rd_clk),
     .DIN(din),
     .WR_EN(wr_en),
     .RD_EN(rd_en),
@@ -260,10 +263,9 @@ output empty;
     .EMPTY(empty),
     .BACKUP(),
     .BACKUP_MARKER(),
+    .CLK(),
     .SRST(),
-    .WR_CLK(),
     .WR_RST(),
-    .RD_CLK(),
     .RD_RST(),
     .PROG_EMPTY_THRESH(),
     .PROG_EMPTY_THRESH_ASSERT(),
