@@ -8,5 +8,20 @@
 <!-- Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanAccelerator.v&quot; into library work</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="281" >&quot;<arg fmt="%s" index="1">/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanAccelerator.v</arg>&quot; Line <arg fmt="%d" index="2">9</arg>. <arg fmt="%s" index="3">Cannot open include file &quot;axi_defines.v&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="281" >&quot;<arg fmt="%s" index="1">/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanAccelerator.v</arg>&quot; Line <arg fmt="%d" index="2">10</arg>. <arg fmt="%s" index="3">Cannot open include file &quot;PicoDefines.v&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="870" >&quot;<arg fmt="%s" index="1">/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanAccelerator.v</arg>&quot; Line <arg fmt="%d" index="2">25</arg>. <arg fmt="%s" index="3">Macro &lt;STREAM1_IN_WIDTH&gt; is not defined.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="870" >&quot;<arg fmt="%s" index="1">/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmware/SmithWatermanAccelerator.v</arg>&quot; Line <arg fmt="%d" index="2">28</arg>. <arg fmt="%s" index="3">Macro &lt;STREAM1_OUT_WIDTH&gt; is not defined.</arg>
+</msg>
+
 </messages>
 

@@ -1,5 +1,11 @@
-INFO:sim:172 - Generating IP...
+Welcome to Xilinx CORE Generator.
+Help system initialized.
+The IP Catalog has been reloaded.
+Opening project file
+/afs/cs.stanford.edu/group/evodevo/u/albertng/SmithWaterman/SmithWaterman/firmwa
+re/ISE_m505lx325/ipcore_dir/coregen.cgp.
+Customize and GenerateINFO:sim:172 - Generating IP...
 Applying current project options...
 Finished applying current project options.
 Cancelled executing Tcl generator.
-Wrote CGP file for project 'cellscorefilter_fifo'.
+Closed project file.
