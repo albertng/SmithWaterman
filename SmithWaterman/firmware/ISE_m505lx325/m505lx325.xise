@@ -399,6 +399,10 @@
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="265"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="265"/>
     </file>
+    <file xil_pn:name="ipcore_dir/system_clk_gen.xco" xil_pn:type="FILE_COREGEN">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="258"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="258"/>
+    </file>
     <file xil_pn:name="ipcore_dir/inter_ref_block_fifo.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
@@ -416,6 +420,9 @@
     </file>
     <file xil_pn:name="ipcore_dir/cellscorefilter_fifo.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="281"/>
+    </file>
+    <file xil_pn:name="ipcore_dir/system_clk_gen.xise" xil_pn:type="FILE_COREGENISE">
+      <association xil_pn:name="Implementation" xil_pn:seqID="259"/>
     </file>
   </files>
 
