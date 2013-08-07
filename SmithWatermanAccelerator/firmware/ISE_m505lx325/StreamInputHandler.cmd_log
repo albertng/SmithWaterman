@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/StreamInputHandler.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/StreamInputHandler.syr" 

@@ -1,0 +1,28 @@
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+ngdbuild -intstyle ise -dd _ngo -sd source -nt timestamp -uc source/M505_LX325T_DDR3.ucf -uc source/M505_LX325T_PCIe.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd  
+map -intstyle ise -p xc7k325t-ffg900-2 -w -logic_opt on -ol high -t 1 -xt 0 -register_duplication on -r 4 -mt off -ir off -ignore_keep_hierarchy -pr off -lc off -power off -o Pico_Toplevel_map.ncd Pico_Toplevel.ngd Pico_Toplevel.pcf 
+par -w -intstyle ise -ol high -mt off Pico_Toplevel_map.ncd Pico_Toplevel.ncd Pico_Toplevel.pcf 
+trce -intstyle ise -v 30 -s 2 -n 3 -fastpaths -xml Pico_Toplevel.twx Pico_Toplevel.ncd -o Pico_Toplevel.twr Pico_Toplevel.pcf 
+bitgen -intstyle ise -f Pico_Toplevel.ut Pico_Toplevel.ncd 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/DDR3_MovingAverage/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+ngdbuild -intstyle ise -dd _ngo -sd source -sd ../ipcore_dir -nt timestamp -uc source/M505_LX325T_PCIe.ucf -uc source/M505_LX325T_DDR3.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd  
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+ngdbuild -intstyle ise -dd _ngo -sd source -sd ../ipcore_dir -nt timestamp -uc source/M505_LX325T_PCIe.ucf -uc source/M505_LX325T_DDR3.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd  
+ngdbuild -intstyle ise -dd _ngo -sd source -sd ../ipcore_dir -nt timestamp -uc source/M505_LX325T_PCIe.ucf -uc source/M505_LX325T_DDR3.ucf -uc /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_dir/system_clk_gen.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd  
+ngdbuild -intstyle ise -dd _ngo -sd source -sd ../ipcore_dir -nt timestamp -uc source/M505_LX325T_PCIe.ucf -uc source/M505_LX325T_DDR3.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd  
+map -intstyle ise -p xc7k325t-ffg900-2 -w -logic_opt on -ol high -t 1 -xt 0 -register_duplication on -r 4 -mt 2 -ir off -ignore_keep_hierarchy -pr off -lc off -power off -o Pico_Toplevel_map.ncd Pico_Toplevel.ngd Pico_Toplevel.pcf 
+par -w -intstyle ise -ol high -mt 4 Pico_Toplevel_map.ncd Pico_Toplevel.ncd Pico_Toplevel.pcf 
+trce -intstyle ise -v 30 -s 2 -n 3 -fastpaths -xml Pico_Toplevel.twx Pico_Toplevel.ncd -o Pico_Toplevel.twr Pico_Toplevel.pcf 
+bitgen -intstyle ise -f Pico_Toplevel.ut Pico_Toplevel.ncd 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 

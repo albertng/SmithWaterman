@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<document>
+<!--The data in this file is primarily intended for consumption by Xilinx tools.
+The structure and the elements are likely to change over the next few releases.
+This means code written to parse this file will need to be revisited each subsequent release.-->
+<application name="pn" timeStamp="Tue Aug  6 17:10:41 2013">
+<section name="Project Information" visible="false">
+<property name="ProjectID" value="724A8D503C65C8FB6C4EB94FEAEDABBB" type="project"/>
+<property name="ProjectIteration" value="1" type="project"/>
+<property name="ProjectFile" value="/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/m505lx325.xise" type="project"/>
+<property name="ProjectCreationTimestamp" value="2010-05-14T12:35:50" type="project"/>
+</section>
+<section name="Project Statistics" visible="true">
+<property name="PROPEXT_xilxBitgCfg_Rate_virtex7" value="33" type="process"/>
+<property name="PROP_Enable_Message_Filtering" value="false" type="design"/>
+<property name="PROP_FitterReportFormat" value="HTML" type="process"/>
+<property name="PROP_ISimsUseCustomWaveConfigFile_behav" value="true" type="process"/>
+<property name="PROP_ISimsUseCustomWaveConfigFile_map" value="true" type="process"/>
+<property name="PROP_ISimsUseCustomWaveConfigFile_par" value="true" type="process"/>
+<property name="PROP_ISimsUseCustomWaveConfigFile_translate" value="true" type="process"/>
+<property name="PROP_LastAppliedGoal" value="Balanced" type="design"/>
+<property name="PROP_LastAppliedStrategy" value="Xilinx Default (unlocked)" type="design"/>
+<property name="PROP_ManualCompileOrderImp" value="false" type="design"/>
+<property name="PROP_MapLogicOptimization_virtex5" value="true" type="process"/>
+<property name="PROP_PropSpecInProjFile" value="Store all values" type="design"/>
+<property name="PROP_SelectedInstanceHierarchicalPath" value="/PicoTestbench" type="process"/>
+<property name="PROP_Simulator" value="ISim (VHDL/Verilog)" type="design"/>
+<property name="PROP_SynthRetiming" value="true" type="process"/>
+<property name="PROP_SynthTopFile" value="changed" type="process"/>
+<property name="PROP_Top_Level_Module_Type" value="HDL" type="design"/>
+<property name="PROP_UseSmartGuide" value="false" type="design"/>
+<property name="PROP_UserConstraintEditorPreference" value="Text Editor" type="process"/>
+<property name="PROP_intProjectCreationTimestamp" value="2010-05-14T12:35:50" type="design"/>
+<property name="PROP_intWbtProjectID" value="724A8D503C65C8FB6C4EB94FEAEDABBB" type="design"/>
+<property name="PROP_intWbtProjectIteration" value="1" type="process"/>
+<property name="PROP_intWorkingDirLocWRTProjDir" value="Same" type="design"/>
+<property name="PROP_intWorkingDirUsed" value="No" type="design"/>
+<property name="PROP_isimSpecifyDefMacroAndValue" value="SIMULATION" type="process"/>
+<property name="PROP_isimSpecifySearchDirectory" value="changed" type="process"/>
+<property name="PROP_selectedSimRootSourceNode_behav" value="work.PicoTestbench" type="process"/>
+<property name="PROP_selectedSimRootSourceNode_par" value="work.PicoTestbench" type="process"/>
+<property name="PROP_selectedSimSourceNode" value="uut" type="process"/>
+<property name="PROP_xilxBitgCfg_BPI_Page_Size_virtex5" value="8" type="process"/>
+<property name="PROP_xilxBitgCfg_Code_virtex5" value="0x422500e0" type="process"/>
+<property name="PROP_xilxBitgCfg_GenOpt_Compress_virtex5" value="true" type="process"/>
+<property name="PROP_xilxBitgCfg_PwrDown_Safe_Temp_virtex5" value="true" type="process"/>
+<property name="PROP_xilxBitgStart_Clk_DriveDone_virtex5" value="true" type="process"/>
+<property name="PROP_xilxBitgStart_IntDone_virtex7" value="false" type="process"/>
+<property name="PROP_xilxMapAllowLogicOpt" value="true" type="process"/>
+<property name="PROP_xilxNgdbldMacro" value="changed" type="process"/>
+<property name="PROP_xilxPostTrceRptLimit" value="30" type="process"/>
+<property name="PROP_xilxSynthRegBalancing" value="Yes" type="process"/>
+<property name="PROP_xstCoresSearchDir" value="changed" type="process"/>
+<property name="PROP_xstEquivRegRemoval" value="false" type="process"/>
+<property name="PROP_xstNetlistHierarchy" value="Rebuilt" type="process"/>
+<property name="PROP_xstVeriIncludeDir_Global" value="changed" type="process"/>
+<property name="PROP_xstVerilogMacros" value="PICO_DDR3|PICO_DDR3_NETLIST" type="process"/>
+<property name="PROP_AutoTop" value="true" type="design"/>
+<property name="PROP_CompxlibEdkSimLib" value="false" type="process"/>
+<property name="PROP_DevFamily" value="Kintex7" type="design"/>
+<property name="PROP_ISimTopName" value="Default" type="process"/>
+<property name="PROP_ISimTopName_par" value="Default" type="process"/>
+<property name="PROP_MapEquivalentRegisterRemoval_virtex5" value="false" type="process"/>
+<property name="PROP_MapRegDuplication_virtex5" value="On" type="process"/>
+<property name="PROP_xilxBitgCfg_BPI_First_Read_Cycle_virtex5" value="4" type="process"/>
+<property name="PROP_CompxlibExcludeCompEDK" value="false" type="process"/>
+<property name="PROP_DevDevice" value="xc7k325t" type="design"/>
+<property name="PROP_DevFamilyPMName" value="kintex7" type="design"/>
+<property name="PROP_ISimSimulationRunTime_behav_tb" value="1s" type="process"/>
+<property name="PROP_DevPackage" value="ffg900" type="design"/>
+<property name="PROP_Synthesis_Tool" value="XST (VHDL/Verilog)" type="design"/>
+<property name="PROP_DevSpeed" value="-2" type="design"/>
+<property name="PROP_PreferredLanguage" value="Verilog" type="design"/>
+<property name="FILE_COREGEN" value="1" type="source"/>
+<property name="FILE_UCF" value="2" type="source"/>
+<property name="FILE_VERILOG" value="149" type="source"/>
+</section>
+</application>
+</document>

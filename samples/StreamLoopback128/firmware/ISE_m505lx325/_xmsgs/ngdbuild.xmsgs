@@ -5,61 +5,61 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/rd_tag_fifo</arg>&apos; of type <arg fmt="%s" index="2">FIFO18E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/rd_tag_fifo</arg>&apos; of type <arg fmt="%s" index="2">FIFO18E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/axibuffer/fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/axibuffer/fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/axibuffer/fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/PIO_EP/axibuffer/fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo1</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="931" delta="new" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
+<msg type="warning" file="NgdBuild" num="931" delta="old" >The value of SIM_DEVICE on instance &apos;<arg fmt="%s" index="1">UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo2</arg>&apos; of type <arg fmt="%s" index="2">FIFO36E1</arg> has been changed from &apos;<arg fmt="%s" index="3">VIRTEX6</arg>&apos; to &apos;<arg fmt="%s" index="4">7SERIES</arg>&apos; to correct post-ngdbuild and timing simulation for this primitive.  In order for functional simulation to be correct, the value of SIM_DEVICE should be changed in this same manner in the source netlist or constraint file. For additional information on retargeting this primitive to 7SERIES, please see http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migration.pdf.
 </msg>
 
 <msg type="warning" file="ConstraintSystem" num="0" >Constraint &lt;NET &quot;*sys_clk_c*&quot; TNM_NET = &quot;SYSCLK&quot; ;&gt; [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin QPLLOUTREFCLK of block gtx_common.gtxe2_common_i because the signal path to this output pin depends upon block attribute settings. Constraint distribution does not support attribute dependent distribution.
@@ -71,130 +71,130 @@
 <msg type="warning" file="ConstraintSystem" num="0" >Constraint &lt;NET &quot;*sys_clk_c*&quot; TNM_NET = &quot;SYSCLK&quot; ;&gt; [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin QPLLOUTREFCLK of block gtx_common.gtxe2_common_i because the signal path to this output pin depends upon block attribute settings. Constraint distribution does not support attribute dependent distribution.
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_25_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_25_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_24_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_24_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_23_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_23_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_22_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_22_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_21_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_21_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_20_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_20_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_19_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_19_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_18_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_18_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_17_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_17_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_16_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_16_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_15_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_15_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_14_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_14_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_13_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_13_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_12_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_12_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_11_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_11_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_10_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_10_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_9_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_9_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_8_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_8_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_7_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_7_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_6_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_6_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_5_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_5_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_4_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_4_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_3_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_3_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_2_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_2_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_1_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_1_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_0_OBUF</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">flash_a_0_OBUF</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N44</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N44</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N45</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N45</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N46</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N46</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N47</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N47</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N48</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N48</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N49</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N49</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N50</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N50</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N51</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N51</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N52</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N52</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N53</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N53</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N54</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N54</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N55</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N55</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N56</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N56</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N57</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N57</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N58</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N58</arg>&apos; has no driver
 </msg>
 
-<msg type="warning" file="NgdBuild" num="452" delta="new" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N59</arg>&apos; has no driver
+<msg type="warning" file="NgdBuild" num="452" delta="old" ><arg fmt="%s" index="1">logical</arg> net &apos;<arg fmt="%s" index="2">N59</arg>&apos; has no driver
 </msg>
 
 </messages>

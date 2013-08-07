@@ -1,0 +1,28 @@
+Command line:
+   StreamInputHandler_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  33552
+
+Wed Aug  7 12:00:22 2013
+
+
+ Elaboration Time: 0.05 sec
+
+ Current Memory Usage: 190.603 Meg
+
+ Total Signals          : 583
+ Total Nets             : 3472
+ Total Signal Drivers   : 136
+ Total Blocks           : 25
+ Total Primitive Blocks : 18
+ Total Processes        : 201
+ Total Traceable Variables  : 627
+ Total Scalar Nets and Variables : 26750
+
+ Total Simulation Time: 0.1 sec
+
+ Current Memory Usage: 266.105 Meg
+
+Wed Aug  7 12:00:26 2013
+

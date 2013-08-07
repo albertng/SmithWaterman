@@ -1,0 +1,28 @@
+Command line:
+   CellScoreFilter_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  36171
+
+Wed Aug  7 12:09:59 2013
+
+
+ Elaboration Time: 0.05 sec
+
+ Current Memory Usage: 189.989 Meg
+
+ Total Signals          : 584
+ Total Nets             : 2890
+ Total Signal Drivers   : 143
+ Total Blocks           : 25
+ Total Primitive Blocks : 18
+ Total Processes        : 221
+ Total Traceable Variables  : 639
+ Total Scalar Nets and Variables : 45138
+
+ Total Simulation Time: 0.17 sec
+
+ Current Memory Usage: 265.49 Meg
+
+Wed Aug  7 12:10:10 2013
+

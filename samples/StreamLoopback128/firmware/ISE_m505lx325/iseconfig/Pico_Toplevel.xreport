@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-04-29T10:49:04</DateModified>
+  <DateModified>2013-08-06T16:34:02</DateModified>
   <ModuleName>Pico_Toplevel</ModuleName>
-  <SummaryTimeStamp>2013-04-29T10:30:54</SummaryTimeStamp>
+  <SummaryTimeStamp>2013-08-06T16:32:06</SummaryTimeStamp>
   <SavedFilePath>/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
   <DateInitialized>2013-04-26T15:46:55</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
@@ -17,8 +17,8 @@
     <toc-item title="Performance Summary" target="Performance Summary" />
     <toc-item title="Failing Constraints" target="Failing Constraints" />
     <toc-item title="Detailed Reports" target="Detailed Reports" />
-    <table-item tableKey="DeviceUtilizationSummary" tableState="CollapsedTable" />
-    <table-item tableKey="DeviceUtilizationSummary" tableState="CollapsedTable" />
+    <table-item tableState="ExpandedTable" tableKey="DeviceUtilizationSummary" />
+    <table-item tableState="CollapsedTable" tableKey="DeviceUtilizationSummary" />
    </view>
    <view inputState="Unknown" program="implementation" contextTags="FPGA_ONLY" hidden="true" type="HTML" file="Pico_Toplevel_envsettings.html" label="System Settings" />
    <view inputState="Translated" program="map" locator="MAP_IOB_TABLE" contextTags="FPGA_ONLY" type="IOBProperties" file="Pico_Toplevel_map.xrpt" label="IOB Properties" />

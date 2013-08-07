@@ -1,0 +1,4 @@
+verilog work "../one_hot_mux.v"
+verilog work "../one_hot_mux_tb.v"
+verilog work "../ipcore_dir/system_clk_gen/example_design/system_clk_gen_exdes.v"
+verilog work "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v"

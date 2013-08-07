@@ -1,0 +1,28 @@
+Command line:
+   AXIArbiter_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  34719
+
+Wed Aug  7 12:12:49 2013
+
+
+ Elaboration Time: 0.06 sec
+
+ Current Memory Usage: 190.063 Meg
+
+ Total Signals          : 141
+ Total Nets             : 3119
+ Total Signal Drivers   : 97
+ Total Blocks           : 4
+ Total Primitive Blocks : 3
+ Total Processes        : 110
+ Total Traceable Variables  : 97
+ Total Scalar Nets and Variables : 5919
+
+ Total Simulation Time: 0.1 sec
+
+ Current Memory Usage: 265.564 Meg
+
+Wed Aug  7 12:12:56 2013
+

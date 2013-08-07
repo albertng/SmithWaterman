@@ -1,0 +1,5 @@
+verilog work "../SmithWatermanPE.v"
+verilog work "../one_hot_mux.v"
+verilog work "../ipcore_dir/inter_ref_block_fifo.v"
+verilog work "../SmithWatermanArray.v"
+verilog work "../ipcore_dir/system_clk_gen/example_design/system_clk_gen_exdes.v"

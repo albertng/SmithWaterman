@@ -1,9 +1,9 @@
 Release 14.5 ngdbuild P.58f (lin64)
 Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
 
-Command Line: /home/albertng/14.5/ISE_DS/ISE/bin/lin64/unwrapped/ngdbuild
--intstyle ise -dd _ngo -sd source -nt timestamp -uc source/M505_LX325T_PCIe.ucf
--p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd
+Command Line: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/ngdbuild -intstyle
+ise -dd _ngo -sd source -nt timestamp -uc source/M505_LX325T_PCIe.ucf -p
+xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd
 
 Reading NGO file
 "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m
@@ -261,10 +261,10 @@ NGDBUILD Design Results Summary:
   Number of errors:     0
   Number of warnings:  64
 
-Total memory usage is 550232 kilobytes
+Total memory usage is 554500 kilobytes
 
 Writing NGD file "Pico_Toplevel.ngd" ...
-Total REAL time to NGDBUILD completion: 1 min  10 sec
-Total CPU time to NGDBUILD completion:  1 min  9 sec
+Total REAL time to NGDBUILD completion:  57 sec
+Total CPU time to NGDBUILD completion:   57 sec
 
 Writing NGDBUILD log file "Pico_Toplevel.bld"...

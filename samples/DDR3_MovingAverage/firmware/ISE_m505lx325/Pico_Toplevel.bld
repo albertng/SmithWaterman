@@ -1,0 +1,1245 @@
+Release 14.5 ngdbuild P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+Command Line: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/ngdbuild -intstyle
+ise -dd _ngo -sd source -nt timestamp -uc source/M505_LX325T_DDR3.ucf -uc
+source/M505_LX325T_PCIe.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc
+Pico_Toplevel.ngd
+
+Reading NGO file
+"/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_
+m505lx325/Pico_Toplevel.ngc" ...
+Loading design module "source/coregen_fifo_32x128.ngc"...
+Gathering constraint information from source properties...
+Done.
+
+Annotating constraints to design from ucf file "source/M505_LX325T_DDR3.ucf" ...
+Annotating constraints to design from ucf file "source/M505_LX325T_PCIe.ucf" ...
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/rd_tag_fifo' of type FIFO18E1 has been changed from
+   'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing simulation for
+   this primitive.  In order for functional simulation to be correct, the value
+   of SIM_DEVICE should be changed in this same manner in the source netlist or
+   constraint file. For additional information on retargeting this primitive to
+   7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo2' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_q_fifo/fifo1' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_q_fifo/fifo2' of type FIFO36E1 has been changed
+   from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing simulation
+   for this primitive.  In order for functional simulation to be correct, the
+   value of SIM_DEVICE should be changed in this same manner in the source
+   netlist or constraint file. For additional information on retargeting this
+   primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_q_fifo/fifo1' of type FIFO36E1 has been changed
+   from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing simulation
+   for this primitive.  In order for functional simulation to be correct, the
+   value of SIM_DEVICE should be changed in this same manner in the source
+   netlist or constraint file. For additional information on retargeting this
+   primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo2' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/wr_data_q_fifo/fifo1' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/iwr_wr_postdata_q_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/axibuffer/fifo/fifo2' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/PIO_EP/axibuffer/fifo/fifo1' of type FIFO36E1 has been
+   changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo1' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126o_stream/s0_fifo/fifo2' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo1' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'PicoFramework/app/FrameworkPicoBus/s126i_stream/s0_fifo/fifo2' of type
+   FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[1].gen_stream_in/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[1].gen_stream_in/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[0].gen_stream_in/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_out[0].gen_stream_out/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/waddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/bFifo/fif
+   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/raddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/waddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/raddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/bFifo/fif
+   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/wdataFifo/fifo0' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/wdataFifo/create_fifos[289].fifo1' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/wdataFifo/create_fifos[289].fifo2' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/wdataFifo/create_fifos[289].fifo3' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/wdataFifo/create_fifos[289].fifo4' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/waddrFifo/fifo0' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/rdataFifo/create_fifos[271].fifo3' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/rdataFifo/create_fifos[271].fifo2' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/rdataFifo/create_fifos[271].fifo1' of
+   type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/rdataFifo/fifo0' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/bFifo/fifo0' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/master/raddrFifo/fifo0' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+Resolving constraint associations...
+Checking Constraint Associations...
+WARNING:ConstraintSystem:56 - Constraint <TIMESPEC TS_MULTICYCLEPATH = FROM
+   "TNM_SOURCE_IDLE" TO "TNM_DEST_ISERDES" TS_ISERDES_CLOCK*6;>
+   [source/M505_LX325T_DDR3.ucf(240)]: Unable to find an active 'TimeGrp' or
+   'TNM' or 'TPSync' constraint named 'TNM_SOURCE_IDLE'.
+
+WARNING:ConstraintSystem - Constraint <NET "*sys_clk_c*" TNM_NET = "SYSCLK" ;>
+   [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin
+   QPLLOUTREFCLK of block gtx_common.gtxe2_common_i because the signal path to
+   this output pin depends upon block attribute settings. Constraint
+   distribution does not support attribute dependent distribution.
+
+WARNING:ConstraintSystem - Constraint <NET "*sys_clk_c*" TNM_NET = "SYSCLK" ;>
+   [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin
+   TXOUTCLK of block gtx_channel.gtxe2_channel_i because the signal path to this
+   output pin depends upon block attribute settings. Constraint distribution
+   does not support attribute dependent distribution.
+
+WARNING:ConstraintSystem - Constraint <NET "*sys_clk_c*" TNM_NET = "SYSCLK" ;>
+   [source/M505_LX325T_PCIe.ucf(154)] was not distributed to the output pin
+   QPLLOUTREFCLK of block gtx_common.gtxe2_common_i because the signal path to
+   this output pin depends upon block attribute settings. Constraint
+   distribution does not support attribute dependent distribution.
+
+INFO:ConstraintSystem:178 - TNM 'TNM_clk_400', used in period specification
+   'TS_clk_400', was traced into PLLE2_ADV instance plle2_i. The following new
+   TNM groups and period specifications were generated at the PLLE2_ADV
+   output(s): 
+   CLKOUT3: <TIMESPEC TS_mig_DDR3_0_u_ddr3_infrastructure_pll_clk3 = PERIOD
+   "mig_DDR3_0_u_ddr3_infrastructure_pll_clk3" TS_clk_400 / 0.416666667 HIGH
+   50%>
+
+INFO:ConstraintSystem:178 - TNM 'TNM_clk_400', used in period specification
+   'TS_clk_400', was traced into PLLE2_ADV instance plle2_i. The following new
+   TNM groups and period specifications were generated at the PLLE2_ADV
+   output(s): 
+   CLKOUT0: <TIMESPEC TS_mig_DDR3_0_freq_refclk = PERIOD
+   "mig_DDR3_0_freq_refclk" TS_clk_400 / 1.666666667 PHASE 1.40625 ns HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'TNM_clk_400', used in period specification
+   'TS_clk_400', was traced into PLLE2_ADV instance plle2_i. The following new
+   TNM groups and period specifications were generated at the PLLE2_ADV
+   output(s): 
+   CLKOUT1: <TIMESPEC TS_mig_DDR3_0_mem_refclk = PERIOD "mig_DDR3_0_mem_refclk"
+   TS_clk_400 / 1.666666667 HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'TNM_clk_400', used in period specification
+   'TS_clk_400', was traced into PLLE2_ADV instance plle2_i. The following new
+   TNM groups and period specifications were generated at the PLLE2_ADV
+   output(s): 
+   CLKOUT2: <TIMESPEC TS_mig_DDR3_0_sync_pulse = PERIOD "mig_DDR3_0_sync_pulse"
+   TS_clk_400 / 0.104166667 PHASE 0.65625 ns HIGH 6.25%>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_u_ddr3_infrastructure_pll_clk3',
+   used in period specification 'TS_mig_DDR3_0_u_ddr3_infrastructure_pll_clk3',
+   was traced into MMCME2_ADV instance mmcm_i. The following new TNM groups and
+   period specifications were generated at the MMCME2_ADV output(s): 
+   CLKFBOUT: <TIMESPEC TS_mig_DDR3_0_u_ddr3_infrastructure_clk_pll_i = PERIOD
+   "mig_DDR3_0_u_ddr3_infrastructure_clk_pll_i"
+   TS_mig_DDR3_0_u_ddr3_infrastructure_pll_clk3 HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_iserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_freq_refclk', used in period
+   specification 'TS_mig_DDR3_0_freq_refclk', was traced into PHASER_IN_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_in_g
+   en.phaser_in. The following new TNM groups and period specifications were
+   generated at the PHASER_IN_PHY output(s): 
+   ICLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_iserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_0_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_1_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_1_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_1_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_1_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_1_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_1_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _A_ddr_byte_lane_A_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _B_ddr_byte_lane_B_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _C_ddr_byte_lane_C_oserdes_clkdiv ...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLK: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_oserdes_clk = P...>
+
+INFO:ConstraintSystem:178 - TNM 'mig_DDR3_0_mem_refclk', used in period
+   specification 'TS_mig_DDR3_0_mem_refclk', was traced into PHASER_OUT_PHY
+   instance
+   ddr_phy_4lanes_2.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/phaser_out.
+   The following new TNM groups and period specifications were generated at the
+   PHASER_OUT_PHY output(s): 
+   OCLKDIV: <TIMESPEC
+   TS_mig_DDR3_0_u_mig_7series_v1_8_memc_ui_top_axi_mem_intfc0_ddr_phy_top0_u_dd
+   r_mc_phy_wrapper_u_ddr_mc_phy_ddr_phy_4lanes_2_u_ddr_phy_4lanes_ddr_byte_lane
+   _D_ddr_byte_lane_D_oserdes_clkdiv ...>
+
+Done...
+
+Checking expanded design ...
+WARNING:NgdBuild:452 - logical net 'flash_a_25_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_24_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_23_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_22_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_21_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_20_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_19_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_18_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_17_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_16_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_15_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_14_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_13_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_12_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_11_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_10_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_9_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_8_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_7_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_6_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_5_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_4_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_3_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_2_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_1_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'flash_a_0_OBUF' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_en' has no driver
+WARNING:NgdBuild:452 - logical net 'direct_rx_valid' has no driver
+WARNING:NgdBuild:452 - logical net 's_poll_seq<3>' has no driver
+WARNING:NgdBuild:452 - logical net 's_poll_seq<2>' has no driver
+WARNING:NgdBuild:452 - logical net 's_poll_seq<1>' has no driver
+WARNING:NgdBuild:452 - logical net 's_poll_seq<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<127>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<126>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<125>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<124>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<123>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<122>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<121>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<120>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<119>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<118>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<117>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<116>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<115>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<114>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<113>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<112>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<111>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<110>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<109>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<108>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<107>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<106>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<105>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<104>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<103>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<102>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<101>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<100>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<99>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<98>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<97>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<96>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<95>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<94>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<93>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<92>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<91>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<90>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<89>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<88>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<87>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<86>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<85>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<84>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<83>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<82>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<81>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<80>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<79>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<78>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<77>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<76>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<75>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<74>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<73>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<72>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<71>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<70>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<69>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<68>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<67>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<66>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<65>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<64>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<63>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<62>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<61>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<60>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<59>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<58>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<57>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<56>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<55>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<54>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<53>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<52>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<51>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<50>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<49>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<48>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<47>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<46>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<45>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<44>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<43>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<42>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<41>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<40>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<39>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<38>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<37>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<36>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<35>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<34>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<33>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<32>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<31>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<30>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<29>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<28>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<27>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<26>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<25>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<24>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<23>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<22>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<21>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<20>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<19>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<18>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<17>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<16>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<15>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<14>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<13>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<12>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<11>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<10>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_valid' has no driver
+WARNING:NgdBuild:452 - logical net 'user_pci_wr_data_q_valid' has no driver
+WARNING:NgdBuild:452 - logical net 'N1066' has no driver
+WARNING:NgdBuild:452 - logical net 'N1067' has no driver
+WARNING:NgdBuild:452 - logical net 'N1068' has no driver
+WARNING:NgdBuild:452 - logical net 'N1069' has no driver
+WARNING:NgdBuild:452 - logical net 'N1070' has no driver
+WARNING:NgdBuild:452 - logical net 'N1071' has no driver
+WARNING:NgdBuild:452 - logical net 'N1072' has no driver
+WARNING:NgdBuild:452 - logical net 'N1073' has no driver
+WARNING:NgdBuild:452 - logical net 'N1074' has no driver
+WARNING:NgdBuild:452 - logical net 'N1075' has no driver
+WARNING:NgdBuild:452 - logical net 'N1076' has no driver
+WARNING:NgdBuild:452 - logical net 'N1077' has no driver
+WARNING:NgdBuild:452 - logical net 'N1078' has no driver
+WARNING:NgdBuild:452 - logical net 'N1079' has no driver
+WARNING:NgdBuild:452 - logical net 'N1080' has no driver
+WARNING:NgdBuild:452 - logical net 'N1081' has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/idle'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_
+   mc_phy_wrapper/calib_zero_ctrl<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_
+   mc_phy_wrapper/calib_zero_ctrl<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_
+   mc_phy_wrapper/pi_phase_locked' has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_
+   mc_phy_wrapper/pi_dqs_found_all' has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_
+   mc_phy_wrapper/pi_dqs_found' has no driver
+WARNING:NgdBuild:452 - logical net
+   'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_
+   mc_phy_wrapper/pi_dqs_out_of_range' has no driver
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings: 246
+
+Total memory usage is 782332 kilobytes
+
+Writing NGD file "Pico_Toplevel.ngd" ...
+Total REAL time to NGDBUILD completion: 3 min  2 sec
+Total CPU time to NGDBUILD completion:  3 min  2 sec
+
+Writing NGDBUILD log file "Pico_Toplevel.bld"...

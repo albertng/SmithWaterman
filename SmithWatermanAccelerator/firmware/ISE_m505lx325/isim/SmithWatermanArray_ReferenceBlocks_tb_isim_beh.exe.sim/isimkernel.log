@@ -1,0 +1,28 @@
+Command line:
+   SmithWatermanArray_ReferenceBlocks_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  33791
+
+Wed Aug  7 11:54:19 2013
+
+
+ Elaboration Time: 0.09 sec
+
+ Current Memory Usage: 201.884 Meg
+
+ Total Signals          : 3247
+ Total Nets             : 13594
+ Total Signal Drivers   : 730
+ Total Blocks           : 53
+ Total Primitive Blocks : 26
+ Total Processes        : 987
+ Total Traceable Variables  : 3146
+ Total Scalar Nets and Variables : 210221
+
+ Total Simulation Time: 0.15 sec
+
+ Current Memory Usage: 277.385 Meg
+
+Wed Aug  7 11:54:25 2013
+

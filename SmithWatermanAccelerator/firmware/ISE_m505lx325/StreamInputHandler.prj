@@ -1,0 +1,3 @@
+verilog work "../ipcore_dir/stream_data_sync_buffer.v"
+verilog work "../StreamInputHandler.v"
+verilog work "../ipcore_dir/system_clk_gen/example_design/system_clk_gen_exdes.v"
