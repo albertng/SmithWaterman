@@ -9,8 +9,8 @@
 `define PICO_1_AXI_MASTERS
 `define STREAM1_IN_WIDTH 128
 `define STREAM1_OUT_WIDTH 128
-`define STREAM2_IN_WIDTH 128
-`define STREAM2_OUT_WIDTH 128
+//`define STREAM2_IN_WIDTH 128
+//`define STREAM2_OUT_WIDTH 128
 
 // User Definitions
 

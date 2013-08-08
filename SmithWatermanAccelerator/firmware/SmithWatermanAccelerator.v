@@ -28,12 +28,12 @@ module SmithWatermanAccelerator #(
     output                          s1o_valid,
     output [`STREAM1_OUT_WIDTH-1:0] s1o_data,
     input                           s1o_rdy,
-    input                           s2i_valid,
+    /*input                           s2i_valid,
     input [`STREAM2_IN_WIDTH-1:0]   s2i_data,
     output                          s2i_rdy,
     output                          s2o_valid,
     output [`STREAM2_OUT_WIDTH-1:0] s2o_data,
-    input                           s2o_rdy,
+    input                           s2o_rdy,*/
     
     ////////////////////
     // DDR3 INTERFACE //
@@ -96,7 +96,7 @@ module SmithWatermanAccelerator #(
 
     localparam NUM_PES = 64;
     localparam REF_LENGTH = 128;
-    localparam WIDTH = 10;
+    localparam WIDTH = 18;
     localparam MATCH_REWARD = 2;
     localparam MISMATCH_PEN = -2;
     localparam GAP_OPEN_PEN = -2;
@@ -191,7 +191,8 @@ module SmithWatermanAccelerator #(
     assign c0_s1_axi_bready = 0;
 
     // AXI Arbiter unit
-    assign active_ports = 4'b0011;
+    //assign active_ports = 4'b0011;
+    assign active_ports = 4'b0001;
     AXIArbiter aa (
         .clk(sys_clk),
         .rst(sys_rst),
@@ -244,11 +245,11 @@ module SmithWatermanAccelerator #(
         c0_s1_axi_arlen = c0_s1_axi_arlen_net;
         c0_s1_axi_arvalid = c0_s1_axi_arvalid_net;
     end
-/*    assign rd_id_1 = 0;
+    assign rd_id_1 = 0;
     assign rd_addr_1 = 0;
     assign rd_len_1 = 0;
     assign rd_info_valid_1 = 0;
-    assign rd_data_rdy_1 = 0;*/
+    assign rd_data_rdy_1 = 0;
     assign rd_id_2 = 0;
     assign rd_addr_2 = 0;
     assign rd_len_2 = 0;
@@ -282,7 +283,7 @@ module SmithWatermanAccelerator #(
         .so_rdy_in(s1o_rdy)
     );
     
-    Engine #(NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng2 (
+ /*   Engine #(NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng2 (
         .clk(sys_clk),
         .rst(sys_rst),
         .si_clk(stream_clk),
@@ -301,6 +302,6 @@ module SmithWatermanAccelerator #(
         .so_valid_out(s2o_valid),
         .so_data_out(s2o_data),
         .so_rdy_in(s2o_rdy)
-    );
+    );*/
     
 endmodule

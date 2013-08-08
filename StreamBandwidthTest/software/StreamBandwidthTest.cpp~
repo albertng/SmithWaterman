@@ -53,6 +53,9 @@ void* stream_read_thread(void* args) {
     clock_t end = clock();
     double timeSec = (end - begin) / ((double) CLOCKS_PER_SEC);
     printf("Stream read took %f seconds\n", timeSec);
+    for (int i = 0; i < 1024; i++) {
+        printf("%i ", buf[i]);
+    }
 }   
 
 int main(int argc, char* argv[])

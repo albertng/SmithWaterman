@@ -625,7 +625,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1375915794" xil_pn:in_ck="6076141584500993268" xil_pn:name="TRANEXT_xstsynthesize_virtex6" xil_pn:prop_ck="2229146511508115439" xil_pn:start_ts="1375915138">
+    <transform xil_pn:end_ts="1375921035" xil_pn:in_ck="6076141584500993268" xil_pn:name="TRANEXT_xstsynthesize_virtex6" xil_pn:prop_ck="2229146511508115439" xil_pn:start_ts="1375920369">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>

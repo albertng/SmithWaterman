@@ -26,3 +26,6 @@ trce -intstyle ise -v 30 -s 2 -n 3 -fastpaths -xml Pico_Toplevel.twx Pico_Toplev
 bitgen -intstyle ise -f Pico_Toplevel.ut Pico_Toplevel.ncd 
 xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
 xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
+xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
