@@ -96,7 +96,7 @@ module SmithWatermanAccelerator #(
 
     localparam NUM_PES = 64;
     localparam REF_LENGTH = 128;
-    localparam WIDTH = 18;
+    localparam WIDTH = 10;
     localparam MATCH_REWARD = 2;
     localparam MISMATCH_PEN = -2;
     localparam GAP_OPEN_PEN = -2;

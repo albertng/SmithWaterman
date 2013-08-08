@@ -1,62 +1,75 @@
 INFO:sim:172 - Generating IP...
 Applying current project options...
 Finished applying current project options.
-WARNING:sim - A core named 'system_clk_gen' already exists in the project.
-   Output products for this core may be overwritten.
-Resolving generics for 'system_clk_gen'...
-WARNING:sim - A core named 'system_clk_gen' already exists in the project.
-   Output products for this core may be overwritten.
-Applying external generics to 'system_clk_gen'...
-Delivering associated files for 'system_clk_gen'...
-WARNING:sim - Component clk_wiz_v3_6 does not have a valid model name for
-   Verilog synthesis
-Delivering EJava files for 'system_clk_gen'...
+WARNING:sim - A core named 'stream_data_sync_buffer' already exists in the
+   project. Output products for this core may be overwritten.
+Resolving generics for 'stream_data_sync_buffer'...
+WARNING:sim - A core named 'stream_data_sync_buffer' already exists in the
+   project. Output products for this core may be overwritten.
+Applying external generics to 'stream_data_sync_buffer'...
+Delivering associated files for 'stream_data_sync_buffer'...
+Delivering EJava files for 'stream_data_sync_buffer'...
+Generating implementation netlist for 'stream_data_sync_buffer'...
+INFO:sim - Pre-processing HDL files for 'stream_data_sync_buffer'...
+WARNING:sim - BlackBox generator run option '-ifmt' found multiple times. Only
+   the first occurence is considered.
+Running synthesis for 'stream_data_sync_buffer'
+Running ngcbuild...
+Writing VEO instantiation template for 'stream_data_sync_buffer'...
+Writing Verilog behavioral simulation model for 'stream_data_sync_buffer'...
+WARNING:sim - Overwriting existing file
+   /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipco
+   re_dir/tmp/_cg/stream_data_sync_buffer/doc/fifo_generator_v9_3_vinfo.html
+   with file from view xilinx_documentation
 Delivered 3 files into directory
 /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen
+dir/tmp/_cg/stream_data_sync_buffer
 Delivered 1 file into directory
 /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen
+dir/tmp/_cg/stream_data_sync_buffer
 Generating ASY schematic symbol...
-Loading device for application Rf_Device from file '7k325t.nph' in environment
-/opt/Xilinx/14.5/ISE_DS/ISE/.
 INFO:sim:949 - Finished generation of ASY schematic symbol.
-Generating SYM schematic symbol for 'system_clk_gen'...
+Generating SYM schematic symbol for 'stream_data_sync_buffer'...
+Generating metadata file...
+Regenerating ISE project file for 'stream_data_sync_buffer'...
 Generating ISE project...
-XCO file found: system_clk_gen.xco
-XMDF file found: system_clk_gen_xmdf.tcl
+XCO file found: stream_data_sync_buffer.xco
+XMDF file found: stream_data_sync_buffer_xmdf.tcl
 Adding
 /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen/example_design/system_clk_gen_exdes.ucf -view all
--origin_type created
+dir/tmp/_cg/stream_data_sync_buffer.asy -view all -origin_type imported
 Adding
 /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen/example_design/system_clk_gen_exdes.v -view all
--origin_type created
+dir/tmp/_cg/stream_data_sync_buffer.ngc -view all -origin_type created
+Checking file
+"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore
+_dir/tmp/_cg/stream_data_sync_buffer.ngc" for project device match ...
+File
+"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore
+_dir/tmp/_cg/stream_data_sync_buffer.ngc" device information matches project
+device.
+Adding
+/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
+dir/tmp/_cg/stream_data_sync_buffer.sym -view all -origin_type imported
+Adding
+/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
+dir/tmp/_cg/stream_data_sync_buffer.v -view all -origin_type created
 INFO:HDLCompiler:1845 - Analyzing Verilog file
    "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipc
-   ore_dir/tmp/_cg/system_clk_gen/example_design/system_clk_gen_exdes.v" into
-   library work
+   ore_dir/tmp/_cg/stream_data_sync_buffer.v" into library work
 INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
 Adding
 /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen.asy -view all -origin_type imported
-Adding
-/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen.v -view all -origin_type created
-INFO:HDLCompiler:1845 - Analyzing Verilog file
-   "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipc
-   ore_dir/tmp/_cg/system_clk_gen.v" into library work
-INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
-Adding
-/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ipcore_
-dir/tmp/_cg/system_clk_gen.veo -view all -origin_type imported
-WARNING: This core does not have a top level called "/system_clk_gen"
-WARNING: Top level has been set to "/system_clk_gen_exdes"
+dir/tmp/_cg/stream_data_sync_buffer.veo -view all -origin_type imported
+INFO:TclTasksC:2116 - The automatic calculation of top has been turned-off.
+   Please set the new top explicitly by running the "project set top" command.
+   To re-calculate the new top automatically, set the "Auto Implementation Top"
+   property to true.
+Top level has been set to "/stream_data_sync_buffer"
 Generating README file...
 Generating FLIST file...
 INFO:sim:948 - Finished FLIST file generation.
 Launching README viewer...
 Moving files to output directory...
 Finished moving files to output directory
-Wrote CGP file for project 'system_clk_gen'.
+Wrote CGP file for project 'stream_data_sync_buffer'.
