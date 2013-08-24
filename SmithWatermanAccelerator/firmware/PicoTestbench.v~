@@ -1,0 +1,48 @@
+// PicoTestbench.v - testbench for the AXI_to_PicoStream sample project
+// Copyright 2011 Pico Computing, Inc.
+
+`timescale 1ns/1ps
+`include "PicoSimParameters.v"
+
+module PicoTestbench;
+    
+    PicoSim #(.verbose(0)) PicoSim();
+
+    reg [127:0] inputData       [0:255];    // input data to compute the moving average
+    reg [127:0] expectedAverage [0:255];    // computed expected moving average
+    reg [127:0] actualAverage   [0:255];    // moving average from the FPGA
+
+    reg [255:0] ref_seq;
+    reg [127:0] query_seq;
+
+    reg [127:0] read_data;
+
+    integer     i;
+    reg [33:0]  sum;
+
+    initial begin
+        ref_seq = 256'h0464d13b63a068806fda9293a30ba5a4538ac43a6ab8be1448a9bc28759e62cb;
+        query_seq = 128'h0464d13b63a068806fda9293a30ba5a4;
+
+        // Base Initilization function required to use the PicoCard
+        PicoSim.PicoSimInit();
+       
+        // Stream ref seq to DRAM at address 0
+        PicoSim.PicoLoadBuffer128(0, ref_seq[127:0]);
+        PicoSim.PicoLoadBuffer128(1, ref_seq[255:128]);
+        PicoSim.WriteRam(0, 64, `PICO_DDR3_0);
+
+        // Stream query seq to stream
+        PicoSim.PicoLoadBuffer128(0, query_seq);
+        PicoSim.WriteStream(1, 0, 16);
+
+        // Stream result back from stream
+        PicoSim.ReadStream(1, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+
+        $display("All Tests Successful!");
+        $stop;
+    end
+
+endmodule

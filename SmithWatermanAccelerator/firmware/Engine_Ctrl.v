@@ -60,6 +60,7 @@
  *      Albert Ng   Aug 06 2013     Removed latches
  *      Albert Ng   Aug 07 2013     Changed ref_len and ref_addr to 26 bits
  *                                  Added num_query_blocks bit width note
+ *      Albert Ng   Aug 09 2013     Changed ref_len and ref_addr to 28 bits
  */
  
 module Engine_Ctrl(
@@ -68,8 +69,8 @@ module Engine_Ctrl(
     input         stall,                    // Pipeline stall
     
     // PCIe handler interface
-    input [25:0]  ref_length_in,            // Number of blocks in the reference sequence
-    input [25:0]  ref_addr_in,              // DRAM starting address for reference sequence
+    input [27:0]  ref_length_in,            // Number of blocks in the reference sequence
+    input [27:0]  ref_addr_in,              // DRAM starting address for reference sequence
     input [15:0]  num_query_blocks_in,      // Number of blocks in the query sequence
     input [15:0]  query_id_in,              // Query ID #
     input [31:0]  cell_score_threshold_in,  // Cell score threshold for reporting
@@ -80,8 +81,8 @@ module Engine_Ctrl(
     output        query_seq_block_rdy_out,  // Query sequence block input acknowledged
     
     // DRAM reference reader interface
-    output [25:0] ref_addr_out,             // DRAM starting address for reference sequence
-    output [25:0] ref_length_out,           // Number of blocks in the reference sequence
+    output [27:0] ref_addr_out,             // DRAM starting address for reference sequence
+    output [27:0] ref_length_out,           // Number of blocks in the reference sequence
     output        ref_info_valid_out,       // Reference sequence info output valid
     input [2*REF_LENGTH - 1:0] ref_seq_block_in, // Reference sequence block read from DRAM
     input         ref_seq_block_valid_in,   // Reference sequence block input valid
@@ -101,7 +102,7 @@ module Engine_Ctrl(
     output bypass_fifo_out,                 // Bypass inter-ref-block FIFOs
     
     // Cell Score Filter interface
-    output [25:0] ref_block_cnt_out,        // Current ref seq block
+    output [27:0] ref_block_cnt_out,        // Current ref seq block
     output [15:0] query_id_out,             // Current query ID
     output [31:0] cell_score_threshold_out, // Current cell score threshold
     output tracking_info_valid_out          // Tracking info is valid
@@ -136,10 +137,10 @@ module Engine_Ctrl(
     reg tracking_info_valid;
     
     // Counters
-    reg [25:0] ref_block_cnt;
+    reg [27:0] ref_block_cnt;
     reg [9:0]  query_block_cnt;
     reg [9:0]  block_char_cnt;
-    reg [25:0] next_ref_block_cnt;
+    reg [27:0] next_ref_block_cnt;
     reg [9:0]  next_query_block_cnt;
     reg [9:0]  next_block_char_cnt;
     
@@ -158,10 +159,10 @@ module Engine_Ctrl(
     reg [1:0] T_sreg [REF_LENGTH-1:0];
     
     // Query sequence bookkeeping signals
-    reg [25:0] ref_length0;
-    reg [25:0] ref_length1;
-    reg [25:0] ref_addr0;
-    reg [25:0] ref_addr1;
+    reg [27:0] ref_length0;
+    reg [27:0] ref_length1;
+    reg [27:0] ref_addr0;
+    reg [27:0] ref_addr1;
     reg [9:0] num_query_blocks0;
     reg [9:0] num_query_blocks1;
     reg [15:0] query_id0;

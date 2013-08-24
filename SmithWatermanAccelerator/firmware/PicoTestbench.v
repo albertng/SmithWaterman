@@ -8,68 +8,44 @@ module PicoTestbench;
     
     PicoSim #(.verbose(0)) PicoSim();
 
-    reg [127:0] inputData       [0:255];    // input data to compute the moving average
-    reg [127:0] expectedAverage [0:255];    // computed expected moving average
-    reg [127:0] actualAverage   [0:255];    // moving average from the FPGA
+    reg [255:0] ref_seq;
+    reg [127:0] query_seq;
+    reg [127:0] read_data;
 
-    integer     i;
-    reg [33:0]  sum;
 
     initial begin
-        
+        //ref_seq = 256'h0464d13b63a068806fda9293a30ba5a4538ac43a6ab8be1448a9bc28759e62cb;
+        query_seq = 128'hc8facaa7c280aa28a020aaaf89aae004;
+        //query_seq = 128'h66b89f02a83c42b8c9e0a9a84000908c;
+        //query_seq = 128'ha08a001693cb88aa68aae229a2aaea89;
+
         // Base Initilization function required to use the PicoCard
         PicoSim.PicoSimInit();
-       
-        // stream 4kB of data to the memory at address 0
-        for(i=0; i<4096; i=i+16) begin
-            inputData[i/16] = $random & 32'hFFFFFFFF;
-            PicoSim.PicoLoadBuffer128(i, inputData[i/16]);
-        end
-		PicoSim.WriteRam(0, 4096, `PICO_DDR3_0);
-       
-        // send command to compute moving average of 4kB of data from address 0 to address 4kB
-        PicoSim.PicoLoadBuffer128(0, {32'h0, 32'd4096, 32'd4096, 32'h0});
+
+        /*// Stream ref seq to DRAM at address 0
+        $display("Writing ref seq to DRAM");
+        PicoSim.PicoLoadBuffer128(0, ref_seq[127:0]);
+        PicoSim.PicoLoadBuffer128(16, ref_seq[255:128]);
+        PicoSim.WriteRam(0, 32, `PICO_DDR3_0);*/
+
+        // Stream query seq to stream
+        $display("Streaming query seq to FPGA");
+        PicoSim.PicoLoadBuffer128(0, 128'h00000080000000010000000000000008);
+        PicoSim.WriteStream(1, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, query_seq);
         PicoSim.WriteStream(1, 0, 16);
 
-        // compute the expected moving average 
-        sum = 0;
-        for(i=0; i<4096/16; i=i+1) begin
-`ifdef PICO_MODEL_M501
-            if (i > 3) begin
-                sum = sum - inputData[i-4];
-            end
-            sum = sum + inputData[i];
-            expectedAverage[i] = sum >> 2;
-`else
-            if (i % 2 == 0) begin
-                if (i > 7) begin
-                    sum = sum - inputData[i-8];
-                end
-                sum = sum + inputData[i];
-                expectedAverage[i] = sum >> 2;
-            end else begin
-                expectedAverage[i] = 0;
-            end
-`endif
-        end
+        // Stream result back from stream
+        $display("Streaming result from FPGA");
+        PicoSim.ReadStream(1, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(1, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Query:%d Location:%d", read_data[47:32], read_data[31:0]);
         
-        // allow the operation to complete: data to be read from DDR and result written to DDR
-        #5000;
 
-        // read moving average data from DDR
-        PicoSim.ReadRam(4096, 4096, `PICO_DDR3_0);
-        for(i=0; i<4096; i=i+16) begin
-            actualAverage[i/16] = PicoSim.PicoReadBuffer128(i);
-        end
         
-        // compare the actual moving average data against the expected data
-        for(i=0; i<4096/16; i=i+1) begin
-            if (actualAverage[i] !== expectedAverage[i]) begin
-                $display("data[%d]: actual (%h) != expected (%h)\n",
-                    i, actualAverage[i], expectedAverage[i]);
-                $stop;
-            end
-        end
 
         $display("All Tests Successful!");
         $stop;

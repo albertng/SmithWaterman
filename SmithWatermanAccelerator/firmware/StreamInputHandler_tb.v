@@ -5,6 +5,7 @@
  *      Albert Ng   Jul 09 2013     Initial Revision
  *      Albert Ng   Jul 15 2013     Added query ID #
  *      Albert Ng   Aug 07 2013     Changed ref_length and ref_addr to 26 bits
+ *      Albert Ng   Aug 09 2013     Changed ref_length and ref_addr to 28 bits
  *
  */
 
@@ -21,8 +22,8 @@ module StreamInputHandler_tb;
 
 	// Outputs
 	wire si_rdy;
-	wire [25:0] ref_length_out;
-	wire [25:0] ref_addr_out;
+	wire [27:0] ref_length_out;
+	wire [27:0] ref_addr_out;
 	wire [15:0] num_query_blocks_out;
     wire [15:0] query_id_out;
     wire [31:0] cell_score_threshold_out;

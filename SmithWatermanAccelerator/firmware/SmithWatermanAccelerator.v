@@ -5,6 +5,7 @@
  *  Revision History :
  *      Albert Ng   Jul 31 2013     Initial Revision
  *      Albert Ng   Aug 06 2013     Finished initial revision w/ 1 arbiter, 1 engine
+ *      Albert Ng   Aug 21 2013     Fixed sys_rst to hold for 100 sys_clks
  */
  
 `include "axi_defines.v" 
@@ -27,7 +28,7 @@ module SmithWatermanAccelerator #(
     output                          s1i_rdy,
     output                          s1o_valid,
     output [`STREAM1_OUT_WIDTH-1:0] s1o_data,
-    input                           s1o_rdy,
+    input                           s1o_rdy
     /*input                           s2i_valid,
     input [`STREAM2_IN_WIDTH-1:0]   s2i_data,
     output                          s2i_rdy,
@@ -39,7 +40,7 @@ module SmithWatermanAccelerator #(
     // DDR3 INTERFACE //
     ////////////////////
     // Input control signals
-    input                                  c0_axi_clk,        // AXI input clk
+    /*input                                  c0_axi_clk,        // AXI input clk
     input                                  c0_phy_init_done,  // Initialization completed
     input                                  c0_axi_rst,        // Active high AXI reset signal
     
@@ -91,7 +92,7 @@ module SmithWatermanAccelerator #(
     input                                  c0_s1_axi_rvalid,  // Read response valid
     input [C0_C_S_AXI_DATA_WIDTH-1:0]      c0_s1_axi_rdata,   // Read data
     input                                  c0_s1_axi_rlast,   // Read last
-    output                                 c0_s1_axi_rready   // Read response ready
+    output                                 c0_s1_axi_rready   // Read response ready*/
     );
 
     localparam NUM_PES = 64;
@@ -110,8 +111,8 @@ module SmithWatermanAccelerator #(
     wire stream_clk;
     wire stream_rst;
     wire sys_clk; 
-    reg sys_rst_q;
     reg sys_rst;
+    reg [7:0] sys_rst_cnt;
     wire locked;
 
     wire [3:0] active_ports;
@@ -148,6 +149,18 @@ module SmithWatermanAccelerator #(
     wire rd_data_valid_3;
     wire rd_data_rdy_3;
     
+    // Dummy DRAM signals
+    wire axi_clk;
+    wire axi_arready;
+    wire [7:0]   axi_arid;
+    wire [32:0]  axi_araddr;
+    wire [7:0]   axi_arlen;
+    wire         axi_arvalid;
+    wire [7:0]   axi_rid;
+    wire         axi_rvalid;
+    wire [255:0] axi_rdata;
+    wire         axi_rready;
+    
     // System clock and reset generation
     assign stream_clk = clk;
     assign stream_rst = rst;
@@ -157,13 +170,22 @@ module SmithWatermanAccelerator #(
         .RESET(stream_rst),
         .LOCKED(locked)
     );
-    always @(posedge sys_clk) begin
-        sys_rst_q <= stream_rst;
-        sys_rst   <= sys_rst_q;
-    end 
+    always @(posedge sys_clk or posedge stream_rst) begin
+        if (stream_rst) begin
+            sys_rst <= 1;
+            sys_rst_cnt <= 0;
+        end else begin
+            if (sys_rst_cnt <= 100) begin
+                sys_rst_cnt <= sys_rst_cnt + 1;
+                sys_rst <= 1;
+            end else begin
+                sys_rst <= 0;
+            end
+        end
+    end
 
     // Memory interface constants
-    assign c0_s1_axi_awlock = `NORMAL_ACCESS;         // Write lock type
+    /*assign c0_s1_axi_awlock = `NORMAL_ACCESS;         // Write lock type
     assign c0_s1_axi_awcache = `NON_CACHE_NON_BUFFER; // Write cache type
     assign c0_s1_axi_awprot = `DATA_SECURE_NORMAL;    // Write protection type
     assign c0_s1_axi_awburst = `INCREMENTING;         // Address should increment
@@ -175,10 +197,10 @@ module SmithWatermanAccelerator #(
     assign c0_s1_axi_arprot = `DATA_SECURE_NORMAL;    // Read protection type
     assign c0_s1_axi_arburst = `INCREMENTING;         // Address should increment
     assign c0_s1_axi_arqos = `NOT_QOS_PARTICIPANT;    // Not participating in QoS
-    assign c0_s1_axi_arsize = `THIRTY_TWO_BYTES;      // # bytes per transfer
+    assign c0_s1_axi_arsize = `THIRTY_TWO_BYTES;      // # bytes per transfer*/
 
     // Unused memory interface outputs
-    assign c0_s1_axi_awready = 0;
+    /*assign c0_s1_axi_awready = 0;
     assign c0_s1_axi_awid = 0;
     always @(*) begin
         c0_s1_axi_awaddr = 0;
@@ -188,7 +210,24 @@ module SmithWatermanAccelerator #(
     assign c0_s1_axi_wdata = 0;
     assign c0_s1_axi_wlast = 0;
     assign c0_s1_axi_wvalid = 0;
-    assign c0_s1_axi_bready = 0;
+    assign c0_s1_axi_bready = 0;*/
+
+    // Dummy DRAM
+    Dummy_DRAM dd (
+        .clk(sys_clk),
+        .rst(sys_rst),
+        .axi_clk_in(axi_clk),
+        .axi_arready_out(axi_arready),
+        .axi_arid_in(axi_arid),
+        .axi_araddr_in(axi_araddr),
+        .axi_arlen_in(axi_arlen),
+        .axi_arvalid_in(axi_arvalid),
+        .axi_rid_out(axi_rid),
+        .axi_rvalid_out(axi_rvalid),
+        .axi_rdata_out(axi_rdata),
+        .axi_rready_in(axi_rready)
+    );
+
 
     // AXI Arbiter unit
     //assign active_ports = 4'b0011;
@@ -196,7 +235,7 @@ module SmithWatermanAccelerator #(
     AXIArbiter aa (
         .clk(sys_clk),
         .rst(sys_rst),
-        .axi_clk_out(c0_s1_axi_clk),
+        /*.axi_clk_out(c0_s1_axi_clk),
         .axi_arready_in(c0_s1_axi_arready),
         .axi_arid_out(c0_s1_axi_arid),
         .axi_araddr_out(c0_s1_axi_araddr_net),
@@ -205,7 +244,17 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s1_axi_rid),
         .axi_rvalid_in(c0_s1_axi_rvalid),
         .axi_rdata_in(c0_s1_axi_rdata),
-        .axi_rready_out(c0_s1_axi_rready),
+        .axi_rready_out(c0_s1_axi_rready),*/
+        .axi_clk_out(axi_clk),
+        .axi_arready_in(axi_arready),
+        .axi_arid_out(axi_arid),
+        .axi_araddr_out(axi_araddr),
+        .axi_arlen_out(axi_arlen),
+        .axi_arvalid_out(axi_arvalid),
+        .axi_rid_in(axi_rid),
+        .axi_rvalid_in(axi_rvalid),
+        .axi_rdata_in(axi_rdata),
+        .axi_rready_out(axi_rready),
         .active_ports_in(active_ports),
         .rd_id_0_in(rd_id_0),
         .rd_addr_0_in(rd_addr_0),
@@ -240,11 +289,11 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid_3),
         .rd_data_rdy_3_in(rd_data_rdy_3)
     );
-    always @(*) begin
+    /*always @(*) begin
         c0_s1_axi_araddr = c0_s1_axi_araddr_net;
         c0_s1_axi_arlen = c0_s1_axi_arlen_net;
         c0_s1_axi_arvalid = c0_s1_axi_arvalid_net;
-    end
+    end*/
     assign rd_id_1 = 0;
     assign rd_addr_1 = 0;
     assign rd_len_1 = 0;

@@ -13,6 +13,7 @@
  *      Albert Ng   Jul 26 2013     Added cell score filter interface tests
  *                                  Added last_query_block_out tests
  *      Albert Ng   Aug 07 2013     Changed ref_len and ref_addr to 26 bits
+ *      Albert Ng   Aug 09 2013     Changed ref_len and ref_addr to 28 bits
  *
  */
 
@@ -22,8 +23,8 @@ module Engine_Ctrl_tb;
 	reg clk;
 	reg rst;
 	reg stall;
-	reg [25:0] ref_length_in;
-	reg [25:0] ref_addr_in;
+	reg [27:0] ref_length_in;
+	reg [27:0] ref_addr_in;
 	reg [15:0] num_query_blocks_in;
     reg [15:0] query_id_in;
     reg [31:0] cell_score_threshold_in;
@@ -36,8 +37,8 @@ module Engine_Ctrl_tb;
 	// Outputs
     wire query_info_rdy_out;
 	wire query_seq_block_rdy_out;
-	wire [25:0] ref_addr_out;
-	wire [25:0] ref_length_out;
+	wire [27:0] ref_addr_out;
+	wire [27:0] ref_length_out;
 	wire ref_info_valid_out;
 	wire ref_seq_block_rdy_out;
 	wire [7:0] S_out;
@@ -51,7 +52,7 @@ module Engine_Ctrl_tb;
     wire last_query_block_out;
 	wire last_block_char_out;
 	wire bypass_fifo_out;
-    wire [25:0] ref_block_cnt_out;
+    wire [27:0] ref_block_cnt_out;
     wire [15:0] query_id_out;
     wire [31:0] cell_score_threshold_out;
     wire tracking_info_valid_out;
@@ -96,24 +97,24 @@ module Engine_Ctrl_tb;
 
     reg [7:0] query1 [2:0];
     reg [15:0] ref1[2:0];
-    reg [25:0] ref_length1;
-    reg [25:0] ref_addr1;
+    reg [27:0] ref_length1;
+    reg [27:0] ref_addr1;
     reg [15:0] num_query_blocks1;
     reg [15:0] query_id1;
     reg [31:0] cell_score_threshold1;
     
     reg [7:0] query2 [1:0];
     reg [15:0] ref2[0:0];
-    reg [25:0] ref_length2;
-    reg [25:0] ref_addr2;
+    reg [27:0] ref_length2;
+    reg [27:0] ref_addr2;
     reg [15:0] num_query_blocks2;
     reg [15:0] query_id2;
     reg [31:0] cell_score_threshold2;
     
     reg [7:0] query3 [0:0];
     reg [15:0] ref3[1:0];
-    reg [25:0] ref_length3;
-    reg [25:0] ref_addr3;
+    reg [27:0] ref_length3;
+    reg [27:0] ref_addr3;
     reg [15:0] num_query_blocks3;
     reg [15:0] query_id3;
     reg [31:0] cell_score_threshold3;

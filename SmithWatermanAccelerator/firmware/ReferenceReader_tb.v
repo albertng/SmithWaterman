@@ -4,6 +4,7 @@
  *  Revision History :
  *      Albert Ng   Jul 11 2013     Initial Revision
  *      Albert Ng   Aug 07 2013     Changed ref_len and ref_addr to 26 bits
+ *      Albert Ng   Aug 07 2013     Changed ref_len and ref_addr to 28 bits
  *
  */
 
@@ -12,8 +13,8 @@ module ReferenceReader_tb;
 	// Inputs
 	reg clk;
 	reg rst;
-	reg [25:0] ref_addr_in;
-	reg [25:0] ref_length_in;
+	reg [27:0] ref_addr_in;
+	reg [27:0] ref_length_in;
 	reg ref_info_valid_in;
 	reg ref_seq_block_rdy_in;
 	reg rd_info_rdy_in;
@@ -29,20 +30,20 @@ module ReferenceReader_tb;
 	wire rd_info_valid_out;
 	wire rd_data_rdy_out;
 
-    reg [25:0] ref_addr1;
-    reg [25:0] ref_length1;
+    reg [27:0] ref_addr1;
+    reg [27:0] ref_length1;
     reg [255:0] rd_data1[3:0];
     
-    reg [25:0] ref_addr2;
-    reg [25:0] ref_length2;
+    reg [27:0] ref_addr2;
+    reg [27:0] ref_length2;
     reg [255:0] rd_data2[2:0];
     
-    reg [25:0] ref_addr3;
-    reg [25:0] ref_length3;
+    reg [27:0] ref_addr3;
+    reg [27:0] ref_length3;
     reg [255:0] rd_data3[0:0];
     
-    reg [25:0] ref_addr4;
-    reg [25:0] ref_length4;
+    reg [27:0] ref_addr4;
+    reg [27:0] ref_length4;
     reg [255:0] rd_data4[18:0];
     
 	// Instantiate the Unit Under Test (UUT)
@@ -130,7 +131,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1})
+        if (rd_addr_out != {ref_addr1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
@@ -146,7 +147,7 @@ module ReferenceReader_tb;
                 $display("@%0dns ref_seq_block_valid_out error", $time);
             if (rd_info_valid_out != 1)
                 $display("@%0dns rd_info_valid_out error", $time);
-            if (rd_addr_out != {7'b0, ref_addr1})
+            if (rd_addr_out != {ref_addr1, 5'b0})
                 $display("@%0dns rd_addr_out error", $time);
             if (rd_id_out != 0)
                 $display("@%0dns rd_id_out error", $time);
@@ -162,7 +163,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1})
+        if (rd_addr_out != {ref_addr1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
@@ -178,7 +179,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 1})
+        if (rd_addr_out != {ref_addr1 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
@@ -194,7 +195,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 1})
+        if (rd_addr_out != {ref_addr1 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
@@ -210,7 +211,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 2})
+        if (rd_addr_out != {ref_addr1 + 2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
@@ -226,7 +227,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 2})
+        if (rd_addr_out != {ref_addr1 + 2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
@@ -242,7 +243,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 3})
+        if (rd_addr_out != {ref_addr1 + 3, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
@@ -258,7 +259,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 3})
+        if (rd_addr_out != {ref_addr1 + 3, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
@@ -307,7 +308,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2})
+        if (rd_addr_out != {ref_addr2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 4)
             $display("@%0dns rd_id_out error", $time);
@@ -322,7 +323,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2})
+        if (rd_addr_out != {ref_addr2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 4)
             $display("@%0dns rd_id_out error", $time);
@@ -338,7 +339,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2 + 1})
+        if (rd_addr_out != {ref_addr2 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 5)
             $display("@%0dns rd_id_out error", $time);
@@ -357,7 +358,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2 + 1})
+        if (rd_addr_out != {ref_addr2 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 5)
             $display("@%0dns rd_id_out error", $time);
@@ -374,7 +375,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2 + 2})
+        if (rd_addr_out != {ref_addr2 + 2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 6)
             $display("@%0dns rd_id_out error", $time);
@@ -390,7 +391,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2 + 2})
+        if (rd_addr_out != {ref_addr2 + 2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 6)
             $display("@%0dns rd_id_out error", $time);
@@ -415,7 +416,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr3})
+        if (rd_addr_out != {ref_addr3, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 7)
             $display("@%0dns rd_id_out error", $time);
@@ -430,7 +431,7 @@ module ReferenceReader_tb;
             $display("@%0dns ref_seq_block_valid_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr3})
+        if (rd_addr_out != {ref_addr3, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 7)
             $display("@%0dns rd_id_out error", $time);
@@ -716,7 +717,7 @@ module ReferenceReader_tb;
                 $display("@%0dns ref_seq_block_valid_out error", $time);
             if (rd_info_valid_out != 1)
                 $display("@%0dns rd_info_valid_out error", $time);
-            if (rd_addr_out != {7'b0, ref_addr4 + i})
+            if (rd_addr_out != {ref_addr4 + i, 5'b0})
                 $display("@%0dns rd_addr_out error", $time);
             if (rd_id_out != i + 8)
                 $display("@%0dns rd_id_out error", $time);
@@ -731,7 +732,7 @@ module ReferenceReader_tb;
                 $display("@%0dns ref_seq_block_valid_out error", $time);
             if (rd_info_valid_out != 1)
                 $display("@%0dns rd_info_valid_out error", $time);
-            if (rd_addr_out != {7'b0, ref_addr4 + i})
+            if (rd_addr_out != {ref_addr4 + i, 5'b0})
                 $display("@%0dns rd_addr_out error", $time);
             if (rd_id_out != i + 8)
                 $display("@%0dns rd_id_out error", $time);

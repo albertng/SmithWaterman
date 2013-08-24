@@ -22,6 +22,9 @@
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="m505lx325.xise"/>
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="PicoTestbench_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="PicoTestbench_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="PicoTestbench_isim_beh.wdb"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_BITGEN_REPORT" xil_pn:name="Pico_Toplevel.bgn" xil_pn:subbranch="FPGAConfiguration"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_BIT" xil_pn:name="Pico_Toplevel.bit" xil_pn:subbranch="FPGAConfiguration"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGDBUILD_LOG" xil_pn:name="Pico_Toplevel.bld"/>
@@ -68,14 +71,181 @@
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/par.xmsgs"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/trce.xmsgs"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
+    <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
+    <file xil_pn:fileType="FILE_LOG" xil_pn:name="source/coregen.log"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="usage_statistics_webtalk.html"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="webtalk.log"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_INI" xil_pn:name="xilinxsim.ini"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xlnx_auto_0_xdb"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
+    <transform xil_pn:end_ts="1376087069" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1376087069" xil_pn:in_ck="-4168403893824471526" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../StreamLoopback128.v"/>
+      <outfile xil_pn:name="source/AXIBuffer.v"/>
+      <outfile xil_pn:name="source/BasePicoDefines.v"/>
+      <outfile xil_pn:name="source/CardInfo32.v"/>
+      <outfile xil_pn:name="source/PCIeHdrAlignSplit.v"/>
+      <outfile xil_pn:name="source/PICO_128_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_EP.v"/>
+      <outfile xil_pn:name="source/PicoDefines.v"/>
+      <outfile xil_pn:name="source/PicoFramework.v"/>
+      <outfile xil_pn:name="source/PicoSimParameters.v"/>
+      <outfile xil_pn:name="source/PicoStreamIn.v"/>
+      <outfile xil_pn:name="source/PicoStreamOut.v"/>
+      <outfile xil_pn:name="source/PicoTestbench.v"/>
+      <outfile xil_pn:name="source/Pico_Toplevel.v"/>
+      <outfile xil_pn:name="source/Reorder.v"/>
+      <outfile xil_pn:name="source/Stream2PicoBus.v"/>
+      <outfile xil_pn:name="source/StreamWidthConversion.v"/>
+      <outfile xil_pn:name="source/TestCounter32.v"/>
+      <outfile xil_pn:name="source/UserWrapper.v"/>
+      <outfile xil_pn:name="source/asyncFifoBRAM.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_null_gen.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_thrtl_ctl.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_rx_valid_filter_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_top_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_brams_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_lane.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_misc.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_clock.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_eq.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_rate.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_sync.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_user.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_rxeq_scan.v"/>
+      <outfile xil_pn:name="source/fifo_512x128.v"/>
+      <outfile xil_pn:name="source/pcie_app_v6.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1376087069" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-3217855279503624926" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1376087069" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="1407958443842755926" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1376087069" xil_pn:in_ck="4994015924075720629" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-6171376165072070427" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="source/coregen_fifo_32x128.ngc"/>
+      <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1376087069" xil_pn:in_ck="-8665071917529639685" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../StreamLoopback128.v"/>
+      <outfile xil_pn:name="source/AXIBuffer.v"/>
+      <outfile xil_pn:name="source/BasePicoDefines.v"/>
+      <outfile xil_pn:name="source/CardInfo32.v"/>
+      <outfile xil_pn:name="source/PCIeHdrAlignSplit.v"/>
+      <outfile xil_pn:name="source/PICO_128_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_RX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE.v"/>
+      <outfile xil_pn:name="source/PIO_128_TX_ENGINE_SIM.v"/>
+      <outfile xil_pn:name="source/PIO_EP.v"/>
+      <outfile xil_pn:name="source/PicoDefines.v"/>
+      <outfile xil_pn:name="source/PicoFramework.v"/>
+      <outfile xil_pn:name="source/PicoSimParameters.v"/>
+      <outfile xil_pn:name="source/PicoStreamIn.v"/>
+      <outfile xil_pn:name="source/PicoStreamOut.v"/>
+      <outfile xil_pn:name="source/PicoTestbench.v"/>
+      <outfile xil_pn:name="source/Pico_Toplevel.v"/>
+      <outfile xil_pn:name="source/Reorder.v"/>
+      <outfile xil_pn:name="source/Stream2PicoBus.v"/>
+      <outfile xil_pn:name="source/StreamWidthConversion.v"/>
+      <outfile xil_pn:name="source/TestCounter32.v"/>
+      <outfile xil_pn:name="source/UserWrapper.v"/>
+      <outfile xil_pn:name="source/asyncFifoBRAM.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_null_gen.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_rx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_axi_basic_tx_thrtl_ctl.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_rx_valid_filter_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_gt_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_bram_top_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_brams_7x.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_lane.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_misc.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_pipe_pipeline.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pcie_top.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_clock.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_eq.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_rate.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_sync.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_user.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_drp.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_reset.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_qpll_wrapper.v"/>
+      <outfile xil_pn:name="source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_rxeq_scan.v"/>
+      <outfile xil_pn:name="source/coregen_fifo_32x128.v"/>
+      <outfile xil_pn:name="source/fifo_512x128.v"/>
+      <outfile xil_pn:name="source/pcie_app_v6.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1376087079" xil_pn:in_ck="-8665071917529639685" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="6665881417727181284" xil_pn:start_ts="1376087069">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="PicoTestbench_beh.prj"/>
+      <outfile xil_pn:name="PicoTestbench_isim_beh.exe"/>
+      <outfile xil_pn:name="fuse.log"/>
+      <outfile xil_pn:name="isim"/>
+      <outfile xil_pn:name="xilinxsim.ini"/>
+    </transform>
+    <transform xil_pn:end_ts="1377122725" xil_pn:in_ck="1501595410427463162" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="1909064648786388920" xil_pn:start_ts="1377122724">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="PicoTestbench_isim_beh.wdb"/>
+      <outfile xil_pn:name="isim.cmd"/>
+      <outfile xil_pn:name="isim.log"/>
+    </transform>
     <transform xil_pn:end_ts="1367256209" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1367256209">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>

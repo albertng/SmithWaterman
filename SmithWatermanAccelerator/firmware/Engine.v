@@ -46,8 +46,8 @@ module Engine(
     parameter PES_PER_FIFO = 4;
     
     // Stream input handler - engine controller interface
-    wire [25:0] ref_length_sih2ec;
-    wire [25:0] ref_addr_sih2ec;
+    wire [27:0] ref_length_sih2ec;
+    wire [27:0] ref_addr_sih2ec;
     wire [15:0] num_query_blocks_sih2ec;
     wire [15:0] query_id_sih2ec;
     wire [31:0] cell_score_threshold_sih2ec;
@@ -58,8 +58,8 @@ module Engine(
     wire query_seq_block_rdy_ec2sih;
     
     // Engine controller - reference reader interface
-    wire [25:0] ref_addr_ec2rr;
-    wire [25:0] ref_length_ec2rr;
+    wire [27:0] ref_addr_ec2rr;
+    wire [27:0] ref_length_ec2rr;
     wire ref_info_valid_ec2rr;
     wire [2*REF_LENGTH - 1:0] ref_seq_block_rr2ec;
     wire ref_seq_block_valid_rr2ec;
@@ -79,7 +79,7 @@ module Engine(
     wire bypass_fifo_ec2swa;
     
     // Engine controller - cell score filter interface
-    wire [25:0] ref_block_cnt_ec2csf;
+    wire [27:0] ref_block_cnt_ec2csf;
     wire [15:0] query_id_ec2csf;
     wire [31:0] cell_score_threshold_ec2csf;
     wire tracking_info_valid_ec2csf;
@@ -88,6 +88,7 @@ module Engine(
     wire [NUM_PES * WIDTH - 1:0] V_out_swa2csf;
     wire [NUM_PES - 1:0] V_out_valid_swa2csf;
     wire end_of_query_swa2csf;
+    wire end_of_refblock_swa2csf;
     
     // Stall signal
     wire stall;
@@ -184,7 +185,8 @@ module Engine(
         .bypass_fifo_in(bypass_fifo_ec2swa),
         .V_out(V_out_swa2csf),
         .V_out_valid(V_out_valid_swa2csf),
-        .end_of_query_out(end_of_query_swa2csf)
+        .end_of_query_out(end_of_query_swa2csf),
+        .end_of_refblock_out(end_of_refblock_swa2csf)
     );
     
     CellScoreFilter #(NUM_PES, WIDTH) csf (
@@ -198,6 +200,7 @@ module Engine(
         .V_out_in(V_out_swa2csf),
         .V_out_valid_in(V_out_valid_swa2csf),
         .end_of_query_in(end_of_query_swa2csf),
+        .end_of_refblock_in(end_of_refblock_swa2csf),
         .so_clk(so_clk),
         .so_valid_out(so_valid_out),
         .so_data_out(so_data_out),

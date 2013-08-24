@@ -1,0 +1,87 @@
+ISim log file
+Running: /home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/PicoTestbench_isim_beh.wdb 
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+WARNING:  For instance u_ddr_mc_phy_wrapper/u_ddr_mc_phy/, width 1 of formal port phyGo is not equal to width 32 of actual constant.
+WARNING:  For instance u_ddr_mc_phy_wrapper/u_ddr_mc_phy/, width 12 of formal port calib_zero_lanes is not equal to width 32 of actual constant.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 375.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_0 is not equal to width 12 of actual signal rd_data_offset_ranks_0.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 376.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_1 is not equal to width 12 of actual signal rd_data_offset_ranks_1.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 377.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_2 is not equal to width 12 of actual signal rd_data_offset_ranks_2.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 378.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_mc_0 is not equal to width 12 of actual signal rd_data_offset_ranks_mc_0.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 379.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_mc_1 is not equal to width 12 of actual signal rd_data_offset_ranks_mc_1.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 380.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_mc_2 is not equal to width 12 of actual signal rd_data_offset_ranks_mc_2.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 237.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 320 of formal port dlyval_dq is not equal to width 640 of actual signal dlyval_dq.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 278.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 48 of formal port dbg_cpt_first_edge_cnt is not equal to width 96 of actual signal dbg_cpt_first_edge_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 279.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 48 of formal port dbg_cpt_second_edge_cnt is not equal to width 96 of actual signal dbg_cpt_second_edge_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 280.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 48 of formal port dbg_cpt_tap_cnt is not equal to width 96 of actual signal dbg_cpt_tap_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 281.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 40 of formal port dbg_dq_idelay_tap_cnt is not equal to width 80 of actual signal dbg_dq_idelay_tap_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/ip_top/mig_7series_v1_8_memc_ui_top_axi.v" Line 298.  For instance u_mig_7series_v1_8_memc_ui_top_axi/u_ui_top/, width 8 of formal port app_ecc_multiple_err is not equal to width 4 of actual signal app_ecc_multiple_err_o.
+WARNING: File "/home/albertng/Documents/SmithWaterman/samples/DDR3_MovingAverage/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/ip_top/mig_7series_v1_8_memc_ui_top_axi.v" Line 298.  For instance u_mig_7series_v1_8_memc_ui_top_axi/u_axi_mc/, width 8 of formal port mc_app_ecc_multiple_err is not equal to width 4 of actual signal app_ecc_multiple_err_o.
+Time resolution is 1 fs
+# onerror resume
+# wave add /
+# run 1s
+Simulator is doing circuit initialization process.
+############# Write Clocks PLLE2_ADV Parameters #############
+
+nCK_PER_CLK      = 4
+CLK_PERIOD       = 2500
+CLKIN1_PERIOD    =   2.500
+DIVCLK_DIVIDE    = 3
+CLKFBOUT_MULT    = 10
+VCO_PERIOD       = 750
+CLKOUT0_DIVIDE_F = 2
+CLKOUT1_DIVIDE   = 2
+CLKOUT2_DIVIDE   = 32
+CLKOUT3_DIVIDE   = 8
+CLKOUT0_PERIOD   = 1500
+CLKOUT1_PERIOD   = 1500
+CLKOUT2_PERIOD   = 24000
+CLKOUT3_PERIOD   = 6000
+CLKOUT4_PERIOD   = 3000
+############################################################
+
+############# MMCME2_ADV Parameters #############
+
+MMCM_VCO_MIN_PERIOD   = 833.333
+MMCM_VCO_MAX_PERIOD   = 1666.667
+MMCM_MULT_F_MID       =   4.800
+MMCM_EXPECTED_PERIOD  = 1250.000
+MMCM_MULT_F           =   4.800
+CLKOUT3_PERIOD_NS     =   6.000
+MMCM_VCO_FREQ (MHz)   = 800.000
+MMCM_VCO_PERIOD       = 1250.000
+#################################################
+
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : BYTE_LANES_B0 = f BYTE_LANES_B1 = e DATA_CTL_B0 = f DATA_CTL_B1 = 0
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_LANE =          12 HIGHEST_LANE_B0 =           4 HIGHEST_LANE_B1 =           4
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_BANK =           3
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : FREQ_REF_PERIOD         = 1500.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DDR_TCK                 = 1500 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_S2_TAPS_SIZE         = 11.72 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_EARLY       = 1 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_OFFSET      = 57.90 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_META_ZONE   = 200.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_FINE_INTR_DLY   = 874.70 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_COARSE_INTR_DLY = 567.40 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_INTRINSIC_DELAY = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_DELAY       = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_INTRINSIC_DELAY      = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_DELAY                = 2145.22 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_OCLK_DELAY           = 15 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : L_PHY_0_PO_FINE_DELAY   = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG1_INTRINSIC_DELAY = 0.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_INTRINSIC_DELAY = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_INTRINSIC_DELAY      = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_MAX_STG2_DELAY       = 738.28 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_OFFSET               = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_DELAY           = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy :PI_STG2_DELAY_CAND       = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DEFAULT_RCLK_DELAY      = 8 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : RCLK_SELECT_EDGE        = 111 
+0.0 ps: PicoSimInit
+Finished circuit initialization process.
+Stopped at time : 407091140 fs : File "/build/xfndry/isimco/hipsBuilds/P_hips_v16.0/rst/hips/oserdese2/B_OSERDESE2_enc.v" Line 4130
+# exit 0

@@ -36,6 +36,9 @@
  *      Albert Ng   Jul 29 2013     Changed to single independent clk domain output FIFO
  *      Albert Ng   Aug 06 2013     Removed latches
  *      Albert Ng   Aug 07 2013     Changed ref_block_cnt to 26 bits
+ *      Albert Ng   Aug 09 2013     Changed ref_block_cnt to 28 bits
+ *                                  Changed output packet to {query_id, ref_block_cnt}
+ *      Albert Ng   Aug 23 2013     Added end_of_refblock checks
  */
  
 module CellScoreFilter(
@@ -44,7 +47,7 @@ module CellScoreFilter(
     output        stall_out,                // Stall signal
     
     // Engine controller interface
-    input [25:0] ref_block_cnt_in,          // Current ref seq block
+    input [27:0] ref_block_cnt_in,          // Current ref seq block
     input [15:0] query_id_in,               // Current query ID
     input [31:0] cell_score_threshold_in,   // Current cell score threshold
     input tracking_info_valid_in,           // Tracking info is valid (1 clk)
@@ -53,6 +56,7 @@ module CellScoreFilter(
     input [NUM_PES * WIDTH - 1:0] V_out_in, // Cell scores    
     input [NUM_PES - 1:0] V_out_valid_in,   // Cell scores valid
     input end_of_query_in,                  // Last PE score is end of query
+    input end_of_refblock_in,               // Last PE score is end of ref block
     
     // Output stream interface
     input  so_clk,                          // Stream output clock
@@ -79,12 +83,14 @@ module CellScoreFilter(
     // Tracking info buffers
     wire tracking_info_valid0;
     wire tracking_info_valid1;
-    reg [25:0] ref_block_cnt0;
-    reg [25:0] ref_block_cnt1;
+    reg [27:0] ref_block_cnt0;
+    reg [27:0] ref_block_cnt1;
     reg [15:0] query_id0;
     reg [15:0] query_id1;
     reg [WIDTH - 1:0] cell_score_threshold0;
     reg [WIDTH - 1:0] cell_score_threshold1;
+    reg buffer_valid0;
+    reg buffer_valid1;
     reg write_buffer;
     
     // Buffer select signals
@@ -100,6 +106,10 @@ module CellScoreFilter(
     reg end_of_query_sel1;
     wire end_of_query0;
     wire end_of_query1;
+    
+    // End of ref block signals
+    wire end_of_refblock0;
+    wire end_of_refblock1;
  
     // High score logic signals
     reg [WIDTH - 1:0] cell_score_threshold [NUM_PES - 1:0];
@@ -128,6 +138,11 @@ module CellScoreFilter(
     // End of query logic
     assign end_of_query0 = end_of_query_in & !buffer_sel[NUM_PES - 1];
     assign end_of_query1 = end_of_query_in & buffer_sel[NUM_PES - 1];
+    
+    
+    // End of ref block logic
+    assign end_of_refblock0 = end_of_refblock_in & !buffer_sel[NUM_PES - 1];
+    assign end_of_refblock1 = end_of_refblock_in & buffer_sel[NUM_PES - 1];
     
     // High score logic
     generate
@@ -191,17 +206,27 @@ module CellScoreFilter(
             query_id1 <= 0;
             cell_score_threshold0 <= 0;
             cell_score_threshold1 <= 0;
+            buffer_valid0 <= 0;
+            buffer_valid1 <= 0;
         end else begin
             if (tracking_info_valid0) begin
                 ref_block_cnt0 <= ref_block_cnt_in;
                 query_id0 <= query_id_in;
                 cell_score_threshold0 <= cell_score_threshold_in;
+                buffer_valid0 <= 1;
+            end else if (end_of_refblock0) begin
+                buffer_valid0 <= 0;
             end
+            
             if (tracking_info_valid1) begin
                 ref_block_cnt1 <= ref_block_cnt_in;
                 query_id1 <= query_id_in;
                 cell_score_threshold1 <= cell_score_threshold_in;
+                buffer_valid1 <= 1;
+            end else if (end_of_refblock1) begin
+                buffer_valid1 <= 0;
             end
+            
             if (tracking_info_valid_in) begin
                 write_buffer <= !write_buffer;
             end
@@ -219,11 +244,11 @@ module CellScoreFilter(
     always @(*) begin
         case (state0)
             INIT: begin
-                if (high_score0 && !all_sel0) begin
+                if (high_score0 && !all_sel0 && buffer_valid0) begin
                     next_state0 = HIGH_SCORE_WAIT_ALL_SEL;
-                end else if (high_score0 && all_sel0) begin
+                end else if (high_score0 && all_sel0 && buffer_valid0) begin
                     next_state0 = HIGH_SCORE;
-                end else if (!high_score0 && all_sel0) begin
+                end else if (!high_score0 && all_sel0 && buffer_valid0) begin
                     next_state0 = NO_HIGH_SCORE;
                 end else begin
                     next_state0 = INIT;
@@ -239,7 +264,8 @@ module CellScoreFilter(
             end
             
             HIGH_SCORE: begin
-                if (tracking_info_valid0) begin
+                if (end_of_refblock0 && !end_of_query0) begin
+                //if (tracking_info_valid0) begin
                     next_state0 = INIT;
                 end else if (end_of_query0) begin
                     next_state0 = END_OF_QUERY;
@@ -249,7 +275,9 @@ module CellScoreFilter(
             end
     
             NO_HIGH_SCORE: begin
-                if (high_score0 && !end_of_query0) begin
+                if (end_of_refblock0 && !end_of_query0) begin
+                    next_state0 = INIT;
+                end else if (high_score0 && !end_of_query0) begin
                     next_state0 = HIGH_SCORE;
                 end else if (!high_score0 && !end_of_query0) begin
                     next_state0 = NO_HIGH_SCORE;
@@ -328,11 +356,11 @@ module CellScoreFilter(
     always @(*) begin
         case (state1)
             INIT: begin
-                if (high_score1 && !all_sel1) begin
+                if (high_score1 && !all_sel1 && buffer_valid1) begin
                     next_state1 = HIGH_SCORE_WAIT_ALL_SEL;
-                end else if (high_score1 && all_sel1) begin
+                end else if (high_score1 && all_sel1 && buffer_valid1) begin
                     next_state1 = HIGH_SCORE;
-                end else if (!high_score1 && all_sel1) begin
+                end else if (!high_score1 && all_sel1 && buffer_valid1) begin
                     next_state1 = NO_HIGH_SCORE;
                 end else begin
                     next_state1 = INIT;
@@ -348,7 +376,8 @@ module CellScoreFilter(
             end
             
             HIGH_SCORE: begin
-                if (tracking_info_valid1) begin
+                if (end_of_refblock1 && !end_of_query1) begin
+                //if (tracking_info_valid1) begin
                     next_state1 = INIT;
                 end else if (end_of_query1) begin
                     next_state1 = END_OF_QUERY;
@@ -358,7 +387,9 @@ module CellScoreFilter(
             end
     
             NO_HIGH_SCORE: begin
-                if (high_score1 && !end_of_query1) begin
+                if (end_of_refblock1 && !end_of_query1) begin
+                    next_state1 = INIT;
+                end else if (high_score1 && !end_of_query1) begin
                     next_state1 = HIGH_SCORE;
                 end else if (!high_score1 && !end_of_query1) begin
                     next_state1 = NO_HIGH_SCORE;
@@ -438,8 +469,8 @@ module CellScoreFilter(
         .full(fifo_full),
         .empty(fifo_empty)
     );
-    assign fifo_din0 = end_of_query_sel0 ? {EOQ, query_id0} : {6'b0, ref_block_cnt0, query_id0};
-    assign fifo_din1 = end_of_query_sel1 ? {EOQ, query_id1} : {6'b0, ref_block_cnt1, query_id1};
+    assign fifo_din0 = end_of_query_sel0 ? {query_id0, EOQ} : {query_id0, 4'b0, ref_block_cnt0};
+    assign fifo_din1 = end_of_query_sel1 ? {query_id1, EOQ} : {query_id1, 4'b0, ref_block_cnt1};
     assign fifo_din = next_fifo_din_sel ? fifo_din1 : fifo_din0;
     always @(posedge clk) begin
         if (rst) begin

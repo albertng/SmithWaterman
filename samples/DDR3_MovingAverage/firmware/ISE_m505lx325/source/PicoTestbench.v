@@ -6,7 +6,8 @@
 
 module PicoTestbench;
     
-    PicoSim #(.verbose(0)) PicoSim();
+    //PicoSim #(.verbose(0)) PicoSim();
+    PicoSim PicoSim();
 
     reg [127:0] inputData       [0:255];    // input data to compute the moving average
     reg [127:0] expectedAverage [0:255];    // computed expected moving average

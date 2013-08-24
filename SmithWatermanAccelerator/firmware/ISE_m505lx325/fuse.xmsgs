@@ -5,5 +5,149 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="HDLCompiler" num="327" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="327" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1694: Concatenation with unsized literal; will interpret as 32 bits
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="751" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_128_RX_ENGINE_SIM.v" Line 161: Redeclaration of ansi port <arg fmt="%s" index="1">stream_inx</arg> is not allowed
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="751" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_128_RX_ENGINE_SIM.v" Line 162: Redeclaration of ansi port <arg fmt="%s" index="1">stream_desc</arg> is not allowed
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="751" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_128_RX_ENGINE_SIM.v" Line 163: Redeclaration of ansi port <arg fmt="%s" index="1">stream_data</arg> is not allowed
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="327" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="327" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1694: Concatenation with unsized literal; will interpret as 32 bits
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 365: Port <arg fmt="%s" index="1">last_cpld_tag</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 475: Port <arg fmt="%s" index="1">tx_buf_av</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1330" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 803: Function <arg fmt="%s" index="1">PicoReadBuffer</arg> has no return value assignment
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1330" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 811: Function <arg fmt="%s" index="1">PicoReadMem</arg> has no return value assignment
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/Pico_Toplevel.v" Line 853: Port <arg fmt="%s" index="1">tx_cfg_req</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 360: Port <arg fmt="%s" index="1">CEB</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/pcie_app_v6.v" Line 355: Port <arg fmt="%s" index="1">req_compl_o</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoStreamOut.v" Line 123: Port <arg fmt="%s" index="1">full</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoStreamOut.v" Line 133: Port <arg fmt="%s" index="1">dinp</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/fifo_512x128.v" Line 42: Port <arg fmt="%s" index="1">DBITERR</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/fifo_512x128.v" Line 88: Port <arg fmt="%s" index="1">ALMOSTEMPTY</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoStreamIn.v" Line 95: Port <arg fmt="%s" index="1">full</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoStreamIn.v" Line 104: Port <arg fmt="%s" index="1">dinp</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 269: Port <arg fmt="%s" index="1">ALMOSTFULL</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 314: Port <arg fmt="%s" index="1">dinp</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 329: Port <arg fmt="%s" index="1">dinp</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 344: Port <arg fmt="%s" index="1">dinp</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 361: Port <arg fmt="%s" index="1">dinp</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 1026: Port <arg fmt="%s" index="1">m_axis_rx_tstrb</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/AXIBuffer.v" Line 73: Port <arg fmt="%s" index="1">full</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_clock.v" Line 229: Port <arg fmt="%s" index="1">CLKIN2</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 333: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">CLK_RXUSRCLK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">1</arg>-bit while actual signal size is <arg fmt="%d" index="1">8</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 334: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">CLK_RXOUTCLK_OUT</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">1</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3116: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3117: Element index <arg fmt="%d" index="1">10</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3118: Element index <arg fmt="%d" index="1">9</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3125: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3126: Element index <arg fmt="%d" index="1">10</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3127: Element index <arg fmt="%d" index="1">9</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3140: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3141: Element index <arg fmt="%d" index="1">10</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3142: Element index <arg fmt="%d" index="1">9</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3149: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3150: Element index <arg fmt="%d" index="1">10</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO36E1.v" Line 3151: Element index <arg fmt="%d" index="1">9</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO18E1.v" Line 3102: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO18E1.v" Line 3111: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">wr_addr</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO18E1.v" Line 3126: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO18E1.v" Line 3135: Element index <arg fmt="%d" index="1">11</arg> into <arg fmt="%s" index="2">rdcount_out</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4120: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">num_read_words_dc</arg> is out of bounds
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1007" delta="unknown" >"/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4170: Element index <arg fmt="%d" index="1">-1</arg> into <arg fmt="%s" index="2">num_write_words_dc</arg> is out of bounds
+</msg>
+
 </messages>
 

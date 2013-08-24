@@ -1,11 +1,16 @@
 /*  File Name        : CellScoreFilter_tb.v
  *  Description      : Cell Score Filter test bench
  *
+ *                     TODO: Fix testbench to use end_of_refblock_in
+ *
  *  Revision History :
  *      Albert Ng   Jul 24 2013     Initial Revision
  *      Albert Ng   Jul 27 2013     Added end of query tagging tests
  *      Albert Ng   Jul 29 2013     Changed to single output FIFO, independent clk domain test
  *      Albert Ng   Aug 07 2013     Changed ref_block_cnt to 26 bits
+ *      Albert Ng   Aug 09 2013     Changed ref_block_cnt to 28 bits
+ *                                  Changed output packet to {query_id, ref_block_cnt}
+ *      Albert Ng   Aug 23 2013     Added end_of_refblock_in TODO
  */
 
 module CellScoreFilter_tb;
@@ -13,13 +18,14 @@ module CellScoreFilter_tb;
 	// Inputs
 	reg clk;
 	reg rst;
-	reg [25:0] ref_block_cnt_in;
+	reg [27:0] ref_block_cnt_in;
 	reg [15:0] query_id_in;
 	reg [31:0] cell_score_threshold_in;
 	reg tracking_info_valid_in;
 	reg [29:0] V_out_in;
 	reg [2:0] V_out_valid_in;
     reg end_of_query_in;
+    reg end_of_refblock_in;
 	reg so_clk;
 	reg so_rdy_in;
 
@@ -43,6 +49,7 @@ module CellScoreFilter_tb;
 		.V_out_in(V_out_in), 
 		.V_out_valid_in(V_out_valid_in), 
         .end_of_query_in(end_of_query_in),
+        .end_of_refblock_in(end_of_refblock_in),
         .so_clk(so_clk),
         .so_valid_out(so_valid_out),
         .so_data_out(so_data_out),
@@ -61,6 +68,7 @@ module CellScoreFilter_tb;
 		V_out_in <= 0;
 		V_out_valid_in <= 0;
         end_of_query_in <= 0;
+        end_of_refblock_in <= 0;
         so_clk <= 0;
         so_rdy_in <= 0;
         #20;
@@ -223,10 +231,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 10)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 10)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 16;
         V_out_in[19:10] <= 8;
         V_out_in[29:20] <= 0;
@@ -412,10 +420,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 25;
         V_out_in[19:10] <= 38;
         V_out_in[29:20] <= 25;
@@ -430,10 +438,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 24;
         V_out_in[19:10] <= 36;
         V_out_in[29:20] <= 36;
@@ -448,10 +456,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 26;
         V_out_in[19:10] <= 35;
         V_out_in[29:20] <= 36;
@@ -466,10 +474,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 24;
         V_out_in[19:10] <= 34;
         V_out_in[29:20] <= 46;
@@ -484,10 +492,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 0;
         V_out_in[19:10] <= 33;
         V_out_in[29:20] <= 44;
@@ -506,10 +514,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 0;
         V_out_in[19:10] <= 0;
         V_out_in[29:20] <= 43;
@@ -526,10 +534,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 0;
         V_out_in[19:10] <= 0;
         V_out_in[29:20] <= 0;
@@ -545,10 +553,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 10;
         V_out_in[19:10] <= 0;
         V_out_in[29:20] <= 0;
@@ -564,10 +572,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 8;
         V_out_in[19:10] <= 8;
         V_out_in[29:20] <= 0;
@@ -583,10 +591,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 10;
         V_out_in[19:10] <= 8;
         V_out_in[29:20] <= 7;
@@ -601,10 +609,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[9:0]   <= 10;
         V_out_in[19:10] <= 8;
         V_out_in[29:20] <= 7;
@@ -621,10 +629,10 @@ module CellScoreFilter_tb;
                 $display("@%0dns so_valid_out error", $time);
             if (so_data_out[127:48] != 80'b0)
                 $display("@%0dns so_data_out zero padding error", $time);
-            if (so_data_out[47:16] != 11)
-                $display("@%0dns so_data_out ref_block_cnt error", $time);
-            if (so_data_out[15:0] != 1)
+            if (so_data_out[47:32] != 1)
                 $display("@%0dns so_data_out query_id error", $time);
+            if (so_data_out[31:0] != 11)
+                $display("@%0dns so_data_out ref_block_cnt error", $time);
             V_out_in[0] <= 0;
             V_out_in[1] <= 0;
             V_out_in[2] <= 0;
@@ -643,10 +651,10 @@ module CellScoreFilter_tb;
                 $display("@%0dns so_valid_out error", $time);
             if (so_data_out[127:48] != 80'b0)
                 $display("@%0dns so_data_out zero padding error", $time);
-            if (so_data_out[47:16] != 11)
-                $display("@%0dns so_data_out ref_block_cnt error", $time);
-            if (so_data_out[15:0] != 1)
+            if (so_data_out[47:32] != 1)
                 $display("@%0dns so_data_out query_id error", $time);
+            if (so_data_out[31:0] != 11)
+                $display("@%0dns so_data_out ref_block_cnt error", $time);
             V_out_in[0] <= 1;
             V_out_in[1] <= 0;
             V_out_in[2] <= 0;
@@ -662,10 +670,10 @@ module CellScoreFilter_tb;
                 $display("@%0dns so_valid_out error", $time);
             if (so_data_out[127:48] != 80'b0)
                 $display("@%0dns so_data_out zero padding error", $time);
-            if (so_data_out[47:16] != 11)
-                $display("@%0dns so_data_out ref_block_cnt error", $time);
-            if (so_data_out[15:0] != 1)
+            if (so_data_out[47:32] != 1)
                 $display("@%0dns so_data_out query_id error", $time);
+            if (so_data_out[31:0] != 11)
+                $display("@%0dns so_data_out ref_block_cnt error", $time);
             V_out_in[0] <= 0;
             V_out_in[1] <= 0;
             V_out_in[2] <= 0;
@@ -682,10 +690,10 @@ module CellScoreFilter_tb;
                 $display("@%0dns so_valid_out error", $time);
             if (so_data_out[127:48] != 80'b0)
                 $display("@%0dns so_data_out zero padding error", $time);
-            if (so_data_out[47:16] != 11)
-                $display("@%0dns so_data_out ref_block_cnt error", $time);
-            if (so_data_out[15:0] != 1)
+            if (so_data_out[47:32] != 1)
                 $display("@%0dns so_data_out query_id error", $time);
+            if (so_data_out[31:0] != 11)
+                $display("@%0dns so_data_out ref_block_cnt error", $time);
             V_out_in[0] <= 0;
             V_out_in[1] <= 0;
             V_out_in[2] <= 0;
@@ -702,10 +710,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[0] <= 0;
         V_out_in[1] <= 0;
         V_out_in[2] <= 0;
@@ -724,10 +732,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[0] <= 1;
         V_out_in[1] <= 0;
         V_out_in[2] <= 0;
@@ -743,10 +751,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[0] <= 0;
         V_out_in[1] <= 0;
         V_out_in[2] <= 0;
@@ -763,10 +771,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[0] <= 0;
         V_out_in[1] <= 0;
         V_out_in[2] <= 0;
@@ -782,10 +790,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_in[0] <= 1;
         V_out_valid_in[0] <= 1;
         V_out_valid_in[1] <= 1;
@@ -798,10 +806,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 11)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 11)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_valid_in[0] <= 0;
         V_out_valid_in[1] <= 0;
         V_out_valid_in[2] <= 0;
@@ -815,10 +823,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != EOQ)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != EOQ)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_valid_in[0] <= 0;
         V_out_valid_in[1] <= 0;
         V_out_valid_in[2] <= 0;
@@ -833,10 +841,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 20)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 20)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         V_out_valid_in[0] <= 0;
         V_out_valid_in[1] <= 0;
         V_out_valid_in[2] <= 0;
@@ -850,10 +858,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 20)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 20)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
 
         #10;
         // Write port latency 4
@@ -863,10 +871,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 20)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 20)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
 
         #10;
         // Write port latency 5
@@ -876,10 +884,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 20)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 20)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
 
         #10;
         if (stall_out != 0)
@@ -888,10 +896,10 @@ module CellScoreFilter_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 20)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 20)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
 
         // Wait 100 ns
         #100;

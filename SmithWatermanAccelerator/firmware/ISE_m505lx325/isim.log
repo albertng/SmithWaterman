@@ -1,13 +1,110 @@
 ISim log file
-Running: /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/AXIArbiter_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/AXIArbiter_tb_isim_beh.wdb 
+Running: /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.wdb 
 ISim P.58f (signature 0xfbc00daa)
 This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
 Time resolution is 1 ps
 # onerror resume
 # wave add /
 # run 1s
 Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
 Finished circuit initialization process.
-Tests complete!
-Stopped at time : 670 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/AXIArbiter_tb.v" Line 1604
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+10862000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000003
+Query:    0 Location:         3
+14702000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Query:    0 Location:4294967295
+All Tests Successful!
+Stopped at time : 14978 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+8046000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+Query:    0 Location:         0
+9070000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+Query:    0 Location:         0
+All Tests Successful!
+Stopped at time : 9346 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+9582000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000002
+Query:    0 Location:         2
+14702000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Query:    0 Location:4294967295
+All Tests Successful!
+Stopped at time : 14978 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+9582000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000002
+Query:    0 Location:         2
+14702000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Query:    0 Location:4294967295
+All Tests Successful!
+Stopped at time : 14978 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
 # exit 0

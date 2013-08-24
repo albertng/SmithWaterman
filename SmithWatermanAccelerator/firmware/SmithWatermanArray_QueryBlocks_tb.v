@@ -21,6 +21,8 @@
  *                       iterations. Intermediate values are stored and passed between iterations.
  *                      
  *
+ *                     TODO: Added end_of_refblock_out tests
+ *
  *  Revision History :
  *      Albert Ng   May 13 2013     Initial Revision
  *      Albert Ng   May 14 2013     Added consecutive alignments w/ bubbles test
@@ -32,6 +34,7 @@
  *      Albert Ng   Jun 26 2013     Changed to sending in full S sequence in parallel
  *      Albert Ng   Jul 24 2013     Added V_out_valid tests
  *      Albert Ng   Jul 26 2013     Added last_query_block_in and end_of_query_out tests
+ *      Albert Ng   Aug 23 2013     Added end_of_refblock_out TODO
  *
  */
 

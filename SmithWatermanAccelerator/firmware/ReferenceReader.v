@@ -31,6 +31,7 @@
  *                                  Changed default ref length to 128
  *      Albert Ng   Aug 06 2013     Removed latches
  *      Albert Ng   Aug 07 2013     Changed address width to 33
+ *      Albert Ng   Aug 09 2013     Changed ref_addr and ref_len to 28 bits
  *
  */
  
@@ -39,8 +40,8 @@ module ReferenceReader(
     input         rst,                    // System reset
     
     // Engine controller interface
-    input [25:0] ref_addr_in,             // DRAM starting address for reference sequence
-    input [25:0] ref_length_in,           // Number of blocks in the reference sequence
+    input [27:0] ref_addr_in,             // DRAM starting address for reference sequence
+    input [27:0] ref_length_in,           // Number of blocks in the reference sequence
     input        ref_info_valid_in,       // Reference sequence info output valid
     output [2*REF_LENGTH - 1:0] ref_seq_block_out, // Reference sequence block read from DRAM
     output       ref_seq_block_valid_out, // Reference sequence block input valid
@@ -83,8 +84,8 @@ module ReferenceReader(
     reg rd_info_valid;
     
     // Reference info buffer
-    reg [25:0] ref_addr_buf;
-    reg [25:0] ref_length_buf;
+    reg [27:0] ref_addr_buf;
+    reg [27:0] ref_length_buf;
     reg ref_info_valid;
     reg clear_ref_info_valid;
     
@@ -177,8 +178,8 @@ module ReferenceReader(
     always @(*) begin
         case(state)
             WAIT_REF_INFO_VALID: begin
-                next_cur_addr = {7'b0, ref_addr_buf};
-                next_end_addr = {7'b0, ref_addr_buf} + {7'b0, ref_length_buf} - 1;
+                next_cur_addr = {ref_addr_buf, 5'b0};
+                next_end_addr = {ref_addr_buf + ref_length_buf - 1, 5'b0};
                 if (ref_info_valid) begin
                     clear_ref_info_valid = 1;
                 end else begin
@@ -201,7 +202,7 @@ module ReferenceReader(
                 clear_ref_info_valid = 0;
                 rd_info_valid = 1;
                 if (rd_info_rdy_in) begin
-                    next_cur_addr = cur_addr + 1;
+                    next_cur_addr = cur_addr + 33'b100000;
                     next_rd_id = rd_id + 1;
                 end else begin
                     next_cur_addr = cur_addr;

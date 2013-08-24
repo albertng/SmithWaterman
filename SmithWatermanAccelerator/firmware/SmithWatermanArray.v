@@ -83,6 +83,7 @@
  *      Albert Ng   Jul 08 2013     Stopped shift register shifting when stalling 
  *      Albert Ng   Jul 24 2013     Added V_out_valid
  *      Albert Ng   Jul 26 2013     Added last_query_block
+ *      Albert Ng   Aug 23 2013     Added end_of_refblock
  *
  */
 
@@ -103,7 +104,8 @@ module SmithWatermanArray(
     input bypass_fifo_in,                   // Bypass inter-ref-block FIFOs   
     output [NUM_PES * WIDTH - 1:0] V_out,   // Cell score outputs
     output [NUM_PES - 1:0] V_out_valid,     // Cell score outputs valid
-    output end_of_query_out                 // Last PE score is end of query
+    output end_of_query_out,                // Last PE score is end of query
+    output end_of_refblock_out              // Last PE score is end of ref block
     );
 
     parameter NUM_PES = 64;
@@ -157,6 +159,7 @@ module SmithWatermanArray(
     endgenerate
     assign end_of_query_out = last_ref_block[NUM_PES-1] & last_query_block[NUM_PES-1] & 
                               last_block_char[NUM_PES-1];
+    assign end_of_refblock_out = last_query_block[NUM_PES-1] & last_block_char[NUM_PES-1];
     
     // Cell score inter-query block intermediate values buffer
     always @(posedge clk) begin

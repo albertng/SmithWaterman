@@ -1,5 +1,7 @@
-TARGET = ddr3_moving_average
-USER_SOURCES =	DDR3_Moving_Average.cpp 
+TARGET = SmithWatermanAccelerator
+USER_SOURCES =	SmithWatermanAccelerator.cpp 
+
+CFLAGS += -pthread
 
 include $(PICOBASE)/software/Makefile.common
 

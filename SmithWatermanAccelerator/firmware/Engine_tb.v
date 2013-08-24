@@ -3,6 +3,8 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 31 2013     Initial Revision
+ *      Albert Ng   Aug 09 2013     Changed ref_addr to 28 bits
+ *                                  Changed output packet to {query_id, ref_block_cnt}
  */
 
 module Engine_tb;
@@ -226,7 +228,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1})
+        if (rd_addr_out != {ref_addr1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
@@ -243,7 +245,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1})
+        if (rd_addr_out != {ref_addr1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 0)
             $display("@%0dns rd_id_out error", $time);
@@ -261,7 +263,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 1})
+        if (rd_addr_out != {ref_addr1 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
@@ -279,7 +281,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr1 + 1})
+        if (rd_addr_out != {ref_addr1 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 1)
             $display("@%0dns rd_id_out error", $time);
@@ -331,7 +333,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2})
+        if (rd_addr_out != {ref_addr2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
@@ -348,7 +350,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2})
+        if (rd_addr_out != {ref_addr2, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 2)
             $display("@%0dns rd_id_out error", $time);
@@ -366,7 +368,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2 + 1})
+        if (rd_addr_out != {ref_addr2 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
@@ -384,7 +386,7 @@ module Engine_tb;
             $display("@%0dns si_rdy_out error", $time);
         if (rd_info_valid_out != 1)
             $display("@%0dns rd_info_valid_out error", $time);
-        if (rd_addr_out != {7'b0, ref_addr2 + 1})
+        if (rd_addr_out != {ref_addr2 + 1, 5'b0})
             $display("@%0dns rd_addr_out error", $time);
         if (rd_id_out != 3)
             $display("@%0dns rd_id_out error", $time);
@@ -622,10 +624,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 1)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 1)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         #10;
         
         // Advance_BCC / High Score latency 1 / EOQ ready
@@ -639,10 +641,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 1)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 1)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         #10;
         
         // Advance_BCC / High Score latency 2
@@ -656,10 +658,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 1)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 1)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         #10;
         
         // Advance_BCC / High Score latency 3
@@ -673,10 +675,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 1)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 1)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         #10;
         
         // Wait_wr_rdy / High Score latency / EOQ (latency)
@@ -691,10 +693,10 @@ module Engine_tb;
                 $display("@%0dns so_valid_out error", $time);
             if (so_data_out[127:48] != 80'b0)
                 $display("@%0dns so_data_out zero padding error", $time);
-            if (so_data_out[47:16] != 1)
-                $display("@%0dns so_data_out ref_block_cnt error", $time);
-            if (so_data_out[15:0] != 1)
+            if (so_data_out[47:32] != 1)
                 $display("@%0dns so_data_out query_id error", $time);
+            if (so_data_out[31:0] != 1)
+                $display("@%0dns so_data_out ref_block_cnt error", $time);
             #10;
         end
         
@@ -709,10 +711,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 1)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 1)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         so_rdy_in <= 1;
         #10;
         
@@ -727,10 +729,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != EOQ)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 1)
+        if (so_data_out[47:32] != 1)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != EOQ)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         so_rdy_in <= 1;
         #10;
         
@@ -745,10 +747,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 0)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 0)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         so_rdy_in <= 1;
         #10;
         
@@ -763,10 +765,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != 1)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != 1)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         so_rdy_in <= 1;
         #10;
         
@@ -781,10 +783,10 @@ module Engine_tb;
             $display("@%0dns so_valid_out error", $time);
         if (so_data_out[127:48] != 80'b0)
             $display("@%0dns so_data_out zero padding error", $time);
-        if (so_data_out[47:16] != EOQ)
-            $display("@%0dns so_data_out ref_block_cnt error", $time);
-        if (so_data_out[15:0] != 2)
+        if (so_data_out[47:32] != 2)
             $display("@%0dns so_data_out query_id error", $time);
+        if (so_data_out[31:0] != EOQ)
+            $display("@%0dns so_data_out ref_block_cnt error", $time);
         so_rdy_in <= 1;
         #10;
         

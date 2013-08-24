@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-08-06T16:34:02</DateModified>
+  <DateModified>2013-08-22T14:05:12</DateModified>
   <ModuleName>Pico_Toplevel</ModuleName>
   <SummaryTimeStamp>2013-08-06T16:32:06</SummaryTimeStamp>
   <SavedFilePath>/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>

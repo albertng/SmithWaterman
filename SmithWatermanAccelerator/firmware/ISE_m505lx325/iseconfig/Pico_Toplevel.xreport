@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-08-08T14:57:28</DateModified>
+  <DateModified>2013-08-23T14:41:53</DateModified>
   <ModuleName>Pico_Toplevel</ModuleName>
-  <SummaryTimeStamp>2013-08-08T14:35:03</SummaryTimeStamp>
+  <SummaryTimeStamp>2013-08-22T17:18:11</SummaryTimeStamp>
   <SavedFilePath>/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/iseconfig/Pico_Toplevel.xreport</SavedFilePath>
   <ImplementationReportsDirectory>/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/</ImplementationReportsDirectory>
   <DateInitialized>2013-08-07T15:38:54</DateInitialized>
