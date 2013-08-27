@@ -377,3 +377,5 @@ PHY_INIT: Write Leveling completed at 39823350.0 ps
 DDR3 Calibration loop timeout reached. Ending Simualtion
 
 Stopped at time : 314002 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 1568 
+# exit 0
+# exit 0
