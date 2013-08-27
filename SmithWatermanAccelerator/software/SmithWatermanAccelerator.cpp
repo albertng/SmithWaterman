@@ -59,11 +59,6 @@ void* stream_write_thread(void* args) {
                                        ((unsigned char) query_buf[i][j*16 + k*4 + 1] << 8) +
                                        ((unsigned char) query_buf[i][j*16 + k*4 + 2] << 16) +
                                        ((unsigned char) query_buf[i][j*16 + k*4 + 3] << 24);
-                /*printf("%x\n", (unsigned char) query_buf[i][j*16 + k*4]);
-                printf("%x\n", (unsigned char) query_buf[i][j*16 + k*4 + 1]);
-                printf("%x\n", (unsigned char) query_buf[i][j*16 + k*4 + 2]);
-                printf("%x\n", (unsigned char) query_buf[i][j*16 + k*4 + 3]);
-                printf("%x\n\n", out_buf[j*4 + k + 4]);*/
             }
         }
         printf("Writing query %i to stream with %i bytes\n", i, 16+query_len_bytes[i]);
@@ -88,12 +83,6 @@ void* stream_read_thread(void* args) {
             // Read full 128-bit packets
             pico->ReadStream(stream, temp_buf, num_bytes_to_read);
 
-            /*printf("Read %i bytes from stream\n", num_bytes_to_read);
-            for (int i = 0; i < num_bytes_to_read/4; i++) {
-                printf("%i\t", temp_buf[i]);
-            }
-            printf("\n");*/
-
             // For each result location read
             for (int i = 0; i < num_bytes_to_read / 16; i++) {
                 results_buf[offset*2] = temp_buf[i*4];
@@ -109,34 +98,35 @@ void* stream_read_thread(void* args) {
 
 int main(int argc, char* argv[])
 {
-    int         err, stream;
+    int         err, stream, num_engines;
     uint32_t    cell_score_threshold;
     char *  ref_buf;
-    char ** query_buf;
+    char *** query_buf;
     int *       query_len;
     char        ibuf[1024];
-    uint32_t *  results_buf;
+    uint32_t **  results_buf;
     PicoDrv     *pico;
     const char* bitFileName;
     const char* ref_filename;
     int num_queries;
-    pthread_t read_thread, write_thread;
+    pthread_t* read_thread, write_thread;
     int iret1, iret2;
-    read_thread_args rta;
-    write_thread_args wta;
+    read_thread_args* rta;
+    write_thread_args* wta;
 
     // specify the .bit file name on the command line
-    if (argc < 5) {
-        fprintf(stderr, "Usage: ./SmithWatermanAccelerator <BIT FILE> <CELL SCORE THRESHOLD> <REF SEQ FILE> <QUERY SEQ FILE 1> [<QUERY SEQ FILE 2> ...]");
+    if (argc < 6) {
+        fprintf(stderr, "Usage: ./SmithWatermanAccelerator <BIT FILE> <NUM_ENGINES> <CELL SCORE THRESHOLD> <REF SEQ FILE> <QUERY SEQ FILE 1> [<QUERY SEQ FILE 2> ...]");
         exit(1);
     }
     bitFileName = argv[1];
-    cell_score_threshold = (uint32_t) atoi(argv[2]);
-    ref_filename = argv[3];
-    num_queries = argc - 4;
+    num_engines = atoi(argv[2]);
+    cell_score_threshold = (uint32_t) atoi(argv[3]);
+    ref_filename = argv[4];
+    num_queries = argc - 5;
     const char* query_filenames[num_queries];
     for (int i = 0; i < num_queries; i++) {
-        query_filenames[i] = argv[i+4];
+        query_filenames[i] = argv[i+5];
     }
     
     // Read ref seq file into memory
@@ -149,13 +139,24 @@ int main(int argc, char* argv[])
         ref_file.seekg(0, std::ios::beg);
         ref_file.read(ref_buf, ref_size);
         ref_file.close();
-        printf("Read ref seq file of length %iB\n", (int) ref_size); 
+        printf("Read ref seq file '%s' of length %iB\n", ref_filename, (int) ref_size); 
     } else {
-        fprintf(stderr, "Unable to open ref seq file");
+        fprintf(stderr, "Unable to open ref seq file '%s'", ref_filename);
         exit(1);
     }
     
     // Read query seq files into memory
+    query_buf = new char** [num_engines];
+    int num_queries_per_engine[num_engines];
+    for (int i = 0; i < num_engines; i++) {
+        if (i < num_queries % num_engines) {
+            num_queries_per_engine[i] = (num_queries / num_engines) + 1;
+        } else {
+            num_queries_per_engine[i] = num_queries / num_engines;
+        }
+    }
+
+
     query_buf = new char* [num_queries];
     query_len = new int [num_queries];
     for (int i = 0; i < num_queries; i++) {
@@ -169,13 +170,9 @@ int main(int argc, char* argv[])
             query_file.seekg(0, std::ios::beg);
             query_file.read(query_buf[i], query_size);
             query_file.close();
-            printf("Read query seq file of length %iB\n", (int) query_size);
-            /*for (int j = 0; j < query_size; j++) {
-                printf("%#x ", (unsigned char) query_buf[i][j]);
-            }
-            printf("\n");*/
+            printf("Read query seq file '%s' of length %iB\n", query_filenames[i], (int) query_size);
         } else {
-            fprintf(stderr, "Unable to open query seq file");
+            fprintf(stderr, "Unable to open query seq file '%s'", query_filenames[i]);
             exit(1);
         }
     }
@@ -202,7 +199,7 @@ int main(int argc, char* argv[])
     }
     
     // Write reference sequence to the DRAM
-/*    printf("Writing ref seq to DRAM\n");
+    printf("Writing ref seq to DRAM\n");
     err = pico->WriteRam(0, ref_buf, ref_size, PICO_DDR3_0);
     if (err < 0) {
         fprintf(stderr, "WriteRam error: %s\n", PicoErrors_FullError(err, ibuf, sizeof(ibuf)));
@@ -211,8 +208,8 @@ int main(int argc, char* argv[])
         fprintf(stderr, "WriteRam wrote %i bytes instead of the desire %i bytes\n", err, (int) ref_size);
         exit(1);
     }
-    sleep(1);*/
-   
+    sleep(1);
+  
     // Start read/write threads 
     printf("Starting Smith Waterman tests\n");
     results_buf = new uint32_t[128];

@@ -30,11 +30,11 @@ module AXIArbiter(
     // AXI Bus Interface
     output        axi_clk_out,           // AXI bus clock
     input         axi_arready_in,        // AXI bus address ready
-    output [7:0]  axi_arid_out,          // AXI bus address request ID
+    output [C0_C_S_AXI_ID_WIDTH-1:0] axi_arid_out, // AXI bus address request ID
     output [32:0] axi_araddr_out,        // AXI bus address
     output [7:0]  axi_arlen_out,         // AXI bus address read length    
     output        axi_arvalid_out,       // AXI bus address valid
-    input [7:0]   axi_rid_in,            // AXI bus read data request ID
+    input [C0_C_S_AXI_ID_WIDTH-1:0] axi_rid_in,    // AXI bus read data request ID
     input         axi_rvalid_in,         // AXI bus read data valid
     input [255:0] axi_rdata_in,          // AXI bus read data
     output        axi_rready_out,        // AXI bus read data ready
@@ -42,7 +42,7 @@ module AXIArbiter(
     input [3:0] active_ports_in,         // Flags indicating which ports are active
 
     // Reference Reader 0
-    input  [5:0]   rd_id_0_in,           // Read burst ID
+    input  [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_0_in, // Read burst ID
     input  [32:0]  rd_addr_0_in,         // Read burst address
     input  [7:0]   rd_len_0_in,          // Read burst length (in terms of 256 bit blocks)
     input          rd_info_valid_0_in,   // Read info valid
@@ -52,7 +52,7 @@ module AXIArbiter(
     input          rd_data_rdy_0_in,     // DRAM read data acknowledged  
     
     // Reference Reader 1
-    input  [5:0]   rd_id_1_in,           // Read burst ID
+    input  [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_1_in, // Read burst ID
     input  [32:0]  rd_addr_1_in,         // Read burst address
     input  [7:0]   rd_len_1_in,          // Read burst length (in terms of 256 bit blocks)
     input          rd_info_valid_1_in,   // Read info valid
@@ -62,7 +62,7 @@ module AXIArbiter(
     input          rd_data_rdy_1_in,     // DRAM read data acknowledged  
     
     // Reference Reader 2
-    input  [5:0]   rd_id_2_in,           // Read burst ID
+    input  [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_2_in, // Read burst ID
     input  [32:0]  rd_addr_2_in,         // Read burst address
     input  [7:0]   rd_len_2_in,          // Read burst length (in terms of 256 bit blocks)
     input          rd_info_valid_2_in,   // Read info valid
@@ -72,7 +72,7 @@ module AXIArbiter(
     input          rd_data_rdy_2_in,     // DRAM read data acknowledged  
     
     // Reference Reader 3
-    input  [5:0]   rd_id_3_in,           // Read burst ID
+    input  [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_3_in, // Read burst ID
     input  [32:0]  rd_addr_3_in,         // Read burst address
     input  [7:0]   rd_len_3_in,          // Read burst length (in terms of 256 bit blocks)
     input          rd_info_valid_3_in,   // Read info valid
@@ -81,6 +81,8 @@ module AXIArbiter(
     output         rd_data_valid_3_out,  // DRAM read data valid    
     input          rd_data_rdy_3_in      // DRAM read data acknowledged  
     );
+
+    parameter C0_C_S_AXI_ID_WIDTH = 8;
 
     // FSM states
     localparam WAIT_PORT_VALID = 3'b001,
@@ -96,7 +98,7 @@ module AXIArbiter(
     wire port_valid;
     
     // AXI bus interface output signals
-    reg [7:0]  axi_arid;
+    reg [C0_C_S_AXI_ID_WIDTH-1:0]  axi_arid;
     reg [32:0] axi_araddr;
     reg [7:0]  axi_arlen;
     reg        axi_arvalid;
@@ -242,9 +244,9 @@ module AXIArbiter(
             end
 
             CONNECT_PORT: begin
-                axi_arid[7:6] = cur_port;
+                axi_arid[C0_C_S_AXI_ID_WIDTH-1 -: 2] = cur_port;
                 if (cur_port == 0) begin
-                    axi_arid[5:0] = rd_id_0_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_0_in;
                     axi_araddr = rd_addr_0_in;
                     axi_arlen = rd_len_0_in;
                     axi_arvalid = rd_info_valid_0_in;
@@ -253,7 +255,7 @@ module AXIArbiter(
                     rd_info_rdy_2 = 0;
                     rd_info_rdy_3 = 0;
                 end else if (cur_port == 1) begin
-                    axi_arid[5:0] = rd_id_1_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_1_in;
                     axi_araddr = rd_addr_1_in;
                     axi_arlen = rd_len_1_in;
                     axi_arvalid = rd_info_valid_1_in;
@@ -262,7 +264,7 @@ module AXIArbiter(
                     rd_info_rdy_2 = 0;
                     rd_info_rdy_3 = 0;
                 end else if (cur_port == 2) begin
-                    axi_arid[5:0] = rd_id_2_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_2_in;
                     axi_araddr = rd_addr_2_in;
                     axi_arlen = rd_len_2_in;
                     axi_arvalid = rd_info_valid_2_in;
@@ -271,7 +273,7 @@ module AXIArbiter(
                     rd_info_rdy_2 = axi_arready_in;
                     rd_info_rdy_3 = 0;
                 end else begin
-                    axi_arid[5:0] = rd_id_3_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_3_in;
                     axi_araddr = rd_addr_3_in;
                     axi_arlen = rd_len_3_in;
                     axi_arvalid = rd_info_valid_3_in;
@@ -284,9 +286,9 @@ module AXIArbiter(
             end
 
             WAIT_AXI_RDY: begin
-                axi_arid[7:6] = cur_port;
+                axi_arid[C0_C_S_AXI_ID_WIDTH-1 -: 2] = cur_port;
                 if (cur_port == 0) begin
-                    axi_arid[5:0] = rd_id_0_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_0_in;
                     axi_araddr = rd_addr_0_in;
                     axi_arlen = rd_len_0_in;
                     axi_arvalid = rd_info_valid_0_in;
@@ -295,7 +297,7 @@ module AXIArbiter(
                     rd_info_rdy_2 = 0;
                     rd_info_rdy_3 = 0;
                 end else if (cur_port == 1) begin
-                    axi_arid[5:0] = rd_id_1_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_1_in;
                     axi_araddr = rd_addr_1_in;
                     axi_arlen = rd_len_1_in;
                     axi_arvalid = rd_info_valid_1_in;
@@ -304,7 +306,7 @@ module AXIArbiter(
                     rd_info_rdy_2 = 0;
                     rd_info_rdy_3 = 0;
                 end else if (cur_port == 2) begin
-                    axi_arid[5:0] = rd_id_2_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_2_in;
                     axi_araddr = rd_addr_2_in;
                     axi_arlen = rd_len_2_in;
                     axi_arvalid = rd_info_valid_2_in;
@@ -313,7 +315,7 @@ module AXIArbiter(
                     rd_info_rdy_2 = axi_arready_in;
                     rd_info_rdy_3 = 0;
                 end else begin
-                    axi_arid[5:0] = rd_id_3_in;
+                    axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_3_in;
                     axi_araddr = rd_addr_3_in;
                     axi_arlen = rd_len_3_in;
                     axi_arvalid = rd_info_valid_3_in;
@@ -359,19 +361,19 @@ module AXIArbiter(
         rd_data_2 = axi_rdata_in;
         rd_data_3 = axi_rdata_in;
         
-        if (axi_rid_in[7:6] == 0) begin
+        if (axi_rid_in[C0_C_S_AXI_ID_WIDTH-1 -: 2] == 0) begin
             axi_rready = rd_data_rdy_0_in;
             rd_data_valid_0 = axi_rvalid_in;
             rd_data_valid_1 = 0;
             rd_data_valid_2 = 0;
             rd_data_valid_3 = 0;
-        end else if (axi_rid_in[7:6] == 1) begin
+        end else if (axi_rid_in[C0_C_S_AXI_ID_WIDTH-1 -: 2] == 1) begin
             axi_rready = rd_data_rdy_1_in;
             rd_data_valid_0 = 0;
             rd_data_valid_1 = axi_rvalid_in;
             rd_data_valid_2 = 0;
             rd_data_valid_3 = 0;
-        end else if (axi_rid_in[7:6] == 2) begin
+        end else if (axi_rid_in[C0_C_S_AXI_ID_WIDTH-1 -: 2] == 2) begin
             axi_rready = rd_data_rdy_2_in;
             rd_data_valid_0 = 0;
             rd_data_valid_1 = 0;

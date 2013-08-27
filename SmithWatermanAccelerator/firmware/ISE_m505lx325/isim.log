@@ -4,7 +4,22 @@ ISim P.58f (signature 0xfbc00daa)
 This is a Full version of ISim.
 WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
 WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
-Time resolution is 1 ps
+WARNING:  For instance u_ddr_mc_phy_wrapper/u_ddr_mc_phy/, width 1 of formal port phyGo is not equal to width 32 of actual constant.
+WARNING:  For instance u_ddr_mc_phy_wrapper/u_ddr_mc_phy/, width 12 of formal port calib_zero_lanes is not equal to width 32 of actual constant.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 375.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_0 is not equal to width 12 of actual signal rd_data_offset_ranks_0.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 376.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_1 is not equal to width 12 of actual signal rd_data_offset_ranks_1.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 377.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_2 is not equal to width 12 of actual signal rd_data_offset_ranks_2.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 378.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_mc_0 is not equal to width 12 of actual signal rd_data_offset_ranks_mc_0.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 379.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_mc_1 is not equal to width 12 of actual signal rd_data_offset_ranks_mc_1.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 380.  For instance u_ddr_calib_top/\dqsfind_calib_right.u_ddr_phy_dqs_found_cal /, width 6 of formal port rd_data_offset_ranks_mc_2 is not equal to width 12 of actual signal rd_data_offset_ranks_mc_2.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 237.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 320 of formal port dlyval_dq is not equal to width 640 of actual signal dlyval_dq.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 278.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 48 of formal port dbg_cpt_first_edge_cnt is not equal to width 96 of actual signal dbg_cpt_first_edge_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 279.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 48 of formal port dbg_cpt_second_edge_cnt is not equal to width 96 of actual signal dbg_cpt_second_edge_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 280.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 48 of formal port dbg_cpt_tap_cnt is not equal to width 96 of actual signal dbg_cpt_tap_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/phy/mig_7series_v1_8_ddr_calib_top.v" Line 281.  For instance u_ddr_calib_top/u_ddr_phy_rdlvl/, width 40 of formal port dbg_dq_idelay_tap_cnt is not equal to width 80 of actual signal dbg_dq_idelay_tap_cnt.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/ip_top/mig_7series_v1_8_memc_ui_top_axi.v" Line 298.  For instance u_mig_7series_v1_8_memc_ui_top_axi/u_ui_top/, width 8 of formal port app_ecc_multiple_err is not equal to width 4 of actual signal app_ecc_multiple_err_o.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/ip_top/mig_7series_v1_8_memc_ui_top_axi.v" Line 298.  For instance u_mig_7series_v1_8_memc_ui_top_axi/u_axi_mc/, width 8 of formal port mc_app_ecc_multiple_err is not equal to width 4 of actual signal app_ecc_multiple_err_o.
+Time resolution is 1 fs
 # onerror resume
 # wave add /
 # run 1s
@@ -13,98 +28,352 @@ WARNING: Behavioral models for independent clock FIFO configurations do not mode
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-                   0: PicoSimInit
+############# Write Clocks PLLE2_ADV Parameters #############
+
+nCK_PER_CLK      = 4
+CLK_PERIOD       = 2500
+CLKIN1_PERIOD    =   2.500
+DIVCLK_DIVIDE    = 3
+CLKFBOUT_MULT    = 10
+VCO_PERIOD       = 750
+CLKOUT0_DIVIDE_F = 2
+CLKOUT1_DIVIDE   = 2
+CLKOUT2_DIVIDE   = 32
+CLKOUT3_DIVIDE   = 8
+CLKOUT0_PERIOD   = 1500
+CLKOUT1_PERIOD   = 1500
+CLKOUT2_PERIOD   = 24000
+CLKOUT3_PERIOD   = 6000
+CLKOUT4_PERIOD   = 3000
+############################################################
+
+############# MMCME2_ADV Parameters #############
+
+MMCM_VCO_MIN_PERIOD   = 833.333
+MMCM_VCO_MAX_PERIOD   = 1666.667
+MMCM_MULT_F_MID       =   4.800
+MMCM_EXPECTED_PERIOD  = 1250.000
+MMCM_MULT_F           =   4.800
+CLKOUT3_PERIOD_NS     =   6.000
+MMCM_VCO_FREQ (MHz)   = 800.000
+MMCM_VCO_PERIOD       = 1250.000
+#################################################
+
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : BYTE_LANES_B0 = f BYTE_LANES_B1 = e DATA_CTL_B0 = f DATA_CTL_B1 = 0
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_LANE =          12 HIGHEST_LANE_B0 =           4 HIGHEST_LANE_B1 =           4
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_BANK =           3
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : FREQ_REF_PERIOD         = 1500.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DDR_TCK                 = 1500 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_S2_TAPS_SIZE         = 11.72 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_EARLY       = 1 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_OFFSET      = 57.90 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_META_ZONE   = 200.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_FINE_INTR_DLY   = 874.70 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_COARSE_INTR_DLY = 567.40 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_INTRINSIC_DELAY = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_DELAY       = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_INTRINSIC_DELAY      = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_DELAY                = 2145.22 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_OCLK_DELAY           = 15 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : L_PHY_0_PO_FINE_DELAY   = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG1_INTRINSIC_DELAY = 0.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_INTRINSIC_DELAY = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_INTRINSIC_DELAY      = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_MAX_STG2_DELAY       = 738.28 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_OFFSET               = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_DELAY           = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy :PI_STG2_DELAY_CAND       = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DEFAULT_RCLK_DELAY      = 8 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : RCLK_SELECT_EDGE        = 111 
+0.0 ps: PicoSimInit
 Finished circuit initialization process.
-Enable Stream 126 as   in
-Enable Stream 126 as  out
-Enable Stream   1 as   in
-Enable Stream   1 as  out
-Streaming query seq to FPGA
-Streaming result from FPGA
-10862000: Host received 128b 
-	[Addr : 000] 0x00000000_00000000_00000000_00000003
-Query:    0 Location:         3
-14702000: Host received 128b 
-	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
-Query:    0 Location:4294967295
-All Tests Successful!
-Stopped at time : 14978 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
-ISim P.58f (signature 0xfbc00daa)
-This is a Full version of ISim.
-WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
-WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
-# run 1s
+Stopped at time : 242539165 fs : File "/build/xfndry/isimco/hipsBuilds/P_hips_v16.0/rst/hips/iserdese2/B_ISERDESE2_enc.v" Line 5569
+# restart
+# run all
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-                   0: PicoSimInit
+############# Write Clocks PLLE2_ADV Parameters #############
+
+nCK_PER_CLK      = 4
+CLK_PERIOD       = 2500
+CLKIN1_PERIOD    =   2.500
+DIVCLK_DIVIDE    = 3
+CLKFBOUT_MULT    = 10
+VCO_PERIOD       = 750
+CLKOUT0_DIVIDE_F = 2
+CLKOUT1_DIVIDE   = 2
+CLKOUT2_DIVIDE   = 32
+CLKOUT3_DIVIDE   = 8
+CLKOUT0_PERIOD   = 1500
+CLKOUT1_PERIOD   = 1500
+CLKOUT2_PERIOD   = 24000
+CLKOUT3_PERIOD   = 6000
+CLKOUT4_PERIOD   = 3000
+############################################################
+
+############# MMCME2_ADV Parameters #############
+
+MMCM_VCO_MIN_PERIOD   = 833.333
+MMCM_VCO_MAX_PERIOD   = 1666.667
+MMCM_MULT_F_MID       =   4.800
+MMCM_EXPECTED_PERIOD  = 1250.000
+MMCM_MULT_F           =   4.800
+CLKOUT3_PERIOD_NS     =   6.000
+MMCM_VCO_FREQ (MHz)   = 800.000
+MMCM_VCO_PERIOD       = 1250.000
+#################################################
+
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : BYTE_LANES_B0 = f BYTE_LANES_B1 = e DATA_CTL_B0 = f DATA_CTL_B1 = 0
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_LANE =          12 HIGHEST_LANE_B0 =           4 HIGHEST_LANE_B1 =           4
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_BANK =           3
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : FREQ_REF_PERIOD         = 1500.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DDR_TCK                 = 1500 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_S2_TAPS_SIZE         = 11.72 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_EARLY       = 1 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_OFFSET      = 57.90 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_META_ZONE   = 200.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_FINE_INTR_DLY   = 874.70 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_COARSE_INTR_DLY = 567.40 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_INTRINSIC_DELAY = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_DELAY       = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_INTRINSIC_DELAY      = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_DELAY                = 2145.22 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_OCLK_DELAY           = 15 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : L_PHY_0_PO_FINE_DELAY   = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG1_INTRINSIC_DELAY = 0.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_INTRINSIC_DELAY = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_INTRINSIC_DELAY      = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_MAX_STG2_DELAY       = 738.28 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_OFFSET               = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_DELAY           = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy :PI_STG2_DELAY_CAND       = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DEFAULT_RCLK_DELAY      = 8 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : RCLK_SELECT_EDGE        = 111 
+0.0 ps: PicoSimInit
 Finished circuit initialization process.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
+DRC Error : Reset is unsuccessful at time 884750.0 ps.  RST must be held high for at least three WRCLK clock cycles, and WREN must be low for four clock cycles before RST becomes active high, and WREN remains low during this reset cycle.
 Enable Stream 126 as   in
 Enable Stream 126 as  out
 Enable Stream   1 as   in
 Enable Stream   1 as  out
-Streaming query seq to FPGA
-Streaming result from FPGA
-8046000: Host received 128b 
+Enable Stream 124 as   in
+Enable Stream 124 as  out
+Writing ref seq to DRAM
+WriteRam(0x000000000, 0x00000100,   0)
+PicoDDR3Reset(  0)
+9598000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-Query:    0 Location:         0
-9070000: Host received 128b 
+12670000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-Query:    0 Location:         0
-All Tests Successful!
-Stopped at time : 9346 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
-ISim P.58f (signature 0xfbc00daa)
-This is a Full version of ISim.
-WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
-WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
-# run 1s
-Simulator is doing circuit initialization process.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-                   0: PicoSimInit
-Finished circuit initialization process.
-Enable Stream 126 as   in
-Enable Stream 126 as  out
-Enable Stream   1 as   in
-Enable Stream   1 as  out
-Streaming query seq to FPGA
-Streaming result from FPGA
-9582000: Host received 128b 
-	[Addr : 000] 0x00000000_00000000_00000000_00000002
-Query:    0 Location:         2
-14702000: Host received 128b 
-	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
-Query:    0 Location:4294967295
-All Tests Successful!
-Stopped at time : 14978 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
-ISim P.58f (signature 0xfbc00daa)
-This is a Full version of ISim.
-WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
-WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
-# run 1s
-Simulator is doing circuit initialization process.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
-                   0: PicoSimInit
-Finished circuit initialization process.
-Enable Stream 126 as   in
-Enable Stream 126 as  out
-Enable Stream   1 as   in
-Enable Stream   1 as  out
-Streaming query seq to FPGA
-Streaming result from FPGA
-9582000: Host received 128b 
-	[Addr : 000] 0x00000000_00000000_00000000_00000002
-Query:    0 Location:         2
-14702000: Host received 128b 
-	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
-Query:    0 Location:4294967295
-All Tests Successful!
-Stopped at time : 14978 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 51 
-# exit 0
+15742000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+PHY_INIT: Memory Initialization completed at 18079350.0 ps
+18814000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+PHY_INIT: Phaser_In Phase Locked at 19045350.0 ps
+21886000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+24958000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+28030000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+31102000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+34174000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+PHY_INIT: Phaser_In DQSFOUND completed at 34921350.0 ps
+37246000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+PHY_INIT: Write Leveling completed at 39823350.0 ps
+40318000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+43390000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+46462000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+49534000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+52606000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+55678000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+58750000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+61822000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+64894000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+67966000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+71038000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+74110000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+77182000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+80254000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+83326000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+86398000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+89470000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+92542000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+95614000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+98686000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+101758000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+104830000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+107902000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+110974000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+114046000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+117118000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+120190000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+123262000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+126334000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+129406000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+132478000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+135550000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+138622000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+141694000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+144766000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+147838000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+150910000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+153982000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+157054000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+160126000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+163198000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+166270000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+169342000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+172414000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+175486000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+178558000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+181630000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+184702000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+187774000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+190846000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+193918000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+196990000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+200062000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+203134000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+206206000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+209278000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+212350000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+215422000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+218494000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+221566000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+224638000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+227710000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+230782000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+233854000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+236926000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+239998000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+243070000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+246142000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+249214000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+252286000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+255358000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+258430000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+261502000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+264574000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+267646000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+270718000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+273790000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+276862000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+279934000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+283006000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+286078000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+289150000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+292222000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+295294000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+298366000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+301438000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+304510000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+307582000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+310654000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+313726000.0 ps: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000000
+DDR3 Calibration loop timeout reached. Ending Simualtion
+
+Stopped at time : 314002 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 1568 

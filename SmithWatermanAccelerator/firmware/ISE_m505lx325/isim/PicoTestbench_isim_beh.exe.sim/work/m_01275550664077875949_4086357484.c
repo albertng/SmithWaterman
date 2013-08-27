@@ -2497,7 +2497,7 @@ LAB109:
 LAB110:    goto LAB106;
 
 LAB108:    xsi_set_current_line(406, ng0);
-    t5 = xsi_vlog_time(t323, 1000.0000000000000, 1.0000000000000000);
+    t5 = xsi_vlog_time(t323, 1000000.0000000000, 1.0000000000000000);
     t6 = (t0 + 12080U);
     t7 = *((char **)t6);
     memset(t15, 0, 8);
@@ -9807,7 +9807,7 @@ LAB491:    xsi_set_current_line(615, ng0);
     goto LAB487;
 
 LAB489:    xsi_set_current_line(614, ng0);
-    t13 = xsi_vlog_time(t394, 1000.0000000000000, 1.0000000000000000);
+    t13 = xsi_vlog_time(t394, 1000000.0000000000, 1.0000000000000000);
     t14 = (t0 + 35840);
     t17 = (t14 + 56U);
     t18 = *((char **)t17);
@@ -10031,7 +10031,7 @@ LAB502:    xsi_set_current_line(632, ng0);
     goto LAB498;
 
 LAB500:    xsi_set_current_line(630, ng0);
-    t13 = xsi_vlog_time(t394, 1000.0000000000000, 1.0000000000000000);
+    t13 = xsi_vlog_time(t394, 1000000.0000000000, 1.0000000000000000);
     t14 = (t0 + 35840);
     t17 = (t14 + 56U);
     t18 = *((char **)t17);
@@ -10175,7 +10175,7 @@ LAB509:    xsi_set_current_line(657, ng0);
     goto LAB505;
 
 LAB507:    xsi_set_current_line(655, ng0);
-    t13 = xsi_vlog_time(t396, 1000.0000000000000, 1.0000000000000000);
+    t13 = xsi_vlog_time(t396, 1000000.0000000000, 1.0000000000000000);
     t14 = (t0 + 35840);
     t17 = (t14 + 56U);
     t18 = *((char **)t17);
@@ -10280,7 +10280,7 @@ LAB519:    xsi_set_current_line(687, ng0);
     goto LAB512;
 
 LAB514:    xsi_set_current_line(678, ng0);
-    t13 = xsi_vlog_time(t396, 1000.0000000000000, 1.0000000000000000);
+    t13 = xsi_vlog_time(t396, 1000000.0000000000, 1.0000000000000000);
     t14 = (t0 + 35840);
     t17 = (t14 + 56U);
     t18 = *((char **)t17);
@@ -11031,7 +11031,7 @@ LAB583:    xsi_set_current_line(777, ng0);
     goto LAB579;
 
 LAB581:    xsi_set_current_line(776, ng0);
-    t14 = xsi_vlog_time(t396, 1000.0000000000000, 1.0000000000000000);
+    t14 = xsi_vlog_time(t396, 1000000.0000000000, 1.0000000000000000);
     t17 = (t0 + 22240);
     t18 = (t17 + 56U);
     t19 = *((char **)t18);
@@ -12053,7 +12053,7 @@ LAB709:    xsi_set_current_line(804, ng0);
     goto LAB705;
 
 LAB707:    xsi_set_current_line(803, ng0);
-    t104 = xsi_vlog_time(t396, 1000.0000000000000, 1.0000000000000000);
+    t104 = xsi_vlog_time(t396, 1000000.0000000000, 1.0000000000000000);
     t105 = (t0 + 22240);
     t121 = (t105 + 56U);
     t127 = *((char **)t121);
@@ -13560,7 +13560,7 @@ LAB67:
 LAB68:    goto LAB65;
 
 LAB66:    xsi_set_current_line(889, ng0);
-    t17 = xsi_vlog_time(t13, 1000.0000000000000, 1.0000000000000000);
+    t17 = xsi_vlog_time(t13, 1000000.0000000000, 1.0000000000000000);
     t18 = (t0 + 22240);
     t25 = (t18 + 56U);
     t26 = *((char **)t25);

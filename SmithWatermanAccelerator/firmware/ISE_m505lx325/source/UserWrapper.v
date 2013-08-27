@@ -1904,7 +1904,7 @@ module UserWrapper
     wire            stream_out_desc_poll_next_desc_valid[127:0];
     wire [127:0]    stream_out_desc_poll_next_desc[127:0];
     wire [127:0]    stream_out_data_card[127:0];        // This has to be ored together
-    `endif //USER_MODULE_NAME
+    `endif //_NAME
     
     wire            stream_out_rdy[127:0];
     wire            stream_out_valid[127:0];

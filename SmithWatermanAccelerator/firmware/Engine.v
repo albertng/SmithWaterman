@@ -20,7 +20,7 @@ module Engine(
     output         si_rdy_out,                         // Stream input ready
    
     // AXI bus arbiter interface
-    output [5:0]   rd_id_out,           // Read burst ID
+    output [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_out,      // Read burst ID
     output [32:0]  rd_addr_out,         // Read burst address
     output [7:0]   rd_len_out,          // Read burst length (in terms of 256 bit blocks)
     output         rd_info_valid_out,   // Read info valid
@@ -36,6 +36,7 @@ module Engine(
     input  so_rdy_in                        // Stream output ready  
     );
 
+    parameter C0_C_S_AXI_ID_WIDTH = 12;
     parameter NUM_PES = 64;
     parameter REF_LENGTH = 128;
     parameter WIDTH = 10;
@@ -149,7 +150,7 @@ module Engine(
         .tracking_info_valid_out(tracking_info_valid_ec2csf)
     );
     
-    ReferenceReader #(REF_LENGTH) rr (
+    ReferenceReader #(C0_C_S_AXI_ID_WIDTH, REF_LENGTH) rr (
         .clk(clk),
         .rst(rst),
         .ref_addr_in(ref_addr_ec2rr),

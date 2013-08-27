@@ -5975,7 +5975,7 @@ LAB53:    t243 = *((unsigned int *)t231);
     goto LAB55;
 
 LAB56:
-LAB59:    *((int *)t265) = xsi_vlog_stime(1.0000000000000000, 1.0000000000000000);
+LAB59:    *((int *)t265) = xsi_vlog_stime(1000.0000000000000, 1.0000000000000000);
     t266 = (t265 + 4);
     *((int *)t266) = 0;
     xsi_vlogfile_write(1, 0, 0, ng28, 2, t0, (char)118, t265, 32);
@@ -6119,7 +6119,7 @@ LAB81:    t138 = *((unsigned int *)t156);
     goto LAB83;
 
 LAB84:
-LAB87:    *((int *)t189) = xsi_vlog_stime(1.0000000000000000, 1.0000000000000000);
+LAB87:    *((int *)t189) = xsi_vlog_stime(1000.0000000000000, 1.0000000000000000);
     t155 = (t189 + 4);
     *((int *)t155) = 0;
     xsi_vlogfile_write(1, 0, 0, ng29, 2, t0, (char)118, t189, 32);
@@ -7063,7 +7063,7 @@ LAB43:    t146 = *((unsigned int *)t134);
     goto LAB45;
 
 LAB46:
-LAB49:    t173 = xsi_vlog_time(t172, 1.0000000000000000, 1.0000000000000000);
+LAB49:    t173 = xsi_vlog_time(t172, 1000.0000000000000, 1.0000000000000000);
     xsi_vlogfile_write(1, 0, 0, ng30, 2, t0, (char)118, t172, 64);
     goto LAB48;
 
@@ -7567,7 +7567,7 @@ LAB43:    t146 = *((unsigned int *)t134);
     goto LAB45;
 
 LAB46:
-LAB49:    t173 = xsi_vlog_time(t172, 1.0000000000000000, 1.0000000000000000);
+LAB49:    t173 = xsi_vlog_time(t172, 1000.0000000000000, 1.0000000000000000);
     xsi_vlogfile_write(1, 0, 0, ng30, 2, t0, (char)118, t172, 64);
     goto LAB48;
 
@@ -7899,13 +7899,13 @@ LAB10:
 LAB11:
 LAB8:    goto LAB2;
 
-LAB6:    t7 = xsi_vlog_time(t15, 1.0000000000000000, 1.0000000000000000);
+LAB6:    t7 = xsi_vlog_time(t15, 1000.0000000000000, 1.0000000000000000);
     t9 = (t0 + 22816);
     xsi_vlogvar_assign_value(t9, t15, 0, 0, 64);
     goto LAB8;
 
 LAB9:
-LAB12:    t7 = xsi_vlog_time(t15, 1.0000000000000000, 1.0000000000000000);
+LAB12:    t7 = xsi_vlog_time(t15, 1000.0000000000000, 1.0000000000000000);
     t9 = (t0 + 22816);
     t16 = (t9 + 56U);
     t17 = *((char **)t16);
@@ -10547,13 +10547,13 @@ LAB10:
 LAB11:
 LAB8:    goto LAB2;
 
-LAB6:    t7 = xsi_vlog_time(t15, 1.0000000000000000, 1.0000000000000000);
+LAB6:    t7 = xsi_vlog_time(t15, 1000.0000000000000, 1.0000000000000000);
     t9 = (t0 + 23136);
     xsi_vlogvar_assign_value(t9, t15, 0, 0, 64);
     goto LAB8;
 
 LAB9:
-LAB12:    t7 = xsi_vlog_time(t15, 1.0000000000000000, 1.0000000000000000);
+LAB12:    t7 = xsi_vlog_time(t15, 1000.0000000000000, 1.0000000000000000);
     t9 = (t0 + 23136);
     t16 = (t9 + 56U);
     t17 = *((char **)t16);
@@ -27074,7 +27074,7 @@ LAB1322:    t2 = (t0 + 14656);
     t5 = (t0 + 11456);
     xsi_vlogvar_assign_value(t5, t4, 0, 0, 8);
     t2 = (t0 + 37104);
-    xsi_process_wait(t2, 1LL);
+    xsi_process_wait(t2, 1000LL);
     *((char **)t1) = &&LAB2184;
     goto LAB1;
 
@@ -39414,7 +39414,7 @@ LAB2402:    t2 = (t0 + 14656);
     t5 = (t0 + 11456);
     xsi_vlogvar_assign_value(t5, t4, 0, 0, 8);
     t2 = (t0 + 37104);
-    xsi_process_wait(t2, 1LL);
+    xsi_process_wait(t2, 1000LL);
     *((char **)t1) = &&LAB3264;
     goto LAB1;
 
@@ -77137,7 +77137,7 @@ LAB2182:    t2 = (t0 + 14496);
         goto LAB2183;
 
 LAB2184:    t2 = (t0 + 37352);
-    xsi_process_wait(t2, 1LL);
+    xsi_process_wait(t2, 1000LL);
     *((char **)t1) = &&LAB2185;
     goto LAB1;
 

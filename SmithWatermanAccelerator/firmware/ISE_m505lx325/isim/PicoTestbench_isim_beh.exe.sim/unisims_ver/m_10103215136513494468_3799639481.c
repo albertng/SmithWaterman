@@ -312,3 +312,10 @@ extern void unisims_ver_m_10103215136513494468_3628963214_init()
 	xsi_register_didat("unisims_ver_m_10103215136513494468_3628963214", "isim/PicoTestbench_isim_beh.exe.sim/unisims_ver/m_10103215136513494468_3628963214.didat");
 	xsi_register_executes(pe);
 }
+
+extern void unisims_ver_m_10103215136513494468_1095025716_init()
+{
+	static char *pe[] = {(void *)NetDecl_97_0,(void *)Initial_102_1};
+	xsi_register_didat("unisims_ver_m_10103215136513494468_1095025716", "isim/PicoTestbench_isim_beh.exe.sim/unisims_ver/m_10103215136513494468_1095025716.didat");
+	xsi_register_executes(pe);
+}

@@ -1,0 +1,7 @@
+TARGET = SmithWatermanAcceleratorBenchmark
+USER_SOURCES =	SmithWatermanAcceleratorBenchmark.cpp 
+
+CFLAGS += -pthread
+
+include $(PICOBASE)/software/Makefile.common
+

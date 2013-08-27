@@ -48,7 +48,7 @@ module ReferenceReader(
     input        ref_seq_block_rdy_in,    // Reference sequence block input acknowledged
     
     // AXI bus arbiter interface
-    output [5:0]   rd_id_out,           // Read burst ID
+    output [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_out, // Read burst ID
     output [32:0]  rd_addr_out,         // Read burst address
     output [7:0]   rd_len_out,          // Read burst length (in terms of 256 bit blocks)
     output         rd_info_valid_out,   // Read info valid
@@ -58,6 +58,7 @@ module ReferenceReader(
     output         rd_data_rdy_out      // DRAM read data acknowledged    
     );
 
+    parameter C0_C_S_AXI_ID_WIDTH = 8;
     parameter REF_LENGTH = 128;
     
     // FSM states
@@ -79,8 +80,8 @@ module ReferenceReader(
     reg [32:0] next_cur_addr;
     reg [32:0] end_addr;
     reg [32:0] next_end_addr;
-    reg [5:0] rd_id;
-    reg [5:0] next_rd_id;
+    reg [C0_C_S_AXI_ID_WIDTH-3:0] rd_id;
+    reg [C0_C_S_AXI_ID_WIDTH-3:0] next_rd_id;
     reg rd_info_valid;
     
     // Reference info buffer
@@ -156,7 +157,13 @@ module ReferenceReader(
             end
             
             SEND_RD_INFO: begin
-                next_state = WAIT_RD_INFO_RDY;
+                if (!rd_info_rdy_in) begin
+                    next_state = WAIT_RD_INFO_RDY;
+                end else if (cur_addr != end_addr) begin
+                    next_state = SEND_RD_INFO;
+                end else begin
+                    next_state = WAIT_REF_INFO_VALID;
+                end
             end
             
             WAIT_RD_INFO_RDY: begin
@@ -190,10 +197,15 @@ module ReferenceReader(
             end
             
             SEND_RD_INFO: begin
-                next_cur_addr = cur_addr;
+                if (rd_info_rdy_in) begin
+                    next_cur_addr = cur_addr + 33'b100000;
+                    next_rd_id = rd_id + 1;
+                end else begin
+                    next_cur_addr = cur_addr;
+                    next_rd_id = rd_id;
+                end
                 next_end_addr = end_addr;
                 clear_ref_info_valid = 0;
-                next_rd_id = rd_id;
                 rd_info_valid = 1;
             end
             
