@@ -82,8 +82,8 @@ module SmithWatermanAccelerator #(
     output                          s10i_rdy,
     output                          s10o_valid,
     output [`STREAM10_OUT_WIDTH-1:0] s10o_data,
-    input                           s10o_rdy,
-    input                           s11i_valid,
+    input                           s10o_rdy
+    /*input                           s11i_valid,
     input [`STREAM11_IN_WIDTH-1:0]   s11i_data,
     output                          s11i_rdy,
     output                          s11o_valid,
@@ -94,14 +94,14 @@ module SmithWatermanAccelerator #(
     output                          s12i_rdy,
     output                          s12o_valid,
     output [`STREAM12_OUT_WIDTH-1:0] s12o_data,
-    input                           s12o_rdy,
+    input                           s12o_rdy,*/
 
     
     ////////////////////
     // DDR3 INTERFACE //
     ////////////////////
     // Input control signals
-    input                                  c0_axi_clk,        // AXI input clk
+    /*input                                  c0_axi_clk,        // AXI input clk
     input                                  c0_phy_init_done,  // Initialization completed
     input                                  c0_axi_rst,        // Active high AXI reset signal
     
@@ -253,7 +253,7 @@ module SmithWatermanAccelerator #(
     input                                  c0_s3_axi_rvalid,  // Read response valid
     input [C0_C_S_AXI_DATA_WIDTH-1:0]      c0_s3_axi_rdata,   // Read data
     input                                  c0_s3_axi_rlast,   // Read last
-    output                                 c0_s3_axi_rready   // Read response ready
+    output                                 c0_s3_axi_rready   // Read response ready*/
     );
 
     localparam NUM_PES = 64;
@@ -383,16 +383,36 @@ module SmithWatermanAccelerator #(
     wire rd_data_rdy2_3;
     
     // Dummy DRAM signals
-    /*wire axi_clk;
-    wire axi_arready;
-    wire [7:0]   axi_arid;
-    wire [32:0]  axi_araddr;
-    wire [7:0]   axi_arlen;
-    wire         axi_arvalid;
-    wire [7:0]   axi_rid;
-    wire         axi_rvalid;
-    wire [255:0] axi_rdata;
-    wire         axi_rready;*/
+    wire axi0_clk;
+    wire axi0_arready;
+    wire [7:0]   axi0_arid;
+    wire [32:0]  axi0_araddr;
+    wire [7:0]   axi0_arlen;
+    wire         axi0_arvalid;
+    wire [7:0]   axi0_rid;
+    wire         axi0_rvalid;
+    wire [255:0] axi0_rdata;
+    wire         axi0_rready;
+    wire axi1_clk;
+    wire axi1_arready;
+    wire [7:0]   axi1_arid;
+    wire [32:0]  axi1_araddr;
+    wire [7:0]   axi1_arlen;
+    wire         axi1_arvalid;
+    wire [7:0]   axi1_rid;
+    wire         axi1_rvalid;
+    wire [255:0] axi1_rdata;
+    wire         axi1_rready;
+    wire axi2_clk;
+    wire axi2_arready;
+    wire [7:0]   axi2_arid;
+    wire [32:0]  axi2_araddr;
+    wire [7:0]   axi2_arlen;
+    wire         axi2_arvalid;
+    wire [7:0]   axi2_rid;
+    wire         axi2_rvalid;
+    wire [255:0] axi2_rdata;
+    wire         axi2_rready;
     
     // System clock and reset generation
     assign stream_clk = clk;
@@ -418,7 +438,7 @@ module SmithWatermanAccelerator #(
     end
 
     // Memory interface constants
-    assign c0_s1_axi_awlock = `NORMAL_ACCESS;         // Write lock type
+    /*assign c0_s1_axi_awlock = `NORMAL_ACCESS;         // Write lock type
     assign c0_s1_axi_awcache = `NON_CACHE_NON_BUFFER; // Write cache type
     assign c0_s1_axi_awprot = `DATA_SECURE_NORMAL;    // Write protection type
     assign c0_s1_axi_awburst = `INCREMENTING;         // Address should increment
@@ -491,31 +511,52 @@ module SmithWatermanAccelerator #(
     assign c0_s3_axi_wdata = 0;
     assign c0_s3_axi_wlast = 0;
     assign c0_s3_axi_wvalid = 0;
-    assign c0_s3_axi_bready = 0;
+    assign c0_s3_axi_bready = 0;*/
 
     // Dummy DRAM
-    /*Dummy_DRAM dd (
+    Dummy_DRAM dd (
         .clk(sys_clk),
         .rst(sys_rst),
-        .axi_clk_in(axi_clk),
-        .axi_arready_out(axi_arready),
-        .axi_arid_in(axi_arid),
-        .axi_araddr_in(axi_araddr),
-        .axi_arlen_in(axi_arlen),
-        .axi_arvalid_in(axi_arvalid),
-        .axi_rid_out(axi_rid),
-        .axi_rvalid_out(axi_rvalid),
-        .axi_rdata_out(axi_rdata),
-        .axi_rready_in(axi_rready)
-    );*/
+        .axi0_clk_in(axi0_clk),
+        .axi0_arready_out(axi0_arready),
+        .axi0_arid_in(axi0_arid),
+        .axi0_araddr_in(axi0_araddr),
+        .axi0_arlen_in(axi0_arlen),
+        .axi0_arvalid_in(axi0_arvalid),
+        .axi0_rid_out(axi0_rid),
+        .axi0_rvalid_out(axi0_rvalid),
+        .axi0_rdata_out(axi0_rdata),
+        .axi0_rready_in(axi0_rready),
+        .axi1_clk_in(axi1_clk),
+        .axi1_arready_out(axi1_arready),
+        .axi1_arid_in(axi1_arid),
+        .axi1_araddr_in(axi1_araddr),
+        .axi1_arlen_in(axi1_arlen),
+        .axi1_arvalid_in(axi1_arvalid),
+        .axi1_rid_out(axi1_rid),
+        .axi1_rvalid_out(axi1_rvalid),
+        .axi1_rdata_out(axi1_rdata),
+        .axi1_rready_in(axi1_rready),
+        .axi2_clk_in(axi2_clk),
+        .axi2_arready_out(axi2_arready),
+        .axi2_arid_in(axi2_arid),
+        .axi2_araddr_in(axi2_araddr),
+        .axi2_arlen_in(axi2_arlen),
+        .axi2_arvalid_in(axi2_arvalid),
+        .axi2_rid_out(axi2_rid),
+        .axi2_rvalid_out(axi2_rvalid),
+        .axi2_rdata_out(axi2_rdata),
+        .axi2_rready_in(axi2_rready)
+    );
 
 
     // AXI Arbiter unit 0
     assign active_ports0 = 4'b1111;
+    //assign active_ports0 = 4'b0011;
     AXIArbiter #(C0_C_S_AXI_ID_WIDTH) aa0 (
         .clk(sys_clk),
         .rst(sys_rst),
-        .axi_clk_out(c0_s1_axi_clk),
+        /*.axi_clk_out(c0_s1_axi_clk),
         .axi_arready_in(c0_s1_axi_arready),
         .axi_arid_out(c0_s1_axi_arid),
         .axi_araddr_out(c0_s1_axi_araddr_net),
@@ -524,17 +565,17 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s1_axi_rid),
         .axi_rvalid_in(c0_s1_axi_rvalid),
         .axi_rdata_in(c0_s1_axi_rdata),
-        .axi_rready_out(c0_s1_axi_rready),
-        /*.axi_clk_out(axi_clk),
-        .axi_arready_in(axi_arready),
-        .axi_arid_out(axi_arid),
-        .axi_araddr_out(axi_araddr),
-        .axi_arlen_out(axi_arlen),
-        .axi_arvalid_out(axi_arvalid),
-        .axi_rid_in(axi_rid),
-        .axi_rvalid_in(axi_rvalid),
-        .axi_rdata_in(axi_rdata),
-        .axi_rready_out(axi_rready),*/
+        .axi_rready_out(c0_s1_axi_rready),*/
+        .axi_clk_out(axi0_clk),
+        .axi_arready_in(axi0_arready),
+        .axi_arid_out(axi0_arid),
+        .axi_araddr_out(axi0_araddr),
+        .axi_arlen_out(axi0_arlen),
+        .axi_arvalid_out(axi0_arvalid),
+        .axi_rid_in(axi0_rid),
+        .axi_rvalid_in(axi0_rvalid),
+        .axi_rdata_in(axi0_rdata),
+        .axi_rready_out(axi0_rready),
         .active_ports_in(active_ports0),
         .rd_id_0_in(rd_id0_0),
         .rd_addr_0_in(rd_addr0_0),
@@ -569,11 +610,11 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid0_3),
         .rd_data_rdy_3_in(rd_data_rdy0_3)
     );
-    always @(*) begin
+    /*always @(*) begin
         c0_s1_axi_araddr = c0_s1_axi_araddr_net;
         c0_s1_axi_arlen = c0_s1_axi_arlen_net;
         c0_s1_axi_arvalid = c0_s1_axi_arvalid_net;
-    end
+    end*/
     /*assign rd_id0_1 = 0;
     assign rd_addr0_1 = 0;
     assign rd_len0_1 = 0;
@@ -592,10 +633,11 @@ module SmithWatermanAccelerator #(
     
     // AXI Arbiter unit 1
     assign active_ports1 = 4'b1111;
+    //assign active_ports1 = 4'b0001;
     AXIArbiter #(C0_C_S_AXI_ID_WIDTH) aa1 (
         .clk(sys_clk),
         .rst(sys_rst),
-        .axi_clk_out(c0_s2_axi_clk),
+        /*.axi_clk_out(c0_s2_axi_clk),
         .axi_arready_in(c0_s2_axi_arready),
         .axi_arid_out(c0_s2_axi_arid),
         .axi_araddr_out(c0_s2_axi_araddr_net),
@@ -604,7 +646,17 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s2_axi_rid),
         .axi_rvalid_in(c0_s2_axi_rvalid),
         .axi_rdata_in(c0_s2_axi_rdata),
-        .axi_rready_out(c0_s2_axi_rready),
+        .axi_rready_out(c0_s2_axi_rready),*/
+        .axi_clk_out(axi1_clk),
+        .axi_arready_in(axi1_arready),
+        .axi_arid_out(axi1_arid),
+        .axi_araddr_out(axi1_araddr),
+        .axi_arlen_out(axi1_arlen),
+        .axi_arvalid_out(axi1_arvalid),
+        .axi_rid_in(axi1_rid),
+        .axi_rvalid_in(axi1_rvalid),
+        .axi_rdata_in(axi1_rdata),
+        .axi_rready_out(axi1_rready),
         .active_ports_in(active_ports1),
         .rd_id_0_in(rd_id1_0),
         .rd_addr_0_in(rd_addr1_0),
@@ -639,18 +691,39 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid1_3),
         .rd_data_rdy_3_in(rd_data_rdy1_3)
     );
-    always @(*) begin
+    /*always @(*) begin
         c0_s2_axi_araddr = c0_s2_axi_araddr_net;
         c0_s2_axi_arlen = c0_s2_axi_arlen_net;
         c0_s2_axi_arvalid = c0_s2_axi_arvalid_net;
-    end
+    end*/
+    /*assign rd_id1_0 = 0;
+    assign rd_addr1_0 = 0;
+    assign rd_len1_0 = 0;
+    assign rd_info_valid1_0 = 0;
+    assign rd_data_rdy1_0 = 0;
+    assign rd_id1_1 = 0;
+    assign rd_addr1_1 = 0;
+    assign rd_len1_1 = 0;
+    assign rd_info_valid1_1 = 0;
+    assign rd_data_rdy1_1 = 0;
+    assign rd_id1_2 = 0;
+    assign rd_addr1_2 = 0;
+    assign rd_len1_2 = 0;
+    assign rd_info_valid1_2 = 0;
+    assign rd_data_rdy1_2 = 0;
+    assign rd_id1_3 = 0;
+    assign rd_addr1_3 = 0;
+    assign rd_len1_3 = 0;
+    assign rd_info_valid1_3 = 0;
+    assign rd_data_rdy1_3 = 0;*/
     
     // AXI Arbiter unit 2
-    assign active_ports2 = 4'b1111;
+    assign active_ports2 = 4'b0011;
+    //assign active_ports2 = 4'b0001;
     AXIArbiter #(C0_C_S_AXI_ID_WIDTH) aa2 (
         .clk(sys_clk),
         .rst(sys_rst),
-        .axi_clk_out(c0_s3_axi_clk),
+        /*.axi_clk_out(c0_s3_axi_clk),
         .axi_arready_in(c0_s3_axi_arready),
         .axi_arid_out(c0_s3_axi_arid),
         .axi_araddr_out(c0_s3_axi_araddr_net),
@@ -659,7 +732,17 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s3_axi_rid),
         .axi_rvalid_in(c0_s3_axi_rvalid),
         .axi_rdata_in(c0_s3_axi_rdata),
-        .axi_rready_out(c0_s3_axi_rready),
+        .axi_rready_out(c0_s3_axi_rready),*/
+        .axi_clk_out(axi2_clk),
+        .axi_arready_in(axi2_arready),
+        .axi_arid_out(axi2_arid),
+        .axi_araddr_out(axi2_araddr),
+        .axi_arlen_out(axi2_arlen),
+        .axi_arvalid_out(axi2_arvalid),
+        .axi_rid_in(axi2_rid),
+        .axi_rvalid_in(axi2_rvalid),
+        .axi_rdata_in(axi2_rdata),
+        .axi_rready_out(axi2_rready),
         .active_ports_in(active_ports2),
         .rd_id_0_in(rd_id2_0),
         .rd_addr_0_in(rd_addr2_0),
@@ -694,11 +777,31 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid2_3),
         .rd_data_rdy_3_in(rd_data_rdy2_3)
     );
-    always @(*) begin
+    /*always @(*) begin
         c0_s3_axi_araddr = c0_s3_axi_araddr_net;
         c0_s3_axi_arlen = c0_s3_axi_arlen_net;
         c0_s3_axi_arvalid = c0_s3_axi_arvalid_net;
-    end
+    end*/
+    /*assign rd_id2_0 = 0;
+    assign rd_addr2_0 = 0;
+    assign rd_len2_0 = 0;
+    assign rd_info_valid2_0 = 0;
+    assign rd_data_rdy2_0 = 0;
+    assign rd_id2_1 = 0;
+    assign rd_addr2_1 = 0;
+    assign rd_len2_1 = 0;
+    assign rd_info_valid2_1 = 0;
+    assign rd_data_rdy2_1 = 0;*/
+    assign rd_id2_2 = 0;
+    assign rd_addr2_2 = 0;
+    assign rd_len2_2 = 0;
+    assign rd_info_valid2_2 = 0;
+    assign rd_data_rdy2_2 = 0;
+    assign rd_id2_3 = 0;
+    assign rd_addr2_3 = 0;
+    assign rd_len2_3 = 0;
+    assign rd_info_valid2_3 = 0;
+    assign rd_data_rdy2_3 = 0;
     
     // Engine unit 0
     Engine #(C0_C_S_AXI_ID_WIDTH, NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng0 (
@@ -827,9 +930,9 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_in(rd_data_valid1_1),
         .rd_data_rdy_out(rd_data_rdy1_1),
         .so_clk(stream_clk),
-        .so_valid_out(s2o_valid),
-        .so_data_out(s2o_data),
-        .so_rdy_in(s2o_rdy)
+        .so_valid_out(s6o_valid),
+        .so_data_out(s6o_data),
+        .so_rdy_in(s6o_rdy)
     );
     
     // Engine unit 6
@@ -921,7 +1024,7 @@ module SmithWatermanAccelerator #(
     );
     
     // Engine unit 10
-    Engine #(C0_C_S_AXI_ID_WIDTH, NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng10 (
+    /*Engine #(C0_C_S_AXI_ID_WIDTH, NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng10 (
         .clk(sys_clk),
         .rst(sys_rst),
         .si_clk(stream_clk),
@@ -940,10 +1043,10 @@ module SmithWatermanAccelerator #(
         .so_valid_out(s11o_valid),
         .so_data_out(s11o_data),
         .so_rdy_in(s11o_rdy)
-    );
+    );*/
     
     // Engine unit 11
-    Engine #(C0_C_S_AXI_ID_WIDTH, NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng11 (
+    /*Engine #(C0_C_S_AXI_ID_WIDTH, NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng11 (
         .clk(sys_clk),
         .rst(sys_rst),
         .si_clk(stream_clk),
@@ -962,6 +1065,6 @@ module SmithWatermanAccelerator #(
         .so_valid_out(s12o_valid),
         .so_data_out(s12o_data),
         .so_rdy_in(s12o_rdy)
-    );
+    );*/
     
 endmodule

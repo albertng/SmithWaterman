@@ -1,0 +1,8 @@
+TARGET = SmithWatermanAcceleratorMultiFPGABenchmark
+USER_SOURCES =	SmithWatermanAcceleratorMultiFPGABenchmark.cpp 
+
+LDFLAGS += -lrt
+CFLAGS += -pthread
+
+include $(PICOBASE)/software/Makefile.common
+

@@ -20,6 +20,7 @@
  *      Albert Ng   Jul 12 2013     Added active_ports flags
  *      Albert Ng   Aug 06 2013     Removed latches
  *      Albert Ng   Aug 07 2013     Changed DRAM data width to 33
+ *      Albert Ng   Aug 28 2013     Removed WAIT_AXI_RDY state
  *
  */
  
@@ -86,8 +87,8 @@ module AXIArbiter(
 
     // FSM states
     localparam WAIT_PORT_VALID = 3'b001,
-               CONNECT_PORT    = 3'b010,
-               WAIT_AXI_RDY    = 3'b100;
+               CONNECT_PORT    = 3'b010;
+               //WAIT_AXI_RDY    = 3'b100;
     reg [2:0] state;
     reg [2:0] next_state;
     
@@ -212,16 +213,21 @@ module AXIArbiter(
             end
             
             CONNECT_PORT: begin
-                next_state = WAIT_AXI_RDY;
+                //next_state = WAIT_AXI_RDY;
+                if (axi_arready_in) begin
+                    next_state = WAIT_PORT_VALID;
+                end else begin
+                    next_state = CONNECT_PORT;
+                end
             end
             
-            WAIT_AXI_RDY: begin
+            /*WAIT_AXI_RDY: begin
                 if (axi_arready_in) begin
                     next_state = WAIT_PORT_VALID;
                 end else begin
                     next_state = WAIT_AXI_RDY;
                 end
-            end
+            end*/
             
             default: begin  // Shouldn't get here
                 next_state = WAIT_PORT_VALID;
@@ -282,10 +288,23 @@ module AXIArbiter(
                     rd_info_rdy_2 = 0;
                     rd_info_rdy_3 = axi_arready_in;
                 end
-                next_priority_port = priority_port;
+                //next_priority_port = priority_port;
+                if (axi_arready_in) begin
+                    if (|(active_ports_in & {priority_port[2], priority_port[1], priority_port[0], priority_port[3]})) begin 
+                        next_priority_port = {priority_port[2], priority_port[1], priority_port[0], priority_port[3]};
+                    end else if (|(active_ports_in & {priority_port[1], priority_port[0], priority_port[3], priority_port[2]})) begin
+                        next_priority_port = {priority_port[1], priority_port[0], priority_port[3], priority_port[2]};
+                    end else if (|(active_ports_in & {priority_port[0], priority_port[3], priority_port[2], priority_port[1]})) begin
+                        next_priority_port = {priority_port[0], priority_port[3], priority_port[2], priority_port[1]};
+                    end else begin
+                        next_priority_port = priority_port;
+                    end
+                end else begin
+                    next_priority_port = priority_port;
+                end
             end
 
-            WAIT_AXI_RDY: begin
+            /*WAIT_AXI_RDY: begin
                 axi_arid[C0_C_S_AXI_ID_WIDTH-1 -: 2] = cur_port;
                 if (cur_port == 0) begin
                     axi_arid[C0_C_S_AXI_ID_WIDTH-3:0] = rd_id_0_in;
@@ -337,7 +356,7 @@ module AXIArbiter(
                 end else begin
                     next_priority_port = priority_port;
                 end
-            end
+            end*/
             
             default: begin
                 axi_arid    = 0;

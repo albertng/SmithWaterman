@@ -7,7 +7,7 @@ run
 -p xc7k325t-2-ffg900
 -top Pico_Toplevel
 -opt_mode Speed
--opt_level 1
+-opt_level 2
 -power NO
 -iuc NO
 -keep_hierarchy No
@@ -52,6 +52,6 @@ run
 -use_clock_enable Auto
 -use_sync_set Auto
 -use_sync_reset Auto
--iob Auto
+-iob False
 -equivalent_register_removal NO
 -slice_utilization_ratio_maxmargin 5

@@ -1,0 +1,7 @@
+TARGET = SmithWatermanAcceleratorMultiFPGA
+USER_SOURCES =	SmithWatermanAcceleratorMultiFPGA.cpp 
+
+CFLAGS += -pthread
+
+include $(PICOBASE)/software/Makefile.common
+
