@@ -57,19 +57,7 @@ Enable Stream   1 as   in
 Enable Stream   1 as  out
 Enable Stream   2 as   in
 Enable Stream   2 as  out
-Enable Stream   3 as   in
-Enable Stream   3 as  out
-Enable Stream   4 as   in
-Enable Stream   4 as  out
-Enable Stream   5 as   in
-Enable Stream   5 as  out
-Enable Stream   6 as   in
-Enable Stream   6 as  out
-Enable Stream   7 as   in
-Enable Stream   7 as  out
-Enable Stream   8 as   in
-Enable Stream   8 as  out
-Stopped at time : 4562 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 1987
+Stopped at time : 3906 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/Stream2PicoBus.v" Line 128
 # restart
 # run all
 Simulator is doing circuit initialization process.
@@ -141,4 +129,6 @@ Streaming query seq to FPGA
 Streaming result from FPGA
 11630000: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000002
-Stopped at time : 11855333 ps : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/CellScoreFilter.v" Line 157
+Stream:1 Query:    0 Location:         2
+Stopped at time : 12675331 ps : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/StreamInputHandler.v" Line 93
+# exit 0

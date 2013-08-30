@@ -879,9 +879,9 @@ LAB1:    return;
 }
 
 
-extern void work_m_09811673233371318140_1347894319_init()
+extern void work_m_08393119839584757497_1347894319_init()
 {
 	static char *pe[] = {(void *)Cont_418_0,(void *)Cont_419_1,(void *)Always_426_2,(void *)Cont_554_3,(void *)Cont_635_4,(void *)Cont_721_5,(void *)Cont_795_6,(void *)Cont_796_7,(void *)Cont_797_8,(void *)Cont_798_9,(void *)Cont_799_10,(void *)Cont_800_11,(void *)Cont_801_12,(void *)Cont_802_13,(void *)Cont_803_14,(void *)Cont_804_15};
-	xsi_register_didat("work_m_09811673233371318140_1347894319", "isim/PicoTestbench_isim_beh.exe.sim/work/m_09811673233371318140_1347894319.didat");
+	xsi_register_didat("work_m_08393119839584757497_1347894319", "isim/PicoTestbench_isim_beh.exe.sim/work/m_08393119839584757497_1347894319.didat");
 	xsi_register_executes(pe);
 }

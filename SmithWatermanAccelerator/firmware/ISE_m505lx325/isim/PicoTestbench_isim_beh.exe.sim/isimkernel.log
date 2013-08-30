@@ -2,9 +2,27 @@ Command line:
    PicoTestbench_isim_beh.exe
      -simmode  gui
      -simrunnum  0
-     -socket  37378
+     -socket  45369
 
-Fri Aug 30 11:41:31 2013
+Fri Aug 30 14:49:20 2013
 
 
- Elaboration Time: 2.99 sec
+ Elaboration Time: 2.92 sec
+
+ Current Memory Usage: 1440.86 Meg
+
+ Total Signals          : 209896
+ Total Nets             : 1058550
+ Total Signal Drivers   : 50593
+ Total Blocks           : 4265
+ Total Primitive Blocks : 2445
+ Total Processes        : 76284
+ Total Traceable Variables  : 214573
+ Total Scalar Nets and Variables : 18917949
+
+ Total Simulation Time: 33.11 sec
+
+ Current Memory Usage: 1516.36 Meg
+
+Fri Aug 30 14:55:36 2013
+

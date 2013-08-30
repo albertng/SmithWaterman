@@ -553,7 +553,7 @@ module SmithWatermanAccelerator #(
     // AXI Arbiter unit 0
     assign active_ports0 = 4'b1111;
     //assign active_ports0 = 4'b0011;
-    AXIArbiter #(C0_C_S_AXI_ID_WIDTH) aa0 (
+    AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa0 (
         .clk(sys_clk),
         .rst(sys_rst),
         /*.axi_clk_out(c0_s1_axi_clk),
@@ -576,7 +576,7 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(axi0_rvalid),
         .axi_rdata_in(axi0_rdata),
         .axi_rready_out(axi0_rready),
-        .active_ports_in(active_ports0),
+        //.active_ports_in(active_ports0),
         .rd_id_0_in(rd_id0_0),
         .rd_addr_0_in(rd_addr0_0),
         .rd_len_0_in(rd_len0_0),
@@ -634,7 +634,7 @@ module SmithWatermanAccelerator #(
     // AXI Arbiter unit 1
     assign active_ports1 = 4'b1111;
     //assign active_ports1 = 4'b0001;
-    AXIArbiter #(C0_C_S_AXI_ID_WIDTH) aa1 (
+    AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa1 (
         .clk(sys_clk),
         .rst(sys_rst),
         /*.axi_clk_out(c0_s2_axi_clk),
@@ -657,7 +657,7 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(axi1_rvalid),
         .axi_rdata_in(axi1_rdata),
         .axi_rready_out(axi1_rready),
-        .active_ports_in(active_ports1),
+        //.active_ports_in(active_ports1),
         .rd_id_0_in(rd_id1_0),
         .rd_addr_0_in(rd_addr1_0),
         .rd_len_0_in(rd_len1_0),
@@ -720,7 +720,7 @@ module SmithWatermanAccelerator #(
     // AXI Arbiter unit 2
     assign active_ports2 = 4'b0011;
     //assign active_ports2 = 4'b0001;
-    AXIArbiter #(C0_C_S_AXI_ID_WIDTH) aa2 (
+    AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa2 (
         .clk(sys_clk),
         .rst(sys_rst),
         /*.axi_clk_out(c0_s3_axi_clk),
@@ -743,7 +743,7 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(axi2_rvalid),
         .axi_rdata_in(axi2_rdata),
         .axi_rready_out(axi2_rready),
-        .active_ports_in(active_ports2),
+        //.active_ports_in(active_ports2),
         .rd_id_0_in(rd_id2_0),
         .rd_addr_0_in(rd_addr2_0),
         .rd_len_0_in(rd_len2_0),
