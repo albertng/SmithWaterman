@@ -25,7 +25,7 @@
 
 
 
-extern void work_m_14245400910665309441_3368560332_init()
+extern void work_m_07962316320802352470_3368560332_init()
 {
-	xsi_register_didat("work_m_14245400910665309441_3368560332", "isim/PicoTestbench_isim_beh.exe.sim/work/m_14245400910665309441_3368560332.didat");
+	xsi_register_didat("work_m_07962316320802352470_3368560332", "isim/PicoTestbench_isim_beh.exe.sim/work/m_07962316320802352470_3368560332.didat");
 }

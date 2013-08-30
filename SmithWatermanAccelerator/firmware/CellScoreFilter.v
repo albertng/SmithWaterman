@@ -39,6 +39,7 @@
  *      Albert Ng   Aug 09 2013     Changed ref_block_cnt to 28 bits
  *                                  Changed output packet to {query_id, ref_block_cnt}
  *      Albert Ng   Aug 23 2013     Added end_of_refblock checks
+ *      Albert Ng   Aug 30 2013     Added last_query_block_len
  */
  
 module CellScoreFilter(
@@ -50,6 +51,7 @@ module CellScoreFilter(
     input [27:0] ref_block_cnt_in,          // Current ref seq block
     input [15:0] query_id_in,               // Current query ID
     input [31:0] cell_score_threshold_in,   // Current cell score threshold
+    input [5:0]  last_query_block_len_in,   // Current query's last query block length (in bp)
     input tracking_info_valid_in,           // Tracking info is valid (1 clk)
     
     // Systolic Array interface
@@ -57,6 +59,7 @@ module CellScoreFilter(
     input [NUM_PES - 1:0] V_out_valid_in,   // Cell scores valid
     input end_of_query_in,                  // Last PE score is end of query
     input end_of_refblock_in,               // Last PE score is end of ref block
+    input [NUM_PES - 1:0] last_query_block_in, // Cell score outputs in last query block
     
     // Output stream interface
     input  so_clk,                          // Stream output clock
@@ -89,6 +92,8 @@ module CellScoreFilter(
     reg [15:0] query_id1;
     reg [WIDTH - 1:0] cell_score_threshold0;
     reg [WIDTH - 1:0] cell_score_threshold1;
+    reg [5:0] last_query_block_len0;
+    reg [5:0] last_query_block_len1;
     reg buffer_valid0;
     reg buffer_valid1;
     reg write_buffer;
@@ -113,6 +118,8 @@ module CellScoreFilter(
  
     // High score logic signals
     reg [WIDTH - 1:0] cell_score_threshold [NUM_PES - 1:0];
+    reg [5:0] last_query_block_len [NUM_PES - 1:0];
+    reg [NUM_PES - 1:0] last_query_block_mask;
     reg [NUM_PES - 1:0] V_out_cmp;
     reg [NUM_PES - 1:0] V_out_cmp0;
     reg [NUM_PES - 1:0] V_out_cmp1;
@@ -139,7 +146,6 @@ module CellScoreFilter(
     assign end_of_query0 = end_of_query_in & !buffer_sel[NUM_PES - 1];
     assign end_of_query1 = end_of_query_in & buffer_sel[NUM_PES - 1];
     
-    
     // End of ref block logic
     assign end_of_refblock0 = end_of_refblock_in & !buffer_sel[NUM_PES - 1];
     assign end_of_refblock1 = end_of_refblock_in & buffer_sel[NUM_PES - 1];
@@ -150,11 +156,23 @@ module CellScoreFilter(
             always @(*) begin
                 if (!buffer_sel[i]) begin
                     cell_score_threshold[i] = cell_score_threshold0;
+                    last_query_block_len[i] = last_query_block_len0;
                 end else begin
                     cell_score_threshold[i] = cell_score_threshold1;
+                    last_query_block_len[i] = last_query_block_len1;
+                end
+                
+                if ((last_query_block_len[i] == 0) | !last_query_block_in[i]) begin
+                    last_query_block_mask[i] = 1;
+                end else begin
+                    if (i < last_query_block_len[i]) begin
+                        last_query_block_mask[i] = 1;
+                    end else begin
+                        last_query_block_mask[i] = 0;
+                    end
                 end
             
-                if (V_out_valid_in[i] && 
+                if (V_out_valid_in[i] && last_query_block_mask[i] && 
                     ($signed(V_out_in[(i*WIDTH)+WIDTH-1 -: WIDTH]) >= $signed(cell_score_threshold[i]))) begin
                     V_out_cmp[i] = 1;
                 end else begin
@@ -206,6 +224,8 @@ module CellScoreFilter(
             query_id1 <= 0;
             cell_score_threshold0 <= 0;
             cell_score_threshold1 <= 0;
+            last_query_block_len0 <= 0;
+            last_query_block_len1 <= 0;
             buffer_valid0 <= 0;
             buffer_valid1 <= 0;
         end else begin
@@ -213,6 +233,7 @@ module CellScoreFilter(
                 ref_block_cnt0 <= ref_block_cnt_in;
                 query_id0 <= query_id_in;
                 cell_score_threshold0 <= cell_score_threshold_in;
+                last_query_block_len0 <= last_query_block_len_in;
                 buffer_valid0 <= 1;
             end else if (end_of_refblock0) begin
                 buffer_valid0 <= 0;
@@ -222,6 +243,7 @@ module CellScoreFilter(
                 ref_block_cnt1 <= ref_block_cnt_in;
                 query_id1 <= query_id_in;
                 cell_score_threshold1 <= cell_score_threshold_in;
+                last_query_block_len1 <= last_query_block_len_in;
                 buffer_valid1 <= 1;
             end else if (end_of_refblock1) begin
                 buffer_valid1 <= 0;

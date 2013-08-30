@@ -57,9 +57,326 @@ Enable Stream   1 as   in
 Enable Stream   1 as  out
 Enable Stream   2 as   in
 Enable Stream   2 as  out
-Stopped at time : 3906 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/Stream2PicoBus.v" Line 128
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+16238000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:1 Query:    0 Location:4294967295
+18302000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:2 Query:    0 Location:4294967295
+Stopped at time : 21882500 ps : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 150
 # restart
 # run all
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Enable Stream   2 as   in
+Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+16238000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:1 Query:    0 Location:4294967295
+Stopped at time : 16718 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 210
+# restart
+# run all
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Enable Stream   2 as   in
+Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Stopped at time : 10228664 ps : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/SmithWatermanPE.v" Line 103
+# restart
+# run all
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Enable Stream   2 as   in
+Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Stopped at time : 10535 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 150
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Enable Stream   2 as   in
+Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+16238000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:1 Query:    0 Location:4294967295
+18302000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:2 Query:    0 Location:4294967295
+Stopped at time : 21030 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PIO_EP.v" Line 210
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
@@ -130,5 +447,180 @@ Streaming result from FPGA
 11630000: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000002
 Stream:1 Query:    0 Location:         2
-Stopped at time : 12675331 ps : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/StreamInputHandler.v" Line 93
+13182000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000002
+Stream:2 Query:    0 Location:         2
+16238000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:1 Query:    0 Location:4294967295
+18302000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:2 Query:    0 Location:4294967295
+All Tests Successful!
+Stopped at time : 18578 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 93 
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Enable Stream   2 as   in
+Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+16238000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:1 Query:    0 Location:4294967295
+18302000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:2 Query:    0 Location:4294967295
+Stopped at time : 19454 ns : File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/SmithWatermanAccelerator.v" Line 418
+ISim P.58f (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 282.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 1 of formal port CLK_RXUSRCLK is not equal to width 8 of actual signal PIPE_RXUSRCLK_IN.
+WARNING: File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" Line 283.  For instance PicoFramework/\ext_clk.pipe_clock_i /, width 8 of formal port CLK_RXOUTCLK_OUT is not equal to width 1 of actual signal PIPE_RXOUTCLK_IN.
+# run 1s
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+                   0: PicoSimInit
+Finished circuit initialization process.
+Enable Stream 126 as   in
+Enable Stream 126 as  out
+Enable Stream   1 as   in
+Enable Stream   1 as  out
+Enable Stream   2 as   in
+Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
+Streaming query seq to FPGA
+Streaming result from FPGA
+11630000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000002
+Stream:1 Query:    0 Location:         2
+13182000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_00000002
+Stream:2 Query:    0 Location:         2
+16238000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:1 Query:    0 Location:4294967295
+18302000: Host received 128b 
+	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
+Stream:2 Query:    0 Location:4294967295
+All Tests Successful!
+Stopped at time : 18578 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 93 
 # exit 0

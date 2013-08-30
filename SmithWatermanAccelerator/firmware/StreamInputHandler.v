@@ -14,6 +14,7 @@
  *      Albert Ng   Aug 06 2013     Removed latches
  *      Albert Ng   Aug 07 2013     Changed ref_len and ref_addr to 26 bits
  *      Albert Ng   Aug 09 2013     Changed ref_len and ref_addr to 28 bits
+ *      Albert Ng   Aug 30 2013     Changed num_query_blocks to query_length
  *
  */
  
@@ -24,9 +25,9 @@ module StreamInputHandler(
     input  [127:0] si_data,                            // Stream input data
     output         si_rdy,                             // Stream input ready
     input          clk,                                // Engine clock    
-    output [27:0]  ref_length_out,                     // Reference sequence length
+    output [27:0]  ref_length_out,                     // Reference sequence length (in 128bp blocks)
     output [27:0]  ref_addr_out,                       // Reference sequence address
-    output [15:0]  num_query_blocks_out,               // Number of query blocks
+    output [15:0]  query_length_out,                   // Query sequence length (in bp)
     output [15:0]  query_id_out,                       // Query ID #
     output [31:0]  cell_score_threshold_out,           // Cell score threshold for reporting
     output         query_info_valid_out,               // Query information valid
@@ -49,10 +50,10 @@ module StreamInputHandler(
     // FSM outputs
     reg query_info_valid;
     reg query_seq_block_valid;
-    reg [15:0] num_query_blocks;
-    reg [15:0] query_block_cnt;
-    reg [15:0] next_num_query_blocks;
-    reg [15:0] next_query_block_cnt;
+    reg [9:0] num_query_blocks;
+    reg [9:0] query_block_cnt;
+    reg [9:0] next_num_query_blocks;
+    reg [9:0] next_query_block_cnt;
     
     // Stream data sync buffer signals
     wire [127:0] sdsb_din;
@@ -82,7 +83,7 @@ module StreamInputHandler(
     // Engine interface w/ sync buffer
     assign ref_length_out       = sdsb_dout[27:0];
     assign ref_addr_out         = sdsb_dout[59:32];
-    assign num_query_blocks_out = sdsb_dout[79:64];
+    assign query_length_out     = sdsb_dout[79:64];
     assign query_id_out         = sdsb_dout[95:80];
     assign cell_score_threshold_out = sdsb_dout[127:96];
     assign query_info_valid_out = query_info_valid;
@@ -146,7 +147,11 @@ module StreamInputHandler(
                 query_info_valid = !sdsb_empty;
                 query_seq_block_valid = 0;
                 if (!sdsb_empty) begin
-                    next_num_query_blocks = sdsb_dout[79:64];
+                    if (sdsb_dout[69:64] == 0) begin
+                        next_num_query_blocks = sdsb_dout[79:70];
+                    end else begin
+                        next_num_query_blocks = sdsb_dout[79:70] + 1;
+                    end
                 end else begin
                     next_num_query_blocks = num_query_blocks;
                 end

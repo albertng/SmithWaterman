@@ -61,6 +61,7 @@
  *      Albert Ng   Aug 07 2013     Changed ref_len and ref_addr to 26 bits
  *                                  Added num_query_blocks bit width note
  *      Albert Ng   Aug 09 2013     Changed ref_len and ref_addr to 28 bits
+ *      Albert Ng   Aug 30 2013     Changed num_query_blocks to query_length
  */
  
 module Engine_Ctrl(
@@ -71,7 +72,7 @@ module Engine_Ctrl(
     // PCIe handler interface
     input [27:0]  ref_length_in,            // Number of blocks in the reference sequence
     input [27:0]  ref_addr_in,              // DRAM starting address for reference sequence
-    input [15:0]  num_query_blocks_in,      // Number of blocks in the query sequence
+    input [15:0]  query_length_in,          // Query sequence length (in bp)
     input [15:0]  query_id_in,              // Query ID #
     input [31:0]  cell_score_threshold_in,  // Cell score threshold for reporting
     input         query_info_valid_in,      // Store bookkeeping info for the query sequence
@@ -105,6 +106,7 @@ module Engine_Ctrl(
     output [27:0] ref_block_cnt_out,        // Current ref seq block
     output [15:0] query_id_out,             // Current query ID
     output [31:0] cell_score_threshold_out, // Current cell score threshold
+    output [5:0]  last_query_block_len_out, // Current query's last query block length (in bp)
     output tracking_info_valid_out          // Tracking info is valid
     );
 
@@ -163,12 +165,16 @@ module Engine_Ctrl(
     reg [27:0] ref_length1;
     reg [27:0] ref_addr0;
     reg [27:0] ref_addr1;
+    reg [9:0] num_query_blocks;
     reg [9:0] num_query_blocks0;
     reg [9:0] num_query_blocks1;
     reg [15:0] query_id0;
     reg [15:0] query_id1;
     reg [31:0] cell_score_threshold0;
     reg [31:0] cell_score_threshold1;
+    reg [5:0] last_query_block_len;
+    reg [5:0] last_query_block_len0;
+    reg [5:0] last_query_block_len1;
     reg latch_query_info;
     reg query_info_rdy;
 
@@ -245,6 +251,7 @@ module Engine_Ctrl(
     assign ref_block_cnt_out = ref_block_cnt;
     assign query_id_out = wr_buffer_sel ? query_id0 : query_id1;
     assign cell_score_threshold_out = wr_buffer_sel ? cell_score_threshold0 : cell_score_threshold1;
+    assign last_query_block_len_out = wr_buffer_sel ? last_query_block_len0 : last_query_block_len1;
     assign tracking_info_valid_out = tracking_info_valid;
     
     // Reference sequence block rotating shift register
@@ -432,6 +439,14 @@ module Engine_Ctrl(
     end
     
     // Query sequence buffer write FSM DFFs
+    always @(*) begin
+        if (query_length_in[5:0] == 0) begin
+            num_query_blocks = query_length_in[15:6];
+        end else begin
+            num_query_blocks = query_length_in[15:6] + 1;
+        end
+        last_query_block_len = query_length_in[5:0];
+    end
     always @(posedge clk) begin
         if (rst) begin
             ref_length0 <= 0;
@@ -440,6 +455,8 @@ module Engine_Ctrl(
             ref_addr1 <= 0;
             num_query_blocks0 <= 0;
             num_query_blocks1 <= 0;
+            last_query_block_len0 <= 0;
+            last_query_block_len1 <= 0;
             query_id0 <= 0;
             query_id1 <= 0;
             cell_score_threshold0 <= 0;
@@ -451,13 +468,15 @@ module Engine_Ctrl(
                 if (!wr_buffer_sel) begin
                     ref_length0 <= ref_length_in;
                     ref_addr0 <= ref_addr_in;
-                    num_query_blocks0 <= num_query_blocks_in;
+                    num_query_blocks0 <= num_query_blocks;
+                    last_query_block_len0 <= last_query_block_len;
                     query_id0 <= query_id_in;
                     cell_score_threshold0 <= cell_score_threshold_in;
                 end else begin
                     ref_length1 <= ref_length_in;
                     ref_addr1 <= ref_addr_in;
-                    num_query_blocks1 <= num_query_blocks_in;
+                    num_query_blocks1 <= num_query_blocks;
+                    last_query_block_len1 <= last_query_block_len;
                     query_id1 <= query_id_in;
                     cell_score_threshold1 <= cell_score_threshold_in;
                 end

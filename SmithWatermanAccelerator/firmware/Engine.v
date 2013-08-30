@@ -49,7 +49,7 @@ module Engine(
     // Stream input handler - engine controller interface
     wire [27:0] ref_length_sih2ec;
     wire [27:0] ref_addr_sih2ec;
-    wire [15:0] num_query_blocks_sih2ec;
+    wire [15:0] query_length_sih2ec;
     wire [15:0] query_id_sih2ec;
     wire [31:0] cell_score_threshold_sih2ec;
     wire query_info_valid_sih2ec;
@@ -83,6 +83,7 @@ module Engine(
     wire [27:0] ref_block_cnt_ec2csf;
     wire [15:0] query_id_ec2csf;
     wire [31:0] cell_score_threshold_ec2csf;
+    wire [5:0] last_query_block_len_ec2csf;
     wire tracking_info_valid_ec2csf;
     
     // Smith Waterman array - cell score filter interface
@@ -90,6 +91,7 @@ module Engine(
     wire [NUM_PES - 1:0] V_out_valid_swa2csf;
     wire end_of_query_swa2csf;
     wire end_of_refblock_swa2csf;
+    wire [NUM_PES - 1:0] last_query_block_swa2csf;
     
     // Stall signal
     wire stall;
@@ -103,7 +105,7 @@ module Engine(
         .clk(clk),
         .ref_length_out(ref_length_sih2ec),
         .ref_addr_out(ref_addr_sih2ec),
-        .num_query_blocks_out(num_query_blocks_sih2ec),
+        .query_length_out(query_length_sih2ec),
         .query_id_out(query_id_sih2ec),
         .cell_score_threshold_out(cell_score_threshold_sih2ec),
         .query_info_valid_out(query_info_valid_sih2ec),
@@ -119,7 +121,7 @@ module Engine(
         .stall(stall),
         .ref_length_in(ref_length_sih2ec),
         .ref_addr_in(ref_addr_sih2ec),
-        .num_query_blocks_in(num_query_blocks_sih2ec),
+        .query_length_in(query_length_sih2ec),
         .query_id_in(query_id_sih2ec),
         .cell_score_threshold_in(cell_score_threshold_sih2ec),
         .query_info_valid_in(query_info_valid_sih2ec),
@@ -147,6 +149,7 @@ module Engine(
         .ref_block_cnt_out(ref_block_cnt_ec2csf),
         .query_id_out(query_id_ec2csf),
         .cell_score_threshold_out(cell_score_threshold_ec2csf),
+        .last_query_block_len_out(last_query_block_len_ec2csf),
         .tracking_info_valid_out(tracking_info_valid_ec2csf)
     );
     
@@ -187,7 +190,8 @@ module Engine(
         .V_out(V_out_swa2csf),
         .V_out_valid(V_out_valid_swa2csf),
         .end_of_query_out(end_of_query_swa2csf),
-        .end_of_refblock_out(end_of_refblock_swa2csf)
+        .end_of_refblock_out(end_of_refblock_swa2csf),
+        .last_query_block_out(last_query_block_swa2csf)
     );
     
     CellScoreFilter #(NUM_PES, WIDTH) csf (
@@ -197,11 +201,13 @@ module Engine(
         .ref_block_cnt_in(ref_block_cnt_ec2csf),
         .query_id_in(query_id_ec2csf),
         .cell_score_threshold_in(cell_score_threshold_ec2csf),
+        .last_query_block_len_in(last_query_block_len_ec2csf),
         .tracking_info_valid_in(tracking_info_valid_ec2csf),
         .V_out_in(V_out_swa2csf),
         .V_out_valid_in(V_out_valid_swa2csf),
         .end_of_query_in(end_of_query_swa2csf),
         .end_of_refblock_in(end_of_refblock_swa2csf),
+        .last_query_block_in(last_query_block_swa2csf),
         .so_clk(so_clk),
         .so_valid_out(so_valid_out),
         .so_data_out(so_data_out),

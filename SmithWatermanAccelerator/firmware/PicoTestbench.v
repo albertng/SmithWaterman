@@ -62,11 +62,11 @@ module PicoTestbench;
 
         // Stream query seq to stream
         $display("Streaming query seq to FPGA");
-        PicoSim.PicoLoadBuffer128(0, 128'h000000800000000100000000000000FF);
+        PicoSim.PicoLoadBuffer128(0, 128'h0000007E0000003F0000000000000008);
         PicoSim.WriteStream(1, 0, 16);
         PicoSim.PicoLoadBuffer128(0, query_seq);
         PicoSim.WriteStream(1, 0, 16);
-        PicoSim.PicoLoadBuffer128(0, 128'h000000800000000100000000000000FF);
+        PicoSim.PicoLoadBuffer128(0, 128'h0000007E0000003F0000000000000008);
         PicoSim.WriteStream(2, 0, 16);
         PicoSim.PicoLoadBuffer128(0, query_seq);
         PicoSim.WriteStream(2, 0, 16);

@@ -1,4 +1,4 @@
-Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -i /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/ -i /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ -d SIMULATION -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe -prj /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_beh.prj PicoTestbench work.glbl 
+Running: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -i "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/" -i "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/" -d "SIMULATION" -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe" -prj "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_beh.prj" "PicoTestbench" "work.glbl" 
 ISim P.58f (signature 0xfbc00daa)
 Number of CPUs detected in this system: 24
 Turning on mult-threading, number of parallel sub-compilation jobs: 48 
@@ -131,8 +131,8 @@ WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO18
 WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4120: Element index -1 into num_read_words_dc is out of bounds
 WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4170: Element index -1 into num_write_words_dc is out of bounds
 Completed static elaboration
-Fuse Memory Usage: 145172 KB
-Fuse CPU Usage: 4720 ms
+Fuse Memory Usage: 145512 KB
+Fuse CPU Usage: 4840 ms
 Compiling module PIO_128_RX_ENGINE_SIM_default
 Compiling module PIO_128_TX_ENGINE_SIM_default
 Compiling module sof_catch
@@ -244,6 +244,6 @@ Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 109 Verilog Units
 Built simulation executable /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe
-Fuse Memory Usage: 3349164 KB
-Fuse CPU Usage: 9730 ms
-GCC CPU Usage: 68280 ms
+Fuse Memory Usage: 3352020 KB
+Fuse CPU Usage: 8710 ms
+GCC CPU Usage: 360 ms
