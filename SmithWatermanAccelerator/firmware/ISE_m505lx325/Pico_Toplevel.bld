@@ -1771,6 +1771,14 @@ WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<1>' has no driver
 WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<0>' has no driver
 WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_valid' has no driver
 WARNING:NgdBuild:452 - logical net 'user_pci_wr_data_q_valid' has no driver
+WARNING:NgdBuild:452 - logical net 'N636' has no driver
+WARNING:NgdBuild:452 - logical net 'N637' has no driver
+WARNING:NgdBuild:452 - logical net 'N638' has no driver
+WARNING:NgdBuild:452 - logical net 'N639' has no driver
+WARNING:NgdBuild:452 - logical net 'N640' has no driver
+WARNING:NgdBuild:452 - logical net 'N641' has no driver
+WARNING:NgdBuild:452 - logical net 'N642' has no driver
+WARNING:NgdBuild:452 - logical net 'N643' has no driver
 WARNING:NgdBuild:452 - logical net 'N644' has no driver
 WARNING:NgdBuild:452 - logical net 'N645' has no driver
 WARNING:NgdBuild:452 - logical net 'N646' has no driver
@@ -1779,14 +1787,6 @@ WARNING:NgdBuild:452 - logical net 'N648' has no driver
 WARNING:NgdBuild:452 - logical net 'N649' has no driver
 WARNING:NgdBuild:452 - logical net 'N650' has no driver
 WARNING:NgdBuild:452 - logical net 'N651' has no driver
-WARNING:NgdBuild:452 - logical net 'N652' has no driver
-WARNING:NgdBuild:452 - logical net 'N653' has no driver
-WARNING:NgdBuild:452 - logical net 'N654' has no driver
-WARNING:NgdBuild:452 - logical net 'N655' has no driver
-WARNING:NgdBuild:452 - logical net 'N656' has no driver
-WARNING:NgdBuild:452 - logical net 'N657' has no driver
-WARNING:NgdBuild:452 - logical net 'N658' has no driver
-WARNING:NgdBuild:452 - logical net 'N659' has no driver
 WARNING:NgdBuild:452 - logical net
    'UserWrapper/UserModule/eng0/cell_score_threshold_ec2csf<31>' has no driver
 WARNING:NgdBuild:452 - logical net
@@ -2242,10 +2242,10 @@ NGDBUILD Design Results Summary:
   Number of errors:     0
   Number of warnings: 522
 
-Total memory usage is 1728652 kilobytes
+Total memory usage is 1740132 kilobytes
 
 Writing NGD file "Pico_Toplevel.ngd" ...
-Total REAL time to NGDBUILD completion: 13 min  25 sec
-Total CPU time to NGDBUILD completion:  13 min  23 sec
+Total REAL time to NGDBUILD completion: 13 min  33 sec
+Total CPU time to NGDBUILD completion:  13 min  30 sec
 
 Writing NGDBUILD log file "Pico_Toplevel.bld"...

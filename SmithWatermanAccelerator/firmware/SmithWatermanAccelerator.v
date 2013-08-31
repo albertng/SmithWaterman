@@ -264,6 +264,7 @@ module SmithWatermanAccelerator #(
     localparam GAP_OPEN_PEN = -2;
     localparam GAP_EXTEND_PEN = -1;
     localparam PES_PER_FIFO = 4;   
+    localparam NUM_PORTS = 10;
 
     wire [C0_C_S_AXI_ADDR_WIDTH-1:0] c0_s1_axi_araddr_net;
     wire [7:0] c0_s1_axi_arlen_net;
@@ -282,8 +283,16 @@ module SmithWatermanAccelerator #(
     reg [7:0] sys_rst_cnt;
     wire locked;
 
-    wire [3:0] active_ports0;
-    wire [5:0] rd_id0_0;
+    wire [(C0_C_S_AXI_ID_WIDTH-4)*NUM_PORTS-1:0] rd_id;
+    wire [33*NUM_PORTS-1:0] rd_addr;
+    wire [8*NUM_PORTS-1:0] rd_len;
+    wire [NUM_PORTS-1:0] rd_info_valid;
+    wire [NUM_PORTS-1:0] rd_info_rdy;
+    wire [256*NUM_PORTS-1:0] rd_data;
+    wire [NUM_PORTS-1:0] rd_data_valid;
+    wire [NUM_PORTS-1:0] rd_data_rdy;
+
+    /*wire [5:0] rd_id0_0;
     wire [32:0] rd_addr0_0;
     wire [7:0] rd_len0_0;
     wire rd_info_valid0_0;
@@ -315,7 +324,6 @@ module SmithWatermanAccelerator #(
     wire [255:0] rd_data0_3;
     wire rd_data_valid0_3;
     wire rd_data_rdy0_3;
-    wire [3:0] active_ports1;
     wire [5:0] rd_id1_0;
     wire [32:0] rd_addr1_0;
     wire [7:0] rd_len1_0;
@@ -348,7 +356,6 @@ module SmithWatermanAccelerator #(
     wire [255:0] rd_data1_3;
     wire rd_data_valid1_3;
     wire rd_data_rdy1_3;
-    wire [3:0] active_ports2;
     wire [5:0] rd_id2_0;
     wire [32:0] rd_addr2_0;
     wire [7:0] rd_len2_0;
@@ -380,7 +387,7 @@ module SmithWatermanAccelerator #(
     wire rd_info_rdy2_3;
     wire [255:0] rd_data2_3;
     wire rd_data_valid2_3;
-    wire rd_data_rdy2_3;
+    wire rd_data_rdy2_3;*/
     
     // Dummy DRAM signals
     wire axi0_clk;
@@ -549,11 +556,7 @@ module SmithWatermanAccelerator #(
         .axi2_rready_in(axi2_rready)
     );
 
-
-    // AXI Arbiter unit 0
-    assign active_ports0 = 4'b1111;
-    //assign active_ports0 = 4'b0011;
-    AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa0 (
+    AXIArbiter3 #(NUM_PORTS, C0_C_S_AXI_ID_WIDTH) aa (
         .clk(sys_clk),
         .rst(sys_rst),
         /*.axi_clk_out(c0_s1_axi_clk),
@@ -576,7 +579,45 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(axi0_rvalid),
         .axi_rdata_in(axi0_rdata),
         .axi_rready_out(axi0_rready),
-        //.active_ports_in(active_ports0),
+        .rd_id_in(rd_id),
+        .rd_addr_in(rd_addr),
+        .rd_len_in(rd_len),
+        .rd_info_valid_in(rd_info_valid),
+        .rd_info_rdy_out(rd_info_rdy),
+        .rd_data_out(rd_data),
+        .rd_data_valid_out(rd_data_valid),
+        .rd_data_rdy_in(rd_data_rdy)
+    );
+    /*always @(*) begin
+        c0_s1_axi_araddr = c0_s1_axi_araddr_net;
+        c0_s1_axi_arlen = c0_s1_axi_arlen_net;
+        c0_s1_axi_arvalid = c0_s1_axi_arvalid_net;
+    end*/
+
+    // AXI Arbiter unit 0
+    /*AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa0 (
+        .clk(sys_clk),
+        .rst(sys_rst),
+        .axi_clk_out(c0_s1_axi_clk),
+        .axi_arready_in(c0_s1_axi_arready),
+        .axi_arid_out(c0_s1_axi_arid),
+        .axi_araddr_out(c0_s1_axi_araddr_net),
+        .axi_arlen_out(c0_s1_axi_arlen_net),
+        .axi_arvalid_out(c0_s1_axi_arvalid_net),
+        .axi_rid_in(c0_s1_axi_rid),
+        .axi_rvalid_in(c0_s1_axi_rvalid),
+        .axi_rdata_in(c0_s1_axi_rdata),
+        .axi_rready_out(c0_s1_axi_rready),
+        /*.axi_clk_out(axi0_clk),
+        .axi_arready_in(axi0_arready),
+        .axi_arid_out(axi0_arid),
+        .axi_araddr_out(axi0_araddr),
+        .axi_arlen_out(axi0_arlen),
+        .axi_arvalid_out(axi0_arvalid),
+        .axi_rid_in(axi0_rid),
+        .axi_rvalid_in(axi0_rvalid),
+        .axi_rdata_in(axi0_rdata),
+        .axi_rready_out(axi0_rready),
         .rd_id_0_in(rd_id0_0),
         .rd_addr_0_in(rd_addr0_0),
         .rd_len_0_in(rd_len0_0),
@@ -610,7 +651,7 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid0_3),
         .rd_data_rdy_3_in(rd_data_rdy0_3)
     );
-    /*always @(*) begin
+    always @(*) begin
         c0_s1_axi_araddr = c0_s1_axi_araddr_net;
         c0_s1_axi_arlen = c0_s1_axi_arlen_net;
         c0_s1_axi_arvalid = c0_s1_axi_arvalid_net;
@@ -632,12 +673,10 @@ module SmithWatermanAccelerator #(
     assign rd_data_rdy0_3 = 0;*/
     
     // AXI Arbiter unit 1
-    assign active_ports1 = 4'b1111;
-    //assign active_ports1 = 4'b0001;
-    AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa1 (
+    /*AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa1 (
         .clk(sys_clk),
         .rst(sys_rst),
-        /*.axi_clk_out(c0_s2_axi_clk),
+        .axi_clk_out(c0_s2_axi_clk),
         .axi_arready_in(c0_s2_axi_arready),
         .axi_arid_out(c0_s2_axi_arid),
         .axi_araddr_out(c0_s2_axi_araddr_net),
@@ -646,8 +685,8 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s2_axi_rid),
         .axi_rvalid_in(c0_s2_axi_rvalid),
         .axi_rdata_in(c0_s2_axi_rdata),
-        .axi_rready_out(c0_s2_axi_rready),*/
-        .axi_clk_out(axi1_clk),
+        .axi_rready_out(c0_s2_axi_rready),
+        /*.axi_clk_out(axi1_clk),
         .axi_arready_in(axi1_arready),
         .axi_arid_out(axi1_arid),
         .axi_araddr_out(axi1_araddr),
@@ -657,7 +696,6 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(axi1_rvalid),
         .axi_rdata_in(axi1_rdata),
         .axi_rready_out(axi1_rready),
-        //.active_ports_in(active_ports1),
         .rd_id_0_in(rd_id1_0),
         .rd_addr_0_in(rd_addr1_0),
         .rd_len_0_in(rd_len1_0),
@@ -691,7 +729,7 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid1_3),
         .rd_data_rdy_3_in(rd_data_rdy1_3)
     );
-    /*always @(*) begin
+    always @(*) begin
         c0_s2_axi_araddr = c0_s2_axi_araddr_net;
         c0_s2_axi_arlen = c0_s2_axi_arlen_net;
         c0_s2_axi_arvalid = c0_s2_axi_arvalid_net;
@@ -718,12 +756,10 @@ module SmithWatermanAccelerator #(
     assign rd_data_rdy1_3 = 0;*/
     
     // AXI Arbiter unit 2
-    assign active_ports2 = 4'b0011;
-    //assign active_ports2 = 4'b0001;
-    AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa2 (
+    /*AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa2 (
         .clk(sys_clk),
         .rst(sys_rst),
-        /*.axi_clk_out(c0_s3_axi_clk),
+        .axi_clk_out(c0_s3_axi_clk),
         .axi_arready_in(c0_s3_axi_arready),
         .axi_arid_out(c0_s3_axi_arid),
         .axi_araddr_out(c0_s3_axi_araddr_net),
@@ -732,8 +768,8 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s3_axi_rid),
         .axi_rvalid_in(c0_s3_axi_rvalid),
         .axi_rdata_in(c0_s3_axi_rdata),
-        .axi_rready_out(c0_s3_axi_rready),*/
-        .axi_clk_out(axi2_clk),
+        .axi_rready_out(c0_s3_axi_rready),
+        /*.axi_clk_out(axi2_clk),
         .axi_arready_in(axi2_arready),
         .axi_arid_out(axi2_arid),
         .axi_araddr_out(axi2_araddr),
@@ -743,7 +779,6 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(axi2_rvalid),
         .axi_rdata_in(axi2_rdata),
         .axi_rready_out(axi2_rready),
-        //.active_ports_in(active_ports2),
         .rd_id_0_in(rd_id2_0),
         .rd_addr_0_in(rd_addr2_0),
         .rd_len_0_in(rd_len2_0),
@@ -777,7 +812,7 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_3_out(rd_data_valid2_3),
         .rd_data_rdy_3_in(rd_data_rdy2_3)
     );
-    /*always @(*) begin
+    always @(*) begin
         c0_s3_axi_araddr = c0_s3_axi_araddr_net;
         c0_s3_axi_arlen = c0_s3_axi_arlen_net;
         c0_s3_axi_arvalid = c0_s3_axi_arvalid_net;
@@ -791,7 +826,7 @@ module SmithWatermanAccelerator #(
     assign rd_addr2_1 = 0;
     assign rd_len2_1 = 0;
     assign rd_info_valid2_1 = 0;
-    assign rd_data_rdy2_1 = 0;*/
+    assign rd_data_rdy2_1 = 0;
     assign rd_id2_2 = 0;
     assign rd_addr2_2 = 0;
     assign rd_len2_2 = 0;
@@ -801,7 +836,7 @@ module SmithWatermanAccelerator #(
     assign rd_addr2_3 = 0;
     assign rd_len2_3 = 0;
     assign rd_info_valid2_3 = 0;
-    assign rd_data_rdy2_3 = 0;
+    assign rd_data_rdy2_3 = 0;*/
     
     // Engine unit 0
     Engine #(C0_C_S_AXI_ID_WIDTH, NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) eng0 (
@@ -811,14 +846,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s1i_valid),
         .si_data_in(s1i_data),
         .si_rdy_out(s1i_rdy),
-        .rd_id_out(rd_id0_0),
+        /*.rd_id_out(rd_id0_0),
         .rd_addr_out(rd_addr0_0),
         .rd_len_out(rd_len0_0),
         .rd_info_valid_out(rd_info_valid0_0),
         .rd_info_rdy_in(rd_info_rdy0_0),
         .rd_data_in(rd_data0_0),
         .rd_data_valid_in(rd_data_valid0_0),
-        .rd_data_rdy_out(rd_data_rdy0_0),
+        .rd_data_rdy_out(rd_data_rdy0_0),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(0+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*0]),
+        .rd_addr_out(rd_addr[33*(0+1)-1:33*0]),
+        .rd_len_out(rd_len[8*(0+1)-1:8*0]),
+        .rd_info_valid_out(rd_info_valid[0]),
+        .rd_info_rdy_in(rd_info_rdy[0]),
+        .rd_data_in(rd_data[256*(0+1)-1:256*0]),
+        .rd_data_valid_in(rd_data_valid[0]),
+        .rd_data_rdy_out(rd_data_rdy[0]),
         .so_clk(stream_clk),
         .so_valid_out(s1o_valid),
         .so_data_out(s1o_data),
@@ -833,14 +876,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s2i_valid),
         .si_data_in(s2i_data),
         .si_rdy_out(s2i_rdy),
-        .rd_id_out(rd_id0_1),
+        /*.rd_id_out(rd_id0_1),
         .rd_addr_out(rd_addr0_1),
         .rd_len_out(rd_len0_1),
         .rd_info_valid_out(rd_info_valid0_1),
         .rd_info_rdy_in(rd_info_rdy0_1),
         .rd_data_in(rd_data0_1),
         .rd_data_valid_in(rd_data_valid0_1),
-        .rd_data_rdy_out(rd_data_rdy0_1),
+        .rd_data_rdy_out(rd_data_rdy0_1),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(1+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*1]),
+        .rd_addr_out(rd_addr[33*(1+1)-1:33*1]),
+        .rd_len_out(rd_len[8*(1+1)-1:8*1]),
+        .rd_info_valid_out(rd_info_valid[1]),
+        .rd_info_rdy_in(rd_info_rdy[1]),
+        .rd_data_in(rd_data[256*(1+1)-1:256*1]),
+        .rd_data_valid_in(rd_data_valid[1]),
+        .rd_data_rdy_out(rd_data_rdy[1]),
         .so_clk(stream_clk),
         .so_valid_out(s2o_valid),
         .so_data_out(s2o_data),
@@ -855,14 +906,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s3i_valid),
         .si_data_in(s3i_data),
         .si_rdy_out(s3i_rdy),
-        .rd_id_out(rd_id0_2),
+        /*.rd_id_out(rd_id0_2),
         .rd_addr_out(rd_addr0_2),
         .rd_len_out(rd_len0_2),
         .rd_info_valid_out(rd_info_valid0_2),
         .rd_info_rdy_in(rd_info_rdy0_2),
         .rd_data_in(rd_data0_2),
         .rd_data_valid_in(rd_data_valid0_2),
-        .rd_data_rdy_out(rd_data_rdy0_2),
+        .rd_data_rdy_out(rd_data_rdy0_2),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(2+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*2]),
+        .rd_addr_out(rd_addr[33*(2+1)-1:33*2]),
+        .rd_len_out(rd_len[8*(2+1)-1:8*2]),
+        .rd_info_valid_out(rd_info_valid[2]),
+        .rd_info_rdy_in(rd_info_rdy[2]),
+        .rd_data_in(rd_data[256*(2+1)-1:256*2]),
+        .rd_data_valid_in(rd_data_valid[2]),
+        .rd_data_rdy_out(rd_data_rdy[2]),
         .so_clk(stream_clk),
         .so_valid_out(s3o_valid),
         .so_data_out(s3o_data),
@@ -877,14 +936,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s4i_valid),
         .si_data_in(s4i_data),
         .si_rdy_out(s4i_rdy),
-        .rd_id_out(rd_id0_3),
+        /*.rd_id_out(rd_id0_3),
         .rd_addr_out(rd_addr0_3),
         .rd_len_out(rd_len0_3),
         .rd_info_valid_out(rd_info_valid0_3),
         .rd_info_rdy_in(rd_info_rdy0_3),
         .rd_data_in(rd_data0_3),
         .rd_data_valid_in(rd_data_valid0_3),
-        .rd_data_rdy_out(rd_data_rdy0_3),
+        .rd_data_rdy_out(rd_data_rdy0_3),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(3+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*3]),
+        .rd_addr_out(rd_addr[33*(3+1)-1:33*3]),
+        .rd_len_out(rd_len[8*(3+1)-1:8*3]),
+        .rd_info_valid_out(rd_info_valid[3]),
+        .rd_info_rdy_in(rd_info_rdy[3]),
+        .rd_data_in(rd_data[256*(3+1)-1:256*3]),
+        .rd_data_valid_in(rd_data_valid[3]),
+        .rd_data_rdy_out(rd_data_rdy[3]),
         .so_clk(stream_clk),
         .so_valid_out(s4o_valid),
         .so_data_out(s4o_data),
@@ -899,14 +966,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s5i_valid),
         .si_data_in(s5i_data),
         .si_rdy_out(s5i_rdy),
-        .rd_id_out(rd_id1_0),
+        /*.rd_id_out(rd_id1_0),
         .rd_addr_out(rd_addr1_0),
         .rd_len_out(rd_len1_0),
         .rd_info_valid_out(rd_info_valid1_0),
         .rd_info_rdy_in(rd_info_rdy1_0),
         .rd_data_in(rd_data1_0),
         .rd_data_valid_in(rd_data_valid1_0),
-        .rd_data_rdy_out(rd_data_rdy1_0),
+        .rd_data_rdy_out(rd_data_rdy1_0),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(4+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*4]),
+        .rd_addr_out(rd_addr[33*(4+1)-1:33*4]),
+        .rd_len_out(rd_len[8*(4+1)-1:8*4]),
+        .rd_info_valid_out(rd_info_valid[4]),
+        .rd_info_rdy_in(rd_info_rdy[4]),
+        .rd_data_in(rd_data[256*(4+1)-1:256*4]),
+        .rd_data_valid_in(rd_data_valid[4]),
+        .rd_data_rdy_out(rd_data_rdy[4]),
         .so_clk(stream_clk),
         .so_valid_out(s5o_valid),
         .so_data_out(s5o_data),
@@ -921,14 +996,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s6i_valid),
         .si_data_in(s6i_data),
         .si_rdy_out(s6i_rdy),
-        .rd_id_out(rd_id1_1),
+        /*.rd_id_out(rd_id1_1),
         .rd_addr_out(rd_addr1_1),
         .rd_len_out(rd_len1_1),
         .rd_info_valid_out(rd_info_valid1_1),
         .rd_info_rdy_in(rd_info_rdy1_1),
         .rd_data_in(rd_data1_1),
         .rd_data_valid_in(rd_data_valid1_1),
-        .rd_data_rdy_out(rd_data_rdy1_1),
+        .rd_data_rdy_out(rd_data_rdy1_1),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(5+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*5]),
+        .rd_addr_out(rd_addr[33*(5+1)-1:33*5]),
+        .rd_len_out(rd_len[8*(5+1)-1:8*5]),
+        .rd_info_valid_out(rd_info_valid[5]),
+        .rd_info_rdy_in(rd_info_rdy[5]),
+        .rd_data_in(rd_data[256*(5+1)-1:256*5]),
+        .rd_data_valid_in(rd_data_valid[5]),
+        .rd_data_rdy_out(rd_data_rdy[5]),     
         .so_clk(stream_clk),
         .so_valid_out(s6o_valid),
         .so_data_out(s6o_data),
@@ -943,14 +1026,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s7i_valid),
         .si_data_in(s7i_data),
         .si_rdy_out(s7i_rdy),
-        .rd_id_out(rd_id1_2),
+        /*.rd_id_out(rd_id1_2),
         .rd_addr_out(rd_addr1_2),
         .rd_len_out(rd_len1_2),
         .rd_info_valid_out(rd_info_valid1_2),
         .rd_info_rdy_in(rd_info_rdy1_2),
         .rd_data_in(rd_data1_2),
         .rd_data_valid_in(rd_data_valid1_2),
-        .rd_data_rdy_out(rd_data_rdy1_2),
+        .rd_data_rdy_out(rd_data_rdy1_2),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(6+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*6]),
+        .rd_addr_out(rd_addr[33*(6+1)-1:33*6]),
+        .rd_len_out(rd_len[8*(6+1)-1:8*6]),
+        .rd_info_valid_out(rd_info_valid[6]),
+        .rd_info_rdy_in(rd_info_rdy[6]),
+        .rd_data_in(rd_data[256*(6+1)-1:256*6]),
+        .rd_data_valid_in(rd_data_valid[6]),
+        .rd_data_rdy_out(rd_data_rdy[6]),
         .so_clk(stream_clk),
         .so_valid_out(s7o_valid),
         .so_data_out(s7o_data),
@@ -965,14 +1056,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s8i_valid),
         .si_data_in(s8i_data),
         .si_rdy_out(s8i_rdy),
-        .rd_id_out(rd_id1_3),
+        /*.rd_id_out(rd_id1_3),
         .rd_addr_out(rd_addr1_3),
         .rd_len_out(rd_len1_3),
         .rd_info_valid_out(rd_info_valid1_3),
         .rd_info_rdy_in(rd_info_rdy1_3),
         .rd_data_in(rd_data1_3),
         .rd_data_valid_in(rd_data_valid1_3),
-        .rd_data_rdy_out(rd_data_rdy1_3),
+        .rd_data_rdy_out(rd_data_rdy1_3),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(7+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*7]),
+        .rd_addr_out(rd_addr[33*(7+1)-1:33*7]),
+        .rd_len_out(rd_len[8*(7+1)-1:8*7]),
+        .rd_info_valid_out(rd_info_valid[7]),
+        .rd_info_rdy_in(rd_info_rdy[7]),
+        .rd_data_in(rd_data[256*(7+1)-1:256*7]),
+        .rd_data_valid_in(rd_data_valid[7]),
+        .rd_data_rdy_out(rd_data_rdy[7]),
         .so_clk(stream_clk),
         .so_valid_out(s8o_valid),
         .so_data_out(s8o_data),
@@ -987,14 +1086,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s9i_valid),
         .si_data_in(s9i_data),
         .si_rdy_out(s9i_rdy),
-        .rd_id_out(rd_id2_0),
+        /*.rd_id_out(rd_id2_0),
         .rd_addr_out(rd_addr2_0),
         .rd_len_out(rd_len2_0),
         .rd_info_valid_out(rd_info_valid2_0),
         .rd_info_rdy_in(rd_info_rdy2_0),
         .rd_data_in(rd_data2_0),
         .rd_data_valid_in(rd_data_valid2_0),
-        .rd_data_rdy_out(rd_data_rdy2_0),
+        .rd_data_rdy_out(rd_data_rdy2_0),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(8+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*8]),
+        .rd_addr_out(rd_addr[33*(8+1)-1:33*8]),
+        .rd_len_out(rd_len[8*(8+1)-1:8*8]),
+        .rd_info_valid_out(rd_info_valid[8]),
+        .rd_info_rdy_in(rd_info_rdy[8]),
+        .rd_data_in(rd_data[256*(8+1)-1:256*8]),
+        .rd_data_valid_in(rd_data_valid[8]),
+        .rd_data_rdy_out(rd_data_rdy[8]),
         .so_clk(stream_clk),
         .so_valid_out(s9o_valid),
         .so_data_out(s9o_data),
@@ -1009,14 +1116,22 @@ module SmithWatermanAccelerator #(
         .si_valid_in(s10i_valid),
         .si_data_in(s10i_data),
         .si_rdy_out(s10i_rdy),
-        .rd_id_out(rd_id2_1),
+        /*.rd_id_out(rd_id2_1),
         .rd_addr_out(rd_addr2_1),
         .rd_len_out(rd_len2_1),
         .rd_info_valid_out(rd_info_valid2_1),
         .rd_info_rdy_in(rd_info_rdy2_1),
         .rd_data_in(rd_data2_1),
         .rd_data_valid_in(rd_data_valid2_1),
-        .rd_data_rdy_out(rd_data_rdy2_1),
+        .rd_data_rdy_out(rd_data_rdy2_1),*/
+        .rd_id_out(rd_id[(C0_C_S_AXI_ID_WIDTH-4)*(9+1)-1:(C0_C_S_AXI_ID_WIDTH-4)*9]),
+        .rd_addr_out(rd_addr[33*(9+1)-1:33*9]),
+        .rd_len_out(rd_len[8*(9+1)-1:8*9]),
+        .rd_info_valid_out(rd_info_valid[9]),
+        .rd_info_rdy_in(rd_info_rdy[9]),
+        .rd_data_in(rd_data[256*(9+1)-1:256*9]),
+        .rd_data_valid_in(rd_data_valid[9]),
+        .rd_data_rdy_out(rd_data_rdy[9]),
         .so_clk(stream_clk),
         .so_valid_out(s10o_valid),
         .so_data_out(s10o_data),

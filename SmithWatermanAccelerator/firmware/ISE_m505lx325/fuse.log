@@ -32,8 +32,11 @@ Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAcce
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/CardInfo32.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Dummy_DRAM.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../Engine.v" into library work
-Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../AXIArbiter2.v" into library work
+Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../AXIArbiter3.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" into library work
+WARNING:HDLCompiler:114 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" Line 611: /* in comment
+WARNING:HDLCompiler:114 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" Line 689: /* in comment
+WARNING:HDLCompiler:114 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" Line 772: /* in comment
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/StreamWidthConversion.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/pcie_app_v6.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/pcie_7x_v1_6_8lane_gen2/source/pcie_7x_v1_6_8lane_gen2_pipe_clock.v" into library work
@@ -131,8 +134,8 @@ WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/unisims/FIFO18
 WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4120: Element index -1 into num_read_words_dc is out of bounds
 WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4170: Element index -1 into num_write_words_dc is out of bounds
 Completed static elaboration
-Fuse Memory Usage: 145512 KB
-Fuse CPU Usage: 4840 ms
+Fuse Memory Usage: 145692 KB
+Fuse CPU Usage: 3970 ms
 Compiling module PIO_128_RX_ENGINE_SIM_default
 Compiling module PIO_128_TX_ENGINE_SIM_default
 Compiling module sof_catch
@@ -199,7 +202,7 @@ Compiling module PicoStreamOut(ID=8'b01)
 Compiling module MMCME2_ADV(DIVCLK_DIVIDE=5,CLKFB...
 Compiling module system_clk_gen
 Compiling module Dummy_DRAM
-Compiling module AXIArbiter2(C0_C_S_AXI_ID_WIDTH=...
+Compiling module AXIArbiter3(NUM_PORTS=10,C0_C_S_...
 Compiling module fifo_generator_v9_3_sync_stage(C...
 Compiling module fifo_generator_v9_3_bhv_ver_as(C...
 Compiling module fifo_generator_v9_3_bhv_ver_prel...
@@ -244,6 +247,6 @@ Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 109 Verilog Units
 Built simulation executable /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe
-Fuse Memory Usage: 3352020 KB
-Fuse CPU Usage: 8710 ms
-GCC CPU Usage: 360 ms
+Fuse Memory Usage: 3352132 KB
+Fuse CPU Usage: 7190 ms
+GCC CPU Usage: 370 ms

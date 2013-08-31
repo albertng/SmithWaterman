@@ -5,6 +5,15 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="HDLCompiler" num="114" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" Line 611: /* in comment
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="114" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" Line 689: /* in comment
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="114" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" Line 772: /* in comment
+</msg>
+
 <msg type="warning" file="HDLCompiler" num="327" delta="unknown" >"/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
 </msg>
 

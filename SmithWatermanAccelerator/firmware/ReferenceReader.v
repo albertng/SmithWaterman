@@ -48,7 +48,7 @@ module ReferenceReader(
     input        ref_seq_block_rdy_in,    // Reference sequence block input acknowledged
     
     // AXI bus arbiter interface
-    output [C0_C_S_AXI_ID_WIDTH-3:0]   rd_id_out, // Read burst ID
+    output [C0_C_S_AXI_ID_WIDTH-5:0]   rd_id_out, // Read burst ID
     output [32:0]  rd_addr_out,         // Read burst address
     output [7:0]   rd_len_out,          // Read burst length (in terms of 256 bit blocks)
     output         rd_info_valid_out,   // Read info valid
@@ -80,8 +80,8 @@ module ReferenceReader(
     reg [32:0] next_cur_addr;
     reg [32:0] end_addr;
     reg [32:0] next_end_addr;
-    reg [C0_C_S_AXI_ID_WIDTH-3:0] rd_id;
-    reg [C0_C_S_AXI_ID_WIDTH-3:0] next_rd_id;
+    reg [C0_C_S_AXI_ID_WIDTH-5:0] rd_id;
+    reg [C0_C_S_AXI_ID_WIDTH-5:0] next_rd_id;
     reg rd_info_valid;
     
     // Reference info buffer

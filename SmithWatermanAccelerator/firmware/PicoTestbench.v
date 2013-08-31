@@ -62,14 +62,26 @@ module PicoTestbench;
 
         // Stream query seq to stream
         $display("Streaming query seq to FPGA");
-        PicoSim.PicoLoadBuffer128(0, 128'h0000007E0000003F0000000000000008);
+        PicoSim.PicoLoadBuffer128(0, 128'h00000080000000400000000000000008);
         PicoSim.WriteStream(1, 0, 16);
         PicoSim.PicoLoadBuffer128(0, query_seq);
         PicoSim.WriteStream(1, 0, 16);
-        PicoSim.PicoLoadBuffer128(0, 128'h0000007E0000003F0000000000000008);
+        PicoSim.PicoLoadBuffer128(0, 128'h00000080000000400000000000000008);
         PicoSim.WriteStream(2, 0, 16);
         PicoSim.PicoLoadBuffer128(0, query_seq);
         PicoSim.WriteStream(2, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, 128'h00000080000000400000000000000008);
+        PicoSim.WriteStream(3, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, query_seq);
+        PicoSim.WriteStream(3, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, 128'h00000080000000400000000000000008);
+        PicoSim.WriteStream(4, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, query_seq);
+        PicoSim.WriteStream(4, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, 128'h00000080000000400000000000000008);
+        PicoSim.WriteStream(5, 0, 16);
+        PicoSim.PicoLoadBuffer128(0, query_seq);
+        PicoSim.WriteStream(5, 0, 16);
 
         // Stream result back from stream
         $display("Streaming result from FPGA");
@@ -79,12 +91,30 @@ module PicoTestbench;
         PicoSim.ReadStream(2, 0, 16);
         read_data = PicoSim.PicoReadBuffer128(0);
         $display("Stream:2 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(3, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Stream:3 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(4, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Stream:4 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(5, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Stream:5 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
         PicoSim.ReadStream(1, 0, 16);
         read_data = PicoSim.PicoReadBuffer128(0);
         $display("Stream:1 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
         PicoSim.ReadStream(2, 0, 16);
         read_data = PicoSim.PicoReadBuffer128(0);
         $display("Stream:2 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(3, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Stream:3 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(4, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Stream:4 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
+        PicoSim.ReadStream(5, 0, 16);
+        read_data = PicoSim.PicoReadBuffer128(0);
+        $display("Stream:5 Query:%d Location:%d", read_data[47:32], read_data[31:0]);
         
 
         
