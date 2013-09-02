@@ -40,6 +40,7 @@
  *                                  Changed output packet to {query_id, ref_block_cnt}
  *      Albert Ng   Aug 23 2013     Added end_of_refblock checks
  *      Albert Ng   Aug 30 2013     Added last_query_block_len
+ *      Albert Ng   Aug 31 2013     Added pipeline stage before fifo write
  */
  
 module CellScoreFilter(
@@ -132,9 +133,11 @@ module CellScoreFilter(
     wire [47:0] fifo_din0;
     wire [47:0] fifo_din1;
     wire [47:0] fifo_din;
+    reg [47:0]  fifo_din_q;
     reg         fifo_wr_en0;
     reg         fifo_wr_en1;
     wire        fifo_wr_en;
+    reg         fifo_wr_en_q;
     wire        fifo_rd_en;
     wire [47:0] fifo_dout;
     wire        fifo_full;
@@ -484,12 +487,12 @@ module CellScoreFilter(
         .rst(rst),
         .wr_clk(clk),
         .rd_clk(so_clk),
-        .din(fifo_din),
-        .wr_en(fifo_wr_en),
+        .din(fifo_din_q),
+        .wr_en(fifo_wr_en_q),
         .rd_en(fifo_rd_en),
         .dout(fifo_dout),
-        .full(fifo_full),
-        .empty(fifo_empty)
+        .empty(fifo_empty),
+        .prog_full(fifo_full)
     );
     assign fifo_din0 = end_of_query_sel0 ? {query_id0, EOQ} : {query_id0, 4'b0, ref_block_cnt0};
     assign fifo_din1 = end_of_query_sel1 ? {query_id1, EOQ} : {query_id1, 4'b0, ref_block_cnt1};
@@ -497,8 +500,12 @@ module CellScoreFilter(
     always @(posedge clk) begin
         if (rst) begin
             fifo_din_sel <= 0;
+            fifo_din_q <= 48'b0;
+            fifo_wr_en_q <= 0;
         end else begin
             fifo_din_sel <= next_fifo_din_sel;
+            fifo_din_q <= fifo_din;
+            fifo_wr_en_q <= fifo_wr_en;
         end
     end
     always @(*) begin

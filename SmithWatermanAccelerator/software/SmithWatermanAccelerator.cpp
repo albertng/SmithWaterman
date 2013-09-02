@@ -54,9 +54,14 @@ void* stream_write_thread(void* args) {
     // For each query
     for (int i = 0; i < num_queries; i++) {
         out_buf[0] = (ref_len_bytes * 4)/128;
+        fprintf(stderr, "%i\t", out_buf[0]);
         out_buf[1] = 0;
-        out_buf[2] = (query_ids[i] << 16) + (query_len_bytes[i] * 4)/64;
+        fprintf(stderr, "%i\t", out_buf[1]);
+        out_buf[2] = (query_ids[i] << 16) + (query_len_bytes[i] * 4);
+        //out_buf[2] = (query_ids[i] << 16) + (query_len_bytes[i] * 4)/64;
+        fprintf(stderr, "%i\t", out_buf[2]);
         out_buf[3] = cell_score_threshold;
+        fprintf(stderr, "%i\n", out_buf[3]);
         // For each query block of the query
         for (int j = 0; j < (query_len_bytes[i] * 4)/64; j++) {
             // For each 32-bit chunk of the 128-bit query block
@@ -81,6 +86,8 @@ void* stream_read_thread(void* args) {
     int engine_id = ((read_thread_args*)args)->engine_id;
     uint32_t* query_ids = ((read_thread_args*)args)->query_ids;
 
+
+fprintf(stderr, "In stream read thread\n");
     int offset = 0;
     uint32_t temp_buf[1024];
     int num_queries_done = 0;
@@ -90,7 +97,7 @@ void* stream_read_thread(void* args) {
             int num_bytes_to_read = num_bytes_available > 4096 ? 4096 : (num_bytes_available/16)*16;
             // Read full 128-bit packets
             pico->ReadStream(stream, temp_buf, num_bytes_to_read);
-
+fprintf(stderr, "Read something\n");
             // For each result location read
             for (int i = 0; i < num_bytes_to_read / 16; i++) {
                 results_buf[offset*2] = temp_buf[i*4];

@@ -69,7 +69,7 @@ LAB5:    t4 = (t0 + 1184U);
 LAB7:    t2 = (t0 + 1504U);
     t3 = *((char **)t2);
     t2 = (t0 + 1904);
-    xsi_vlogvar_wait_assign_value(t2, t3, 0, 0, 9, 100LL);
+    xsi_vlogvar_wait_assign_value(t2, t3, 0, 0, 9, 100000LL);
 
 LAB8:    goto LAB2;
 

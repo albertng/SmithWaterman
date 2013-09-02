@@ -56,7 +56,8 @@ void* stream_write_thread(void* args) {
 //        printf("Engine %i, Ref addr %i\n", engine_id, ref_addr);
         out_buf[0] = ref_len_bytes/32;
         out_buf[1] = ref_addr;
-        out_buf[2] = (engine_id << 16) + (query_len_bytes * 4)/64;
+        out_buf[2] = (engine_id << 16) + (query_len_bytes * 4);
+        //out_buf[2] = (engine_id << 16) + (query_len_bytes * 4)/64;
         out_buf[3] = cell_score_threshold;
         // For each query block of the query
         for (int j = 0; j < (query_len_bytes * 4)/64; j++) {

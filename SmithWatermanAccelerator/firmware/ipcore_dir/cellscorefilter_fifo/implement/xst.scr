@@ -1,7 +1,7 @@
 run
 -ifmt VHDL
 -ent cellscorefilter_fifo_exdes 
--p xc7k325t-ffg900-1
+-p xc7k325t-ffg900-2
 -ifn xst.prj
 -write_timing_constraints No
 -iobuf YES

@@ -82,7 +82,7 @@ module SmithWatermanAccelerator #(
     output                          s10i_rdy,
     output                          s10o_valid,
     output [`STREAM10_OUT_WIDTH-1:0] s10o_data,
-    input                           s10o_rdy
+    input                           s10o_rdy,
     /*input                           s11i_valid,
     input [`STREAM11_IN_WIDTH-1:0]   s11i_data,
     output                          s11i_rdy,
@@ -101,7 +101,7 @@ module SmithWatermanAccelerator #(
     // DDR3 INTERFACE //
     ////////////////////
     // Input control signals
-    /*input                                  c0_axi_clk,        // AXI input clk
+    input                                  c0_axi_clk,        // AXI input clk
     input                                  c0_phy_init_done,  // Initialization completed
     input                                  c0_axi_rst,        // Active high AXI reset signal
     
@@ -153,10 +153,10 @@ module SmithWatermanAccelerator #(
     input                                  c0_s1_axi_rvalid,  // Read response valid
     input [C0_C_S_AXI_DATA_WIDTH-1:0]      c0_s1_axi_rdata,   // Read data
     input                                  c0_s1_axi_rlast,   // Read last
-    output                                 c0_s1_axi_rready,  // Read response ready
+    output                                 c0_s1_axi_rready   // Read response ready
     
     // AXI port 2
-    output                                 c0_s2_axi_clk,     // Clock for master 2
+    /*output                                 c0_s2_axi_clk,     // Clock for master 2
     
     // AXI write address channel signals
     input                                  c0_s2_axi_awready, // Indicates slave is ready to accept a
@@ -265,16 +265,17 @@ module SmithWatermanAccelerator #(
     localparam GAP_EXTEND_PEN = -1;
     localparam PES_PER_FIFO = 4;   
     localparam NUM_PORTS = 10;
+    //localparam NUM_PORTS = 2;
 
     wire [C0_C_S_AXI_ADDR_WIDTH-1:0] c0_s1_axi_araddr_net;
     wire [7:0] c0_s1_axi_arlen_net;
     wire c0_s1_axi_arvalid_net;
-    wire [C0_C_S_AXI_ADDR_WIDTH-1:0] c0_s2_axi_araddr_net;
+    /*wire [C0_C_S_AXI_ADDR_WIDTH-1:0] c0_s2_axi_araddr_net;
     wire [7:0] c0_s2_axi_arlen_net;
     wire c0_s2_axi_arvalid_net;
     wire [C0_C_S_AXI_ADDR_WIDTH-1:0] c0_s3_axi_araddr_net;
     wire [7:0] c0_s3_axi_arlen_net;
-    wire c0_s3_axi_arvalid_net;
+    wire c0_s3_axi_arvalid_net;*/
     
     wire stream_clk;
     wire stream_rst;
@@ -390,7 +391,7 @@ module SmithWatermanAccelerator #(
     wire rd_data_rdy2_3;*/
     
     // Dummy DRAM signals
-    wire axi0_clk;
+    /*wire axi0_clk;
     wire axi0_arready;
     wire [7:0]   axi0_arid;
     wire [32:0]  axi0_araddr;
@@ -419,7 +420,7 @@ module SmithWatermanAccelerator #(
     wire [7:0]   axi2_rid;
     wire         axi2_rvalid;
     wire [255:0] axi2_rdata;
-    wire         axi2_rready;
+    wire         axi2_rready;*/
     
     // System clock and reset generation
     assign stream_clk = clk;
@@ -445,7 +446,7 @@ module SmithWatermanAccelerator #(
     end
 
     // Memory interface constants
-    /*assign c0_s1_axi_awlock = `NORMAL_ACCESS;         // Write lock type
+    assign c0_s1_axi_awlock = `NORMAL_ACCESS;         // Write lock type
     assign c0_s1_axi_awcache = `NON_CACHE_NON_BUFFER; // Write cache type
     assign c0_s1_axi_awprot = `DATA_SECURE_NORMAL;    // Write protection type
     assign c0_s1_axi_awburst = `INCREMENTING;         // Address should increment
@@ -458,7 +459,7 @@ module SmithWatermanAccelerator #(
     assign c0_s1_axi_arburst = `INCREMENTING;         // Address should increment
     assign c0_s1_axi_arqos = `NOT_QOS_PARTICIPANT;    // Not participating in QoS
     assign c0_s1_axi_arsize = `THIRTY_TWO_BYTES;      // # bytes per transfer
-    assign c0_s2_axi_awlock = `NORMAL_ACCESS;         // Write lock type
+    /*assign c0_s2_axi_awlock = `NORMAL_ACCESS;         // Write lock type
     assign c0_s2_axi_awcache = `NON_CACHE_NON_BUFFER; // Write cache type
     assign c0_s2_axi_awprot = `DATA_SECURE_NORMAL;    // Write protection type
     assign c0_s2_axi_awburst = `INCREMENTING;         // Address should increment
@@ -483,7 +484,7 @@ module SmithWatermanAccelerator #(
     assign c0_s3_axi_arprot = `DATA_SECURE_NORMAL;    // Read protection type
     assign c0_s3_axi_arburst = `INCREMENTING;         // Address should increment
     assign c0_s3_axi_arqos = `NOT_QOS_PARTICIPANT;    // Not participating in QoS
-    assign c0_s3_axi_arsize = `THIRTY_TWO_BYTES;      // # bytes per transfer2
+    assign c0_s3_axi_arsize = `THIRTY_TWO_BYTES;      // # bytes per transfer2*/
     
     // Unused memory interface output
     assign c0_s1_axi_awready = 0;
@@ -497,7 +498,7 @@ module SmithWatermanAccelerator #(
     assign c0_s1_axi_wlast = 0;
     assign c0_s1_axi_wvalid = 0;
     assign c0_s1_axi_bready = 0;
-    assign c0_s2_axi_awready = 0;
+    /*assign c0_s2_axi_awready = 0;
     assign c0_s2_axi_awid = 0;
     always @(*) begin
         c0_s2_axi_awaddr = 0;
@@ -521,7 +522,7 @@ module SmithWatermanAccelerator #(
     assign c0_s3_axi_bready = 0;*/
 
     // Dummy DRAM
-    Dummy_DRAM dd (
+    /*Dummy_DRAM dd (
         .clk(sys_clk),
         .rst(sys_rst),
         .axi0_clk_in(axi0_clk),
@@ -554,12 +555,12 @@ module SmithWatermanAccelerator #(
         .axi2_rvalid_out(axi2_rvalid),
         .axi2_rdata_out(axi2_rdata),
         .axi2_rready_in(axi2_rready)
-    );
+    );*/
 
     AXIArbiter3 #(NUM_PORTS, C0_C_S_AXI_ID_WIDTH) aa (
         .clk(sys_clk),
         .rst(sys_rst),
-        /*.axi_clk_out(c0_s1_axi_clk),
+        .axi_clk_out(c0_s1_axi_clk),
         .axi_arready_in(c0_s1_axi_arready),
         .axi_arid_out(c0_s1_axi_arid),
         .axi_araddr_out(c0_s1_axi_araddr_net),
@@ -568,8 +569,8 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(c0_s1_axi_rid),
         .axi_rvalid_in(c0_s1_axi_rvalid),
         .axi_rdata_in(c0_s1_axi_rdata),
-        .axi_rready_out(c0_s1_axi_rready),*/
-        .axi_clk_out(axi0_clk),
+        .axi_rready_out(c0_s1_axi_rready),
+        /*.axi_clk_out(axi0_clk),
         .axi_arready_in(axi0_arready),
         .axi_arid_out(axi0_arid),
         .axi_araddr_out(axi0_araddr),
@@ -578,7 +579,7 @@ module SmithWatermanAccelerator #(
         .axi_rid_in(axi0_rid),
         .axi_rvalid_in(axi0_rvalid),
         .axi_rdata_in(axi0_rdata),
-        .axi_rready_out(axi0_rready),
+        .axi_rready_out(axi0_rready),*/
         .rd_id_in(rd_id),
         .rd_addr_in(rd_addr),
         .rd_len_in(rd_len),
@@ -588,11 +589,11 @@ module SmithWatermanAccelerator #(
         .rd_data_valid_out(rd_data_valid),
         .rd_data_rdy_in(rd_data_rdy)
     );
-    /*always @(*) begin
+    always @(*) begin
         c0_s1_axi_araddr = c0_s1_axi_araddr_net;
         c0_s1_axi_arlen = c0_s1_axi_arlen_net;
         c0_s1_axi_arvalid = c0_s1_axi_arvalid_net;
-    end*/
+    end
 
     // AXI Arbiter unit 0
     /*AXIArbiter2 #(C0_C_S_AXI_ID_WIDTH) aa0 (
@@ -608,7 +609,7 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(c0_s1_axi_rvalid),
         .axi_rdata_in(c0_s1_axi_rdata),
         .axi_rready_out(c0_s1_axi_rready),
-        /*.axi_clk_out(axi0_clk),
+        .axi_clk_out(axi0_clk),
         .axi_arready_in(axi0_arready),
         .axi_arid_out(axi0_arid),
         .axi_araddr_out(axi0_araddr),
@@ -686,7 +687,7 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(c0_s2_axi_rvalid),
         .axi_rdata_in(c0_s2_axi_rdata),
         .axi_rready_out(c0_s2_axi_rready),
-        /*.axi_clk_out(axi1_clk),
+        .axi_clk_out(axi1_clk),
         .axi_arready_in(axi1_arready),
         .axi_arid_out(axi1_arid),
         .axi_araddr_out(axi1_araddr),
@@ -769,7 +770,7 @@ module SmithWatermanAccelerator #(
         .axi_rvalid_in(c0_s3_axi_rvalid),
         .axi_rdata_in(c0_s3_axi_rdata),
         .axi_rready_out(c0_s3_axi_rready),
-        /*.axi_clk_out(axi2_clk),
+        .axi_clk_out(axi2_clk),
         .axi_arready_in(axi2_arready),
         .axi_arid_out(axi2_arid),
         .axi_araddr_out(axi2_araddr),

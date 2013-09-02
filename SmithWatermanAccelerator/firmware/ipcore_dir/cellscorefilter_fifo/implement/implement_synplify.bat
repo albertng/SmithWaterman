@@ -69,7 +69,7 @@ cd results
 
 echo 'Running ngdbuild'
 
-ngdbuild -p xc7k325t-ffg900-1 -sd ../../../ cellscorefilter_fifo_exdes
+ngdbuild -p xc7k325t-ffg900-2 -sd ../../../ cellscorefilter_fifo_exdes
 
 echo 'Running map'
 map cellscorefilter_fifo_exdes -o mapped.ncd

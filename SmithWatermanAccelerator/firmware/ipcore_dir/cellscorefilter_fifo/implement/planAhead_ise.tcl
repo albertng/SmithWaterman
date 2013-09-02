@@ -45,7 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
-set device xc7k325tffg900-1
+set device xc7k325tffg900-2
 set projName cellscorefilter_fifo
 set design cellscorefilter_fifo
 set projDir [file dirname [info script]]

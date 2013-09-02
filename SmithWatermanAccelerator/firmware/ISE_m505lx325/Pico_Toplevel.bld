@@ -552,6 +552,236 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/waddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/wdataFifo
+   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/bFifo/fif
+   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/raddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_0/rdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/waddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/wdataFifo
+   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/raddrFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
+   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
+   In order for functional simulation to be correct, the value of SIM_DEVICE
+   should be changed in this same manner in the source netlist or constraint
+   file. For additional information on retargeting this primitive to 7SERIES,
+   please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/rdataFifo
+   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
+   correct post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/interconnect_inst_0/create_slave_interfaces[2].slave_1/bFifo/fif
+   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
+   post-ngdbuild and timing simulation for this primitive.  In order for
+   functional simulation to be correct, the value of SIM_DEVICE should be
+   changed in this same manner in the source netlist or constraint file. For
+   additional information on retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    'UserWrapper/interconnect_inst_0/master/wdataFifo/fifo0' of type FIFO36E1 has
    been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
    simulation for this primitive.  In order for functional simulation to be
@@ -657,466 +887,6 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    correct, the value of SIM_DEVICE should be changed in this same manner in the
    source netlist or constraint file. For additional information on retargeting
    this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/waddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/wdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/wdataFifo
-   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/wdataFifo
-   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/wdataFifo
-   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/wdataFifo
-   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/bFifo/fif
-   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
-   post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/rdataFifo
-   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/rdataFifo
-   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/rdataFifo
-   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/rdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_0/raddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/waddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/wdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/wdataFifo
-   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/wdataFifo
-   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/wdataFifo
-   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/wdataFifo
-   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/bFifo/fif
-   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
-   post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/rdataFifo
-   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/rdataFifo
-   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/rdataFifo
-   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/rdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_1/raddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/waddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/wdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/wdataFifo
-   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/wdataFifo
-   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/wdataFifo
-   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/wdataFifo
-   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/bFifo/fif
-   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
-   post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/rdataFifo
-   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/rdataFifo
-   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/rdataFifo
-   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/rdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_2/raddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/waddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/wdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/wdataFifo
-   /create_fifos[289].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/wdataFifo
-   /create_fifos[289].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/wdataFifo
-   /create_fifos[289].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/wdataFifo
-   /create_fifos[289].fifo4' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/rdataFifo
-   /create_fifos[267].fifo3' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/rdataFifo
-   /create_fifos[267].fifo2' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/rdataFifo
-   /create_fifos[267].fifo1' of type FIFO36E1 has been changed from 'VIRTEX6' to
-   '7SERIES' to correct post-ngdbuild and timing simulation for this primitive. 
-   In order for functional simulation to be correct, the value of SIM_DEVICE
-   should be changed in this same manner in the source netlist or constraint
-   file. For additional information on retargeting this primitive to 7SERIES,
-   please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/rdataFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/raddrFifo
-   /fifo0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to
-   correct post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/interconnect_inst_0/create_slave_interfaces[4].slave_3/bFifo/fif
-   o0' of type FIFO36E1 has been changed from 'VIRTEX6' to '7SERIES' to correct
-   post-ngdbuild and timing simulation for this primitive.  In order for
-   functional simulation to be correct, the value of SIM_DEVICE should be
-   changed in this same manner in the source netlist or constraint file. For
-   additional information on retargeting this primitive to 7SERIES, please see
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 Resolving constraint associations...
@@ -2240,12 +2010,12 @@ Partition Implementation Status
 
 NGDBUILD Design Results Summary:
   Number of errors:     0
-  Number of warnings: 522
+  Number of warnings: 498
 
-Total memory usage is 1740132 kilobytes
+Total memory usage is 1728420 kilobytes
 
 Writing NGD file "Pico_Toplevel.ngd" ...
-Total REAL time to NGDBUILD completion: 13 min  33 sec
-Total CPU time to NGDBUILD completion:  13 min  30 sec
+Total REAL time to NGDBUILD completion: 13 min  39 sec
+Total CPU time to NGDBUILD completion:  13 min  37 sec
 
 Writing NGDBUILD log file "Pico_Toplevel.bld"...

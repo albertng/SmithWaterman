@@ -666,12 +666,12 @@ LAB5:    xsi_set_current_line(2026, ng0);
     t4 = (t0 + 1528U);
     t5 = *((char **)t4);
     t4 = (t0 + 2088);
-    xsi_vlogvar_wait_assign_value(t4, t5, 0, 0, 1, 1000LL);
+    xsi_vlogvar_wait_assign_value(t4, t5, 0, 0, 1, 1000000LL);
     xsi_set_current_line(2027, ng0);
     t2 = (t0 + 1368U);
     t3 = *((char **)t2);
     t2 = (t0 + 2248);
-    xsi_vlogvar_wait_assign_value(t2, t3, 0, 0, 1, 1000LL);
+    xsi_vlogvar_wait_assign_value(t2, t3, 0, 0, 1, 1000000LL);
     goto LAB2;
 
 }

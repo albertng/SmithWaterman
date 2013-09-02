@@ -45,7 +45,8 @@ module cellscorefilter_fifo(
   rd_en,
   dout,
   full,
-  empty
+  empty,
+  prog_full
 );
 
 input rst;
@@ -57,6 +58,7 @@ input rd_en;
 output [47 : 0] dout;
 output full;
 output empty;
+output prog_full;
 
 // synthesis translate_off
 
@@ -164,7 +166,7 @@ output empty;
     .C_INTERFACE_TYPE(0),
     .C_MEMORY_TYPE(1),
     .C_MIF_FILE_NAME("BlankString"),
-    .C_MSGON_VAL(1),
+    .C_MSGON_VAL(0),
     .C_OPTIMIZATION_MODE(0),
     .C_OVERFLOW_LOW(0),
     .C_PRELOAD_LATENCY(0),
@@ -185,15 +187,15 @@ output empty;
     .C_PROG_EMPTY_TYPE_WACH(0),
     .C_PROG_EMPTY_TYPE_WDCH(0),
     .C_PROG_EMPTY_TYPE_WRCH(0),
-    .C_PROG_FULL_THRESH_ASSERT_VAL(511),
+    .C_PROG_FULL_THRESH_ASSERT_VAL(500),
     .C_PROG_FULL_THRESH_ASSERT_VAL_AXIS(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_RACH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_RDCH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_WACH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_WDCH(1023),
     .C_PROG_FULL_THRESH_ASSERT_VAL_WRCH(1023),
-    .C_PROG_FULL_THRESH_NEGATE_VAL(510),
-    .C_PROG_FULL_TYPE(0),
+    .C_PROG_FULL_THRESH_NEGATE_VAL(499),
+    .C_PROG_FULL_TYPE(1),
     .C_PROG_FULL_TYPE_AXIS(0),
     .C_PROG_FULL_TYPE_RACH(0),
     .C_PROG_FULL_TYPE_RDCH(0),
@@ -261,6 +263,7 @@ output empty;
     .DOUT(dout),
     .FULL(full),
     .EMPTY(empty),
+    .PROG_FULL(prog_full),
     .BACKUP(),
     .BACKUP_MARKER(),
     .CLK(),
@@ -285,7 +288,6 @@ output empty;
     .DATA_COUNT(),
     .RD_DATA_COUNT(),
     .WR_DATA_COUNT(),
-    .PROG_FULL(),
     .PROG_EMPTY(),
     .SBITERR(),
     .DBITERR(),
