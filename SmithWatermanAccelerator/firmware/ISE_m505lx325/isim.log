@@ -32,6 +32,141 @@ WARNING: Behavioral models for independent clock FIFO configurations do not mode
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+############# Write Clocks PLLE2_ADV Parameters #############
+
+nCK_PER_CLK      = 4
+CLK_PERIOD       = 2500
+CLKIN1_PERIOD    =   2.500
+DIVCLK_DIVIDE    = 3
+CLKFBOUT_MULT    = 10
+VCO_PERIOD       = 750
+CLKOUT0_DIVIDE_F = 2
+CLKOUT1_DIVIDE   = 2
+CLKOUT2_DIVIDE   = 32
+CLKOUT3_DIVIDE   = 8
+CLKOUT0_PERIOD   = 1500
+CLKOUT1_PERIOD   = 1500
+CLKOUT2_PERIOD   = 24000
+CLKOUT3_PERIOD   = 6000
+CLKOUT4_PERIOD   = 3000
+############################################################
+
+############# MMCME2_ADV Parameters #############
+
+MMCM_VCO_MIN_PERIOD   = 833.333
+MMCM_VCO_MAX_PERIOD   = 1666.667
+MMCM_MULT_F_MID       =   4.800
+MMCM_EXPECTED_PERIOD  = 1250.000
+MMCM_MULT_F           =   4.800
+CLKOUT3_PERIOD_NS     =   6.000
+MMCM_VCO_FREQ (MHz)   = 800.000
+MMCM_VCO_PERIOD       = 1250.000
+#################################################
+
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : BYTE_LANES_B0 = f BYTE_LANES_B1 = e DATA_CTL_B0 = f DATA_CTL_B1 = 0
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_LANE =          12 HIGHEST_LANE_B0 =           4 HIGHEST_LANE_B1 =           4
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : HIGHEST_BANK =           3
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : FREQ_REF_PERIOD         = 1500.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DDR_TCK                 = 1500 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_S2_TAPS_SIZE         = 11.72 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_EARLY       = 1 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_OFFSET      = 57.90 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_META_ZONE   = 200.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_FINE_INTR_DLY   = 874.70 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_COARSE_INTR_DLY = 567.40 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_STG2_INTRINSIC_DELAY = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_CIRC_BUF_DELAY       = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_INTRINSIC_DELAY      = 1442.10 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_DELAY                = 2145.22 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PO_OCLK_DELAY           = 15 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : L_PHY_0_PO_FINE_DELAY   = 60 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG1_INTRINSIC_DELAY = 0.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_INTRINSIC_DELAY = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_INTRINSIC_DELAY      = 849.45 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_MAX_STG2_DELAY       = 738.28 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_OFFSET               = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : PI_STG2_DELAY           = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy :PI_STG2_DELAY_CAND       = 96.00 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : DEFAULT_RCLK_DELAY      = 8 
+PicoTestbench.PicoSim.FPGA.mig_DDR3_0.u_mig_7series_v1_8_memc_ui_top_axi.mem_intfc0.ddr_phy_top0.u_ddr_mc_phy_wrapper.u_ddr_mc_phy : RCLK_SELECT_EDGE        = 111 
+0.0 ps: PicoSimInit
+Finished circuit initialization process.
+Stopped at time : 268241140 fs : File "/build/xfndry/isimco/hipsBuilds/P_hips_v16.0/rst/hips/oserdese2/B_OSERDESE2_enc.v" Line 3647
+# restart
+# run all
+Simulator is doing circuit initialization process.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng0.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng1.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng2.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng3.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng4.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng5.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng6.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng7.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng8.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram0.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Block Memory Generator CORE Generator module PicoTestbench.PicoSim.FPGA.UserWrapper.UserModule.eng9.ec.qsbram1.inst.\native_mem_module.blk_mem_gen_v7_3_inst  is using a behavioral model for simulation which will not precisely model memory collision behavior.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
 ############# Write Clocks PLLE2_ADV Parameters #############
 
 nCK_PER_CLK      = 4
@@ -104,87 +239,111 @@ Enable Stream   1 as   in
 Enable Stream   1 as  out
 Enable Stream   2 as   in
 Enable Stream   2 as  out
+Enable Stream   3 as   in
+Enable Stream   3 as  out
+Enable Stream   4 as   in
+Enable Stream   4 as  out
+Enable Stream   5 as   in
+Enable Stream   5 as  out
+Enable Stream   6 as   in
+Enable Stream   6 as  out
+Enable Stream   7 as   in
+Enable Stream   7 as  out
+Enable Stream   8 as   in
+Enable Stream   8 as  out
+Enable Stream   9 as   in
+Enable Stream   9 as  out
+Enable Stream  10 as   in
+Enable Stream  10 as  out
 Enable Stream 124 as   in
 Enable Stream 124 as  out
 Writing ref seq to DRAM
 WriteRam(0x000000000, 0x00000100,   0)
 PicoDDR3Reset(  0)
-9614000.0 ps: Host received 128b 
+11534000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-12686000.0 ps: Host received 128b 
+14606000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-15758000.0 ps: Host received 128b 
+17678000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-PHY_INIT: Memory Initialization completed at 18094350.0 ps
-18830000.0 ps: Host received 128b 
+PHY_INIT: Memory Initialization completed at 20014350.0 ps
+20750000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-PHY_INIT: Phaser_In Phase Locked at 19060350.0 ps
-21902000.0 ps: Host received 128b 
+PHY_INIT: Phaser_In Phase Locked at 20974350.0 ps
+23822000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-24974000.0 ps: Host received 128b 
+26894000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-28046000.0 ps: Host received 128b 
+29966000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-31118000.0 ps: Host received 128b 
+33038000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-34190000.0 ps: Host received 128b 
+36110000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-PHY_INIT: Phaser_In DQSFOUND completed at 34936350.0 ps
-37262000.0 ps: Host received 128b 
+PHY_INIT: Phaser_In DQSFOUND completed at 36850350.0 ps
+39182000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-PHY_INIT: Write Leveling completed at 39838350.0 ps
-40334000.0 ps: Host received 128b 
+PHY_INIT: Write Leveling completed at 41752350.0 ps
+42254000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-43406000.0 ps: Host received 128b 
+45326000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-46478000.0 ps: Host received 128b 
+48398000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-PHY_INIT: Write Calibration completed at 48556350.0 ps
-49550000.0 ps: Host received 128b 
+PHY_INIT: Write Calibration completed at 50470350.0 ps
+51470000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-52622000.0 ps: Host received 128b 
+54542000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-55694000.0 ps: Host received 128b 
+57614000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-58766000.0 ps: Host received 128b 
+60686000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-61838000.0 ps: Host received 128b 
+63758000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-64910000.0 ps: Host received 128b 
+66830000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-PHY_INIT: Read Leveling Stage 1 completed at 66622350.0 ps
-67982000.0 ps: Host received 128b 
+PHY_INIT: Read Leveling Stage 1 completed at 68536350.0 ps
+69902000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-71054000.0 ps: Host received 128b 
+72974000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000000
-74126000.0 ps: Host received 128b 
+76046000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000002
 DDR3 calibration finished at timeout value:          79
 WaitDDR3Calibration(  0) Completed
 Streaming query seq to FPGA
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[0].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[1].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[2].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[3].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[4].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[5].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[6].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[7].u_comp_ddr3 .main: at time 76886841.0 ps ERROR:  tRCD violation during Write    
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[0].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[1].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[2].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[3].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[4].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[5].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[6].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
-PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[7].u_comp_ddr3 .main: at time 77792841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[0].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[1].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[2].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[3].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[4].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[5].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[6].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[7].u_comp_ddr3 .main: at time 78806841.0 ps ERROR:  tRCD violation during Write    
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[0].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[1].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[2].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[3].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[4].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[5].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[6].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[7].u_comp_ddr3 .main: at time 79838841.0 ps ERROR:  tRCD violation during Read     
 Streaming result from FPGA
-81262000.0 ps: Host received 128b 
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[0].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[1].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[2].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[3].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[4].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[5].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[6].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+PicoTestbench.PicoSim.DDR3_sim_model_0.\mem_rnk[0].gen_mem[7].u_comp_ddr3 .main: at time 80930841.0 ps ERROR:  tRCD violation during Read     
+83310000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_00000002
 Stream:1 Query:    0 Location:         2
-86126000.0 ps: Host received 128b 
+88174000.0 ps: Host received 128b 
 	[Addr : 000] 0x00000000_00000000_00000000_ffffffff
 Stream:1 Query:    0 Location:4294967295
 All Tests Successful!
-Stopped at time : 86402 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 123 
+Stopped at time : 88450 ns :  in File "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/PicoTestbench.v" Line 123 
 # exit 0

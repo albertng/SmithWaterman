@@ -119,7 +119,7 @@ Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAcce
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/axi/mig_7series_v1_8_axi_ctrl_top.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/CardInfo32.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../Engine.v" into library work
-Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../AXIArbiter3.v" into library work
+Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../AxiArbiter4.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/../SmithWatermanAccelerator.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/StreamWidthConversion.v" into library work
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoStreamToAXI.v" into library work
@@ -134,10 +134,26 @@ Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAcce
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" into library work
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1565: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1566: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1567: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1568: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1569: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1570: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1571: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1572: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1573: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1687: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:693 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1563: Parameter declaration becomes local in UserWrapper with formal parameter declaration list
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1694: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1695: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1696: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1697: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1698: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1699: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1700: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1701: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1702: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1703: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1817: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:693 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1693: Parameter declaration becomes local in UserWrapper with formal parameter declaration list
 Analyzing Verilog file "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoFramework.v" into library work
@@ -173,15 +189,47 @@ Analyzing Verilog file "/opt/Xilinx/14.5/ISE_DS/ISE//verilog/src/glbl.v" into li
 Starting static elaboration
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1565: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1566: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1567: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1568: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1569: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1570: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1571: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1572: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1573: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1687: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1694: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1695: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1696: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1697: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1698: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1699: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1700: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1701: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1702: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1703: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1817: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1565: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1566: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1567: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1568: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1569: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1570: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1571: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1572: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1573: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1687: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1694: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1695: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1696: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1697: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1698: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1699: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1700: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1701: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1702: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1703: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1817: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:1016 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 365: Port last_cpld_tag is not connected to this instance
 WARNING:HDLCompiler:1016 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PICO_128_SIM.v" Line 475: Port tx_buf_av is not connected to this instance
@@ -210,9 +258,25 @@ WARNING:HDLCompiler:189 - "/home/albertng/Documents/SmithWaterman/SmithWatermanA
 WARNING:HDLCompiler:1016 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 667: Port S00_AXI_ARESET_OUT_N is not connected to this instance
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1564: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1565: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1566: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1567: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1568: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1569: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1570: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1571: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1572: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1573: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1687: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1694: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1695: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1696: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1697: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1698: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1699: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1700: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1701: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1702: Concatenation with unsized literal; will interpret as 32 bits
+WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1703: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:327 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/UserWrapper.v" Line 1817: Concatenation with unsized literal; will interpret as 32 bits
 WARNING:HDLCompiler:1016 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/PicoAXIInterconnect.v" Line 2698: Port m_axi_data is not connected to this instance
 WARNING:HDLCompiler:1016 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/asyncFifoBRAM.v" Line 129: Port DBITERR is not connected to this instance
@@ -263,8 +327,8 @@ WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/
 WARNING:HDLCompiler:1007 - "/build/xfndry10/P.58f/rtf/verilog/src/XilinxCoreLib/FIFO_GENERATOR_V9_3.v" Line 4170: Element index -1 into num_write_words_dc is out of bounds
 WARNING:HDLCompiler:1330 - "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/coregen-LX325T/mig_M505_DDR3/rtl/controller/mig_7series_v1_8_rank_common.v" Line 97: Function clogb2 has no return value assignment
 Completed static elaboration
-Fuse Memory Usage: 208944 KB
-Fuse CPU Usage: 76360 ms
+Fuse Memory Usage: 226672 KB
+Fuse CPU Usage: 80420 ms
 Compiling module PIO_128_RX_ENGINE_SIM_default
 Compiling module PIO_128_TX_ENGINE_SIM_default
 Compiling module sof_catch
@@ -326,14 +390,35 @@ Compiling module FIFO_GENERATOR_V8_1_copy1
 Compiling module coregen_fifo_32x128_2
 Compiling module fifo_512x128_2
 Compiling module PicoStreamIn(ID=8'b01111100)
+Compiling module PicoStreamIn(ID=8'b01010)
+Compiling module PicoStreamIn(ID=8'b01001)
+Compiling module PicoStreamIn(ID=8'b01000)
+Compiling module PicoStreamIn(ID=8'b0111)
+Compiling module PicoStreamIn(ID=8'b0110)
+Compiling module PicoStreamIn(ID=8'b0101)
+Compiling module PicoStreamIn(ID=8'b0100)
+Compiling module PicoStreamIn(ID=8'b011)
 Compiling module PicoStreamIn(ID=8'b010)
 Compiling module PicoStreamIn(ID=8'b01)
 Compiling module PicoStreamOut(ID=8'b01111100)
+Compiling module PicoStreamOut(ID=8'b01010)
+Compiling module PicoStreamOut(ID=8'b01001)
+Compiling module PicoStreamOut(ID=8'b01000)
+Compiling module PicoStreamOut(ID=8'b0111)
+Compiling module PicoStreamOut(ID=8'b0110)
+Compiling module PicoStreamOut(ID=8'b0101)
+Compiling module PicoStreamOut(ID=8'b0100)
+Compiling module PicoStreamOut(ID=8'b011)
 Compiling module PicoStreamOut(ID=8'b010)
 Compiling module PicoStreamOut(ID=8'b01)
 Compiling module MMCME2_ADV(DIVCLK_DIVIDE=5,CLKFB...
 Compiling module system_clk_gen
-Compiling module AXIArbiter3(NUM_PORTS=2,C0_C_S_A...
+Compiling module one_hot_mux(bus_count=10)
+Compiling module one_hot_mux(bus_count=10,bus_wid...
+Compiling module one_hot_mux(bus_count=10,bus_wid...
+Compiling module one_hot_mux(bus_count=10,bus_wid...
+Compiling module one_hot_mux(bus_count=10,bus_wid...
+Compiling module AXIArbiter4(NUM_PORTS=10,C0_C_S_...
 Compiling module fifo_generator_v9_3_sync_stage(C...
 Compiling module fifo_generator_v9_3_bhv_ver_as(C...
 Compiling module fifo_generator_v9_3_bhv_ver_prel...
@@ -823,8 +908,10 @@ Compiling module PicoTestbench
 Compiling module glbl
 Time Resolution for simulation is 1fs.
 Waiting for 1 sub-compilation(s) to finish...
-Compiled 562 Verilog Units
+Compiled 583 Verilog Units
 Built simulation executable /home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/PicoTestbench_isim_beh.exe
-Fuse Memory Usage: 3433336 KB
-Fuse CPU Usage: 94440 ms
-GCC CPU Usage: 267680 ms
+Fuse Memory Usage: 3454588 KB
+Fuse CPU Usage: 89370 ms
+GCC CPU Usage: 760 ms
+e: 96760 ms
+GCC CPU Usage: 262150 ms

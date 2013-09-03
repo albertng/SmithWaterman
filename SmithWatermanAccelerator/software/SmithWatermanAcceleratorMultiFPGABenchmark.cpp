@@ -290,8 +290,8 @@ int main(int argc, char* argv[])
             }
             printf("\n\n");
         }
-    }*/
-
+    }
+*/
     // streams are automatically closed when the PicoDrv object is destroyed, or on program termination, but
     //   we can also close a stream manually.
     for (int i = 0; i < num_fpgas; i++) {

@@ -140,7 +140,7 @@ verilog work "source/coregen-LX325T/mig_M505_DDR3/rtl/axi/mig_7series_v1_8_axi_m
 verilog work "source/coregen-LX325T/mig_M505_DDR3/rtl/axi/mig_7series_v1_8_axi_ctrl_top.v"
 verilog work "source/CardInfo32.v"
 verilog work "../Engine.v"
-verilog work "../AXIArbiter3.v"
+verilog work "../AxiArbiter4.v"
 verilog work "../SmithWatermanAccelerator.v"
 verilog work "source/StreamWidthConversion.v"
 verilog work "source/PicoStreamToAXI.v"
