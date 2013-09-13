@@ -37,6 +37,7 @@ struct read_thread_args {
     uint32_t * results_buf;
     int        num_queries;
     int        engine_id;
+    uint32_t * num_bytes_returned;
 };
 
 void* stream_write_thread(void* args) {
@@ -80,10 +81,12 @@ void* stream_read_thread(void* args) {
     uint32_t * results_buf = ((read_thread_args*)args)->results_buf;
     int num_queries = ((read_thread_args*)args)->num_queries;
     int engine_id = ((read_thread_args*)args)->engine_id;
+    uint32_t * num_bytes_returned = ((read_thread_args*)args)->num_bytes_returned;
 
     int offset = 0;
     uint32_t temp_buf[1024];
     int num_queries_done = 0;
+    uint32_t num_bytes_read = 0;
     //while (num_queries_done != num_queries) {
     while (num_queries_done != 1) {
         int num_bytes_available = pico->GetBytesAvailable(stream, true);
@@ -91,20 +94,21 @@ void* stream_read_thread(void* args) {
             int num_bytes_to_read = num_bytes_available > 4096 ? 4096 : (num_bytes_available/16)*16;
             // Read full 128-bit packets
             pico->ReadStream(stream, temp_buf, num_bytes_to_read);
-
+            num_bytes_read += num_bytes_to_read;
             // For each result location read
             for (int i = 0; i < num_bytes_to_read / 16; i++) {
                 results_buf[offset*2] = temp_buf[i*4];
                 results_buf[offset*2 + 1] = temp_buf[i*4 + 1];
                 if (results_buf[offset*2] == EOQ) {
                     num_queries_done++;
-                    offset = 0;
-                } else {
-                    offset++;
                 }
+                offset++;
+                offset%=(RESULT_BUF_SIZE/2);  
             }
         }
     }
+    *num_bytes_returned = num_bytes_read;
+//    fprintf(stderr, "Read %i bytes\n", num_bytes_read);
 }   
 
 int main(int argc, char* argv[])
@@ -226,6 +230,13 @@ int main(int argc, char* argv[])
             }
         }
     }
+    uint32_t** num_bytes_returned = new uint32_t* [num_fpgas];
+    for (int i = 0; i < num_fpgas; i++) {
+        num_bytes_returned[i] = new uint32_t[num_engines_per_fpga];
+        for (int j = 0; j < num_engines_per_fpga; j++) {
+            num_bytes_returned[j] = new uint32_t;
+        }
+    }
     wta = new write_thread_args* [num_fpgas];
     rta = new read_thread_args* [num_fpgas];
     for (int i = 0; i < num_fpgas; i++) {
@@ -247,6 +258,7 @@ int main(int argc, char* argv[])
             rta[i][j].results_buf = results_buf[i][j];
             rta[i][j].num_queries = 1;
             rta[i][j].engine_id = i*num_engines_per_fpga + j;
+            rta[i][j].num_bytes_returned = &(num_bytes_returned[i][j]);
         }
     }
     read_thread = new pthread_t*[num_fpgas];
@@ -280,9 +292,16 @@ int main(int argc, char* argv[])
     printf("Computation took %f seconds\n", elapsed);
     printf("Total cells computed (billions): %f\n", numCells/1000000000.0);
     printf("Performance: %f GCUPS\n", numCells/elapsed/1000000000.0);
-
+    uint32_t total_num_bytes_returned = 0;
+    for (int i = 0; i < num_fpgas; i++) {
+        for (int j = 0; j < num_engines_per_fpga; j++) {
+            total_num_bytes_returned += num_bytes_returned[i][j];
+        }
+    }
+    printf("Num bytes returned: %i\n", total_num_bytes_returned);
+    printf("Effective PCIe bandwidth: %f MB/sec\n", total_num_bytes_returned/elapsed/1000000.0);
     // Print results
-/*    for (int i = 0; i < num_fpgas; i++) {
+    /*for (int i = 0; i < num_fpgas; i++) {
         for (int j = 0; j < num_engines_per_fpga; j++) {
             printf("FPGA: %i Engine: %i\n", i, j);
             for (int k = 0; k < RESULT_BUF_SIZE; k++) {
@@ -290,8 +309,8 @@ int main(int argc, char* argv[])
             }
             printf("\n\n");
         }
-    }
-*/
+    }*/
+
     // streams are automatically closed when the PicoDrv object is destroyed, or on program termination, but
     //   we can also close a stream manually.
     for (int i = 0; i < num_fpgas; i++) {

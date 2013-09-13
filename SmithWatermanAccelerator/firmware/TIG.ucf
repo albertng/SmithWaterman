@@ -1,0 +1,7 @@
+NET "*c0_axi_clk<1>" TNM_NET = c0_axi_clk_falsepath_grp;
+NET "*s_clk" TNM_NET = s_clk_falsepath_grp;
+
+TIMESPEC "TS_c0_axi_clk_to_s_clk" = FROM c0_axi_clk_falsepath_grp TO s_clk_falsepath_grp TIG;
+TIMESPEC "TS_s_clk_to_c0_axi_clk" = FROM s_clk_falsepath_grp TO c0_axi_clk_falsepath_grp TIG;
+
+NET "*sys_rst" TIG;

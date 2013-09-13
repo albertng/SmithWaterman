@@ -1,0 +1,30 @@
+
+Release 14.5 SmartXplorer
+Copyright(c) 1995-2010 Xilinx, Inc. All rights reserved.
+smartxplorer -p xc7k325t-ffg900-2 -b -wd smartxplorer_results Pico_Toplevel.ngd -to "-v 30 -s 2 -n 3 -fastpaths -xml Pico_Toplevel.twx " -host_list hostlistfile.txt -max_runs 7
+
+SmartXplorer Settings: 
+
+designName=/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/Pico_Toplevel.ngd 
+write_dir=/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/smartxplorer_results 
+host_list=/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/hostlistfile.txt 
+part=xc7k325t-ffg900-2 
+strategy_file=None 
+notify=None 
+source_dir=/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325 
+batch_mode=True 
+run_all_strategies=False 
+list_all_strategies=False 
+remote_command=rsh
+area_report="lut;slice_reg"
+power_options=off
+trce_options="-v 30 -s 2 -n 3 -fastpaths -xml Pico_Toplevel.twx "
+max_runs=7
+
+Starting SmartXplorer...
+See file 'smartxplorer.html' for real-time report.
+
+
+Running SmartXplorer strategies...
+
+

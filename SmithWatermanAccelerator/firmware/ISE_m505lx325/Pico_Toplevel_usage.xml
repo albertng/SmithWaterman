@@ -4,8 +4,8 @@
      changes made to this file may result in unpredictable
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
-<DeviceUsageSummary rev="58">
-<DesignStatistics TimeStamp="Tue Sep  3 16:17:37 2013"><group name="NetStatistics">
+<DeviceUsageSummary rev="59">
+<DesignStatistics TimeStamp="Tue Sep  3 20:03:31 2013"><group name="NetStatistics">
 <item name="NumNets_Active" rev="58">
 <attrib name="value" value="261779"/></item>
 <item name="NumNets_Gnd" rev="58">
@@ -158,345 +158,182 @@
 <attrib name="value" value="13367"/></item>
 </group>
 <group name="MiscellaneousStatistics">
-<item name="AGG_BONDED_IO" rev="57">
+<item name="AGG_BONDED_IO" rev="59">
 <attrib name="value" value="148"/></item>
-<item name="AGG_IO" rev="57">
+<item name="AGG_IO" rev="59">
 <attrib name="value" value="148"/></item>
-<item name="AGG_LOCED_IO" rev="57">
+<item name="AGG_LOCED_IO" rev="59">
 <attrib name="value" value="148"/></item>
-<item name="AGG_SLICE" rev="57">
-<attrib name="value" value="50551"/></item>
-<item name="NUM_BONDED_IOB18" rev="57">
+<item name="AGG_SLICE" rev="59">
+<attrib name="value" value="50676"/></item>
+<item name="NUM_BONDED_IOB18" rev="59">
 <attrib name="value" value="103"/></item>
-<item name="NUM_BONDED_IOB18M" rev="57">
+<item name="NUM_BONDED_IOB18M" rev="59">
 <attrib name="value" value="10"/></item>
-<item name="NUM_BONDED_IOB18S" rev="57">
+<item name="NUM_BONDED_IOB18S" rev="59">
 <attrib name="value" value="10"/></item>
-<item name="NUM_BONDED_IOB33" rev="57">
+<item name="NUM_BONDED_IOB33" rev="59">
 <attrib name="value" value="25"/></item>
-<item name="NUM_BONDED_IPAD" rev="57">
+<item name="NUM_BONDED_IPAD" rev="59">
 <attrib name="value" value="18"/></item>
-<item name="NUM_BONDED_OPAD" rev="57">
+<item name="NUM_BONDED_OPAD" rev="59">
 <attrib name="value" value="16"/></item>
-<item name="NUM_BSFULL" rev="57">
-<attrib name="value" value="95522"/></item>
-<item name="NUM_BSLUTONLY" rev="57">
-<attrib name="value" value="80007"/></item>
-<item name="NUM_BSREGONLY" rev="57">
-<attrib name="value" value="11530"/></item>
-<item name="NUM_BSUSED" rev="57">
-<attrib name="value" value="187059"/></item>
-<item name="NUM_BUFG" rev="57">
+<item name="NUM_BSFULL" rev="59">
+<attrib name="value" value="107204"/></item>
+<item name="NUM_BSLUTONLY" rev="59">
+<attrib name="value" value="82834"/></item>
+<item name="NUM_BSREGONLY" rev="59">
+<attrib name="value" value="5923"/></item>
+<item name="NUM_BSUSED" rev="59">
+<attrib name="value" value="195961"/></item>
+<item name="NUM_BUFG" rev="59">
 <attrib name="value" value="10"/></item>
-<item name="NUM_BUFGCTRL" rev="57">
+<item name="NUM_BUFGCTRL" rev="59">
 <attrib name="value" value="1"/></item>
-<item name="NUM_DPRAM_O5ANDO6" rev="57">
-<attrib name="value" value="5686"/></item>
-<item name="NUM_DPRAM_O5ONLY" rev="57">
+<item name="NUM_DPRAM_O5ANDO6" rev="59">
+<attrib name="value" value="6110"/></item>
+<item name="NUM_DPRAM_O5ONLY" rev="59">
 <attrib name="value" value="122"/></item>
-<item name="NUM_DPRAM_O6ONLY" rev="57">
-<attrib name="value" value="338"/></item>
-<item name="NUM_FIFO18E1" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_FIFO36E1" rev="57">
-<attrib name="value" value="94"/></item>
-<item name="NUM_GTXE2_CHANNEL" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_GTXE2_COMMON" rev="57">
-<attrib name="value" value="2"/></item>
-<item name="NUM_IBUFDS_GTE2" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_IDELAYCTRL" rev="57">
-<attrib name="value" value="2"/></item>
-<item name="NUM_IDELAYE2" rev="57">
-<attrib name="value" value="64"/></item>
-<item name="NUM_IN_FIFO" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_IOB_FF" rev="57">
-<attrib name="value" value="18"/></item>
-<item name="NUM_ISERDESE2" rev="57">
-<attrib name="value" value="64"/></item>
-<item name="NUM_LOCED_GTXE2_CHANNEL" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_LOCED_IBUFDS_GTE2" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_LOCED_IN_FIFO" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_LOCED_IOB18" rev="57">
-<attrib name="value" value="103"/></item>
-<item name="NUM_LOCED_IOB18M" rev="57">
-<attrib name="value" value="10"/></item>
-<item name="NUM_LOCED_IOB18S" rev="57">
-<attrib name="value" value="10"/></item>
-<item name="NUM_LOCED_IOB33" rev="57">
-<attrib name="value" value="25"/></item>
-<item name="NUM_LOCED_MMCME2_ADV" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_LOCED_OSERDESE2" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_LOCED_OUT_FIFO" rev="57">
-<attrib name="value" value="11"/></item>
-<item name="NUM_LOCED_PCIE_2_1" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_LOCED_PHASER_IN_PHY" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_LOCED_PHASER_OUT_PHY" rev="57">
-<attrib name="value" value="11"/></item>
-<item name="NUM_LOCED_PHASER_REF" rev="57">
-<attrib name="value" value="3"/></item>
-<item name="NUM_LOCED_PHY_CONTROL" rev="57">
-<attrib name="value" value="3"/></item>
-<item name="NUM_LOCED_PLLE2_ADV" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_LOCED_RAMB36E1" rev="57">
-<attrib name="value" value="4"/></item>
-<item name="NUM_LOGIC_O5ANDO6" rev="57">
-<attrib name="value" value="40029"/></item>
-<item name="NUM_LOGIC_O5ONLY" rev="57">
-<attrib name="value" value="2198"/></item>
-<item name="NUM_LOGIC_O6ONLY" rev="57">
-<attrib name="value" value="122234"/></item>
-<item name="NUM_LUT_RT_DRIVES_CARRY4" rev="57">
-<attrib name="value" value="110"/></item>
-<item name="NUM_LUT_RT_DRIVES_FLOP" rev="57">
-<attrib name="value" value="1920"/></item>
-<item name="NUM_LUT_RT_EXO5" rev="57">
-<attrib name="value" value="1901"/></item>
-<item name="NUM_LUT_RT_EXO6" rev="57">
-<attrib name="value" value="110"/></item>
-<item name="NUM_LUT_RT_O5" rev="57">
-<attrib name="value" value="1661"/></item>
-<item name="NUM_LUT_RT_O5ANDO6" rev="57">
-<attrib name="value" value="19"/></item>
-<item name="NUM_LUT_RT_O6" rev="57">
-<attrib name="value" value="2185"/></item>
-<item name="NUM_MMCME2_ADV" rev="57">
-<attrib name="value" value="3"/></item>
-<item name="NUM_OLOGICE2" rev="57">
-<attrib name="value" value="10"/></item>
-<item name="NUM_OSERDESE2" rev="57">
-<attrib name="value" value="108"/></item>
-<item name="NUM_OUT_FIFO" rev="57">
-<attrib name="value" value="11"/></item>
-<item name="NUM_PCIE_2_1" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_PHASER_IN_PHY" rev="57">
-<attrib name="value" value="8"/></item>
-<item name="NUM_PHASER_OUT_PHY" rev="57">
-<attrib name="value" value="11"/></item>
-<item name="NUM_PHASER_REF" rev="57">
-<attrib name="value" value="3"/></item>
-<item name="NUM_PHY_CONTROL" rev="57">
-<attrib name="value" value="3"/></item>
-<item name="NUM_PLLE2_ADV" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="NUM_RAMB18E1" rev="57">
-<attrib name="value" value="334"/></item>
-<item name="NUM_RAMB36E1" rev="57">
-<attrib name="value" value="98"/></item>
-<item name="NUM_RPM" rev="57">
-<attrib name="value" value="40"/></item>
-<item name="NUM_SLICEL" rev="57">
-<attrib name="value" value="48011"/></item>
-<item name="NUM_SLICEM" rev="57">
-<attrib name="value" value="2540"/></item>
-<item name="NUM_SLICE_CARRY4" rev="57">
-<attrib name="value" value="11697"/></item>
-<item name="NUM_SLICE_CONTROLSET" rev="57">
-<attrib name="value" value="4820"/></item>
-<item name="NUM_SLICE_CYINIT" rev="57">
-<attrib name="value" value="230879"/></item>
-<item name="NUM_SLICE_F7MUX" rev="57">
-<attrib name="value" value="385"/></item>
-<item name="NUM_SLICE_FF" rev="57">
-<attrib name="value" value="121916"/></item>
-<item name="NUM_SLICE_LATCHLOGIC" rev="57">
-<attrib name="value" value="278"/></item>
-<item name="NUM_SLICE_UNUSEDCTRL" rev="57">
-<attrib name="value" value="13097"/></item>
-<item name="NUM_SRL_O5ANDO6" rev="57">
-<attrib name="value" value="153"/></item>
-<item name="NUM_SRL_O5ONLY" rev="57">
-<attrib name="value" value="13"/></item>
-<item name="NUM_SRL_O6ONLY" rev="57">
-<attrib name="value" value="2726"/></item>
-<item name="NUM_UNUSABLE_FF_BELS" rev="57">
-<attrib name="value" value="25215"/></item>
-<item name="NUM_XADC" rev="57">
-<attrib name="value" value="1"/></item>
-<item name="Xilinx Core blk_mem_gen_v7_3, Xilinx CORE Generator 14.5" rev="57">
-<attrib name="value" value="20"/></item>
-<item name="Xilinx Core fifo_generator_v8_1, Xilinx CORE Generator 14.5" rev="57">
-<attrib name="value" value="24"/></item>
-<item name="Xilinx Core fifo_generator_v9_3, Xilinx CORE Generator 14.5" rev="57">
+<item name="NUM_DPRAM_O6ONLY" rev="59">
 <attrib name="value" value="350"/></item>
-<item name="Xilinx Core mig_7series_v1_8_ddr3_7Series, Coregen 14.4" rev="57">
+<item name="NUM_FIFO18E1" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_FIFO36E1" rev="59">
+<attrib name="value" value="98"/></item>
+<item name="NUM_GTXE2_CHANNEL" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_GTXE2_COMMON" rev="59">
+<attrib name="value" value="2"/></item>
+<item name="NUM_IBUFDS_GTE2" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_IDELAYCTRL" rev="59">
+<attrib name="value" value="2"/></item>
+<item name="NUM_IDELAYE2" rev="59">
+<attrib name="value" value="64"/></item>
+<item name="NUM_IN_FIFO" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_IOB_FF" rev="59">
+<attrib name="value" value="18"/></item>
+<item name="NUM_ISERDESE2" rev="59">
+<attrib name="value" value="64"/></item>
+<item name="NUM_LOCED_GTXE2_CHANNEL" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_LOCED_IBUFDS_GTE2" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_LOCED_IN_FIFO" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_LOCED_IOB18" rev="59">
+<attrib name="value" value="103"/></item>
+<item name="NUM_LOCED_IOB18M" rev="59">
+<attrib name="value" value="10"/></item>
+<item name="NUM_LOCED_IOB18S" rev="59">
+<attrib name="value" value="10"/></item>
+<item name="NUM_LOCED_IOB33" rev="59">
+<attrib name="value" value="25"/></item>
+<item name="NUM_LOCED_MMCME2_ADV" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_LOCED_OSERDESE2" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_LOCED_OUT_FIFO" rev="59">
+<attrib name="value" value="11"/></item>
+<item name="NUM_LOCED_PCIE_2_1" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_LOCED_PHASER_IN_PHY" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_LOCED_PHASER_OUT_PHY" rev="59">
+<attrib name="value" value="11"/></item>
+<item name="NUM_LOCED_PHASER_REF" rev="59">
+<attrib name="value" value="3"/></item>
+<item name="NUM_LOCED_PHY_CONTROL" rev="59">
+<attrib name="value" value="3"/></item>
+<item name="NUM_LOCED_PLLE2_ADV" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_LOCED_RAMB36E1" rev="59">
+<attrib name="value" value="4"/></item>
+<item name="NUM_LOGIC_O5ANDO6" rev="59">
+<attrib name="value" value="43639"/></item>
+<item name="NUM_LOGIC_O5ONLY" rev="59">
+<attrib name="value" value="2360"/></item>
+<item name="NUM_LOGIC_O6ONLY" rev="59">
+<attrib name="value" value="132949"/></item>
+<item name="NUM_LUT_RT_DRIVES_CARRY4" rev="59">
+<attrib name="value" value="111"/></item>
+<item name="NUM_LUT_RT_DRIVES_FLOP" rev="59">
+<attrib name="value" value="1463"/></item>
+<item name="NUM_LUT_RT_EXO5" rev="59">
+<attrib name="value" value="1440"/></item>
+<item name="NUM_LUT_RT_EXO6" rev="59">
+<attrib name="value" value="111"/></item>
+<item name="NUM_LUT_RT_O5" rev="59">
+<attrib name="value" value="2441"/></item>
+<item name="NUM_LUT_RT_O5ANDO6" rev="59">
+<attrib name="value" value="23"/></item>
+<item name="NUM_LUT_RT_O6" rev="59">
+<attrib name="value" value="2347"/></item>
+<item name="NUM_MMCME2_ADV" rev="59">
+<attrib name="value" value="3"/></item>
+<item name="NUM_OLOGICE2" rev="59">
+<attrib name="value" value="10"/></item>
+<item name="NUM_OSERDESE2" rev="59">
+<attrib name="value" value="108"/></item>
+<item name="NUM_OUT_FIFO" rev="59">
+<attrib name="value" value="11"/></item>
+<item name="NUM_PCIE_2_1" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_PHASER_IN_PHY" rev="59">
+<attrib name="value" value="8"/></item>
+<item name="NUM_PHASER_OUT_PHY" rev="59">
+<attrib name="value" value="11"/></item>
+<item name="NUM_PHASER_REF" rev="59">
+<attrib name="value" value="3"/></item>
+<item name="NUM_PHY_CONTROL" rev="59">
+<attrib name="value" value="3"/></item>
+<item name="NUM_PLLE2_ADV" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="NUM_RAMB18E1" rev="59">
+<attrib name="value" value="366"/></item>
+<item name="NUM_RAMB36E1" rev="59">
+<attrib name="value" value="107"/></item>
+<item name="NUM_RPM" rev="59">
+<attrib name="value" value="42"/></item>
+<item name="NUM_SLICEL" rev="59">
+<attrib name="value" value="47959"/></item>
+<item name="NUM_SLICEM" rev="59">
+<attrib name="value" value="2717"/></item>
+<item name="NUM_SLICE_CARRY4" rev="59">
+<attrib name="value" value="12819"/></item>
+<item name="NUM_SLICE_CONTROLSET" rev="59">
+<attrib name="value" value="5229"/></item>
+<item name="NUM_SLICE_CYINIT" rev="59">
+<attrib name="value" value="250912"/></item>
+<item name="NUM_SLICE_F7MUX" rev="59">
+<attrib name="value" value="385"/></item>
+<item name="NUM_SLICE_FF" rev="59">
+<attrib name="value" value="130736"/></item>
+<item name="NUM_SLICE_LATCHLOGIC" rev="59">
+<attrib name="value" value="303"/></item>
+<item name="NUM_SLICE_UNUSEDCTRL" rev="59">
+<attrib name="value" value="11768"/></item>
+<item name="NUM_SRL_O5ANDO6" rev="59">
+<attrib name="value" value="151"/></item>
+<item name="NUM_SRL_O5ONLY" rev="59">
+<attrib name="value" value="26"/></item>
+<item name="NUM_SRL_O6ONLY" rev="59">
+<attrib name="value" value="2757"/></item>
+<item name="NUM_UNUSABLE_FF_BELS" rev="59">
+<attrib name="value" value="27367"/></item>
+<item name="NUM_XADC" rev="59">
+<attrib name="value" value="1"/></item>
+<item name="Xilinx Core blk_mem_gen_v7_3, Xilinx CORE Generator 14.5" rev="59">
+<attrib name="value" value="22"/></item>
+<item name="Xilinx Core fifo_generator_v8_1, Xilinx CORE Generator 14.5" rev="59">
+<attrib name="value" value="26"/></item>
+<item name="Xilinx Core fifo_generator_v9_3, Xilinx CORE Generator 14.5" rev="59">
+<attrib name="value" value="385"/></item>
+<item name="Xilinx Core mig_7series_v1_8_ddr3_7Series, Coregen 14.4" rev="59">
 <attrib name="value" value="1"/></item>
 </group>
 </DesignStatistics>
-<DeviceUsage TimeStamp="Tue Sep  3 16:17:37 2013"><group name="SiteSummary">
-<item name="BUFFER" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="34"/></item>
-<item name="BUFG" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="BUFGCTRL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="BUFGCTRL_BUFGCTRL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="BUFG_BUFG" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="CARRY4" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="11697"/></item>
-<item name="FF_INIT" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="18445"/></item>
-<item name="FIFO18E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="FIFO18E1_FIFO18E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="FIFO36E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="94"/></item>
-<item name="FIFO36E1_FIFO36E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="94"/></item>
-<item name="GTXE2_CHANNEL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="GTXE2_CHANNEL_GTXE2_CHANNEL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="GTXE2_COMMON" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="2"/></item>
-<item name="GTXE2_COMMON_GTXE2_COMMON" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="2"/></item>
-<item name="HARD0" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="225"/></item>
-<item name="HARD1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="5392"/></item>
-<item name="IBUFDS_GTE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="IBUFDS_GTE2_IBUFDS_GTE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="IDELAYCTRL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="2"/></item>
-<item name="IDELAYCTRL_IDELAYCTRL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="2"/></item>
-<item name="IDELAYE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="64"/></item>
-<item name="IDELAYE2_IDELAYE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="64"/></item>
-<item name="INVERTER" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="IN_FIFO" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="IN_FIFO_IN_FIFO" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="IOB18" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="103"/></item>
-<item name="IOB18M" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="IOB18M_INBUF_DCIEN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="IOB18M_OUTBUF_DCIEN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="IOB18S" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="IOB18S_INBUF_DCIEN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="IOB18S_OUTBUF_DCIEN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="IOB18_INBUF_DCIEN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="65"/></item>
-<item name="IOB18_OUTBUF_DCIEN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="101"/></item>
-<item name="IOB33" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="25"/></item>
-<item name="IOB33_INBUF_EN" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="IOB33_OUTBUF" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="21"/></item>
-<item name="IPAD" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="18"/></item>
-<item name="ISERDESE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="64"/></item>
-<item name="ISERDESE2_ISERDESE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="64"/></item>
-<item name="LUT5" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="45625"/></item>
-<item name="LUT6" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="163651"/></item>
-<item name="LUT_OR_MEM5" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="6157"/></item>
-<item name="LUT_OR_MEM6" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="9829"/></item>
-<item name="MMCME2_ADV" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="MMCME2_ADV_MMCME2_ADV" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="NULLMUX" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="18"/></item>
-<item name="OLOGICE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="OLOGICE2_OUTFF" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="10"/></item>
-<item name="OLOGICE2_TFF" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="OPAD" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="16"/></item>
-<item name="OSERDESE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="108"/></item>
-<item name="OSERDESE2_OSERDESE2" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="108"/></item>
-<item name="OUT_FIFO" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="11"/></item>
-<item name="OUT_FIFO_OUT_FIFO" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="11"/></item>
-<item name="PAD" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="182"/></item>
-<item name="PCIE_2_1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="PCIE_2_1_PCIE_2_1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="PHASER_IN_PHY" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="PHASER_IN_PHY_PHASER_IN_PHY" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="8"/></item>
-<item name="PHASER_OUT_PHY" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="11"/></item>
-<item name="PHASER_OUT_PHY_PHASER_OUT_PHY" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="11"/></item>
-<item name="PHASER_REF" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="PHASER_REF_PHASER_REF" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="PHY_CONTROL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="PHY_CONTROL_PHY_CONTROL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="3"/></item>
-<item name="PLLE2_ADV" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="PLLE2_ADV_PLLE2_ADV" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="PULL_OR_KEEP1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="2"/></item>
-<item name="RAMB18E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="334"/></item>
-<item name="RAMB18E1_RAMB18E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="334"/></item>
-<item name="RAMB36E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="98"/></item>
-<item name="RAMB36E1_RAMB36E1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="98"/></item>
-<item name="REG_INIT" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="103749"/></item>
-<item name="SELMUX2_1" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="385"/></item>
-<item name="SLICEL" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="48011"/></item>
-<item name="SLICEM" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="2540"/></item>
-<item name="XADC" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-<item name="XADC_XADC" rev="58">
-<attrib name="total" value="1000000"/><attrib name="used" value="1"/></item>
-</group>
-</DeviceUsage>
 <ReportConfigData TimeStamp="Tue Sep  3 16:17:37 2013"><group name="OSERDESE2_OSERDESE2">
 <item name="CLK" rev="58">
 <attrib name="CLK" value="108"/><attrib name="CLK_INV" value="0"/></item>
@@ -633,7 +470,7 @@
 <item name="CLK" rev="58">
 <attrib name="CLK" value="64"/><attrib name="CLK_INV" value="0"/></item>
 <item name="CLKB" rev="58">
-<attrib name="CLKB_INV" value="64"/><attrib name="CLKB" value="0"/></item>
+<attrib name="CLKB" value="0"/><attrib name="CLKB_INV" value="64"/></item>
 <item name="CLKDIVP" rev="58">
 <attrib name="CLKDIVP_INV" value="0"/><attrib name="CLKDIVP" value="64"/></item>
 <item name="D" rev="58">
@@ -1715,7 +1552,7 @@
 <item name="CLK" rev="58">
 <attrib name="CLK" value="64"/><attrib name="CLK_INV" value="0"/></item>
 <item name="CLKB" rev="58">
-<attrib name="CLKB_INV" value="64"/><attrib name="CLKB" value="0"/></item>
+<attrib name="CLKB" value="0"/><attrib name="CLKB_INV" value="64"/></item>
 <item name="CLKDIVP" rev="58">
 <attrib name="CLKDIVP_INV" value="0"/><attrib name="CLKDIVP" value="64"/></item>
 <item name="D" rev="58">

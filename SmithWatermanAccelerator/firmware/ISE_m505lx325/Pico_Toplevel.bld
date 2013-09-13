@@ -11,10 +11,10 @@ Reading NGO file
 "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m5
 05lx325/Pico_Toplevel.ngc" ...
 Loading design module "source/coregen_fifo_32x128.ngc"...
+Loading design module "../ipcore_dir/ref_seq_block_buffer.ngc"...
 Loading design module "../ipcore_dir/query_seq_bram.ngc"...
 Loading design module "../ipcore_dir/inter_ref_block_fifo.ngc"...
 Loading design module "../ipcore_dir/cellscorefilter_fifo.ngc"...
-Loading design module "../ipcore_dir/ref_seq_block_buffer.ngc"...
 Loading design module "../ipcore_dir/stream_data_sync_buffer.ngc"...
 Gathering constraint information from source properties...
 Done.
@@ -484,6 +484,24 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[11].gen_stream_in/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_in[11].gen_stream_in/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    'UserWrapper/stream_in[9].gen_stream_in/s0_fifo/fifo1' of type FIFO36E1 has
    been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
    simulation for this primitive.  In order for functional simulation to be
@@ -553,6 +571,24 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    correct, the value of SIM_DEVICE should be changed in this same manner in the
    source netlist or constraint file. For additional information on retargeting
    this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_out[11].gen_stream_out/s0_fifo/fifo1' of type FIFO36E1
+   has been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and
+   timing simulation for this primitive.  In order for functional simulation to
+   be correct, the value of SIM_DEVICE should be changed in this same manner in
+   the source netlist or constraint file. For additional information on
+   retargeting this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/stream_out[11].gen_stream_out/s0_fifo/fifo2' of type FIFO36E1
+   has been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and
+   timing simulation for this primitive.  In order for functional simulation to
+   be correct, the value of SIM_DEVICE should be changed in this same manner in
+   the source netlist or constraint file. For additional information on
+   retargeting this primitive to 7SERIES, please see
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
@@ -1574,6 +1610,72 @@ WARNING:NgdBuild:452 - logical net 'N657' has no driver
 WARNING:NgdBuild:452 - logical net 'N658' has no driver
 WARNING:NgdBuild:452 - logical net 'N659' has no driver
 WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<31>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<30>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<29>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<28>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<27>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<26>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<25>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<24>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<23>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<22>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<21>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<20>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<19>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<18>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<17>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<16>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<15>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<14>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<13>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<12>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<11>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'UserWrapper/UserModule/engine_gen[10].eng0/cell_score_threshold_ec2csf<10>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
    'UserWrapper/UserModule/engine_gen[9].eng0/cell_score_threshold_ec2csf<31>'
    has no driver
 WARNING:NgdBuild:452 - logical net
@@ -2246,12 +2348,12 @@ Partition Implementation Status
 
 NGDBUILD Design Results Summary:
   Number of errors:     0
-  Number of warnings: 499
+  Number of warnings: 525
 
-Total memory usage is 1786132 kilobytes
+Total memory usage is 1830908 kilobytes
 
 Writing NGD file "Pico_Toplevel.ngd" ...
-Total REAL time to NGDBUILD completion: 13 min  46 sec
-Total CPU time to NGDBUILD completion:  13 min  46 sec
+Total REAL time to NGDBUILD completion: 15 min  9 sec
+Total CPU time to NGDBUILD completion:  15 min  9 sec
 
 Writing NGDBUILD log file "Pico_Toplevel.bld"...

@@ -55,7 +55,7 @@ void* stream_write_thread(void* args) {
     for (int i = 0; i < num_queries; i++) {
         out_buf[0] = (ref_len_bytes * 4)/128;
         out_buf[1] = 0;
-        out_buf[2] = (query_ids[i] << 16) + (query_len_bytes[i] * 4);
+        out_buf[2] = (query_ids[i] << 16) + (query_len_bytes[i] * 4-1);
         out_buf[3] = cell_score_threshold;
         // For each query block of the query
         for (int j = 0; j < (query_len_bytes[i] * 4)/64; j++) {

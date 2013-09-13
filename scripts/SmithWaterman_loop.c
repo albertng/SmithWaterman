@@ -11,7 +11,7 @@ int main(void) {
   char* reference = "AGCACACA";
   int insertion_score, deletion_score, match_score, i, j, k;
   int scoring_matrix[9][9];
-  clock_t start, diff;
+  //clock_t start, diff;
   float cups;
 
   for(i = 0; i < 9; i++) {
@@ -49,8 +49,9 @@ int main(void) {
   }
   printf("%d\n", max_score);
 
-  start = clock();
-     
+  //start = clock();
+  struct timespec start, finish;
+  clock_gettime(CLOCK_MONOTONIC, &start);   
   for(k = 0; k < 10000; k++) {
     for(i = 1; i < 9; i++) {
       for(j = 1; j < 9; j++) {
@@ -74,8 +75,11 @@ int main(void) {
       }
     }
   }
-  diff = clock() - start;
-  cups = 8*8*10000 / ((float) diff / (float) CLOCKS_PER_SEC);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+  double diff = (finish.tv_sec - start.tv_sec);
+  diff += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+  //diff = clock() - start;
+  cups = 8*8*10000 / diff;
   printf("%f cell updates per sec\n", cups);
   return 0;
 }  
