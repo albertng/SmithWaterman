@@ -22,7 +22,6 @@
          <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/PicoFramework - PicoFrameworkM505_LX325T1/core - pcie_7x_v1_6_8lane_gen2/pcie_top_i - pcie_7x_v1_6_8lane_gen2_pcie_top/axi_basic_top - pcie_7x_v1_6_8lane_gen2_axi_basic_top</ClosedNode>
          <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/PicoFramework - PicoFrameworkM505_LX325T1/core - pcie_7x_v1_6_8lane_gen2/pcie_top_i - pcie_7x_v1_6_8lane_gen2_pcie_top/pcie_7x_i - pcie_7x_v1_6_8lane_gen2_pcie_7x</ClosedNode>
          <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/PicoFramework - PicoFrameworkM505_LX325T1/core - pcie_7x_v1_6_8lane_gen2/pcie_top_i - pcie_7x_v1_6_8lane_gen2_pcie_top/pcie_pipe_pipeline_i - pcie_7x_v1_6_8lane_gen2_pcie_pipe_pipeline</ClosedNode>
-         <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/UserWrapper - UserWrapper/UserModule - SmithWatermanAccelerator/eng0 - Engine</ClosedNode>
          <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/UserWrapper - UserWrapper/UserModule - SmithWatermanAccelerator/eng0 - Engine/csf - CellScoreFilter</ClosedNode>
          <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/UserWrapper - UserWrapper/UserModule - SmithWatermanAccelerator/eng0 - Engine/ec - Engine_Ctrl</ClosedNode>
          <ClosedNode>/Pico_Toplevel |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|Pico_Toplevel.v/UserWrapper - UserWrapper/UserModule - SmithWatermanAccelerator/eng0 - Engine/rr - ReferenceReader</ClosedNode>
@@ -55,13 +54,13 @@
          <ClosedNode>/mig_DDR3 |home|albertng|Documents|SmithWaterman|SmithWatermanAccelerator|firmware|ISE_m505lx325|source|coregen-LX325T|mig_M505_DDR3|rtl|mig_DDR3.v</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Pico_Toplevel (/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/Pico_Toplevel.v)</SelectedItem>
+         <SelectedItem>csf - CellScoreFilter (/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/CellScoreFilter.v)</SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >24</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000004fd000000020000000000000000000000000200000064ffffffff000000810000000300000002000004fd0000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>Pico_Toplevel (/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/Pico_Toplevel.v)</CurrentItem>
+      <CurrentItem>csf - CellScoreFilter (/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/CellScoreFilter.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
@@ -75,13 +74,13 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Place &amp; Route</SelectedItem>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >4</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000141000000010000000100000000000000000000000064ffffffff000000810000000000000001000001410000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000150000000010000000100000000000000000000000064ffffffff000000810000000000000001000001500000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Place &amp; Route</CurrentItem>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView guiview="File" >
       <ClosedNodes>
@@ -225,12 +224,12 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem/>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000150000000010000000100000000000000000000000064ffffffff000000810000000000000001000001500000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem/>
    </ItemView>
 </Project>

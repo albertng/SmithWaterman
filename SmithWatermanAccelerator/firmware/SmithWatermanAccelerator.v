@@ -59,7 +59,7 @@ module SmithWatermanAccelerator #(
     output                          s6o_valid,
     output [`STREAM6_OUT_WIDTH-1:0] s6o_data,
     input                           s6o_rdy,
-    input                           s7i_valid,
+    /*input                           s7i_valid,
     input [`STREAM7_IN_WIDTH-1:0]   s7i_data,
     output                          s7i_rdy,
     output                          s7o_valid,
@@ -83,12 +83,12 @@ module SmithWatermanAccelerator #(
     output                          s10o_valid,
     output [`STREAM10_OUT_WIDTH-1:0] s10o_data,
     input                           s10o_rdy,
-    input                           s11i_valid,
-    input [`STREAM11_IN_WIDTH-1:0]   s11i_data,
+    input                           s11i_valid,*/
+/*    input [`STREAM11_IN_WIDTH-1:0]   s11i_data,
     output                          s11i_rdy,
     output                          s11o_valid,
     output [`STREAM11_OUT_WIDTH-1:0] s11o_data,
-    input                           s11o_rdy,
+    input                           s11o_rdy,*/
 
     
     ////////////////////
@@ -252,13 +252,14 @@ module SmithWatermanAccelerator #(
 
     localparam NUM_PES = 64;
     localparam REF_LENGTH = 128;
-    localparam WIDTH = 10;
+    //localparam WIDTH = 10;
+    localparam WIDTH = 18;
     localparam MATCH_REWARD = 2;
     localparam MISMATCH_PEN = -2;
     localparam GAP_OPEN_PEN = -2;
     localparam GAP_EXTEND_PEN = -1;
     localparam PES_PER_FIFO = 4;   
-    localparam NUM_ENGINES = 11;
+    localparam NUM_ENGINES = 6;
     //localparam NUM_ENGINES = 10;
     //localparam NUM_ENGINES = 2;
 
@@ -537,7 +538,7 @@ module SmithWatermanAccelerator #(
     assign s6o_valid = so_valid[5];
     assign s6o_data = so_data[5];
     assign so_rdy[5] = s6o_rdy;
-    assign si_valid[6] = s7i_valid;
+    /*assign si_valid[6] = s7i_valid;
     assign si_data[6] = s7i_data;
     assign s7i_rdy = si_rdy[6];
     assign s7o_valid = so_valid[6];
@@ -560,13 +561,13 @@ module SmithWatermanAccelerator #(
     assign s10i_rdy = si_rdy[9];
     assign s10o_valid = so_valid[9];
     assign s10o_data = so_data[9];
-    assign so_rdy[9] = s10o_rdy;
-    assign si_valid[10] = s11i_valid;
+    assign so_rdy[9] = s10o_rdy;*/
+    /*assign si_valid[10] = s11i_valid;
     assign si_data[10] = s11i_data;
     assign s11i_rdy = si_rdy[10];
     assign s11o_valid = so_valid[10];
     assign s11o_data = so_data[10];
-    assign so_rdy[10] = s11o_rdy;
+    assign so_rdy[10] = s11o_rdy;*/
     genvar i;
     generate
         for (i = 0; i < NUM_ENGINES; i = i + 1) begin: engine_gen
