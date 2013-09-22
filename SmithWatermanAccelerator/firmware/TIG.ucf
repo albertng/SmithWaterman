@@ -1,7 +1,11 @@
-NET "*c0_axi_clk<1>" TNM_NET = c0_axi_clk_falsepath_grp;
-NET "*s_clk" TNM_NET = s_clk_falsepath_grp;
+NET "*scg/clkout0" TNM_NET = sys_clk_falsepath_grp;
+NET "*pipe_clock_i/clk_250mhz" TNM_NET = CLK_250_falsepath;
+NET "*pipe_clock_i/userclk2" TNM_NET = CLK_USERCLK2_falsepath;
 
-TIMESPEC "TS_c0_axi_clk_to_s_clk" = FROM c0_axi_clk_falsepath_grp TO s_clk_falsepath_grp TIG;
-TIMESPEC "TS_s_clk_to_c0_axi_clk" = FROM s_clk_falsepath_grp TO c0_axi_clk_falsepath_grp TIG;
+TIMESPEC "TS_clk_250_to_sys_clk" = FROM CLK_250_falsepath TO sys_clk_falsepath_grp TIG;
+TIMESPEC "TS_sys_clk_to_clk_250" = FROM sys_clk_falsepath_grp TO CLK_250_falsepath TIG;
+
+TIMESPEC "TS_clk_userclk2_to_sys_clk" = FROM CLK_USERCLK2_falsepath TO sys_clk_falsepath_grp TIG;
+TIMESPEC "TS_sys_clk_to_clk_userclk2" = FROM sys_clk_falsepath_grp TO CLK_USERCLK2_falsepath TIG;
 
 NET "*sys_rst" TIG;

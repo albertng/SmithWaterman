@@ -22,7 +22,7 @@
 #define alloca _alloca
 #endif
 static const char *ng0 = "/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/ISE_m505lx325/source/CardInfo32.v";
-static unsigned int ng1[] = {16U, 0U};
+static unsigned int ng1[] = {1040U, 0U};
 static int ng2[] = {32, 0};
 static unsigned int ng3[] = {422597527U, 0U};
 static unsigned int ng4[] = {5U, 0U};

@@ -19,6 +19,21 @@ module SmithWatermanPE(
     input  clk,                     // System clock
     input  rst,                     // System reset
     input  stall,                   // Pipeline stall signal
+    
+    // Scoring parameters
+    input [WIDTH-1:0] sub_AA_in,
+    input [WIDTH-1:0] sub_AC_in,
+    input [WIDTH-1:0] sub_AG_in,
+    input [WIDTH-1:0] sub_AT_in,
+    input [WIDTH-1:0] sub_CC_in,
+    input [WIDTH-1:0] sub_CG_in,
+    input [WIDTH-1:0] sub_CT_in,
+    input [WIDTH-1:0] sub_GG_in,
+    input [WIDTH-1:0] sub_GT_in,
+    input [WIDTH-1:0] sub_TT_in,
+    input [WIDTH-1:0] gap_open_in,
+    input [WIDTH-1:0] gap_extend_in,
+    
     input  [WIDTH-1:0] V_in,        // Score from previous PE
     input  [WIDTH-1:0] F_in,        // Gap penalty of previous PE
     input  [1:0] T_in,              // Reference seq shift in
@@ -37,10 +52,10 @@ module SmithWatermanPE(
     );
     
     parameter WIDTH = 10;
-    parameter MATCH_REWARD = 2;
+    /*parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;
     parameter GAP_OPEN_PEN = -2;
-    parameter GAP_EXTEND_PEN = -1;
+    parameter GAP_EXTEND_PEN = -1;*/
 
     reg [1:0] T;
     reg [1:0] S;
@@ -60,6 +75,8 @@ module SmithWatermanPE(
     reg [WIDTH-1:0] new_F;
     reg [WIDTH-1:0] new_V;
     
+    reg [WIDTH-1:0] match_reward;
+    
     assign V_out = V;
     assign E_out = E;
     assign F_out = F;
@@ -69,16 +86,34 @@ module SmithWatermanPE(
     assign store_S_out = store_S;
     
     always @(*) begin
-        V_gap_open = V + GAP_OPEN_PEN;
-        E_gap_extend = E + GAP_EXTEND_PEN;
-        upV_gap_open = V_in + GAP_OPEN_PEN;
-        upF_gap_extend = F_in + GAP_EXTEND_PEN;
+        case ({S, T_in})
+            4'b0000 : match_reward = sub_TT_in;
+            4'b0001 : match_reward = sub_CT_in;
+            4'b0010 : match_reward = sub_AT_in;
+            4'b0011 : match_reward = sub_GT_in;
+            4'b0100 : match_reward = sub_CT_in;
+            4'b0101 : match_reward = sub_CC_in;
+            4'b0110 : match_reward = sub_AC_in;
+            4'b0111 : match_reward = sub_CG_in;
+            4'b1000 : match_reward = sub_AT_in;
+            4'b1001 : match_reward = sub_AC_in;
+            4'b1010 : match_reward = sub_AA_in;
+            4'b1011 : match_reward = sub_AG_in;
+            4'b1100 : match_reward = sub_GT_in;
+            4'b1101 : match_reward = sub_CG_in;
+            4'b1110 : match_reward = sub_AG_in;
+            4'b1111 : match_reward = sub_GG_in;
+            default : match_reward = 0;
+        endcase
+    end
+    
+    always @(*) begin
+        V_gap_open = V + gap_open_in;
+        E_gap_extend = E + gap_extend_in;
+        upV_gap_open = V_in + gap_open_in;
+        upF_gap_extend = F_in + gap_extend_in;
         
-        if (S == T_in)
-            match_score = V_diag + MATCH_REWARD;
-        else
-            match_score = V_diag + MISMATCH_PEN;
-            
+        match_score = V_diag + match_reward;          
             
         if ($signed(V_gap_open) > $signed(E_gap_extend))
             new_E = V_gap_open;

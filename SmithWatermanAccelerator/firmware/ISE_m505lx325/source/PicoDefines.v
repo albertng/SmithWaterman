@@ -5,6 +5,8 @@
 //   module's name, and then add the file to your ISE project.
 `define USER_MODULE_NAME SmithWatermanAccelerator
 
+`define PICOBUS_WIDTH 32
+
 `define PICO_DDR3
 `define PICO_1_AXI_MASTERS
 `define STREAM1_IN_WIDTH 128
@@ -17,9 +19,9 @@
 `define STREAM4_OUT_WIDTH 128
 `define STREAM5_IN_WIDTH 128
 `define STREAM5_OUT_WIDTH 128
-`define STREAM6_IN_WIDTH 128
+/*`define STREAM6_IN_WIDTH 128
 `define STREAM6_OUT_WIDTH 128
-/*`define STREAM7_IN_WIDTH 128
+`define STREAM7_IN_WIDTH 128
 `define STREAM7_OUT_WIDTH 128
 `define STREAM8_IN_WIDTH 128
 `define STREAM8_OUT_WIDTH 128

@@ -7,11 +7,26 @@
  *
  *  Revision History :
  *      Albert Ng   Jul 31 2013     Initial Revision
+ *      Albert Ng   Sep 19 2013     Added scoring parameters input
  *
  */
 module Engine(
     input          clk,                                // Engine clock 
     input          rst,                                // System reset
+    
+    // Scoring parameters
+    input [WIDTH-1:0] sub_AA_in,
+    input [WIDTH-1:0] sub_AC_in,
+    input [WIDTH-1:0] sub_AG_in,
+    input [WIDTH-1:0] sub_AT_in,
+    input [WIDTH-1:0] sub_CC_in,
+    input [WIDTH-1:0] sub_CG_in,
+    input [WIDTH-1:0] sub_CT_in,
+    input [WIDTH-1:0] sub_GG_in,
+    input [WIDTH-1:0] sub_GT_in,
+    input [WIDTH-1:0] sub_TT_in,
+    input [WIDTH-1:0] gap_open_in,
+    input [WIDTH-1:0] gap_extend_in,
     
     // Input stream interface
     input          si_clk,                             // Stream input clock
@@ -40,11 +55,25 @@ module Engine(
     parameter NUM_PES = 64;
     parameter REF_LENGTH = 128;
     parameter WIDTH = 10;
-    parameter MATCH_REWARD = 2;
+    /*parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;
     parameter GAP_OPEN_PEN = -2;
-    parameter GAP_EXTEND_PEN = -1;
+    parameter GAP_EXTEND_PEN = -1;*/
     parameter PES_PER_FIFO = 4;
+    
+    // Scoring parameters
+    reg [WIDTH-1:0] sub_AA;
+    reg [WIDTH-1:0] sub_AC;
+    reg [WIDTH-1:0] sub_AG;
+    reg [WIDTH-1:0] sub_AT;
+    reg [WIDTH-1:0] sub_CC;
+    reg [WIDTH-1:0] sub_CG;
+    reg [WIDTH-1:0] sub_CT;
+    reg [WIDTH-1:0] sub_GG;
+    reg [WIDTH-1:0] sub_GT;
+    reg [WIDTH-1:0] sub_TT;
+    reg [WIDTH-1:0] gap_open;
+    reg [WIDTH-1:0] gap_extend;
     
     // Stream input handler - engine controller interface
     wire [27:0] ref_length_sih2ec;
@@ -95,6 +124,36 @@ module Engine(
     
     // Stall signal
     wire stall;
+    
+    always @(posedge clk) begin
+        if (rst) begin
+            sub_AA <= 0;
+            sub_AC <= 0;
+            sub_AG <= 0;
+            sub_AT <= 0;
+            sub_CC <= 0;
+            sub_CG <= 0;
+            sub_CT <= 0;
+            sub_GG <= 0;
+            sub_GT <= 0;
+            sub_TT <= 0;
+            gap_open <= 0;
+            gap_extend <= 0;
+        end else begin
+            sub_AA <= sub_AA_in;
+            sub_AC <= sub_AC_in;
+            sub_AG <= sub_AG_in;
+            sub_AT <= sub_AT_in;
+            sub_CC <= sub_CC_in;
+            sub_CG <= sub_CG_in;
+            sub_CT <= sub_CT_in;
+            sub_GG <= sub_GG_in;
+            sub_GT <= sub_GT_in;
+            sub_TT <= sub_TT_in;
+            gap_open <= gap_open_in;
+            gap_extend <= gap_extend_in;
+        end
+    end
     
     StreamInputHandler #(NUM_PES) sih (
         .rst(rst),
@@ -172,10 +231,22 @@ module Engine(
         .rd_data_rdy_out(rd_data_rdy_out)
     );
     
-    SmithWatermanArray #(NUM_PES, REF_LENGTH, WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN, PES_PER_FIFO) swa (
+    SmithWatermanArray #(NUM_PES, REF_LENGTH, WIDTH, /*MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN,*/ PES_PER_FIFO) swa (
         .clk(clk),
         .rst(rst),
         .stall(stall),
+        .sub_AA_in(sub_AA),
+        .sub_AC_in(sub_AC),
+        .sub_AG_in(sub_AG),
+        .sub_AT_in(sub_AT),
+        .sub_CC_in(sub_CC),
+        .sub_CG_in(sub_CG),
+        .sub_CT_in(sub_CT),
+        .sub_GG_in(sub_GG),
+        .sub_GT_in(sub_GT),
+        .sub_TT_in(sub_TT),
+        .gap_open_in(gap_open),
+        .gap_extend_in(gap_extend),
         .S_in(S_ec2swa),
         .T_in(T_ec2swa),
         .store_S_in(store_S_ec2swa),

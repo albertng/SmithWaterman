@@ -84,6 +84,7 @@
  *      Albert Ng   Jul 24 2013     Added V_out_valid
  *      Albert Ng   Jul 26 2013     Added last_query_block
  *      Albert Ng   Aug 23 2013     Added end_of_refblock
+ *      Albert Ng   Sep 21 2013     Added scoring parameters
  *
  */
 
@@ -91,6 +92,21 @@ module SmithWatermanArray(
     input clk,                              // System clock
     input rst,                              // System reset
     input stall,                            // Pipeline stall
+    
+    // Scoring parameters
+    input [WIDTH-1:0] sub_AA_in,
+    input [WIDTH-1:0] sub_AC_in,
+    input [WIDTH-1:0] sub_AG_in,
+    input [WIDTH-1:0] sub_AT_in,
+    input [WIDTH-1:0] sub_CC_in,
+    input [WIDTH-1:0] sub_CG_in,
+    input [WIDTH-1:0] sub_CT_in,
+    input [WIDTH-1:0] sub_GG_in,
+    input [WIDTH-1:0] sub_GT_in,
+    input [WIDTH-1:0] sub_TT_in,
+    input [WIDTH-1:0] gap_open_in,
+    input [WIDTH-1:0] gap_extend_in,
+    
     input [(NUM_PES * 2) - 1:0] S_in,       // Query sequence
     input [1:0] T_in,                       // Reference sequence shift in
     input store_S_in,                       // Load systolic array with new query seq
@@ -112,11 +128,12 @@ module SmithWatermanArray(
     parameter NUM_PES = 64;
     parameter REF_LENGTH = 128;
     parameter WIDTH = 10;
-    parameter MATCH_REWARD = 2;
+    /*parameter MATCH_REWARD = 2;
     parameter MISMATCH_PEN = -2;
     parameter GAP_OPEN_PEN = -2;
-    parameter GAP_EXTEND_PEN = -1;
+    parameter GAP_EXTEND_PEN = -1;*/
     parameter PES_PER_FIFO = 4;
+    localparam PES_PER_PARAM = 4;
 
     wire [WIDTH - 1:0] V[NUM_PES:0];
     wire [WIDTH - 1:0] E[NUM_PES:0];
@@ -150,6 +167,19 @@ module SmithWatermanArray(
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_V[NUM_PES/PES_PER_FIFO - 1:0];
     wire [PES_PER_FIFO*WIDTH - 1:0] fifo_mux_input_E[NUM_PES/PES_PER_FIFO - 1:0];
     
+    reg [WIDTH-1:0] sub_AA[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_AC[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_AG[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_AT[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_CC[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_CG[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_CT[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_GG[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_GT[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] sub_TT[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] gap_open[NUM_PES/PES_PER_PARAM - 1:0];
+    reg [WIDTH-1:0] gap_extend[NUM_PES/PES_PER_PARAM - 1:0];
+    
     // Connect output ports
     genvar i, j;
     generate
@@ -162,6 +192,41 @@ module SmithWatermanArray(
                               last_block_char[NUM_PES-1];
     assign end_of_refblock_out = last_query_block[NUM_PES-1] & last_block_char[NUM_PES-1];
     assign last_query_block_out = last_query_block;
+    
+    // Scoring parameter registers
+    generate
+        for (i = 0; i < NUM_PES/PES_PER_PARAM; i = i + 1) begin:param_gen
+            always @(posedge clk) begin
+                if (rst) begin
+                    sub_AA[i] <= 0;
+                    sub_AC[i] <= 0;
+                    sub_AG[i] <= 0;
+                    sub_AT[i] <= 0;
+                    sub_CC[i] <= 0;
+                    sub_CG[i] <= 0;
+                    sub_CT[i] <= 0;
+                    sub_GG[i] <= 0;
+                    sub_GT[i] <= 0;
+                    sub_TT[i] <= 0;
+                    gap_open[i] <= 0;
+                    gap_extend[i] <= 0;
+                end else begin
+                    sub_AA[i] <= sub_AA_in;
+                    sub_AC[i] <= sub_AC_in;
+                    sub_AG[i] <= sub_AG_in;
+                    sub_AT[i] <= sub_AT_in;
+                    sub_CC[i] <= sub_CC_in;
+                    sub_CG[i] <= sub_CG_in;
+                    sub_CT[i] <= sub_CT_in;
+                    sub_GG[i] <= sub_GG_in;
+                    sub_GT[i] <= sub_GT_in;
+                    sub_TT[i] <= sub_TT_in;
+                    gap_open[i] <= gap_open_in;
+                    gap_extend[i] <= gap_extend_in;
+                end
+            end
+        end
+    endgenerate
     
     // Cell score inter-query block intermediate values buffer
     always @(posedge clk) begin
@@ -345,10 +410,22 @@ module SmithWatermanArray(
     assign init[0] = init_in;
     generate
         for (i = 0; i < NUM_PES; i = i + 1) begin:swpe_gen
-            SmithWatermanPE #(WIDTH, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN) swpe (
+            SmithWatermanPE #(WIDTH/*, MATCH_REWARD, MISMATCH_PEN, GAP_OPEN_PEN, GAP_EXTEND_PEN*/) swpe (
                 .clk(clk), 
                 .rst(rst),
                 .stall(stall),
+                .sub_AA_in(sub_AA[i/PES_PER_PARAM]),
+                .sub_AC_in(sub_AC[i/PES_PER_PARAM]),
+                .sub_AG_in(sub_AG[i/PES_PER_PARAM]),
+                .sub_AT_in(sub_AT[i/PES_PER_PARAM]),
+                .sub_CC_in(sub_CC[i/PES_PER_PARAM]),
+                .sub_CG_in(sub_CG[i/PES_PER_PARAM]),
+                .sub_CT_in(sub_CT[i/PES_PER_PARAM]),
+                .sub_GG_in(sub_GG[i/PES_PER_PARAM]),
+                .sub_GT_in(sub_GT[i/PES_PER_PARAM]),
+                .sub_TT_in(sub_TT[i/PES_PER_PARAM]),
+                .gap_open_in(gap_open[i/PES_PER_PARAM]),
+                .gap_extend_in(gap_extend[i/PES_PER_PARAM]),
                 .V_in(V[i]), 
                 .F_in(F[i]), 
                 .T_in(T[i]), 

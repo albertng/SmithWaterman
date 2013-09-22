@@ -12,10 +12,10 @@ Reading NGO file
 05lx325/Pico_Toplevel.ngc" ...
 Loading design module "source/coregen_fifo_32x128.ngc"...
 Loading design module "../ipcore_dir/inter_ref_block_fifo.ngc"...
-Loading design module "../ipcore_dir/cellscorefilter_fifo.ngc"...
 Loading design module "../ipcore_dir/stream_data_sync_buffer.ngc"...
-Loading design module "../ipcore_dir/query_seq_bram.ngc"...
 Loading design module "../ipcore_dir/ref_seq_block_buffer.ngc"...
+Loading design module "../ipcore_dir/query_seq_bram.ngc"...
+Loading design module "../ipcore_dir/cellscorefilter_fifo.ngc"...
 Gathering constraint information from source properties...
 Done.
 
@@ -250,24 +250,6 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/stream_out[6].gen_stream_out/s0_fifo/fifo1' of type FIFO36E1 has
-   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
-   simulation for this primitive.  In order for functional simulation to be
-   correct, the value of SIM_DEVICE should be changed in this same manner in the
-   source netlist or constraint file. For additional information on retargeting
-   this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/stream_out[6].gen_stream_out/s0_fifo/fifo2' of type FIFO36E1 has
-   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
-   simulation for this primitive.  In order for functional simulation to be
-   correct, the value of SIM_DEVICE should be changed in this same manner in the
-   source netlist or constraint file. For additional information on retargeting
-   this primitive to 7SERIES, please see
-   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
-   n.pdf.
-WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    'UserWrapper/stream_out[2].gen_stream_out/s0_fifo/fifo1' of type FIFO36E1 has
    been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
    simulation for this primitive.  In order for functional simulation to be
@@ -394,7 +376,7 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/stream_in[6].gen_stream_in/s0_fifo/fifo1' of type FIFO36E1 has
+   'UserWrapper/UserModule_s2pb/s126o_stream/s0_fifo/fifo1' of type FIFO36E1 has
    been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
    simulation for this primitive.  In order for functional simulation to be
    correct, the value of SIM_DEVICE should be changed in this same manner in the
@@ -403,7 +385,25 @@ WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
    http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
    n.pdf.
 WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
-   'UserWrapper/stream_in[6].gen_stream_in/s0_fifo/fifo2' of type FIFO36E1 has
+   'UserWrapper/UserModule_s2pb/s126o_stream/s0_fifo/fifo2' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/UserModule_s2pb/s126i_stream/s0_fifo/fifo1' of type FIFO36E1 has
+   been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
+   simulation for this primitive.  In order for functional simulation to be
+   correct, the value of SIM_DEVICE should be changed in this same manner in the
+   source netlist or constraint file. For additional information on retargeting
+   this primitive to 7SERIES, please see
+   http://www.xilinx.com/support/documentation/sw_manuals/ug429_7Series_Migratio
+   n.pdf.
+WARNING:NgdBuild:931 - The value of SIM_DEVICE on instance
+   'UserWrapper/UserModule_s2pb/s126i_stream/s0_fifo/fifo2' of type FIFO36E1 has
    been changed from 'VIRTEX6' to '7SERIES' to correct post-ngdbuild and timing
    simulation for this primitive.  In order for functional simulation to be
    correct, the value of SIM_DEVICE should be changed in this same manner in the
@@ -774,17 +774,17 @@ WARNING:ConstraintSystem:56 - Constraint <TIMESPEC TS_MULTICYCLEPATH = FROM
    [source/M505_LX325T_DDR3.ucf(240)]: Unable to find an active 'TimeGrp' or
    'TNM' or 'TPSync' constraint named 'TNM_SOURCE_IDLE'.
 
-WARNING:ConstraintSystem - TNM : s_clk_falsepath_grp was distributed to a DCM
+WARNING:ConstraintSystem - TNM : CLK_USERCLK2_falsepath was distributed to a DCM
    but new TNM constraints were not derived. This TNM is used in the following
    user groups or specifications:
-   <TIMESPEC "TS_c0_axi_clk_to_s_clk" = FROM c0_axi_clk_falsepath_grp TO
-   s_clk_falsepath_grp TIG;>
+   <TIMESPEC "TS_clk_userclk2_to_sys_clk" = FROM CLK_USERCLK2_falsepath TO
+   sys_clk_falsepath_grp TIG;>
    [/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/TIG
-   .ucf(4)]
-   <TIMESPEC "TS_s_clk_to_c0_axi_clk" = FROM s_clk_falsepath_grp TO
-   c0_axi_clk_falsepath_grp TIG;>
+   .ucf(8)]
+   <TIMESPEC "TS_sys_clk_to_clk_userclk2" = FROM sys_clk_falsepath_grp TO
+   CLK_USERCLK2_falsepath TIG;>
    [/home/albertng/Documents/SmithWaterman/SmithWatermanAccelerator/firmware/TIG
-   .ucf(5)]
+   .ucf(9)]
 
 INFO:ConstraintSystem:178 - TNM 'CLK_USERCLK2', used in period specification
    'TS_CLK_USERCLK2', was traced into MMCME2_ADV instance mmcm_adv_inst. The
@@ -1413,22 +1413,22 @@ WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<1>' has no driver
 WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_data<0>' has no driver
 WARNING:NgdBuild:452 - logical net 'user_pci_wr_q_valid' has no driver
 WARNING:NgdBuild:452 - logical net 'user_pci_wr_data_q_valid' has no driver
-WARNING:NgdBuild:452 - logical net 'N631' has no driver
-WARNING:NgdBuild:452 - logical net 'N632' has no driver
-WARNING:NgdBuild:452 - logical net 'N633' has no driver
-WARNING:NgdBuild:452 - logical net 'N634' has no driver
-WARNING:NgdBuild:452 - logical net 'N635' has no driver
-WARNING:NgdBuild:452 - logical net 'N636' has no driver
-WARNING:NgdBuild:452 - logical net 'N637' has no driver
-WARNING:NgdBuild:452 - logical net 'N638' has no driver
-WARNING:NgdBuild:452 - logical net 'N639' has no driver
-WARNING:NgdBuild:452 - logical net 'N640' has no driver
-WARNING:NgdBuild:452 - logical net 'N641' has no driver
-WARNING:NgdBuild:452 - logical net 'N642' has no driver
-WARNING:NgdBuild:452 - logical net 'N643' has no driver
-WARNING:NgdBuild:452 - logical net 'N644' has no driver
-WARNING:NgdBuild:452 - logical net 'N645' has no driver
-WARNING:NgdBuild:452 - logical net 'N646' has no driver
+WARNING:NgdBuild:452 - logical net 'N588' has no driver
+WARNING:NgdBuild:452 - logical net 'N589' has no driver
+WARNING:NgdBuild:452 - logical net 'N590' has no driver
+WARNING:NgdBuild:452 - logical net 'N591' has no driver
+WARNING:NgdBuild:452 - logical net 'N592' has no driver
+WARNING:NgdBuild:452 - logical net 'N593' has no driver
+WARNING:NgdBuild:452 - logical net 'N594' has no driver
+WARNING:NgdBuild:452 - logical net 'N595' has no driver
+WARNING:NgdBuild:452 - logical net 'N596' has no driver
+WARNING:NgdBuild:452 - logical net 'N597' has no driver
+WARNING:NgdBuild:452 - logical net 'N598' has no driver
+WARNING:NgdBuild:452 - logical net 'N599' has no driver
+WARNING:NgdBuild:452 - logical net 'N600' has no driver
+WARNING:NgdBuild:452 - logical net 'N601' has no driver
+WARNING:NgdBuild:452 - logical net 'N602' has no driver
+WARNING:NgdBuild:452 - logical net 'N603' has no driver
 WARNING:NgdBuild:452 - logical net
    'mig_DDR3_0/u_mig_7series_v1_8_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/idle'
    has no driver
@@ -1444,10 +1444,10 @@ NGDBUILD Design Results Summary:
   Number of errors:     0
   Number of warnings: 263
 
-Total memory usage is 1851252 kilobytes
+Total memory usage is 1677276 kilobytes
 
 Writing NGD file "Pico_Toplevel.ngd" ...
-Total REAL time to NGDBUILD completion: 14 min  40 sec
-Total CPU time to NGDBUILD completion:  14 min  38 sec
+Total REAL time to NGDBUILD completion: 13 min  10 sec
+Total CPU time to NGDBUILD completion:  13 min  8 sec
 
 Writing NGDBUILD log file "Pico_Toplevel.bld"...

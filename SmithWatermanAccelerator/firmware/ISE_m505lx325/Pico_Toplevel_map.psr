@@ -29,28 +29,16 @@ Target Device                       : 7k325tffg900-2
 *                        Optimizations                                  *
 =========================================================================
 ---- Statistics
-   Number of LUTs added by Replication                       | 13              
+   Number of LUTs added by Replication                       | 1               
 
-   Overall change in number of design objects                | +13              
+   Overall change in number of design objects                | +1               
 
 
 ---- Details
 
 New or modified components                             | Optimization             | Objective           
 -------------------------------------------------------|--------------------------|----------------------
-UserWrapper/UserModule/engine_gen[5].eng0/swa/swpe_gen[57].swpe/Mmux_new_E11_REPLICA_9| Replication              | Fanout Optimization
-UserWrapper/UserModule/engine_gen[5].eng0/swa/swpe_gen[57].swpe/Mmux_new_E171_REPLICA_10| Replication              | Fanout Optimization
-UserWrapper/UserModule/engine_gen[5].eng0/swa/swpe_gen[57].swpe/Mmux_new_E41_REPLICA_11| Replication              | Fanout Optimization
-UserWrapper/UserModule/engine_gen[5].eng0/swa/swpe_gen[57].swpe/Mmux_new_E61_REPLICA_12| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_0| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_1| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_2| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_3| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_4| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_5| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_6| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_7| Replication              | Fanout Optimization
-UserWrapper/stream_in[0].gen_stream_in/_n0081_REPLICA_8| Replication              | Fanout Optimization
+UserWrapper/stream_in[0].gen_stream_in/s0_fifo_rd_en11_REPLICA_0| Replication              | Fanout Optimization
 
    Flops added for Enable Generation                       
 -------------------------

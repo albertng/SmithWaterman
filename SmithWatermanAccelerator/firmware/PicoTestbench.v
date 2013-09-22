@@ -5,6 +5,19 @@
 `include "PicoSimParameters.v"
 
 module PicoTestbench;
+    localparam SUB_AA = 32'h2,
+               SUB_AC = -32'h2,
+               SUB_AG = -32'h2,
+               SUB_AT = -32'h2,
+               SUB_CC = 32'h2,
+               SUB_CG = -32'h2,
+               SUB_CT = -32'h2,
+               SUB_GG = 32'h2,
+               SUB_GT = -32'h2,
+               SUB_TT = 32'h2,
+               GAP_OPEN = -32'h2,
+               GAP_EXTEND = -32'h1;
+    
     
     PicoSim #(.verbose(0)) PicoSim();
 
@@ -39,9 +52,24 @@ module PicoTestbench;
 
         // Base Initilization function required to use the PicoCard
         PicoSim.PicoSimInit();
+        
+        // Scoring parameters
+        $display("Writing scoring parameters");
+        PicoSim.WritePicoBus(32'h00, SUB_AA);
+        PicoSim.WritePicoBus(32'h04, SUB_AC);
+        PicoSim.WritePicoBus(32'h08, SUB_AG);
+        PicoSim.WritePicoBus(32'h0C, SUB_AT);
+        PicoSim.WritePicoBus(32'h10, SUB_CC);
+        PicoSim.WritePicoBus(32'h14, SUB_CG);
+        PicoSim.WritePicoBus(32'h18, SUB_CT);
+        PicoSim.WritePicoBus(32'h1C, SUB_GG);
+        PicoSim.WritePicoBus(32'h20, SUB_GT);
+        PicoSim.WritePicoBus(32'h24, SUB_TT);
+        PicoSim.WritePicoBus(32'h28, GAP_OPEN);
+        PicoSim.WritePicoBus(32'h2C, GAP_EXTEND);
 
         // Stream ref seq to DRAM at address 0
-        $display("Writing ref seq to DRAM");
+        /*$display("Writing ref seq to DRAM");
         PicoSim.PicoLoadBuffer128(0, ref_seq0[127:0]);
         PicoSim.PicoLoadBuffer128(16, ref_seq0[255:128]);
         PicoSim.PicoLoadBuffer128(32, ref_seq1[127:0]);
@@ -58,7 +86,7 @@ module PicoTestbench;
         PicoSim.PicoLoadBuffer128(208, ref_seq6[255:128]);
         PicoSim.PicoLoadBuffer128(224, ref_seq7[127:0]);
         PicoSim.PicoLoadBuffer128(240, ref_seq7[255:128]);
-        PicoSim.WriteRam(0, 256, `PICO_DDR3_0);
+        PicoSim.WriteRam(0, 256, `PICO_DDR3_0);*/
 
         // Stream query seq to stream
         $display("Streaming query seq to FPGA");
