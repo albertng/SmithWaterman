@@ -14,6 +14,7 @@
 #include <pthread.h>
 #include <fstream>
 #include <iostream>
+#include <time.h>
 
 #define EOQ 0xFFFFFFFF
 #define RESULT_BUF_SIZE 128
@@ -22,12 +23,12 @@ struct write_thread_args {
     PicoDrv* pico;
     int      stream;
     int      num_queries;
-    int *    query_len_bytes; // in bytes
-    char **  query_buf;
+    int      query_len_bytes; // in bytes
+    char *   query_buf;
     int      ref_len_bytes;   // in bytes
     uint32_t cell_score_threshold;
     int      engine_id;
-    uint32_t* query_ids;
+    uint32_t ref_addr;
 };
 
 struct read_thread_args {
@@ -36,39 +37,40 @@ struct read_thread_args {
     uint32_t * results_buf;
     int        num_queries;
     int        engine_id;
-    uint32_t*  query_ids;
+    uint32_t * num_bytes_returned;
 };
 
 void* stream_write_thread(void* args) {
     PicoDrv *pico = ((write_thread_args*)args)->pico;
     int stream = ((write_thread_args*)args)->stream;
     int num_queries = ((write_thread_args*)args)->num_queries;
-    int* query_len_bytes = ((write_thread_args*)args)->query_len_bytes;
-    char** query_buf = ((write_thread_args*)args)->query_buf;
+    int query_len_bytes = ((write_thread_args*)args)->query_len_bytes;
+    char* query_buf = ((write_thread_args*)args)->query_buf;
     int ref_len_bytes = ((write_thread_args*)args)->ref_len_bytes;
     uint32_t cell_score_threshold = ((write_thread_args*)args)->cell_score_threshold;
     int engine_id = ((write_thread_args*)args)->engine_id;
-    uint32_t* query_ids = ((write_thread_args*)args)->query_ids;
+    uint32_t ref_addr = ((write_thread_args*)args)->ref_addr;
 
     uint32_t out_buf[1024];
     // For each query
-    for (int i = 0; i < num_queries; i++) {
+    for (int i = 0; i < 1; i++) {
+//        printf("Engine %i, Ref addr %i\n", engine_id, ref_addr);
         out_buf[0] = ref_len_bytes/32;
-        out_buf[1] = 0;
-        out_buf[2] = (query_ids[i] << 16) + (query_len_bytes[i] * 4);
+        out_buf[1] = ref_addr;
+        out_buf[2] = (engine_id << 16) + (query_len_bytes * 4);
+        //out_buf[2] = (engine_id << 16) + (query_len_bytes * 4)/64;
         out_buf[3] = cell_score_threshold;
         // For each query block of the query
-        for (int j = 0; j < (query_len_bytes[i] * 4)/64; j++) {
+        for (int j = 0; j < (query_len_bytes * 4)/64; j++) {
             // For each 32-bit chunk of the 128-bit query block
             for (int k = 0; k < 4; k++) {
-                out_buf[j*4 + k + 4] = ((unsigned char) query_buf[i][j*16 + k*4]) +
-                                       ((unsigned char) query_buf[i][j*16 + k*4 + 1] << 8) +
-                                       ((unsigned char) query_buf[i][j*16 + k*4 + 2] << 16) +
-                                       ((unsigned char) query_buf[i][j*16 + k*4 + 3] << 24);
+                out_buf[j*4 + k + 4] = ((unsigned char) query_buf[j*16 + k*4]) +
+                                       ((unsigned char) query_buf[j*16 + k*4 + 1] << 8) +
+                                       ((unsigned char) query_buf[j*16 + k*4 + 2] << 16) +
+                                       ((unsigned char) query_buf[j*16 + k*4 + 3] << 24);
             }
         }
-        fprintf(stderr, "Engine %i, Writing query %i with %i bytes\n", engine_id, query_ids[i], 16+query_len_bytes[i]);
-        pico->WriteStream(stream, out_buf, 16 + query_len_bytes[i]);
+        pico->WriteStream(stream, out_buf, 16 + query_len_bytes);
     }
 }
 
@@ -79,18 +81,20 @@ void* stream_read_thread(void* args) {
     uint32_t * results_buf = ((read_thread_args*)args)->results_buf;
     int num_queries = ((read_thread_args*)args)->num_queries;
     int engine_id = ((read_thread_args*)args)->engine_id;
-    uint32_t* query_ids = ((read_thread_args*)args)->query_ids;
+    uint32_t * num_bytes_returned = ((read_thread_args*)args)->num_bytes_returned;
 
     int offset = 0;
     uint32_t temp_buf[1024];
     int num_queries_done = 0;
-    while (num_queries_done != num_queries) {
+    uint32_t num_bytes_read = 0;
+    //while (num_queries_done != num_queries) {
+    while (num_queries_done != 1) {
         int num_bytes_available = pico->GetBytesAvailable(stream, true);
         if (num_bytes_available >= 16) {
             int num_bytes_to_read = num_bytes_available > 4096 ? 4096 : (num_bytes_available/16)*16;
             // Read full 128-bit packets
             pico->ReadStream(stream, temp_buf, num_bytes_to_read);
-
+            num_bytes_read += num_bytes_to_read;
             // For each result location read
             for (int i = 0; i < num_bytes_to_read / 16; i++) {
                 results_buf[offset*2] = temp_buf[i*4];
@@ -99,9 +103,12 @@ void* stream_read_thread(void* args) {
                     num_queries_done++;
                 }
                 offset++;
+                offset%=(RESULT_BUF_SIZE/2);  
             }
         }
     }
+    *num_bytes_returned = num_bytes_read;
+//    fprintf(stderr, "Read %i bytes\n", num_bytes_read);
 }   
 
 int main(int argc, char* argv[])
@@ -111,8 +118,8 @@ int main(int argc, char* argv[])
     uint32_t    cell_score_threshold;
     uint32_t***  query_ids;
     char *  ref_buf;
-    char **** query_buf;
-    int ***       query_len;
+    char * query_buf;
+    int        query_len;
     char        ibuf[1024];
     uint32_t ***  results_buf;
     PicoDrv     **pico;
@@ -129,7 +136,7 @@ int main(int argc, char* argv[])
 
     // specify the .bit file name on the command line
     if (argc < 7) {
-        fprintf(stderr, "Usage: ./SmithWatermanAccelerator <BIT FILE> <NUM FPGAS> <NUM ENGINES PER FPGA> <CELL SCORE THRESHOLD> <REF SEQ FILE> <QUERY SEQ FILE 1> [<QUERY SEQ FILE 2> ...]");
+        fprintf(stderr, "Usage: ./SmithWatermanAcceleratorMultiFPGABenchmark <BIT FILE> <NUM FPGAS> <NUM ENGINES PER FPGA> <CELL SCORE THRESHOLD> <REF SEQ FILE> <QUERY SEQ FILE>\n");
         exit(1);
     }
     bitFileName = argv[1];
@@ -138,11 +145,10 @@ int main(int argc, char* argv[])
     cell_score_threshold = (uint32_t) atoi(argv[4]);
     ref_filename = argv[5];
     num_queries = argc - 6;
-    const char* query_filenames[num_queries];
-    for (int i = 0; i < num_queries; i++) {
-        query_filenames[i] = argv[i+6];
-    }
+    const char* query_filename = argv[6];
     
+    printf("Configuration: %i FPGAs, %i Engines per FPGA\n", num_fpgas, num_engines_per_fpga);
+
     // Read ref seq file into memory
     std::ifstream ref_file;
     std::ifstream::pos_type ref_size;
@@ -160,59 +166,23 @@ int main(int argc, char* argv[])
     }
     
     // Read query seq files into memory
-    query_buf = new char*** [num_fpgas];
-    query_len = new int** [num_fpgas];
-    query_ids = new uint32_t** [num_fpgas];
-    int num_queries_per_engine[num_fpgas][num_engines_per_fpga];
-    for (int i = 0; i < num_fpgas; i++) {
-        for (int j = 0; j < num_engines_per_fpga; j++) {
-            num_queries_per_engine[i][j] = 0;
-        }
-    }
-    for (int i = 0; i < num_fpgas; i++) {
-        query_buf[i] = new char** [num_engines_per_fpga];
-        query_len[i] = new int* [num_engines_per_fpga];
-        query_ids[i] = new uint32_t* [num_engines_per_fpga];
-        for (int j = 0; j < num_engines_per_fpga; j++) {
-            query_buf[i][j] = new char* [num_queries_per_engine[i][j]];
-            query_len[i][j] = new int [num_queries_per_engine[i][j]];
-            query_ids[i][j] = new uint32_t [num_queries_per_engine[i][j]];
-        }
-    }
-    int cur_fpga = 0;
-    int cur_engine = 0;
-    for (int i = 0; i < num_queries; i++) {
-        std::ifstream query_file;
-        std::ifstream::pos_type query_size;
-        query_file.open(query_filenames[i], std::ios::in | std::ios::binary | std::ios::ate);
-        if (query_file.is_open()) {
-            query_size = query_file.tellg();
-            query_len[cur_fpga][cur_engine][i/(num_fpgas * num_engines_per_fpga)] = (int) query_size;
-            query_buf[cur_fpga][cur_engine][i/(num_fpgas * num_engines_per_fpga)] = new char[query_size];
-            query_ids[cur_fpga][cur_engine][i/(num_fpgas * num_engines_per_fpga)] = i;
-            num_queries_per_engine[cur_fpga][cur_engine]++;
-            query_file.seekg(0, std::ios::beg);
-            query_file.read(query_buf[cur_fpga][cur_engine][i/(num_fpgas * num_engines_per_fpga)], query_size);
-            query_file.close();
-            printf("Read query seq file '%s' of length %iB for FPGA %i, engine %i\n", query_filenames[i], (int) query_size, cur_fpga, cur_engine);
-            cur_fpga++;
-            if (cur_fpga == num_fpgas) {
-                cur_engine++;
-                cur_engine %= num_engines_per_fpga;
-                cur_fpga = 0;
-            }
-        } else {
-            fprintf(stderr, "Unable to open query seq file '%s'", query_filenames[i]);
-            exit(1);
-        }
-    }
-    for (int i = 0; i < num_fpgas; i++) {
-        for (int j = 0; j < num_engines_per_fpga; j++) {
-            printf("FPGA: %i, Engine: %i, Queries: %i\n", i, j, num_queries_per_engine[i][j]);
-        }
+    std::ifstream query_file;
+    std::ifstream::pos_type query_size;
+    query_file.open(query_filename, std::ios::in | std::ios::binary | std::ios::ate);
+    if (query_file.is_open()) {
+        query_size = query_file.tellg();
+        query_len = (int) query_size;
+        query_buf = new char[query_size];
+        query_file.seekg(0, std::ios::beg);
+        query_file.read(query_buf, query_size);
+        query_file.close();
+        printf("Read query seq file '%s' of length %iB\n", query_filename, (int) query_size);
+    } else {
+        fprintf(stderr, "Unable to open query seq file '%s'", query_filename);
+        exit(1);
     }
 
-    // Load FPGAs with bifile
+    // Load FPGAs with bitfile
     pico = new PicoDrv*[num_fpgas];
     for (int i = 0; i < num_fpgas; i++) {
         printf("Loading FPGA %i with '%s' ...\n", i, bitFileName);
@@ -236,7 +206,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-    
+
     // Write scoring parameters
     printf("Writing scoring parameters\n");
     for (int i = 0; i < num_fpgas; i++) {   
@@ -272,6 +242,13 @@ int main(int argc, char* argv[])
             }
         }
     }
+    uint32_t** num_bytes_returned = new uint32_t* [num_fpgas];
+    for (int i = 0; i < num_fpgas; i++) {
+        num_bytes_returned[i] = new uint32_t[num_engines_per_fpga];
+        for (int j = 0; j < num_engines_per_fpga; j++) {
+            num_bytes_returned[j] = new uint32_t;
+        }
+    }
     wta = new write_thread_args* [num_fpgas];
     rta = new read_thread_args* [num_fpgas];
     for (int i = 0; i < num_fpgas; i++) {
@@ -280,23 +257,30 @@ int main(int argc, char* argv[])
         for (int j = 0; j < num_engines_per_fpga; j++) {
             wta[i][j].pico = pico[i];
             wta[i][j].stream = stream[i][j];
-            wta[i][j].num_queries = num_queries_per_engine[i][j];
-            wta[i][j].query_len_bytes = query_len[i][j];
-            wta[i][j].query_buf = query_buf[i][j];
-            wta[i][j].ref_len_bytes = (int) ref_size;
+            wta[i][j].num_queries = 1;
+            wta[i][j].query_len_bytes = query_len;
+            wta[i][j].query_buf = query_buf;
+            wta[i][j].ref_len_bytes = (1 << 30) / (num_fpgas * num_engines_per_fpga);
             wta[i][j].cell_score_threshold = cell_score_threshold;
             wta[i][j].engine_id = i*num_engines_per_fpga + j;
-            wta[i][j].query_ids = query_ids[i][j];
+            //wta[i][j].ref_addr = (i*num_engines_per_fpga + j) * ((1 << 25) / (num_fpgas * num_engines_per_fpga));
+            wta[i][j].ref_addr = 0;
             rta[i][j].pico = pico[i];
             rta[i][j].stream = stream[i][j];
             rta[i][j].results_buf = results_buf[i][j];
-            rta[i][j].num_queries = num_queries_per_engine[i][j];
+            rta[i][j].num_queries = 1;
             rta[i][j].engine_id = i*num_engines_per_fpga + j;
-            rta[i][j].query_ids = query_ids[i][j];
+            rta[i][j].num_bytes_returned = &(num_bytes_returned[i][j]);
         }
     }
     read_thread = new pthread_t*[num_fpgas];
     write_thread = new pthread_t*[num_fpgas];
+    printf("ref_len_bytes: %i\n", ((1 << 30) / (num_fpgas * num_engines_per_fpga)));
+
+
+    // TIMED CODE
+    struct timespec start, finish;
+    clock_gettime(CLOCK_MONOTONIC, &start);
     for (int i = 0; i < num_fpgas; i++) {
         read_thread[i] = new pthread_t[num_engines_per_fpga];
         write_thread[i] = new pthread_t[num_engines_per_fpga];
@@ -313,9 +297,23 @@ int main(int argc, char* argv[])
             pthread_join(write_thread[i][j], NULL);
         }
     }
-
-    // Print results
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    double elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    double numCells = query_len * 4 * 4294967296;
+    printf("Computation took %f seconds\n", elapsed);
+    printf("Total cells computed (billions): %f\n", numCells/1000000000.0);
+    printf("Performance: %f GCUPS\n", numCells/elapsed/1000000000.0);
+    uint32_t total_num_bytes_returned = 0;
     for (int i = 0; i < num_fpgas; i++) {
+        for (int j = 0; j < num_engines_per_fpga; j++) {
+            total_num_bytes_returned += num_bytes_returned[i][j];
+        }
+    }
+    printf("Num bytes returned: %i\n", total_num_bytes_returned);
+    printf("Effective PCIe bandwidth: %f MB/sec\n", total_num_bytes_returned/elapsed/1000000.0);
+    // Print results
+    /*for (int i = 0; i < num_fpgas; i++) {
         for (int j = 0; j < num_engines_per_fpga; j++) {
             printf("FPGA: %i Engine: %i\n", i, j);
             for (int k = 0; k < RESULT_BUF_SIZE; k++) {
@@ -323,7 +321,7 @@ int main(int argc, char* argv[])
             }
             printf("\n\n");
         }
-    }
+    }*/
 
     // streams are automatically closed when the PicoDrv object is destroyed, or on program termination, but
     //   we can also close a stream manually.

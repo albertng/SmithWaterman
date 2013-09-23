@@ -1,0 +1,8 @@
+TARGET = SmithWatermanAcceleratorParameterizedBenchmark
+USER_SOURCES =	SmithWatermanAcceleratorParameterizedBenchmark.cpp 
+
+LDFLAGS += -lrt
+CFLAGS += -pthread
+
+include $(PICOBASE)/software/Makefile.common
+

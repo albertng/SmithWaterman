@@ -1,0 +1,7 @@
+TARGET = SmithWatermanAcceleratorParameterized
+USER_SOURCES =	SmithWatermanAcceleratorParameterized.cpp 
+
+CFLAGS += -pthread
+
+include $(PICOBASE)/software/Makefile.common
+
