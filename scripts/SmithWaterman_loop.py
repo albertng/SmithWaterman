@@ -29,10 +29,24 @@ def SmithWaterman(short_read, reference):
             if V[i][j] > max_score:
                 max_score = V[i][j]
      
+    print 'V:'
     for row in range(len(V)):
         for col in range(len(V[0])):
             print(str(V[row][col]) + '\t'),
         print ''
+    print ''
+    print 'E:'
+    for row in range(len(E)):
+        for col in range(len(E[0])):
+            print(str(E[row][col]) + '\t'),
+        print ''
+    print ''
+    print 'F:'
+    for row in range(len(F)):
+        for col in range(len(F[0])):
+            print(str(F[row][col]) + '\t'),
+        print ''
+    print ''
     return max_score
 
 #print(SmithWaterman("ACAGACTA", "AGCACACA"))
