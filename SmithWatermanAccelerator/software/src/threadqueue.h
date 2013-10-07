@@ -1,8 +1,14 @@
-//  File Name        : threadqueue.h
-//  Description      : Thread-safe queue definitions
+//  File Name         : threadqueue.h
+//  Description       : Thread-safe queue definitions
+//  Table of Contents : ThreadQueue class
+//                      ThreadQueue::ThreadQueue()
+//                      ThreadQueue::Push()
+//                      ThreadQueue::Pop()
+//                      ThreadQueue::Size()
 //
-//  Revision History :
+//  Revision History  :
 //      Albert Ng   Oct 03 2013     Initial Revision 
+//      Albert Ng   Oct 07 2013     Added ThreadQueue::Size()
 //
 
 #ifndef THREADQUEUE_H_
@@ -11,13 +17,24 @@
 #include <queue>
 #include <pthread.h>
 
+// Simple thread-safe queue implementation using mutexes
+//   and conditionals. Supports multiple producers and
+//   multiple consumers.
+// Bounded queue with a constant MAX_SIZE
 template <typename T> 
 class ThreadQueue {
   public:
     ThreadQueue();
-    void push(T data);
-    T pop();
-    
+
+    // Push onto queue, blocks (thread waits) until successful
+    void Push(T data);
+
+    // Pop from queue, blocks (thread waits) until successful
+    T Pop();
+
+    // Current number of enqueued values
+    int Size();
+  
   private:
     std::queue<T> queue_;
     pthread_mutex_t mutex_;
@@ -26,6 +43,7 @@ class ThreadQueue {
     static const int MAX_SIZE = 100;
 };
 
+// Simply initializes mutex and conditions
 template <typename T> 
 ThreadQueue<T>::ThreadQueue() {
   pthread_mutex_init(&mutex_, NULL);
@@ -33,8 +51,9 @@ ThreadQueue<T>::ThreadQueue() {
   pthread_cond_init(&nonempty_cond_, NULL);
 }
 
+// Waits using nonfull condition until queue is not full
 template <typename T> 
-void ThreadQueue<T>::push(T data) {
+void ThreadQueue<T>::Push(T data) {
   pthread_mutex_lock(&mutex_);
   
   if (queue_.size() == MAX_SIZE) {
@@ -50,8 +69,9 @@ void ThreadQueue<T>::push(T data) {
   pthread_mutex_unlock(&mutex_);
 }
 
+// Waits using nonempty condition until queue is not empty
 template <typename T> 
-T ThreadQueue<T>::pop() {
+T ThreadQueue<T>::Pop() {
   pthread_mutex_lock(&mutex_);
   
   if (queue_.empty()) {
@@ -67,6 +87,11 @@ T ThreadQueue<T>::pop() {
   
   pthread_mutex_unlock(&mutex_);
   return ret;
+}
+
+template <typename T>
+int ThreadQueue<T>::Size() {
+  return queue_.size();
 }
 
 #endif // THREADQUEUE_H_

@@ -3,6 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 02 2013     Initial Revision 
+//      Albert Ng   oct 03 2013     Changed Print() to take ostream& arg
 //
 
 #ifndef ALIGNMENT_H_
@@ -10,6 +11,7 @@
 
 #include <utility>
 #include <list>
+#include <iostream>
 
 // Alignment information between two sequences
 class Alignment {
@@ -17,7 +19,7 @@ class Alignment {
     Alignment();
     ~Alignment();
     
-    void Print();
+    void Print(ostream& stream);
     void Prepend(char target_nt, char query_nt);
     
   private :

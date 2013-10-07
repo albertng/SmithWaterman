@@ -15,7 +15,7 @@ pthread_mutex_t cout_mutex;
 void* producer_fn(void* id) {
   int i = 0;
   while (true) {
-    tqueue.push(i);
+    tqueue.Push(i);
     pthread_mutex_lock(&cout_mutex);
     std::cout << "Producer: " << i << std::endl;
     pthread_mutex_unlock(&cout_mutex);
@@ -25,7 +25,7 @@ void* producer_fn(void* id) {
 
 void* consumer_fn(void* id) {
   while(true) {
-    int i = tqueue.pop();
+    int i = tqueue.Pop();
     pthread_mutex_lock(&cout_mutex);
     std::cout << "Consumer " << *((int*) id) << ": " << i << std::endl;
     pthread_mutex_unlock(&cout_mutex);

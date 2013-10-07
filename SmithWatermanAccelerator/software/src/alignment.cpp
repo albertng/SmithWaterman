@@ -3,9 +3,12 @@
  *
  *  Revision History :
  *      Albert Ng   Oct 02 2013     Initial Revision 
+ *      Albert Ng   Oct 03 2013     Changed Print() to take ostream& arg
  */
 
 #include "alignment.h"
+#include <utility>
+#include <list>
 #include <iostream>
 
 Alignment::Alignment() {
@@ -16,15 +19,15 @@ Alignment::~Alignment() {
   delete alignment_;
 }
 
-void Alignment::Print() {
+void Alignment::Print(ostream& stream) {
   for (std::list<std::pair<char, char> >::iterator it = alignment_.begin(); it != alignment_.end(); ++it) {
-    std::cout << *it.first;
+    stream << *it.first;
   }
-  std::cout << std::endl;
+  stream << std::endl;
   for (std::list<std::pair<char, char> >::iterator it = alignment_.begin(); it != alignment_.end(); ++it) {
-    std::cout << *it.second;
+    stream << *it.second;
   }
-  std::cout << std::endl;
+  stream << std::endl;
 }
 
 void Alignment::Prepend(char target_nt, char query_nt) {
