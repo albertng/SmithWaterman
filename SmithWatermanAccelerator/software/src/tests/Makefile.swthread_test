@@ -1,0 +1,23 @@
+all: swthread_test
+
+swthread_test: alignment.o refseqmanager_stub.o swthread.o swthread_test.o utils.o
+	g++ alignment.o refseqmanager_stub.o swthread.o swthread_test.o utils.o -o swthread_test -pthread -lrt
+
+alignment.o: alignment.cpp
+	g++ -c alignment.cpp
+
+refseqmanager_stub.o: refseqmanager_stub.cpp
+	g++ -c refseqmanager_stub.cpp
+
+swthread.o: swthread.cpp
+	g++ -c swthread.cpp
+
+swthread_test.o: swthread_test.cpp
+	g++ -c swthread_test.cpp
+
+utils.o: utils.cpp
+	g++ -c utils.cpp
+
+clean:
+	rm -rf *o swthread_test
+

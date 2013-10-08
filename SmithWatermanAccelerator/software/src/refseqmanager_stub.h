@@ -8,14 +8,16 @@
 #ifndef REFSEQMANAGERSTUB_H_
 #define REFSEQMANAGERSTUB_H_
 
+#include <stdint.h>
+
 class RefSeqManager {
-  public:
+  public :
     RefSeqManager();
     ~RefSeqManager();
-    char* GetRefSeq(uint32_t ref_id, uint32_t ref_offset, uint32_t ref_len);
+    char *GetRefSeq(uint32_t ref_id, uint32_t ref_offset, uint32_t ref_len);
     int ref_length();
 
-  private:
+  private :
     char* ref_seq_;
     static const int REF_LENGTH = 64;
     

@@ -11,12 +11,13 @@
 #define SHAREDSTRUCTS_H_
 
 #include "alignment.h"
+#include <stdint.h>
 #include <string>
 
 // Data structure holding a high scoring alignment region
 struct HighScoreRegion {
   uint32_t     query_id;
-  std::string* query_seq;
+  char*        query_seq;
   uint32_t     query_len;
   uint32_t     ref_id; 
   uint32_t     ref_offset; 
@@ -33,7 +34,7 @@ struct AlignmentResult {
 
 // Data structure holding affine gap penalty scoring scheme parameters
 struct SwAffineGapParams {
-  uint32_t[4][4] sub_mat; // Substitution matrix
+  uint32_t sub_mat[4][4]; // Substitution matrix
   uint32_t gap_open;      // Gap open penalty
   uint32_t gap_extend;    // Gap extend penalty
 };

@@ -19,11 +19,11 @@ class Alignment {
     Alignment();
     ~Alignment();
     
-    void Print(ostream& stream);
+    void Print(std::ostream& stream);
     void Prepend(char target_nt, char query_nt);
     
   private :
-    std::list<std::pair<char, char> > alignment_;
+    std::list<std::pair<char, char> >* alignment_;
 };
 
 #endif // ALIGNMENT_H_

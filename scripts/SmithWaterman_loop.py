@@ -7,7 +7,7 @@ def Max(values):
 
 def SmithWaterman(short_read, reference):
     # Scoring Scheme
-    match = 10
+    match = 2
     mismatch = -2
     gap_open = -2
     gap_extend = -1
@@ -24,7 +24,9 @@ def SmithWaterman(short_read, reference):
             E[i][j] = Max([V[i][j-1] + gap_open, E[i][j-1] + gap_extend])
             F[i][j] = Max([V[i-1][j] + gap_open, F[i-1][j] + gap_extend])
             
-            if short_read[j-1] == reference[i-1]:
+            if short_read[j-1] == 'N' or reference[i-1] == 'N':
+                match_score = -1
+            elif short_read[j-1] == reference[i-1]:
                 match_score = V[i-1][j-1] + match
             else:
                 match_score = V[i-1][j-1] + mismatch
@@ -67,8 +69,14 @@ def SmithWaterman(short_read, reference):
     print ''
     return (max_score, max_row, max_col, V_dir)
 
-ref = "AGAAAGTCA"
-query = "GGTCAG"
+#ref = "AGAAAGTCA"
+#query = "GGTCAG"
+ref ="AGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCG"
+#query = "AGCTAGTCNN"
+#query = "GACCGAGACT"
+#query = "TAACCTAGCTAGCT"
+#query = "CCATGTATCG"
+query = "TATNCATGG"
 (max_score, max_row, max_col, V_dir) = SmithWaterman(ref, query)
 print(max_score)
 

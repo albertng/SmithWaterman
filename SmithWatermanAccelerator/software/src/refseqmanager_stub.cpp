@@ -9,20 +9,17 @@
 #include <string>
 
 RefSeqManager::RefSeqManager() {
-  ref_seq_ = new char[REF_LENGTH];
-  std::string ref_seq = "AGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCG"
-  memcpy(ref_seq_, ref_seq.c_str(), REF_LENGTH);
+  ref_seq_ = (char*) "AGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCG";
 }
 
 RefSeqManager::~RefSeqManager() {
-  delete[] ref_seq_;
 }
 
 int RefSeqManager::ref_length() {
   return (int) REF_LENGTH;
 }
 
-char* GetRefSeq(uint32_t ref_id, uint32_t ref_offset, uint32_t ref_len) {
+char* RefSeqManager::GetRefSeq(uint32_t ref_id, uint32_t ref_offset, uint32_t ref_len) {
   if (ref_offset + ref_len > REF_LENGTH) {
     return NULL;
   }

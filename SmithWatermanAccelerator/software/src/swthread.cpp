@@ -1,4 +1,4 @@
-//  File Name        : sw.cpp
+//  File Name        : swthread.cpp
 //  Description      : Smith-Waterman aligner thread
 //
 //  Revision History :
@@ -9,34 +9,49 @@
 #include "swthread.h"
 #include "sharedstructs.h"
 #include "threadqueue.h"
-#include "refseqmanager.h"
+#include "refseqmanager_stub.h"
 #include "utils.h"
 
 SWThread::SWThread() {
-  SwAffineGapParams dummy;
-  SWThread(dummy, NULL, NULL);
 }
 
 SWThread::SWThread(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
                    ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager) {
-  params_ = params;
-  hsr_queue_ = hsr_queue;
-  result_queue_ = result_queue;
-  ref_seq_manager_ = ref_seq_manager;
+  Init(params, hsr_queue, result_queue, ref_seq_manager);
 }
 
-void SWThread::set_params(SwAffineGapParams params) {
+void SWThread::Init(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
+          ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager) {
+  args_.params = &params_;
+  args_.params_mutex = &params_mutex_;
+  args_.hsr_queue = hsr_queue;
+  args_.result_queue = result_queue;
+  args_.ref_seq_manager = ref_seq_manager;
+
   params_ = params;
+  pthread_mutex_init(&params_mutex_, NULL);
+}
+
+// Locks the params mutex before setting the params
+//   so the params don't change in the middle of an
+//   alignment.
+void SWThread::SetParams(SwAffineGapParams params) {
+  pthread_mutex_lock(&params_mutex_);
+  params_ = params;
+  pthread_mutex_unlock(&params_mutex_);
 }
 
 void SWThread::Run() {
-  pthread_create(&thread_, NULL, &Align, NULL);
+  pthread_create(&thread_, NULL, &SWThread::Align, (void*) (&args_));
 }
 
 void SWThread::Join() {
   pthread_join(thread_, NULL);
 }
 
+// Grabs the mutex for the params before proceeding with each
+//   alignment to make sure the params are coherent for the
+//   entire alignment.
 void* SWThread::Align(void* args) {
   int** v_matrix;   // Score matrix
   int** e_matrix;   // Insertion score matrix
@@ -52,33 +67,42 @@ void* SWThread::Align(void* args) {
   int max1, max2;
   AlnOp dir1, dir2;
 
+  // Get alignment arguments 
+  SwAffineGapParams* params = ((SWThreadArgs*)args)->params;
+  ThreadQueue<HighScoreRegion>* hsr_queue = ((SWThreadArgs*)args)->hsr_queue;
+  ThreadQueue<AlignmentResult>* result_queue = ((SWThreadArgs*)args)->result_queue;
+  RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
+  pthread_mutex_t* params_mutex = ((SWThreadArgs*)args)->params_mutex;
+
   while(true) {
     // Grab available high scoring region
-    hsr = hsr_queue_.Pop();
-    ref_seq = ref_seq_manager_->GetRefSeq(hsr.ref_id, hsr.ref_offset, hsr.ref_len);
+    hsr = hsr_queue->Pop();
+    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.ref_offset, hsr.ref_len);
     query_seq = hsr.query_seq;    
 
     // Initialize new score matrices
     v_matrix = new int*[hsr.query_len + 1];
     e_matrix = new int*[hsr.query_len + 1];
     f_matrix = new int*[hsr.query_len + 1];
-    dir_matrix = new int*[hsr.query_len + 1];
+    dir_matrix = new AlnOp*[hsr.query_len + 1];
     for (int i = 0; i < hsr.query_len + 1; i++) {
       v_matrix[i] = new int[hsr.ref_len + 1];
       e_matrix[i] = new int[hsr.ref_len + 1];
       f_matrix[i] = new int[hsr.ref_len + 1];
-      dir_matrix[i] = new int[hsr.ref_len + 1];
+      dir_matrix[i] = new AlnOp[hsr.ref_len + 1];
       for (int j = 0; j < hsr.ref_len + 1; j++) {
         v_matrix[i][j] = 0;
         e_matrix[i][j] = 0;
         f_matrix[i][j] = 0;
         dir_matrix[i][j] = ZERO_OP;
+      }
     }
     max_score = 0;
     max_row = 0;
     max_col = 0;
 
     // Compute dynamic programming matrices
+    pthread_mutex_lock(params_mutex);
     for (int i = 1; i < hsr.query_len + 1; i++) {
       for (int j = 1; j < hsr.ref_len + 1; j++) {
         ref_nt = NtChar2Int(ref_seq[j-1]);
@@ -87,13 +111,13 @@ void* SWThread::Align(void* args) {
         // Compute possible choices
         if (ref_nt == N_NT || query_nt == N_NT) {
           match = -2147483648; // Force N's to align with gaps
-        else {
-          match = v_matrix[i-1][j-1] + params_.sub_mat[query_nt][ref_nt];
+        } else {
+          match = v_matrix[i-1][j-1] + params->sub_mat[query_nt][ref_nt];
         }
-        ins_open   = v_matrix[i-1][j] + params_.gap_open;
-        ins_extend = e_matrix[i-1][j] + params_.gap_extend;
-        del_open   = v_matrix[i][j-1] + params_.gap_open;
-        del_extend = f_matrix[i][j-1] + params_.gap_extend;
+        ins_open   = v_matrix[i][j-1] + params->gap_open;
+        ins_extend = e_matrix[i][j-1] + params->gap_extend;
+        del_open   = v_matrix[i-1][j] + params->gap_open;
+        del_extend = f_matrix[i-1][j] + params->gap_extend;
 
         // Pick choice with highest score
         // Record decision in dir_matrix
@@ -116,7 +140,7 @@ void* SWThread::Align(void* args) {
         if (max1 > max2) {
           v_matrix[i][j] = max1;
           dir_matrix[i][j] = dir1;
-        else {
+        } else {
           v_matrix[i][j] = max2;
           dir_matrix[i][j] = dir2;
         }
@@ -126,11 +150,14 @@ void* SWThread::Align(void* args) {
           max_score = v_matrix[i][j];
           max_row = i;
           max_col = j;
+        }
       }
     }
+    pthread_mutex_unlock(params_mutex);
 
     // Backtrace to obtain alignment
     if (max_score > hsr.threshold) {
+      // TODO: POTENTIAL MEMORY LEAK IF NOT CAREFUL
       aln = new Alignment;
       row = max_row;
       col = max_col;
@@ -153,12 +180,12 @@ void* SWThread::Align(void* args) {
         }
       }
 
-      AlignmentResult* aln_res = new AlignmentResult;
-      aln_res->hsr = hsr;
-      aln_res->alignment = aln;
-      aln_res->score = max_score;
+      AlignmentResult aln_res;
+      aln_res.hsr = hsr;
+      aln_res.alignment = aln;
+      aln_res.score = max_score;
       
-      result_queue_->Push(aln_res);
+      result_queue->Push(aln_res);
     }
 
     // Memory cleanup
@@ -174,3 +201,4 @@ void* SWThread::Align(void* args) {
     delete[] dir_matrix;
   }   
 }
+

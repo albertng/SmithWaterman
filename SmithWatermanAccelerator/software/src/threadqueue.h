@@ -40,7 +40,7 @@ class ThreadQueue {
     pthread_mutex_t mutex_;
     pthread_cond_t nonfull_cond_;
     pthread_cond_t nonempty_cond_;
-    static const int MAX_SIZE = 100;
+    static const int MAX_SIZE = 1000000;
 };
 
 // Simply initializes mutex and conditions
