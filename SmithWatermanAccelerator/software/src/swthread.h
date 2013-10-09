@@ -1,4 +1,4 @@
-//  File Name        : sw.h
+//  File Name        : swthread.h
 //  Description      : Smith-Waterman aligner thread definitions
 //
 //  Revision History :
@@ -18,16 +18,17 @@
 // Enumeration of possible alignment operations
 enum AlnOp {INSERT_OP, DELETE_OP, MATCH_OP, ZERO_OP};
 
-
+// Software Smith-Waterman aligner worker thread
 class SWThread {
   public:
     // Empty constructor
     SWThread();
 
-    // Full constructor 
+    // Complete constructor 
     SWThread(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
              ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager);
 
+    // Initialization function (called by constructor)
     void Init(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
              ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager);
 
@@ -60,6 +61,7 @@ class SWThread {
       RefSeqManager* ref_seq_manager;
     };
 
+    // Function for thread to run.
     // Continuously perform alignments, grabbing alignment jobs from the hsr_queue
     //   and storing results in the result_queue
     static void* Align(void* args);
