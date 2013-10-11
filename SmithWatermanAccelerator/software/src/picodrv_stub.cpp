@@ -26,10 +26,30 @@ void PicoDrv::Init(int num_streams) {
     }
 
     read_buf_[i][0] = 0;
-    read_buf_[i][4] = 2;
-    read_buf_[i][8] = 3;
-    read_buf_[i][12] = 5;
-    read_buf_[i][16] = 0xFFFFFFFF;
+    read_buf_[i][1] = 2;
+    read_buf_[i][2] = 3;
+    read_buf_[i][3] = 5;
+    read_buf_[i][4] = 0xFFFFFFFF;
+    read_buf_[i][5] = 0;
+    read_buf_[i][6] = 1;
+    read_buf_[i][7] = 3;
+    read_buf_[i][8] = 7;
+    read_buf_[i][9] = 0xFFFFFFFF;
+    read_buf_[i][10] = 3;
+    read_buf_[i][11] = 5;
+    read_buf_[i][12] = 7;
+    read_buf_[i][13] = 9;
+    read_buf_[i][14] = 0xFFFFFFFF;
+    read_buf_[i][15] = 1;
+    read_buf_[i][16] = 2;
+    read_buf_[i][17] = 3;
+    read_buf_[i][18] = 4;
+    read_buf_[i][19] = 0xFFFFFFFF;
+    read_buf_[i][20] = 0;
+    read_buf_[i][21] = 2;
+    read_buf_[i][22] = 3;
+    read_buf_[i][23] = 4;
+    read_buf_[i][24] = 0xFFFFFFFF;
 
     cur_index_[i] = 0;
   }

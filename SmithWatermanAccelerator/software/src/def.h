@@ -29,7 +29,6 @@ struct AlignmentJob {
   int query_id;
   int query_len;
   int ref_id;
-  int ref_len;
   int ref_offset;
   int threshold;
 };
