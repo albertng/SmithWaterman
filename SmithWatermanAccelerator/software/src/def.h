@@ -1,27 +1,45 @@
-//  File Name        : sharedstructs.h
-//  Description      : Shared data structures 
+//  File Name        : def.h
+//  Description      : General definitions
 //
 //  Revision History :
 //      Albert Ng   Oct 03 2013     Initial Revision 
 //      Albert Ng   Oct 07 2013     Moved SwAffineGapParams from another header file
 //                                  Changed AlignmentResult to contain HighScoreRegion
-//
+//      Albert Ng   Oct 09 2013     Changed name to def.h, added other defs
+//      Albert Ng   Oct 10 2013     Added AlignmentJob
 
-#ifndef SHAREDSTRUCTS_H_
-#define SHAREDSTRUCTS_H_
+#ifndef DEF_H_
+#define DEF_H_
 
+#include <picodrv.h>
 #include "alignment.h"
 #include <stdint.h>
 #include <string>
 
+// Nucleotide character definitions
+#define T_NT 0
+#define C_NT 1
+#define A_NT 2
+#define G_NT 3
+#define N_NT -1
+typedef int NtInt;
+
+// Data structure holding an alignment job scheduled to an FPGA engine
+struct AlignmentJob {
+  int query_id;
+  int query_len;
+  int ref_id;
+  int ref_len;
+  int ref_offset;
+  int threshold;
+};
+
 // Data structure holding a high scoring alignment region
 struct HighScoreRegion {
   uint32_t     query_id;
-  char*        query_seq;
-  uint32_t     query_len;
   uint32_t     ref_id; 
-  uint32_t     ref_offset; 
-  uint32_t     ref_len;
+  uint32_t     len;   // Number of bp in the high scoring region
+  uint32_t     offset; 
   int          threshold;
 };
 
@@ -39,4 +57,4 @@ struct SwAffineGapParams {
   uint32_t gap_extend;    // Gap extend penalty
 };
 
-#endif // SHAREDSTRUCTS_H_
+#endif // DEF_H_

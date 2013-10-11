@@ -5,10 +5,12 @@
 //                      ThreadQueue::Push()
 //                      ThreadQueue::Pop()
 //                      ThreadQueue::Size()
+//                      ThreadQueue::Empty()
 //
 //  Revision History  :
 //      Albert Ng   Oct 03 2013     Initial Revision 
 //      Albert Ng   Oct 07 2013     Added ThreadQueue::Size()
+//      Albert Ng   Oct 10 2013     Added ThreadQueue::Empty()
 //
 
 #ifndef THREADQUEUE_H_
@@ -34,6 +36,9 @@ class ThreadQueue {
 
     // Current number of enqueued values
     int Size();
+
+    // Check if queue is empty
+    bool Empty();
   
   private:
     std::queue<T> queue_;
@@ -91,7 +96,15 @@ T ThreadQueue<T>::Pop() {
 
 template <typename T>
 int ThreadQueue<T>::Size() {
-  return queue_.size();
+  int size = queue_.size();
+  pthread_mutex_lock(&mutex_);
+  size = queue_.size();
+  pthread_mutex_unlock(&mutex_);
+  return size;
 }
 
+template <typename T>
+bool ThreadQueue<T>::Empty() {
+  return Size() == 0;
+}
 #endif // THREADQUEUE_H_

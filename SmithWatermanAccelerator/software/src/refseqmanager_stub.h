@@ -19,7 +19,7 @@ class RefSeqManager {
 
   private :
     char* ref_seq_;
-    static const int REF_LENGTH = 64;
+    static const int REF_LENGTH = 256;
     
 };
 

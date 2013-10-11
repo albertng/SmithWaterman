@@ -1,32 +1,39 @@
 //  File Name        : swthread.cpp
 //  Description      : Smith-Waterman aligner thread
+//                     Full description in swthread.h
 //
 //  Revision History :
 //      Albert Ng   Oct 02 2013     Initial Revision
 //      Albert Ng   Oct 04 2013     Completed initial implementation
 //      Albert Ng   Oct 07 2013     Added SWThread::Join()
+//      Albert Ng   Oct 09 2013     Added query seq manager
+//      Albert Ng   Oct 10 2013     Removed END_OF_ALIGNMENT token check
 
 #include "swthread.h"
-#include "sharedstructs.h"
+#include "def.h"
 #include "threadqueue.h"
 #include "refseqmanager_stub.h"
+#include "queryseqmanager.h"
 #include "utils.h"
 
 SWThread::SWThread() {
 }
 
 SWThread::SWThread(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
-                   ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager) {
-  Init(params, hsr_queue, result_queue, ref_seq_manager);
+                   ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager,
+                   QuerySeqManager* query_seq_manager) {
+  Init(params, hsr_queue, result_queue, ref_seq_manager, query_seq_manager);
 }
 
 void SWThread::Init(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
-          ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager) {
+          ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager,
+          QuerySeqManager* query_seq_manager) {
   args_.params = &params_;
   args_.params_mutex = &params_mutex_;
   args_.hsr_queue = hsr_queue;
   args_.result_queue = result_queue;
   args_.ref_seq_manager = ref_seq_manager;
+  args_.query_seq_manager = query_seq_manager;
 
   params_ = params;
   pthread_mutex_init(&params_mutex_, NULL);
@@ -49,6 +56,11 @@ void SWThread::Join() {
   pthread_join(thread_, NULL);
 }
 
+// Checks for terminating packets, indicated by ref_len = 0 for the high
+//   scoring location, which signal the completion of an alignment
+//   by an FPGA engine. In the case of a terminating packet, decrement
+//   the high score region count for that query, which was initialize
+//   at the number of FPGA engine alignments allocated to the query.
 // Grabs the mutex for the params before proceeding with each
 //   alignment to make sure the params are coherent for the
 //   entire alignment.
@@ -59,6 +71,7 @@ void* SWThread::Align(void* args) {
   AlnOp** dir_matrix; // Alignment ops for score matrix
   char* ref_seq;
   char* query_seq;
+  int ref_len, query_len;
   HighScoreRegion hsr;
   NtInt ref_nt, query_nt;
   int ins_open, ins_extend, del_open, del_extend, match;
@@ -69,28 +82,30 @@ void* SWThread::Align(void* args) {
 
   // Get alignment arguments 
   SwAffineGapParams* params = ((SWThreadArgs*)args)->params;
+  pthread_mutex_t* params_mutex = ((SWThreadArgs*)args)->params_mutex;
   ThreadQueue<HighScoreRegion>* hsr_queue = ((SWThreadArgs*)args)->hsr_queue;
   ThreadQueue<AlignmentResult>* result_queue = ((SWThreadArgs*)args)->result_queue;
   RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
-  pthread_mutex_t* params_mutex = ((SWThreadArgs*)args)->params_mutex;
+  QuerySeqManager* query_seq_manager = ((SWThreadsArgs*)args)->query_seq_manager;
 
   while(true) {
     // Grab available high scoring region
     hsr = hsr_queue->Pop();
-    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.ref_offset, hsr.ref_len);
-    query_seq = hsr.query_seq;    
+    ref_len = hsr.len;
+    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
+    query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
 
     // Initialize new score matrices
-    v_matrix = new int*[hsr.query_len + 1];
-    e_matrix = new int*[hsr.query_len + 1];
-    f_matrix = new int*[hsr.query_len + 1];
-    dir_matrix = new AlnOp*[hsr.query_len + 1];
-    for (int i = 0; i < hsr.query_len + 1; i++) {
-      v_matrix[i] = new int[hsr.ref_len + 1];
-      e_matrix[i] = new int[hsr.ref_len + 1];
-      f_matrix[i] = new int[hsr.ref_len + 1];
-      dir_matrix[i] = new AlnOp[hsr.ref_len + 1];
-      for (int j = 0; j < hsr.ref_len + 1; j++) {
+    v_matrix = new int*[query_len + 1];
+    e_matrix = new int*[query_len + 1];
+    f_matrix = new int*[query_len + 1];
+    dir_matrix = new AlnOp*[query_len + 1];
+    for (int i = 0; i < query_len + 1; i++) {
+      v_matrix[i] = new int[ref_len + 1];
+      e_matrix[i] = new int[ref_len + 1];
+      f_matrix[i] = new int[ref_len + 1];
+      dir_matrix[i] = new AlnOp[ref_len + 1];
+      for (int j = 0; j < ref_len + 1; j++) {
         v_matrix[i][j] = 0;
         e_matrix[i][j] = 0;
         f_matrix[i][j] = 0;
@@ -103,11 +118,11 @@ void* SWThread::Align(void* args) {
 
     // Compute dynamic programming matrices
     pthread_mutex_lock(params_mutex);
-    for (int i = 1; i < hsr.query_len + 1; i++) {
-      for (int j = 1; j < hsr.ref_len + 1; j++) {
+    for (int i = 1; i < query_len + 1; i++) {
+      for (int j = 1; j < ref_len + 1; j++) {
         ref_nt = NtChar2Int(ref_seq[j-1]);
         query_nt = NtChar2Int(query_seq[i-1]);
-        
+      
         // Compute possible choices
         if (ref_nt == N_NT || query_nt == N_NT) {
           match = -2147483648; // Force N's to align with gaps
@@ -144,7 +159,7 @@ void* SWThread::Align(void* args) {
           v_matrix[i][j] = max2;
           dir_matrix[i][j] = dir2;
         }
-          
+        
         // Record max score
         if (v_matrix[i][j] > max_score) {
           max_score = v_matrix[i][j];
@@ -158,7 +173,8 @@ void* SWThread::Align(void* args) {
     // Backtrace to obtain alignment
     if (max_score > hsr.threshold) {
       // TODO: POTENTIAL MEMORY LEAK IF NOT CAREFUL
-      aln = new Alignment;
+      // MAKE SURE ALIGNMENT IS FREED AFTER BEING USED (I.E. SENT BACK TO CLIENT)
+      aln = new Alignment(hsr.offset + max_col, max_row);
       row = max_row;
       col = max_col;
       while (dir_matrix[row][col] != ZERO_OP) {
@@ -167,13 +183,13 @@ void* SWThread::Align(void* args) {
                           row--;
                           col--;
                           break;
-          case INSERT_OP: aln->Prepend(ref_seq[col-1], '-');
+          case INSERT_OP: aln->Prepend(ref_seq[col-1], GAP);
                           col--;
-                          break;
-          case DELETE_OP: aln->Prepend('-', query_seq[row-1]);
+                         break;
+          case DELETE_OP: aln->Prepend(GAP, query_seq[row-1]);
                           row--;
                           break;
-          default:        aln->Prepend('X', 'X');   // Shouldn't get here
+         default:        aln->Prepend('X', 'X');   // Shouldn't get here
                           row--;
                           col--;
                           break;
@@ -184,12 +200,12 @@ void* SWThread::Align(void* args) {
       aln_res.hsr = hsr;
       aln_res.alignment = aln;
       aln_res.score = max_score;
-      
+    
       result_queue->Push(aln_res);
     }
 
     // Memory cleanup
-    for (int i = 0; i < hsr.query_len + 1; i++) {
+    for (int i = 0; i < query_len + 1; i++) {
       delete[] v_matrix[i];
       delete[] e_matrix[i];
       delete[] f_matrix[i];
@@ -199,6 +215,9 @@ void* SWThread::Align(void* args) {
     delete[] e_matrix;
     delete[] f_matrix;
     delete[] dir_matrix;
-  }   
+ 
+    // Decrement outstanding high scoring region count 
+    query_seq_manager->DecHighScoreRegionCount(hsr.query_id);
+  } 
 }
 

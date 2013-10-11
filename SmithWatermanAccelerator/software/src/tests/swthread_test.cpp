@@ -2,12 +2,13 @@
 //  Description      : Smith-Waterman aligner thread test
 //
 //  Revision History :
-//      Albert Ng   Oct 07 2013     Initial Revision 
+//      Albert Ng   Oct 07 2013     Initial Revision
+//      Albert Ng   Oct 11 2013     Incorporated query_seq_manager 
 
 #include "swthread.h"
 #include "threadqueue.h"
 #include "refseqmanager_stub.h"
-#include "sharedstructs.h"
+#include "def.h"
 #include "utils.h"
 #include <iostream>
 #include <cstring>
@@ -17,14 +18,17 @@
 #define NUM_QUERIES 5
 #define NUM_JOBS 800000
 #define THRESHOLD 0
+#define NUM_ENGINES 5
 
 int main(void) {
   RefSeqManager ref_seq_manager;
+  QuerySeqManager query_seq_manager;
   ThreadQueue<HighScoreRegion> hsr_queue;
   ThreadQueue<AlignmentResult> result_queue;
   SWThread swthreads[NUM_THREADS];
   SwAffineGapParams params;
   char* query_seq[NUM_QUERIES];
+  int query_ids[NUM_JOBS];
   
   // Set up queries
   query_seq[0] = (char*) "AGCTAGTCNN";
@@ -50,22 +54,24 @@ int main(void) {
  
   // Set up Smith-Waterman worker threads
   for (int i = 0; i < NUM_THREADS; i++) {
-    swthreads[i].Init(params, &hsr_queue, &result_queue, &ref_seq_manager);
+    swthreads[i].Init(params, &hsr_queue, &result_queue, &ref_seq_manager, &query_seq_manager);
   }
 
   std::cout<<"Populating job queue"<<std::endl;
   
   // Populate job queue with a bunch of jobs
   for (int i = 0; i < NUM_JOBS; i++) {
+    query_ids[i] = query_seq_manager.AddQuery(query_seq[i % NUM_QUERIES], 
+                                              strlen(query_seq[i % NUM_QUERIES]),
+                                              NUM_ENGINES);
     HighScoreRegion hsr;  
-    hsr.query_id = (uint32_t) i;
-    hsr.query_seq = query_seq[i % NUM_QUERIES];
-    hsr.query_len = strlen(query_seq[i % NUM_QUERIES]);
+    hsr.query_id = query_ids[i];
     hsr.ref_id = 0;
-    hsr.ref_offset = 0;//(i % 5) * 10;
-    hsr.ref_len = ref_seq_manager.ref_length();//10;
+    hsr.ref_offset = 0;
+    hsr.ref_len = ref_seq_manager.ref_length();
     hsr.threshold = THRESHOLD;
     hsr_queue.Push(hsr);
+    query_seq_manager.IncHighScoreRegionCount(query_ids[i]);
   }
 
   std::cout<<"Starting workers"<<std::endl;
@@ -76,9 +82,25 @@ int main(void) {
   for (int i = 0; i < NUM_THREADS; i++) {
     swthreads[i].Run();
   }
+  
+  // Signal FPGA end of alignment for all queries
+  for (int i = 0; i < NUM_JOBS; i++) {
+    for (int j = 0; j < NUM_ENGINES; j++) {
+      query_seq_manager.DecHighScoreRegionCount(query_ids[i]);
+    }
+  }
 
   // Wait until all jobs are done
-  while (result_queue.Size() != NUM_JOBS);
+  bool done = false;
+  while (done == false) {
+    done = true;
+    for (int i = 0; i < NUM_JOBS; i++) {
+      if (!query_seq_manager.QueryDone(query_ids[i])) {
+        done = false;
+      }
+    }
+  }
+  
   clock_gettime(CLOCK_MONOTONIC, &finish);
   double elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
