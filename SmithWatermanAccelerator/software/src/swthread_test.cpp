@@ -14,9 +14,11 @@
 #include <cstring>
 #include <time.h>
 
-#define NUM_THREADS 12
+//#define NUM_THREADS 12
+#define NUM_THREADS 5
 #define NUM_QUERIES 5
-#define NUM_JOBS 800000
+//#define NUM_JOBS 800000
+#define NUM_JOBS 10
 #define THRESHOLD 0
 #define NUM_ENGINES 5
 
@@ -31,7 +33,7 @@ int main(void) {
   int query_ids[NUM_JOBS];
   
   // Set up queries
-  query_seq[0] = (char*) "AGCTAGTCNN";
+  query_seq[0] = (char*) "GCTNGTCNN";
   query_seq[1] = (char*) "GACCGAGACT";
   query_seq[2] = (char*) "TAACCTAGCTAGCT";
   query_seq[3] = (char*) "CCATGTATCG";
@@ -68,7 +70,8 @@ int main(void) {
     hsr.query_id = query_ids[i];
     hsr.ref_id = 0;
     hsr.ref_offset = 0;
-    hsr.ref_len = ref_seq_manager.ref_length();
+    hsr.len = ref_seq_manager.ref_length();
+    hsr.offset = 0;
     hsr.threshold = THRESHOLD;
     hsr_queue.Push(hsr);
     query_seq_manager.IncHighScoreRegionCount(query_ids[i]);
@@ -105,7 +108,8 @@ int main(void) {
   double elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
   std::cout << "Computation took " << elapsed << " seconds" << std::endl;
-  /*std::cout<<"Printing alignment results"<<std::endl;  
+  
+  std::cout<<"Printing alignment results"<<std::endl;  
 
   // Print out alignment results
   while (result_queue.Size() != 0) {
@@ -113,7 +117,7 @@ int main(void) {
     std::cout << "Query: " << res.hsr.query_id << '\t' << "Ref Offset: " << res.hsr.ref_offset << '\t' << "Score: " << res.score << std::endl;
     res.alignment->Print(std::cout);
     std::cout << std::endl;
-  }*/
+  }
 
   // Memory cleanup
   /*for (int i = 0; i < NUM_THREADS; i++) {

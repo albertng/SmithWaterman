@@ -7,10 +7,11 @@
 #include <pthread.h>
 #include <map>
 #include <semaphore.h>
+#include "queryseqmanager.h"
 
 QuerySeqManager::QuerySeqManager() {
-  pthread_mutex_init(&query_semaphore_map_mutex_);
-  pthread_mutex_init(&query_seq_map_mutex_);
+  pthread_mutex_init(&query_semaphore_map_mutex_, NULL);
+  pthread_mutex_init(&query_seq_map_mutex_, NULL);
   cur_query_id_ = 0;
 }
 
@@ -78,13 +79,13 @@ bool QuerySeqManager::QueryDone(int query_id) {
   if (query_semaphore_map_.count(query_id) > 0) {
     sem_getvalue(query_semaphore_map_[query_id], &sem_val);
   }
-  pthread_mutex_unlock_(&query_semaphore_map_mutex_);
+  pthread_mutex_unlock(&query_semaphore_map_mutex_);
 
   return sem_val == 0;
 }
 
 // Note: No error handling for invalid query_ids
-char* QuerySeqManager::GetQuery(int query_id, int* query_len) {
+char* QuerySeqManager::GetQuerySeq(int query_id, int* query_len) {
   QuerySeq query_seq;
   query_seq.seq = NULL;
 

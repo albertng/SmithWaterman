@@ -1,7 +1,7 @@
 all: resultsreaderthread_test
 
-swthread_test: alignment.o refseqmanager_stub.o queryseqmanager.o resultsreaderthread.o resultsreaderthread_test.o picodrv_stub.o
-	g++ alignment.o refseqmanager_stub.o queryseqmanager.o resultsreaderthread.o resultsreaderthread_test.o swthread_testicodrv_stub.o -o resultsreaderthread_test -pthread
+resultsreaderthread_test: alignment.o refseqmanager_stub.o queryseqmanager.o resultsreaderthread.o resultsreaderthread_test.o picodrv_stub.o
+	g++ alignment.o refseqmanager_stub.o queryseqmanager.o resultsreaderthread.o resultsreaderthread_test.o picodrv_stub.o -o resultsreaderthread_test -pthread
 
 alignment.o: alignment.cpp
 	g++ -c alignment.cpp
@@ -10,7 +10,7 @@ refseqmanager_stub.o: refseqmanager_stub.cpp
 	g++ -c refseqmanager_stub.cpp
 
 queryseqmanager.o: queryseqmanager.cpp
-  g++ -c queryseqmanager.cpp
+	g++ -c queryseqmanager.cpp
 
 resultsreaderthread.o: resultsreaderthread.cpp
 	g++ -c resultsreaderthread.cpp

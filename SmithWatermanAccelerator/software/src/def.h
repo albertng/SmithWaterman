@@ -11,7 +11,6 @@
 #ifndef DEF_H_
 #define DEF_H_
 
-#include <picodrv.h>
 #include "alignment.h"
 #include <stdint.h>
 #include <string>
@@ -36,9 +35,10 @@ struct AlignmentJob {
 // Data structure holding a high scoring alignment region
 struct HighScoreRegion {
   uint32_t     query_id;
-  uint32_t     ref_id; 
-  uint32_t     len;   // Number of bp in the high scoring region
-  uint32_t     offset; 
+  uint32_t     ref_id;
+  uint32_t     ref_offset; // Offset of target seq within ref seq
+  uint32_t     len;        // Number of bp in the high scoring region
+  uint32_t     offset;     // Offset of HSR within target seq
   int          threshold;
 };
 

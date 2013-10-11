@@ -6,7 +6,7 @@
 //      Albert Ng   Oct 08 2013     Initial Revision 
 //      Albert Ng   Oct 10 2013     Finished initial implementation, untested
 
-#include <picodrv.h>
+#include "picodrv_stub.h"
 #include "resultsreaderthread.h"
 #include "threadqueue.h"
 #include "def.h"
@@ -27,7 +27,7 @@ ResultsReaderThread::ResultsReaderThread(PicoDrv** pico_drivers, int num_drivers
 void ResultsReaderThread::Init(PicoDrv** pico_drivers, int num_drivers, int** streams,
                                int* num_streams, ThreadQueue<HighScoreRegion>* hsr_queue,
                                QuerySeqManager* query_seq_manager,
-                               ThreadQueue<AlignmentJob>>** alignment_job_queue) {
+                               ThreadQueue<AlignmentJob>** alignment_job_queue) {
   args_.pico_drivers = pico_drivers;
   args_.num_drivers = num_drivers;
   args_.streams = streams;
@@ -68,17 +68,23 @@ void* ResultsReaderThread::ReadResults(void* args) {
   }
 
   // Initialize FSM states and values
-  HSRParserState states[num_drivers][num_streams];
+  HSRParserState* states[num_drivers];
   for (int i = 0; i < num_drivers; i++) {
-    for (int j = 0; j < num_streams; j++) {
+    states[i] = new HSRParserState[num_streams[i]];
+    for (int j = 0; j < num_streams[i]; j++) {
       states[i][j] = INIT;
     }
   }
-  HighScoreRegion hsrs[num_drivers][num_streams];
-  AlignmentJob jobs[num_drivers][num_streams];
+  HighScoreRegion* hsrs[num_drivers];
+  AlignmentJob* jobs[num_drivers];
+  for (int i = 0; i < num_drivers; i++) {
+    hsrs[i] = new HighScoreRegion[num_streams[i]];
+    jobs[i] = new AlignmentJob[num_streams[i]];
+  }
 
   while(true) {
     for (int i = 0; i < num_drivers; i++) {
+      
       for (int j = 0; j < num_streams[i]; j++) {
         int num_bytes_available = pico_drivers[i]->GetBytesAvailable(streams[i][j], true);
         if (num_bytes_available >= 16) {
@@ -95,7 +101,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
               case INIT:
                 jobs[i][j] = alignment_job_queue[i][j].Pop();
                 if (high_score_block == END_OF_ALIGNMENT) {
-                  StoreTerminatingHSR(jobs[i][j]);
+                  StoreTerminatingHSR(jobs[i][j], hsr_queue, query_seq_manager);
                   states[i][j] = INIT;
                 } else {
                   hsrs[i][j] = NewHSR(jobs[i][j], high_score_block * REF_BLOCK_LEN, REF_BLOCK_LEN);
@@ -105,14 +111,14 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
               case IN_HSR:
                 if (high_score_block == END_OF_ALIGNMENT) {
-                  StoreHSR(hsrs[i][j]);
-                  StoreTerminatingHSR(jobs[i][j]);
+                  StoreHSR(hsrs[i][j], hsr_queue);
+                  StoreTerminatingHSR(jobs[i][j], hsr_queue, query_seq_manager);
                   states[i][j] = INIT;
                 } else if (IsAdjacentBlock(high_score_block, hsrs[i][j])) {
                   hsrs[i][j] = ExtendHSR(hsrs[i][j]);
                   states[i][j] = IN_HSR;
                 } else {
-                  StoreHSR(hsrs[i][j]);
+                  StoreHSR(hsrs[i][j], hsr_queue);
                   hsrs[i][j] = NewHSR(jobs[i][j], high_score_block * REF_BLOCK_LEN, REF_BLOCK_LEN);
                   states[i][j] = IN_HSR;
                 }
@@ -130,12 +136,12 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
 // Stores a terminating packet onto the high score region queue 
 // Also decrements the high scoring region count (managed by query_seq_manager) for the query
-void ResultsReaderThread::StoreTerminatingHSR(AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue) {
+void ResultsReaderThread::StoreTerminatingHSR(AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
   HighScoreRegion hsr;
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
-  hsr.ref_len = 0;
-  hsr.ref_offset = END_OF_ALIGNMENT;
+  hsr.len = 0;
+  hsr.offset = END_OF_ALIGNMENT;
   hsr.threshold = job.threshold;
   StoreHSR(hsr, hsr_queue);
   
@@ -153,22 +159,23 @@ HighScoreRegion ResultsReaderThread::NewHSR(AlignmentJob job, uint32_t hsr_offse
   HighScoreRegion hsr;
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
-  hsr.ref_len = hsr_len + 2*job.query_len;
-  hsr.ref_offset = (job.ref_offset + hsr_offset < 2*job.query_len) ? 0 : job.ref_offset + hsr_offset - 2*job.query_len;
+  hsr.ref_offset = job.ref_offset;
+  hsr.len = hsr_len + 2*job.query_len;
+  hsr.offset = (hsr_offset < 2*job.query_len) ? 0 : hsr_offset - 2*job.query_len;
   hsr.threshold = job.threshold;
   return hsr;
 }
 
 // Coalesces an high scoring region with the next block
 HighScoreRegion ResultsReaderThread::ExtendHSR(HighScoreRegion hsr) {
-  hsr.ref_len += REF_BLOCK_LEN;
+  hsr.len += REF_BLOCK_LEN;
   return hsr;
 }
 
 // Checks if a high scoring block index is adjacent to the given high scoring region, indicating
 //   that they should be coalesced.
 bool ResultsReaderThread::IsAdjacentBlock(uint32_t high_score_block, HighScoreRegion hsr) {
-  if (hsr.ref_offset + hsr.ref_len == high_score_block * REF_BLOCK_LEN) {
+  if (hsr.offset + hsr.len == high_score_block * REF_BLOCK_LEN) {
     return true;
   }
   return false;

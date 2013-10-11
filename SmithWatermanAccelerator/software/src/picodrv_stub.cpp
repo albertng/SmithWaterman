@@ -60,15 +60,15 @@ PicoDrv::~PicoDrv() {
     delete[] read_buf_[i];
   }
   delete[] read_buf_;
-  delete[] cur_index[];
+  delete[] cur_index_;
 }
 
 int PicoDrv::GetBytesAvailable(int stream, bool read) {
-  int num_bytes_available = (READ_BUF_LENGTH - cur_index) * 4;
+  int num_bytes_available = (READ_BUF_LENGTH - cur_index_[stream]) * 4;
   return num_bytes_available > 16 ? 16 : num_bytes_available;
 }
 
-void ReadStream(int stream, uint32_t* buf, int num_bytes) {
+void PicoDrv::ReadStream(int stream, uint32_t* buf, int num_bytes) {
   int num_bytes_to_read = cur_index_[stream] + (num_bytes / 4) > READ_BUF_LENGTH ?
                             (READ_BUF_LENGTH - cur_index_[stream])*4 : num_bytes;
   for (int i = 0; i < num_bytes_to_read/4; i++) {

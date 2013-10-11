@@ -42,8 +42,9 @@ class QuerySeqManager {
     // Check if all alignments for given query is complete
     bool QueryDone(int query_id);
 
-    // Look up query sequence from the query ID
-    char* GetQuerySeq(int query_id);
+    // Look up query sequence from the query ID and store the query
+    //   length in the passed pointer
+    char* GetQuerySeq(int query_id, int* query_len);
 
   private:
     // Useful struct to simplify some code
@@ -52,7 +53,7 @@ class QuerySeqManager {
     struct QuerySeq {
       char* seq;
       int len;
-    }
+    };
 
     // One semaphore per query, query done when semaphore is zero
     std::map<int, sem_t*> query_semaphore_map_;

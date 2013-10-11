@@ -26,7 +26,7 @@ class PicoDrv {
     int num_streams_;
     uint32_t** read_buf_;
     int* cur_index_;
-    static const char int READ_BUF_LENGTH = 25;
+    static const int READ_BUF_LENGTH = 25;
 };
 
 #endif // PICODRVSTUB_H_

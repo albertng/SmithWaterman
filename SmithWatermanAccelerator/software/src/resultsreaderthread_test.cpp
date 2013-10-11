@@ -11,19 +11,24 @@
 #include "def.h"
 #include "picodrv_stub.h"
 #include <iostream>
+#include <cstring>
 
 #define NUM_FPGAS 2
 #define NUM_STREAMS 2
 #define NUM_QUERIES 5
 
 int main(void) {
-  PicoDrv pico_drivers[NUM_FPGAS];
+  PicoDrv* pico_drivers;
+  //PicoDrv pico_drivers[NUM_FPGAS];
   ResultsReaderThread rrthread;
-  int streams[NUM_FPGAS][NUM_STREAMS]
-  int num_streams[NUM_FPGAS];  
-  ThreadQueue<HighScoreRegion> hsr_queue
+  int** streams;
+  //int streams[NUM_FPGAS][NUM_STREAMS];
+  int* num_streams;
+  //int num_streams[NUM_FPGAS];  
+  ThreadQueue<HighScoreRegion> hsr_queue;
   QuerySeqManager query_seq_manager;
-  ThreadQueue<AlignmentJob> alignment_job_queue[NUM_FPGAS][NUM_STREAMS];
+  ThreadQueue<AlignmentJob>** alignment_job_queue;
+  //ThreadQueue<AlignmentJob> alignment_job_queue[NUM_FPGAS][NUM_STREAMS];
   char* query_seq[NUM_QUERIES];
   int query_ids[NUM_QUERIES];
   int query_lens[NUM_QUERIES];
@@ -39,17 +44,27 @@ int main(void) {
     query_ids[i] = query_seq_manager.AddQuery(query_seq[i], query_lens[i], NUM_FPGAS * NUM_STREAMS);
   }
 
+  // Set up pico drivers
+  pico_drivers = new PicoDrv[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     pico_drivers[NUM_FPGAS].Init(NUM_STREAMS);
   }
+
+  // Set up streams
+  streams = new int*[NUM_FPGAS];
+  num_streams = new int[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     num_streams[i] = NUM_STREAMS;
+    streams[i] = new int[NUM_STREAMS];
     for (int j = 0; j < NUM_STREAMS; j++) {
       streams[i][j] = j;
     }
   }
 
+  // Set up alignment job queue
+  alignment_job_queue = new ThreadQueue<AlignmentJob>*[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
+    alignment_job_queue[i] = new ThreadQueue<AlignmentJob>[NUM_STREAMS];
     for (int j = 0; j < NUM_STREAMS; j++) {
       for (int k = 0; k < NUM_QUERIES; k++) {
         AlignmentJob job;
@@ -64,7 +79,7 @@ int main(void) {
   }
 
   rrthread.Init(&pico_drivers, NUM_FPGAS, streams, num_streams, &hsr_queue, &query_seq_manager,
-                &alignment_job_queue);
+                alignment_job_queue);
 
   rrthread.Run();
 

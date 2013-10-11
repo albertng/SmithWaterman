@@ -86,13 +86,13 @@ void* SWThread::Align(void* args) {
   ThreadQueue<HighScoreRegion>* hsr_queue = ((SWThreadArgs*)args)->hsr_queue;
   ThreadQueue<AlignmentResult>* result_queue = ((SWThreadArgs*)args)->result_queue;
   RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
-  QuerySeqManager* query_seq_manager = ((SWThreadsArgs*)args)->query_seq_manager;
+  QuerySeqManager* query_seq_manager = ((SWThreadArgs*)args)->query_seq_manager;
 
   while(true) {
     // Grab available high scoring region
     hsr = hsr_queue->Pop();
     ref_len = hsr.len;
-    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
+    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.ref_offset + hsr.offset, ref_len);
     query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
 
     // Initialize new score matrices

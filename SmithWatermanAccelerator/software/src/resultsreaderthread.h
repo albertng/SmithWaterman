@@ -30,11 +30,12 @@
 #ifndef RESULTSREADERTHREAD_H_
 #define RESULTSREADERTHREAD_H_
 
-#include <picodrv.h>
+#include "picodrv_stub.h"
 #include "threadqueue.h"
 #include "def.h"
 #include "queryseqmanager.h"
 #include <pthread.h>
+#include <stdint.h>
 
 // Thread that handles reading and processing the results from the
 //   FPGA engines
@@ -105,17 +106,17 @@ class ResultsReaderThread {
     static const int READ_BUF_SIZE = 4096;
 
     // High Score Block value indicating the end of an alignment for the engine
-    static const uint32_t END_OF_ALIGNMENT 0xFFFFFFFF;
+    static const uint32_t END_OF_ALIGNMENT = 0xFFFFFFFF;
 
     // Length of a high score block
-    static const uint32_t REF_BLOCK_LEN 128;
+    static const uint32_t REF_BLOCK_LEN = 128;
     
     // HELPER FUNCTIONS
-    void StoreTerminatingHSR(AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue);
-    void StoreHSR(HighScoreRegion hsr, ThreadQueue<HighScoreRegion>* hsr_queue);
-    HighScoreRegion NewHSR(AlignmentJob job, uint32_t hsr_offset, uint32_t hsr_len);
-    HighScoreRegion ExtendHSR(HighScoreRegion hsr);
-    bool IsAdjacentBlock(uint32_t high_score_block, HighScoreRegion hsr);
+    static void StoreTerminatingHSR(AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
+    static void StoreHSR(HighScoreRegion hsr, ThreadQueue<HighScoreRegion>* hsr_queue);
+    static HighScoreRegion NewHSR(AlignmentJob job, uint32_t hsr_offset, uint32_t hsr_len);
+    static HighScoreRegion ExtendHSR(HighScoreRegion hsr);
+    static bool IsAdjacentBlock(uint32_t high_score_block, HighScoreRegion hsr);
 };
 
 #endif // RESULTSREADERTHREAD_H_
