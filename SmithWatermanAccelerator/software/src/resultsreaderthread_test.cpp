@@ -43,7 +43,8 @@ int main(void) {
   query_seq[4] = (char*) "TATNCATGG";
   for (int i = 0; i < NUM_QUERIES; i++) {
     query_lens[i] = strlen(query_seq[i]);
-    query_ids[i] = query_seq_manager.AddQuery(query_seq[i], query_lens[i], NUM_FPGAS * NUM_STREAMS);
+    query_ids[i] = query_seq_manager.AddQuery(query_seq[i], query_lens[i]);
+    query_seq_manager.SetQueryNumEngines(query_ids[i], NUM_FPGAS * NUM_STREAMS);
   }
 
   std::cout << "Setting up Pico drivers." << std::endl;

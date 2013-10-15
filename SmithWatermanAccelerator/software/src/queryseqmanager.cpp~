@@ -43,14 +43,18 @@ int QuerySeqManager::AddQuery(char* query_seq, int query_len) {
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::SetQueryNumEngines(int query_id, int num_engines) {
   pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_init(query_semaphore_map_[query_id], 0, num_engines);
+  if (query_semaphore_map_.count(query_id) > 0) {
+    sem_init(query_semaphore_map[query_id], 0, num_engines);
+  }
   pthread_mutex_unlock(&query_semaphore_map_mutex_);
 }
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::RemoveQuery(int query_id) {
   pthread_mutex_lock(&query_semaphore_map_mutex_);
-  delete query_semaphore_map_[query_id];
+  if (query_semaphore_map_.count(query_id) > 0) {
+    delete query_semaphore_map_[query_id];
+  }
   query_semaphore_map_.erase(query_id);
   pthread_mutex_unlock(&query_semaphore_map_mutex_);
 }
@@ -58,7 +62,9 @@ void QuerySeqManager::RemoveQuery(int query_id) {
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::IncHighScoreRegionCount(int query_id) {
   pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_post(query_semaphore_map_[query_id]);
+  if (query_semaphore_map_.count(query_id) > 0) {
+    sem_post(query_semaphore_map_[query_id]);
+  }
   pthread_mutex_unlock(&query_semaphore_map_mutex_);
 }
 
@@ -77,10 +83,12 @@ void QuerySeqManager::DecHighScoreRegionCount(int query_id) {
 //   the engines.
 // Note: No error handling for invalid query_ids
 bool QuerySeqManager::QueryDone(int query_id) {
-  int sem_val;
+  int sem_val = 1;
 
   pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_getvalue(query_semaphore_map_[query_id], &sem_val);
+  if (query_semaphore_map_.count(query_id) > 0) {
+    sem_getvalue(query_semaphore_map_[query_id], &sem_val);
+  }
   pthread_mutex_unlock(&query_semaphore_map_mutex_);
 
   return sem_val == 0;
@@ -89,11 +97,14 @@ bool QuerySeqManager::QueryDone(int query_id) {
 // Note: No error handling for invalid query_ids
 char* QuerySeqManager::GetQuerySeq(int query_id, int* query_len) {
   QuerySeq query_seq;
+  query_seq.seq = NULL;
 
   pthread_mutex_lock(&query_seq_map_mutex_);
-  query_seq = query_seq_map_[query_id];
+  if (query_seq_map_.count(query_id) > 0) {
+    query_seq = query_seq_map_[query_id];
+  }
   pthread_mutex_unlock(&query_seq_map_mutex_);
-  
   *query_len = query_seq.len;
+
   return query_seq.seq;
 }

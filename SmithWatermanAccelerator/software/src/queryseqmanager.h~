@@ -25,7 +25,7 @@
 //   Thus, the semaphore only reaches zero when all high scoring regions
 //   are found and aligned by the software threads.
 // Note: SetQueryNumEngines() must be called after a query is added via
-//   AddQuery(), before Inc/DecHighScoreRegionCount() are called.
+//   AddQuery() for the semaphore to make sense.
 class QuerySeqManager {
   public:
     QuerySeqManager();
