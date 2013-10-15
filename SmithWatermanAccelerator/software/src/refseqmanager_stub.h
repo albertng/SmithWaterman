@@ -14,13 +14,11 @@ class RefSeqManager {
   public :
     RefSeqManager();
     ~RefSeqManager();
-    char *GetRefSeq(uint32_t ref_id, uint32_t ref_offset, uint32_t ref_len);
-    int ref_length();
+    char *GetRefSeq(int ref_id, long long int ref_offset, long long int ref_len);
+    long long int ref_length();
 
   private :
     char* ref_seq_;
-    static const int REF_LENGTH = 256;
-    
 };
 
 #endif // REFSEQMANAGERSTUB_H_

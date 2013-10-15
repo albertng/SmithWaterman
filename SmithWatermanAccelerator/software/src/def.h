@@ -7,6 +7,7 @@
 //                                  Changed AlignmentResult to contain HighScoreRegion
 //      Albert Ng   Oct 09 2013     Changed name to def.h, added other defs
 //      Albert Ng   Oct 10 2013     Added AlignmentJob
+//      Albert Ng   Oct 14 2013     Changed lengths and offsets to long long int
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -26,20 +27,20 @@ typedef int NtInt;
 // Data structure holding an alignment job scheduled to an FPGA engine
 struct AlignmentJob {
   int query_id;
-  int query_len;
+  long long int query_len;
   int ref_id;
-  int ref_offset;
+  long long int ref_offset;
+  long long int ref_len;
   int threshold;
 };
 
 // Data structure holding a high scoring alignment region
 struct HighScoreRegion {
-  uint32_t     query_id;
-  uint32_t     ref_id;
-  uint32_t     ref_offset; // Offset of target seq within ref seq
-  uint32_t     len;        // Number of bp in the high scoring region
-  uint32_t     offset;     // Offset of HSR within target seq
-  int          threshold;
+  int query_id;
+  int ref_id;
+  long long int len;
+  long long int offset;
+  int threshold;
 };
 
 // Data structure holding the traceback result of a high scoring alignment

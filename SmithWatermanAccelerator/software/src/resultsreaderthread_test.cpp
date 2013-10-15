@@ -80,6 +80,7 @@ int main(void) {
         job.query_len = query_lens[k];
         job.ref_id = 0;
         job.ref_offset = k;
+        job.ref_len = 256 - 2*k;
         job.threshold = i*NUM_STREAMS + j;
         alignment_job_queue[i][j].Push(job);
       }

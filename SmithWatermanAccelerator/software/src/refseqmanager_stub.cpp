@@ -6,7 +6,7 @@
 //
 
 #include "refseqmanager_stub.h"
-#include <string>
+#include <cstring>
 
 RefSeqManager::RefSeqManager() {
   ref_seq_ = (char*) "AGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCGAGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCGAGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCGAGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCG";
@@ -15,12 +15,12 @@ RefSeqManager::RefSeqManager() {
 RefSeqManager::~RefSeqManager() {
 }
 
-int RefSeqManager::ref_length() {
-  return (int) REF_LENGTH;
+long long int RefSeqManager::ref_length() {
+  return (long long int) strlen(ref_seq_);
 }
 
-char* RefSeqManager::GetRefSeq(uint32_t ref_id, uint32_t ref_offset, uint32_t ref_len) {
-  if (ref_offset + ref_len > REF_LENGTH) {
+char* RefSeqManager::GetRefSeq(int ref_id, long long int ref_offset, long long int ref_len) {
+  if (ref_offset + ref_len > strlen(ref_seq_)) {
     return NULL;
   }
 

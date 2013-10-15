@@ -27,7 +27,8 @@ class PicoDrv {
     int num_streams_;
     uint32_t** read_buf_;
     int* cur_index_;
-    static const int READ_BUF_LENGTH = 25;
+    //static const int READ_BUF_LENGTH = 25;
+    static const int READ_BUF_LENGTH = 13;
 
     pthread_mutex_t* mutex_;
 };

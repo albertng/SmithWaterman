@@ -26,6 +26,19 @@ void PicoDrv::Init(int num_streams) {
     read_buf_[i] = new uint32_t [READ_BUF_LENGTH];
 
     read_buf_[i][0] = 0;
+    read_buf_[i][1] = 1;
+    read_buf_[i][2] = 0xFFFFFFFF;
+    read_buf_[i][3] = 1;
+    read_buf_[i][4] = 0xFFFFFFFF;
+    read_buf_[i][5] = 0;
+    read_buf_[i][6] = 0xFFFFFFFF;
+    read_buf_[i][7] = 0;
+    read_buf_[i][8] = 1;
+    read_buf_[i][9] = 0xFFFFFFFF;
+    read_buf_[i][10] = 0;
+    read_buf_[i][11] = 1;
+    read_buf_[i][12] = 0xFFFFFFFF;
+    /*read_buf_[i][0] = 0;
     read_buf_[i][1] = 2;
     read_buf_[i][2] = 3;
     read_buf_[i][3] = 5;
@@ -49,14 +62,13 @@ void PicoDrv::Init(int num_streams) {
     read_buf_[i][21] = 2;
     read_buf_[i][22] = 3;
     read_buf_[i][23] = 4;
-    read_buf_[i][24] = 0xFFFFFFFF;
+    read_buf_[i][24] = 0xFFFFFFFF;*/
 
     cur_index_[i] = 0;
   }
 
   mutex_ = new pthread_mutex_t[num_streams];
   for (int i = 0; i < num_streams; i++) {
-    std::cout<<"Init Mutex "<<i<<" "<<&(mutex_[i])<<std::endl;
     pthread_mutex_init(&(mutex_[i]), NULL);
   }
 }

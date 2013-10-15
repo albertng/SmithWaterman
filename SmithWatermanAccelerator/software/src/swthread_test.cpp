@@ -69,7 +69,6 @@ int main(void) {
     HighScoreRegion hsr;  
     hsr.query_id = query_ids[i];
     hsr.ref_id = 0;
-    hsr.ref_offset = 0;
     hsr.len = ref_seq_manager.ref_length();
     hsr.offset = 0;
     hsr.threshold = THRESHOLD;
@@ -114,7 +113,7 @@ int main(void) {
   // Print out alignment results
   while (result_queue.Size() != 0) {
     AlignmentResult res = result_queue.Pop();
-    std::cout << "Query: " << res.hsr.query_id << '\t' << "Ref Offset: " << res.hsr.ref_offset << '\t' << "Score: " << res.score << std::endl;
+    std::cout << "Query: " << res.hsr.query_id << "\tScore: " << res.score << std::endl;
     res.alignment->Print(std::cout);
     std::cout << std::endl;
   }

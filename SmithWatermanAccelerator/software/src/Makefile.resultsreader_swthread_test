@@ -1,0 +1,29 @@
+all: resultsreader_swthread_test
+
+resultsreader_swthread_test: alignment.o refseqmanager_stub.o queryseqmanager.o resultsreaderthread.o resultsreader_swthread_test.o picodrv_stub.o swthread.o
+	g++ alignment.o refseqmanager_stub.o queryseqmanager.o resultsreaderthread.o resultsreader_swthread_test.o picodrv_stub.o swthread.o -o resultsreader_swthread_test -pthread
+
+alignment.o: alignment.cpp
+	g++ -c alignment.cpp
+
+refseqmanager_stub.o: refseqmanager_stub.cpp
+	g++ -c refseqmanager_stub.cpp
+
+queryseqmanager.o: queryseqmanager.cpp
+	g++ -c queryseqmanager.cpp
+
+resultsreaderthread.o: resultsreaderthread.cpp
+	g++ -c resultsreaderthread.cpp
+
+resultsreader_swthread_test.o: resultsreader_swthread_test.cpp
+	g++ -c resultsreader_swthread_test.cpp
+
+picodrv_stub.o: picodrv_stub.cpp
+	g++ -c picodrv_stub.cpp
+
+swthread.o: swthread.cpp
+	g++ -c swthread.cpp
+
+clean:
+	rm -rf *o resultsreader_swthread_test
+

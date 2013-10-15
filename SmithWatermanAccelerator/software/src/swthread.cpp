@@ -92,7 +92,7 @@ void* SWThread::Align(void* args) {
     // Grab available high scoring region
     hsr = hsr_queue->Pop();
     ref_len = hsr.len;
-    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.ref_offset + hsr.offset, ref_len);
+    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
     query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
 
     // Initialize new score matrices

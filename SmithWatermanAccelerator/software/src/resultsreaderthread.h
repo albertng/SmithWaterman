@@ -91,6 +91,12 @@ class ResultsReaderThread {
       ThreadQueue<AlignmentJob>** alignment_job_queue;
     };
 
+    // Data structure holding a coalesced group of adjacent high scoring blocks
+    struct CoalescedHighScoreBlock {
+      int block_offset; // Block index offset
+      int num_blocks;   // Number of blocks in this coalesced group
+    };
+
     // Function for thread to run.
     // Continuously read results from engines, process them into HighScoreRegions,
     //   and store them into the hsr_queue
@@ -112,23 +118,17 @@ class ResultsReaderThread {
     static const uint32_t REF_BLOCK_LEN = 128;
     
     // HELPER FUNCTIONS
-    // Store an end-of-alignment token onto the high-score-region queue
-    // Decrement the high-score-region count for the query
-    static void StoreTerminatingHSR(AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
-
     // Store the high-score-region onto the high-score-region queue
-    static void StoreHSR(HighScoreRegion hsr, ThreadQueue<HighScoreRegion>* hsr_queue);
+    static void StoreHSR(CoalescedHighScoreBlock chsb, AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
 
-    // Begin a new high-score-region for the alignment job
-    //   job - alignment job info
-    //   hsr_offset - offset (in nucleotides) of the start of the high-score-region in this job's target sequence
-    static HighScoreRegion NewHSR(AlignmentJob job, uint32_t hsr_offset, uint32_t hsr_len);
+    // Begin a new high-score-block for the alignment job
+    static CoalescedHighScoreBlock StartCHSB(uint32_t block_offset);
 
-    // Extend the high-score-region by a block (length REF_BLOCK_LEN)
-    static HighScoreRegion ExtendHSR(HighScoreRegion hsr);
+    // Extend the coalesced high-score-block by a block
+    static CoalescedHighScoreBlock ExtendCHSB(CoalescedHighScoreBlock chsb);
 
-    // Check if a high-score-block is adjacent to the high-score-region
-    static bool IsAdjacentBlock(uint32_t high_score_block, HighScoreRegion hsr);
+    // Check if a high-score-block is adjacent to the coalesced high-score-block
+    static bool IsAdjacentBlock(uint32_t high_score_block, CoalescedHighScoreBlock);
 };
 
 #endif // RESULTSREADERTHREAD_H_
