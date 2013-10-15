@@ -16,7 +16,7 @@
 ResultsReaderThread::ResultsReaderThread() {
 }
 
-ResultsReaderThread::ResultsReaderThread(PicoDrv** pico_drivers, int num_drivers, int** streams,
+ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int num_drivers, int** streams,
                                          int* num_streams, ThreadQueue<HighScoreRegion>* hsr_queue,
                                          QuerySeqManager* query_seq_manager,
                                          ThreadQueue<AlignmentJob>** alignment_job_queue) {
@@ -24,7 +24,7 @@ ResultsReaderThread::ResultsReaderThread(PicoDrv** pico_drivers, int num_drivers
        alignment_job_queue);
 }
 
-void ResultsReaderThread::Init(PicoDrv** pico_drivers, int num_drivers, int** streams,
+void ResultsReaderThread::Init(PicoDrv* pico_drivers, int num_drivers, int** streams,
                                int* num_streams, ThreadQueue<HighScoreRegion>* hsr_queue,
                                QuerySeqManager* query_seq_manager,
                                ThreadQueue<AlignmentJob>** alignment_job_queue) {
@@ -47,7 +47,7 @@ void ResultsReaderThread::Join() {
 
 void* ResultsReaderThread::ReadResults(void* args) {
   // Get result reader arguments
-  PicoDrv** pico_drivers = ((ResultsReaderThreadArgs*)args)->pico_drivers;
+  PicoDrv* pico_drivers = ((ResultsReaderThreadArgs*)args)->pico_drivers;
   int num_drivers = ((ResultsReaderThreadArgs*)args)->num_drivers;
   int** streams = ((ResultsReaderThreadArgs*)args)->streams;
   int* num_streams = ((ResultsReaderThreadArgs*)args)->num_streams;
@@ -55,14 +55,22 @@ void* ResultsReaderThread::ReadResults(void* args) {
   QuerySeqManager* query_seq_manager = ((ResultsReaderThreadArgs*)args)->query_seq_manager;
   ThreadQueue<AlignmentJob>** alignment_job_queue = ((ResultsReaderThreadArgs*)args)->alignment_job_queue;
 
-  // Set up memory buffers
-  uint32_t*** read_buf = new uint32_t**[num_drivers];
+  std::cout<<"Num_drivers: "<<num_drivers<<std::endl;
   for (int i = 0; i < num_drivers; i++) {
-    read_buf[i] = new uint32_t*[num_streams[i]];
+    std::cout<<"num_streams["<<i<<"]: "<<num_streams[i]<<std::endl;
     for (int j = 0; j < num_streams[i]; j++) {
-      read_buf[i][j] = new uint32_t[READ_BUF_SIZE];
-      for (int k = 0; k < READ_BUF_SIZE; k++) {
-        read_buf[i][j][k] = 0;
+      std::cout<<"streams["<<i<<"]["<<j<<"]: "<<streams[i][j]<<std::endl;
+    }
+  }
+
+  // Set up memory buffers
+  uint32_t*** read_mem_buf = new uint32_t**[num_drivers];
+  for (int i = 0; i < num_drivers; i++) {
+    read_mem_buf[i] = new uint32_t*[num_streams[i]];
+    for (int j = 0; j < num_streams[i]; j++) {
+      read_mem_buf[i][j] = new uint32_t[4096];
+      for (int k = 0; k < 4096; k++) {
+        read_mem_buf[i][j][k] = 0;
       }
     }
   }
@@ -84,18 +92,20 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
   while(true) {
     for (int i = 0; i < num_drivers; i++) {
-      
       for (int j = 0; j < num_streams[i]; j++) {
-        int num_bytes_available = pico_drivers[i]->GetBytesAvailable(streams[i][j], true);
+        int num_bytes_available = pico_drivers[i].GetBytesAvailable(streams[i][j], true);
+//        std::cout<<"Pico_driver["<<i<<"] num_bytes_available: "<<num_bytes_available<<std::endl;
         if (num_bytes_available >= 16) {
+          
           // Read full 128-bit packets (check might not be necessary)
           int num_bytes_to_read = num_bytes_available > 4096 ? 4096 : (num_bytes_available/16)*16;
-          pico_drivers[i]->ReadStream(streams[i][j], read_buf[i][j], num_bytes_to_read);
+          pico_drivers[i].ReadStream(streams[i][j], read_mem_buf[i][j], num_bytes_to_read);
+
 
           for (int k = 0; k < num_bytes_to_read / 16; k++) {
-            uint32_t high_score_block = read_buf[i][j][k*4];
-            uint32_t query_id = read_buf[i][j][k*4 + 1];
-
+            uint32_t high_score_block = read_mem_buf[i][j][k*4];
+            uint32_t query_id = read_mem_buf[i][j][k*4 + 1];
+            
             // High scoring ref seq block parser FSM
             switch(states[i][j]) {
               case INIT:
@@ -140,6 +150,7 @@ void ResultsReaderThread::StoreTerminatingHSR(AlignmentJob job, ThreadQueue<High
   HighScoreRegion hsr;
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
+  hsr.ref_offset = job.ref_offset;
   hsr.len = 0;
   hsr.offset = END_OF_ALIGNMENT;
   hsr.threshold = job.threshold;
@@ -160,7 +171,7 @@ HighScoreRegion ResultsReaderThread::NewHSR(AlignmentJob job, uint32_t hsr_offse
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
   hsr.ref_offset = job.ref_offset;
-  hsr.len = hsr_len + 2*job.query_len;
+  hsr.len = (hsr_offset < 2*job.query_len) ? hsr_len + hsr_offset : hsr_len + 2*job.query_len;
   hsr.offset = (hsr_offset < 2*job.query_len) ? 0 : hsr_offset - 2*job.query_len;
   hsr.threshold = job.threshold;
   return hsr;

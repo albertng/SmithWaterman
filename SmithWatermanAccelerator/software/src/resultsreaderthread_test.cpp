@@ -33,6 +33,8 @@ int main(void) {
   int query_ids[NUM_QUERIES];
   int query_lens[NUM_QUERIES];
 
+  std::cout << "Setting up queries." << std::endl;
+
   // Set up queries
   query_seq[0] = (char*) "AGCTAGTCNN";
   query_seq[1] = (char*) "GACCGAGACT";
@@ -44,11 +46,15 @@ int main(void) {
     query_ids[i] = query_seq_manager.AddQuery(query_seq[i], query_lens[i], NUM_FPGAS * NUM_STREAMS);
   }
 
+  std::cout << "Setting up Pico drivers." << std::endl;
+
   // Set up pico drivers
   pico_drivers = new PicoDrv[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
-    pico_drivers[NUM_FPGAS].Init(NUM_STREAMS);
+    pico_drivers[i].Init(NUM_STREAMS);
   }
+
+  std::cout << "Setting up streams." << std::endl;
 
   // Set up streams
   streams = new int*[NUM_FPGAS];
@@ -61,6 +67,8 @@ int main(void) {
     }
   }
 
+  std::cout << "Setting up alignment job queue." << std::endl;
+
   // Set up alignment job queue
   alignment_job_queue = new ThreadQueue<AlignmentJob>*[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
@@ -72,26 +80,31 @@ int main(void) {
         job.query_len = query_lens[k];
         job.ref_id = 0;
         job.ref_offset = k;
-        job.threshold = j;
+        job.threshold = i*NUM_STREAMS + j;
         alignment_job_queue[i][j].Push(job);
       }
     }
   }
 
-  rrthread.Init(&pico_drivers, NUM_FPGAS, streams, num_streams, &hsr_queue, &query_seq_manager,
+  std::cout << "Running threads." << std::endl;
+
+  rrthread.Init(pico_drivers, NUM_FPGAS, streams, num_streams, &hsr_queue, &query_seq_manager,
                 alignment_job_queue);
 
   rrthread.Run();
 
-  for (int i = 0; i < NUM_FPGAS * NUM_STREAMS * 4; i++) {
+  std::cout << "Grabbing results." << std::endl;
+  sleep(1);
+//  for (int i = 0; i < 18 * NUM_FPGAS * NUM_STREAMS; i++) {
+  while(true){
     HighScoreRegion hsr = hsr_queue.Pop();
     std::cout << "Query ID: " << hsr.query_id 
               << "\tRef ID: " << hsr.ref_id 
               << "\tLength: " << hsr.len 
               << "\tOffset: " << hsr.offset
-              << "Threshold: " << hsr.threshold 
+              << "\tThreshold: " << hsr.threshold 
               << std::endl;
   }
-
+  std::cout << "All Done." << std::endl;
   return 0;
 }

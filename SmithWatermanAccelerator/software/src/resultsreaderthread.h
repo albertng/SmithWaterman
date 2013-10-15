@@ -45,13 +45,13 @@ class ResultsReaderThread {
     ResultsReaderThread();
 
     // Complete constructor
-    ResultsReaderThread(PicoDrv** pico_drivers, int num_drivers, int** streams, int* num_streams,
+    ResultsReaderThread(PicoDrv* pico_drivers, int num_drivers, int** streams, int* num_streams,
                         ThreadQueue<HighScoreRegion>* hsr_queue, 
                         QuerySeqManager* query_seq_manager,
                         ThreadQueue<AlignmentJob>** alignment_job_queue);
 
     // Initialization function (called by constructor)
-    void Init(PicoDrv** pico_drivers, int num_drivers, int** streams, int* num_streams,
+    void Init(PicoDrv* pico_drivers, int num_drivers, int** streams, int* num_streams,
               ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager,
               ThreadQueue<AlignmentJob>** alignment_job_queue);
 
@@ -69,7 +69,7 @@ class ResultsReaderThread {
     // FPGA engine results reader thread arguments struct
     struct ResultsReaderThreadArgs {
       // Pointers to FPGA driver class objects
-      PicoDrv** pico_drivers;
+      PicoDrv* pico_drivers;
 
       // Number of FPGA drivers
       int num_drivers;
@@ -112,10 +112,22 @@ class ResultsReaderThread {
     static const uint32_t REF_BLOCK_LEN = 128;
     
     // HELPER FUNCTIONS
+    // Store an end-of-alignment token onto the high-score-region queue
+    // Decrement the high-score-region count for the query
     static void StoreTerminatingHSR(AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
+
+    // Store the high-score-region onto the high-score-region queue
     static void StoreHSR(HighScoreRegion hsr, ThreadQueue<HighScoreRegion>* hsr_queue);
+
+    // Begin a new high-score-region for the alignment job
+    //   job - alignment job info
+    //   hsr_offset - offset (in nucleotides) of the start of the high-score-region in this job's target sequence
     static HighScoreRegion NewHSR(AlignmentJob job, uint32_t hsr_offset, uint32_t hsr_len);
+
+    // Extend the high-score-region by a block (length REF_BLOCK_LEN)
     static HighScoreRegion ExtendHSR(HighScoreRegion hsr);
+
+    // Check if a high-score-block is adjacent to the high-score-region
     static bool IsAdjacentBlock(uint32_t high_score_block, HighScoreRegion hsr);
 };
 

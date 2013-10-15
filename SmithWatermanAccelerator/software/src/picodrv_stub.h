@@ -9,6 +9,7 @@
 #define PICODRVSTUB_H_
 
 #include <stdint.h>
+#include <pthread.h>
 
 class PicoDrv {
   public:
@@ -27,6 +28,8 @@ class PicoDrv {
     uint32_t** read_buf_;
     int* cur_index_;
     static const int READ_BUF_LENGTH = 25;
+
+    pthread_mutex_t* mutex_;
 };
 
 #endif // PICODRVSTUB_H_
