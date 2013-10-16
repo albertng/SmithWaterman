@@ -8,6 +8,7 @@
 //      Albert Ng   Oct 07 2013     Added SWThread::Join()
 //      Albert Ng   Oct 09 2013     Added query seq manager
 //      Albert Ng   Oct 10 2013     Removed END_OF_ALIGNMENT token check
+//      Albert Ng   Oct 15 2013     Ignore alignments starting in overlap region
 
 #include "swthread.h"
 #include "def.h"
@@ -195,13 +196,17 @@ void* SWThread::Align(void* args) {
                           break;
         }
       }
-
-      AlignmentResult aln_res;
-      aln_res.hsr = hsr;
-      aln_res.alignment = aln;
-      aln_res.score = max_score;
+      
+      // Ignore alignments starting in the overlap region to prevent
+      //   reporting duplicated alignments
+      if (aln.get_ref_offset() < hsr.overlap_offset) {
+        AlignmentResult aln_res;
+        aln_res.hsr = hsr;
+        aln_res.alignment = aln;
+        aln_res.score = max_score;
     
-      result_queue->Push(aln_res);
+        result_queue->Push(aln_res);
+      }
     }
 
     // Memory cleanup

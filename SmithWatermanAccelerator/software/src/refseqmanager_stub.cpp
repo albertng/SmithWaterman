@@ -10,13 +10,18 @@
 
 RefSeqManager::RefSeqManager() {
   ref_seq_ = (char*) "AGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCGAGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCGAGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCGAGCTAGTCNNGTTTGAACCGAGTCGATCGACTAGCGCCATCTANNCTAGCTAGCTATNCGATCG";
+  ref_seq_offset_ = 0;
 }
 
 RefSeqManager::~RefSeqManager() {
 }
 
-long long int RefSeqManager::ref_length() {
+long long int RefSeqManager::GetRefLength(int ref_id) {
   return (long long int) strlen(ref_seq_);
+}
+
+long long int RefSeqManager::GetRefSeqAddr() {
+  return ref_seq_offset_;
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, long long int ref_offset, long long int ref_len) {

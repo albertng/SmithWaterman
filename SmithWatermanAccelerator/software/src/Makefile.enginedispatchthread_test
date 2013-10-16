@@ -1,0 +1,22 @@
+all: enginedispatchthread_test
+
+enginedispatchthread_test: enginedispatchthread.o refseqmanager_stub.o queryseqmanager.o enginedispatchthread_test.o picodrv_stub.o
+	g++ enginedispatchthread.o refseqmanager_stub.o queryseqmanager.o enginedispatchthread_test.o picodrv_stub.o -o enginedispatchthread_test -pthread
+
+refseqmanager_stub.o: refseqmanager_stub.cpp
+	g++ -c refseqmanager_stub.cpp
+
+queryseqmanager.o: queryseqmanager.cpp
+	g++ -c queryseqmanager.cpp
+
+enginedispatchthread.o: enginedispatchthread.cpp
+	g++ -c enginedispatchthread.cpp
+
+enginedispatchthread_test.o: enginedispatchthread_test.cpp
+	g++ -c enginedispatchthread_test.cpp
+
+picodrv_stub.o: picodrv_stub.cpp
+	g++ -c picodrv_stub.cpp
+
+clean:
+	rm -rf *o enginedispatchthread_test

@@ -96,7 +96,7 @@ T ThreadQueue<T>::Pop() {
 
 template <typename T>
 int ThreadQueue<T>::Size() {
-  int size = queue_.size();
+  int size;
   pthread_mutex_lock(&mutex_);
   size = queue_.size();
   pthread_mutex_unlock(&mutex_);

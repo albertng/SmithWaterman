@@ -26,6 +26,7 @@
 //  Revision History :
 //      Albert Ng   Oct 08 2013     Initial Revision 
 //      Albert Ng   Oct 10 2013     Finished initial implementation
+//      Albert Ng   Oct 15 2013     Removed num_drivers and num_streams
 
 #ifndef RESULTSREADERTHREAD_H_
 #define RESULTSREADERTHREAD_H_
@@ -45,15 +46,15 @@ class ResultsReaderThread {
     ResultsReaderThread();
 
     // Complete constructor
-    ResultsReaderThread(PicoDrv* pico_drivers, int num_drivers, int** streams, int* num_streams,
+    ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
                         ThreadQueue<HighScoreRegion>* hsr_queue, 
                         QuerySeqManager* query_seq_manager,
-                        ThreadQueue<AlignmentJob>** alignment_job_queue);
+                        ThreadQueue<AlignmentJob>** engine_job_queues);
 
     // Initialization function (called by constructor)
-    void Init(PicoDrv* pico_drivers, int num_drivers, int** streams, int* num_streams,
+    void Init(PicoDrv* pico_drivers, int** streams, 
               ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager,
-              ThreadQueue<AlignmentJob>** alignment_job_queue);
+              ThreadQueue<AlignmentJob>** engine_job_queues);
 
     // Run the thread
     void Run();
@@ -71,14 +72,8 @@ class ResultsReaderThread {
       // Pointers to FPGA driver class objects
       PicoDrv* pico_drivers;
 
-      // Number of FPGA drivers
-      int num_drivers;
-  
       // Engine stream handles, indexed by [FPGA][Stream]
       int** streams;
-
-      // Number of streams in each FPGA
-      int* num_streams;
 
       // Pointer to shared job queue of high scoring regions to be aligned
       ThreadQueue<HighScoreRegion>* hsr_queue;
@@ -88,7 +83,7 @@ class ResultsReaderThread {
 
       // Pointers to queues of alignment jobs scheduled to the FPGA engines
       // Indexed by [FPGA][Stream]
-      ThreadQueue<AlignmentJob>** alignment_job_queue;
+      ThreadQueue<AlignmentJob>** engine_job_queues;
     };
 
     // Data structure holding a coalesced group of adjacent high scoring blocks
@@ -114,9 +109,6 @@ class ResultsReaderThread {
     // High Score Block value indicating the end of an alignment for the engine
     static const uint32_t END_OF_ALIGNMENT = 0xFFFFFFFF;
 
-    // Length of a high score block
-    static const uint32_t REF_BLOCK_LEN = 128;
-    
     // HELPER FUNCTIONS
     // Store the high-score-region onto the high-score-region queue
     static void StoreHSR(CoalescedHighScoreBlock chsb, AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);

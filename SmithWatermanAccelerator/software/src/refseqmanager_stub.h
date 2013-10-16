@@ -15,10 +15,11 @@ class RefSeqManager {
     RefSeqManager();
     ~RefSeqManager();
     char *GetRefSeq(int ref_id, long long int ref_offset, long long int ref_len);
-    long long int ref_length();
-
+    long long int GetRefAddr(int ref_id);
+    long long int GetRefLength(int ref_id);
   private :
     char* ref_seq_;
+    long long int ref_seq_offset_;
 };
 
 #endif // REFSEQMANAGERSTUB_H_

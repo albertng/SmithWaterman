@@ -6,6 +6,8 @@
 //      Albert Ng   Oct 08 2013     Initial Revision 
 //      Albert Ng   Oct 10 2013     Finished initial implementation, untested
 //      Albert Ng   Oct 14 2013     Tested with swthread
+//      Albert Ng   oct 15 2013     Replaced num_drivers and num_streams with
+//                                    NUM_FPGAS and NUM_ENGINES_PER_FPGA
 
 #include "picodrv_stub.h"
 #include "resultsreaderthread.h"
@@ -17,25 +19,23 @@
 ResultsReaderThread::ResultsReaderThread() {
 }
 
-ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int num_drivers, int** streams,
-                                         int* num_streams, ThreadQueue<HighScoreRegion>* hsr_queue,
+ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
+                                         hreadQueue<HighScoreRegion>* hsr_queue,
                                          QuerySeqManager* query_seq_manager,
-                                         ThreadQueue<AlignmentJob>** alignment_job_queue) {
-  Init(pico_drivers, num_drivers, streams, num_streams, hsr_queue, query_seq_manager,
-       alignment_job_queue);
+                                         ThreadQueue<AlignmentJob>** engine_job_queues) {
+  Init(pico_drivers, streams, hsr_queue, query_seq_manager,
+       engine_job_queues);
 }
 
-void ResultsReaderThread::Init(PicoDrv* pico_drivers, int num_drivers, int** streams,
-                               int* num_streams, ThreadQueue<HighScoreRegion>* hsr_queue,
+void ResultsReaderThread::Init(PicoDrv* pico_drivers, int** streams,
+                               ThreadQueue<HighScoreRegion>* hsr_queue,
                                QuerySeqManager* query_seq_manager,
-                               ThreadQueue<AlignmentJob>** alignment_job_queue) {
+                               ThreadQueue<AlignmentJob>** engine_job_queues) {
   args_.pico_drivers = pico_drivers;
-  args_.num_drivers = num_drivers;
   args_.streams = streams;
-  args_.num_streams = num_streams;
   args_.hsr_queue = hsr_queue;
   args_.query_seq_manager = query_seq_manager;
-  args_.alignment_job_queue = alignment_job_queue;
+  args_.engine_job_queues = engine_job_queues;
 }
 
 void ResultsReaderThread::Run() {
@@ -49,18 +49,16 @@ void ResultsReaderThread::Join() {
 void* ResultsReaderThread::ReadResults(void* args) {
   // Get result reader arguments
   PicoDrv* pico_drivers = ((ResultsReaderThreadArgs*)args)->pico_drivers;
-  int num_drivers = ((ResultsReaderThreadArgs*)args)->num_drivers;
   int** streams = ((ResultsReaderThreadArgs*)args)->streams;
-  int* num_streams = ((ResultsReaderThreadArgs*)args)->num_streams;
   ThreadQueue<HighScoreRegion>* hsr_queue = ((ResultsReaderThreadArgs*)args)->hsr_queue;
   QuerySeqManager* query_seq_manager = ((ResultsReaderThreadArgs*)args)->query_seq_manager;
-  ThreadQueue<AlignmentJob>** alignment_job_queue = ((ResultsReaderThreadArgs*)args)->alignment_job_queue;
+  ThreadQueue<AlignmentJob>** engine_job_queues = ((ResultsReaderThreadArgs*)args)->engine_job_queues;
 
   // Set up memory buffers
-  uint32_t*** read_mem_buf = new uint32_t**[num_drivers];
-  for (int i = 0; i < num_drivers; i++) {
-    read_mem_buf[i] = new uint32_t*[num_streams[i]];
-    for (int j = 0; j < num_streams[i]; j++) {
+  uint32_t*** read_mem_buf = new uint32_t**[NUM_FPGAS];
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    read_mem_buf[i] = new uint32_t*[NUM_ENGINES_PER_FPGA];
+    for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
       read_mem_buf[i][j] = new uint32_t[4096];
       for (int k = 0; k < 4096; k++) {
         read_mem_buf[i][j][k] = 0;
@@ -69,23 +67,23 @@ void* ResultsReaderThread::ReadResults(void* args) {
   }
 
   // Initialize FSM states and values
-  HSRParserState* states[num_drivers];
-  for (int i = 0; i < num_drivers; i++) {
-    states[i] = new HSRParserState[num_streams[i]];
-    for (int j = 0; j < num_streams[i]; j++) {
+  HSRParserState* states[NUM_FPGAS];
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    states[i] = new HSRParserState[NUM_ENGINES_PER_FPGA];
+    for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
       states[i][j] = INIT;
     }
   }
-  CoalescedHighScoreBlock* chsbs[num_drivers];
-  AlignmentJob* jobs[num_drivers];
-  for (int i = 0; i < num_drivers; i++) {
-    chsbs[i] = new CoalescedHighScoreBlock[num_streams[i]];
-    jobs[i] = new AlignmentJob[num_streams[i]];
+  CoalescedHighScoreBlock* chsbs[NUM_FPGAS];
+  AlignmentJob* jobs[NUM_FPGAS];
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    chsbs[i] = new CoalescedHighScoreBlock[NUM_ENGINES_PER_FPGA];
+    jobs[i] = new AlignmentJob[NUM_ENGINES_PER_FPGA];
   }
 
   while(true) {
-    for (int i = 0; i < num_drivers; i++) {
-      for (int j = 0; j < num_streams[i]; j++) {
+    for (int i = 0; i < NUM_FPGAS; i++) {
+      for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
         int num_bytes_available = pico_drivers[i].GetBytesAvailable(streams[i][j], true);
         if (num_bytes_available >= 16) {
           
@@ -101,7 +99,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
             // High scoring ref seq block parser FSM
             switch(states[i][j]) {
               case INIT:
-                jobs[i][j] = alignment_job_queue[i][j].Pop();
+                jobs[i][j] = engine_job_queues[i][j].Pop();
                 if (high_score_block == END_OF_ALIGNMENT) {
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                   states[i][j] = INIT;
@@ -129,12 +127,6 @@ void* ResultsReaderThread::ReadResults(void* args) {
               default: // Shouldn't get here
                 break;
             }
-            /*if (jobs[i][j].query_id != query_id) {
-              std::cerr << "FATAL: Alignment job query ID " << jobs[i][j].query_id <<
-                           " does not match received query ID " << query_id <<
-                           " from FPGA engine stream!" << std::endl;
-              exit(1);
-            }*/
           }
         }
       }
@@ -149,6 +141,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, AlignmentJob jo
   HighScoreRegion hsr;
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
+  hsr.overlap_offset = job.overlap_offset;
   hsr.threshold = job.threshold;
 
   hsr.offset = (job.ref_offset/REF_BLOCK_LEN)*REF_BLOCK_LEN + chsb.block_offset * REF_BLOCK_LEN - 2*job.query_len;

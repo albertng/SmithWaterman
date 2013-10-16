@@ -3,7 +3,8 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 07 2013     Initial Revision
-//      Albert Ng   Oct 11 2013     Incorporated query_seq_manager 
+//      Albert Ng   Oct 11 2013     Incorporated query_seq_manager
+//      Albert Ng   Oct 15 2013     Added overlap_offset 
 
 #include "swthread.h"
 #include "threadqueue.h"
@@ -69,8 +70,9 @@ int main(void) {
     HighScoreRegion hsr;  
     hsr.query_id = query_ids[i];
     hsr.ref_id = 0;
-    hsr.len = ref_seq_manager.ref_length();
+    hsr.len = ref_seq_manager.GetRefLength(0);
     hsr.offset = 0;
+    hsr.overlap_offset = hsr.offset + hsr.len;
     hsr.threshold = THRESHOLD;
     hsr_queue.Push(hsr);
     query_seq_manager.IncHighScoreRegionCount(query_ids[i]);
