@@ -120,7 +120,7 @@ void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
             << "\tThreshold: " << buf[3]
             << "\tQuery Seq: ";
   for (int i = 0; i < (num_bytes / 4) - 4; i++) {
-    std::cout << buf[i + 4] << ' ';
+    std::cout << buf[i] << ' ';
   }
   std::cout << std::endl;
 }

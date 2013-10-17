@@ -71,7 +71,7 @@ class EngineDispatchThread{
     // Dispatch an alignment job to an engine
     static void DispatchJob(PicoDrv* pico_driver, int stream, int query_id, char* query_seq, int query_len, int num_ref_blocks, int first_ref_block, int threshold);
 
-    static void RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue, int query_id, int query_len, int ref_id, int ref_len, int ref_offset, int overlap_offset, int threshold);
+    static void RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue, int query_id, int query_len, int ref_id, int ref_offset, int ref_len, int overlap_offset, int threshold);
 
     // Actual pthread instance
     pthread_t thread_;

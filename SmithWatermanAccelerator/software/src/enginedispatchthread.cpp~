@@ -112,7 +112,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
         if (i < total_num_ref_blocks % num_jobs) {  
           job_num_blocks[i]++;
         }
-        if (i != num_jobs-1) {                                // Add overlap for all jobs except last one
+        if (i != num_jobs-1) {                      // 
           job_num_blocks[i] += num_overlap_blocks;
         }
         

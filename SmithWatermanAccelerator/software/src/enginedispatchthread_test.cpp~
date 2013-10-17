@@ -93,6 +93,7 @@ int main (void) {
     for (int i = 0; i < NUM_ENGINES_PER_FPGA; i++) {
       for (int j = 0; j < NUM_FPGAS; j++) {
         if (!engine_job_queues[j][i].Empty()) {
+          done = false;
           EngineJob job = engine_job_queues[j][i].Pop();
           std::cout << "Query ID: " << job.query_id
                     << "\tRef ID: " << job.ref_id
@@ -101,9 +102,6 @@ int main (void) {
                     << "\tOverlap Offset: " << job.overlap_offset
                     << "\tThreshold: " << job.threshold
                     << std::endl;
-          if (!engine_job_queues[j][i].Empty()) {
-            done = false;
-          }
         }
       }
     }

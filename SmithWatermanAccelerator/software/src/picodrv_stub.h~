@@ -23,8 +23,6 @@ class PicoDrv {
 
     void ReadStream(int stream, uint32_t* buf, int num_bytes);
 
-    void WriteStream(int stream, uint32_t* buf, int num_bytes);
-    
   private:
     int num_streams_;
     uint32_t** read_buf_;
