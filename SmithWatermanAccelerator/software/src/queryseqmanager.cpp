@@ -8,22 +8,18 @@
 
 #include <pthread.h>
 #include <map>
-#include <semaphore.h>
 #include "queryseqmanager.h"
+#include <iostream> 
+#include <string>
 
 QuerySeqManager::QuerySeqManager() {
-  pthread_mutex_init(&query_semaphore_map_mutex_, NULL);
+  pthread_mutex_init(&query_jobcount_map_mutex_, NULL);
   pthread_mutex_init(&query_seq_map_mutex_, NULL);
   cur_query_id_ = 0;
 }
 
-// Initialize a new semaphore for the query, starting at
-//   the number of FPGA engines to schedule this query
-//   alignment across.
+// Initialize a new dummy job count for the query
 int QuerySeqManager::AddQuery(char* query_seq, int query_len) {
-  sem_t* new_sem = new sem_t;
-  sem_init(new_sem, 0, 1);  // Initialize semaphore to dummy value of 1
-  
   int query_id = cur_query_id_;
   QuerySeq qs;
   qs.seq = query_seq;
@@ -33,9 +29,9 @@ int QuerySeqManager::AddQuery(char* query_seq, int query_len) {
   query_seq_map_[query_id] = qs;
   pthread_mutex_unlock(&query_seq_map_mutex_);
   
-  pthread_mutex_lock(&query_semaphore_map_mutex_);
-  query_semaphore_map_[query_id] = new_sem;
-  pthread_mutex_unlock(&query_semaphore_map_mutex_);
+  pthread_mutex_lock(&query_jobcount_map_mutex_);
+  query_jobcount_map_[query_id] = 1;
+  pthread_mutex_unlock(&query_jobcount_map_mutex_);
 
   // NOTE: no mutex guards. Be careful.
   cur_query_id_++;
@@ -44,48 +40,48 @@ int QuerySeqManager::AddQuery(char* query_seq, int query_len) {
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::SetQueryNumJobs(int query_id, int num_jobs) {
-  pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_init(query_semaphore_map_[query_id], 0, num_jobs);
-  pthread_mutex_unlock(&query_semaphore_map_mutex_);
+  pthread_mutex_lock(&query_jobcount_map_mutex_);
+  query_jobcount_map_[query_id] = num_jobs;
+  pthread_mutex_unlock(&query_jobcount_map_mutex_);
 }
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::RemoveQuery(int query_id) {
-  pthread_mutex_lock(&query_semaphore_map_mutex_);
-  delete query_semaphore_map_[query_id];
-  query_semaphore_map_.erase(query_id);
-  pthread_mutex_unlock(&query_semaphore_map_mutex_);
+  pthread_mutex_lock(&query_jobcount_map_mutex_);
+  query_jobcount_map_.erase(query_id);
+  pthread_mutex_unlock(&query_jobcount_map_mutex_);
 }
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::IncHighScoreRegionCount(int query_id) {
-  pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_post(query_semaphore_map_[query_id]);
-  pthread_mutex_unlock(&query_semaphore_map_mutex_);
+  std::cout<<"HighScoreRegion"<<std::endl;
+  pthread_mutex_lock(&query_jobcount_map_mutex_);
+  query_jobcount_map_[query_id]++;
+  pthread_mutex_unlock(&query_jobcount_map_mutex_);
 }
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::DecHighScoreRegionCount(int query_id) {
-  pthread_mutex_lock(&query_semaphore_map_mutex_);
-  if (query_semaphore_map_.count(query_id) > 0) {
-    sem_wait(query_semaphore_map_[query_id]);
+  pthread_mutex_lock(&query_jobcount_map_mutex_);
+  if (query_jobcount_map_.count(query_id) > 0) {
+    query_jobcount_map_[query_id]--;
   }
-  pthread_mutex_unlock(&query_semaphore_map_mutex_);
+  pthread_mutex_unlock(&query_jobcount_map_mutex_);
 }
 
-// A query is done when the semaphore value for that query is 0,
+// A query is done when the job count value for that query is 0,
 //   meaning all high scoring regions are aligned by the software
 //   aligner threads, and all terminating packets are received from
 //   the engines.
 // Note: No error handling for invalid query_ids
 bool QuerySeqManager::QueryDone(int query_id) {
-  int sem_val;
+  int val;
 
-  pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_getvalue(query_semaphore_map_[query_id], &sem_val);
-  pthread_mutex_unlock(&query_semaphore_map_mutex_);
+  pthread_mutex_lock(&query_jobcount_map_mutex_);
+  val = query_jobcount_map_[query_id];
+  pthread_mutex_unlock(&query_jobcount_map_mutex_);
 
-  return sem_val == 0;
+  return val == 0;
 }
 
 // Note: No error handling for invalid query_ids

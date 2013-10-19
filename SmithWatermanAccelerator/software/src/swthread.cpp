@@ -242,7 +242,7 @@ void* SWThread::Align(void* args) {
         result_queue->Push(*it);
       }
     }
-    //std::cout<<"Aligned HSR:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
+    std::cout<<"Aligned HSR:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
 
     // Memory cleanup
     for (int i = 0; i < ref_len + 1; i++) {

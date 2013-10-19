@@ -217,7 +217,7 @@ void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_qu
   job.overlap_offset = overlap_offset;
   job.threshold = threshold;
 
-  //std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
+  std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
 
   engine_job_queue->Push(job);
 }

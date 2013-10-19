@@ -12,7 +12,6 @@
 
 #include <pthread.h>
 #include <map>
-#include <semaphore.h>
 
 // Query Sequence Manager class
 //   Handles bookkeeping of query sequences and their alignment jobs
@@ -62,12 +61,12 @@ class QuerySeqManager {
       int len;
     };
 
-    // One semaphore per query, query done when semaphore is zero
-    std::map<int, sem_t*> query_semaphore_map_;
+    // One job count per query, query done when job count is zero
+    std::map<int, int> query_jobcount_map_;
 
-    // Mutex guarding query semaphore map, since the map will be accessed
+    // Mutex guarding query job count map, since the map will be accessed
     //   by several threads
-    pthread_mutex_t query_semaphore_map_mutex_;
+    pthread_mutex_t query_jobcount_map_mutex_;
 
     // Bookkeeping between query ID and query sequence 
     std::map<int, QuerySeq>  query_seq_map_;

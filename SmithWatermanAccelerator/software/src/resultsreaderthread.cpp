@@ -96,7 +96,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
 
           for (int k = 0; k < num_bytes_to_read / 16; k++) {
-            //std::cout<<"Read stream:\t"<<i<<" "<<j<<"\tHSB:"<< read_mem_buf[i][j][k] << "\tQuery ID:" << read_mem_buf[i][j][k+1] << std::endl;
+            std::cout<<"Read stream:\t"<<i<<" "<<j<<"\tHSB:"<< read_mem_buf[i][j][k] << "\tQuery ID:" << read_mem_buf[i][j][k+1] << std::endl;
             uint32_t high_score_block = read_mem_buf[i][j][k*4];
             uint32_t query_id = read_mem_buf[i][j][k*4 + 1];
             
