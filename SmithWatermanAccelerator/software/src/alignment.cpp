@@ -7,6 +7,7 @@
 //      Albert Ng   Oct 10 2013     Added target_offset_ and query_offset_
 //      Albert Ng   Oct 15 2013     Changed target to ref
 //                                  Added get_ref_offset(), get_query_offset()
+//      Albert Ng   Oct 18 2013     Added GetLength()
 
 #include "alignment.h"
 #include <utility>      // For std::pair
@@ -46,6 +47,10 @@ void Alignment::Prepend(char ref_nt, char query_nt) {
   }
 
   alignment_->push_front(std::make_pair(ref_nt, query_nt));
+}
+
+int Alignment::GetLength() {
+  return alignment_->size();
 }
 
 long long int Alignment::get_ref_offset() {

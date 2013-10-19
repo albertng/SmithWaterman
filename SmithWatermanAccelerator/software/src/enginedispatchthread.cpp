@@ -94,15 +94,13 @@ void* EngineDispatchThread::Dispatch(void* args) {
       // Compute number of engine jobs to allocate for the alignment and the number of ref seq
       //   blocks each job spans
       int num_jobs;
-      //int num_blocks_per_job;
       if ((total_num_ref_blocks / (NUM_FPGAS * NUM_ENGINES_PER_FPGA)) < min_job_num_blocks) {
         num_jobs = total_num_ref_blocks / min_job_num_blocks;
-      //  num_blocks_per_job = min_job_num_blocks + num_overlap_blocks;
+        num_jobs = (num_jobs == 0) ? 1 : num_jobs;
       } else {
         num_jobs = NUM_FPGAS * NUM_ENGINES_PER_FPGA;
-      //  num_blocks_per_job = (total_num_ref_blocks / (NUM_FPGAS * NUM_ENGINES_PER_FPGA)) + 
-      //                   num_overlap_blocks;
       }
+      query_seq_manager->SetQueryNumJobs(query_id, num_jobs);
       
       // Compute the nucleotide length and number of ref seq blocks each job spans
       int job_num_blocks[num_jobs];
@@ -115,6 +113,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
         if (i != num_jobs-1) {                                // Add overlap for all jobs except last one
           job_num_blocks[i] += num_overlap_blocks;
         }
+        job_num_blocks[i] = job_num_blocks[i] < min_job_num_blocks ? min_job_num_blocks : job_num_blocks[i];
         
         job_length[i] = job_num_blocks[i] * REF_BLOCK_LEN;
         if (i == 0) {               // Trim left end
@@ -123,6 +122,9 @@ void* EngineDispatchThread::Dispatch(void* args) {
         if (i == num_jobs - 1) {    // Trim right end
           if ((ref_offset + ref_len) % REF_BLOCK_LEN != 0) {
             job_length[i] -= (REF_BLOCK_LEN - ((ref_offset + ref_len) % REF_BLOCK_LEN));
+          }
+          if (total_num_ref_blocks < min_job_num_blocks) {
+            job_length[i] -= ((min_job_num_blocks - total_num_ref_blocks) * REF_BLOCK_LEN);
           }
         }
       }
@@ -149,11 +151,6 @@ void* EngineDispatchThread::Dispatch(void* args) {
         job_overlap_offset[i] = job_offset[i+1];
       }
       job_overlap_offset[num_jobs-1] = job_offset[num_jobs-1] + job_length[num_jobs-1];
-
-      /*for (int i = 0; i < num_jobs; i++) {
-        std::cout<<"job_num_blocks["<<i<<"]: "<<job_num_blocks[i]<<'\t';
-      }
-      std::cout<<"total_num_ref_blocks: "<<total_num_ref_blocks<<" num_jobs: "<<num_jobs<<std::endl;*/
 
       // Dispatch and record the jobs
       int cur_fpga = 0;
@@ -183,9 +180,9 @@ void* EngineDispatchThread::Dispatch(void* args) {
 }
 
 void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
-                                              int query_id, char* query_seq, int query_len,
-                                              int num_ref_blocks, int first_ref_block,
-                                              int threshold) {
+                                       int query_id, char* query_seq, int query_len,
+                                       int num_ref_blocks, int first_ref_block,
+                                       int threshold) {
   uint32_t out_buf[4096];
 
   out_buf[0] = (uint32_t) num_ref_blocks;
@@ -207,10 +204,10 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
 }
 
 void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue,
-                                                  int query_id, int query_len,
-                                                  int ref_id, int ref_len, int ref_offset,
-                                                  int overlap_offset,
-                                                  int threshold) {
+                                           int query_id, int query_len,
+                                           int ref_id, int ref_len, int ref_offset,
+                                           int overlap_offset,
+                                           int threshold) {
   EngineJob job;
   job.query_id = query_id;
   job.query_len = query_len;
@@ -219,6 +216,8 @@ void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_qu
   job.ref_len = ref_len;
   job.overlap_offset = overlap_offset;
   job.threshold = threshold;
+
+  //std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
 
   engine_job_queue->Push(job);
 }

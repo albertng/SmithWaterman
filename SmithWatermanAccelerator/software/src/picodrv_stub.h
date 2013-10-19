@@ -31,7 +31,7 @@ class PicoDrv {
     int* cur_index_;
     //static const int READ_BUF_LENGTH = 25;
     static const int READ_BUF_LENGTH = 13;
-
+    int* jobs_outstanding_;
     pthread_mutex_t* mutex_;
 };
 

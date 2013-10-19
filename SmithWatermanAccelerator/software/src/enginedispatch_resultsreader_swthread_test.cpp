@@ -1,12 +1,13 @@
-//  File Name        : resultsreader_swthread_test.cpp
-//  Description      : Results reader and Smith-Waterman aligner thread test
+//  File Name        : enginedispatch_resultsreader_swthread_test.cpp
+//  Description      : Engine alignment job dispatch, result reader, and
+//                     Smith-Waterman aligner thread test
 //
 //  Revision History :
-//      Albert Ng   Oct 14 2013     Initial Revision
-//      Albert Ng   Oct 15 2013     Added overlap_offset
+//      Albert Ng   Oct 17 2013     Initial Revision
 
 #include "swthread.h"
 #include "resultsreaderthread.h"
+#include "enginedispatchthread.h"
 #include "threadqueue.h"
 #include "refseqmanager_stub.h"
 #include "queryseqmanager.h"
@@ -21,12 +22,14 @@
 int main(void) {
   PicoDrv* pico_drivers;
   int** streams;
+  EngineDispatchThread edthread;
   ResultsReaderThread rrthread;
   SWThread swthreads[NUM_THREADS];
   QuerySeqManager query_seq_manager;
   RefSeqManager ref_seq_manager;
-  ThreadQueue<HighScoreRegion> hsr_queue;
+  ThreadQueue<AlignmentJob> alignment_job_queue;
   ThreadQueue<EngineJob>** engine_job_queues;
+  ThreadQueue<HighScoreRegion> hsr_queue;
   ThreadQueue<AlignmentResult> result_queue;
   char* query_seq[NUM_QUERIES];
   int query_ids[NUM_QUERIES];
@@ -34,18 +37,19 @@ int main(void) {
   SwAffineGapParams params;
 
   // Set up queries
-  query_seq[0] = (char*) "AGCTAGTCNN";
-  query_seq[1] = (char*) "GACCGAGACT";
+  std::cout << "Setting up queries..." << std::endl;
+  query_seq[0] = (char*) "GACCGAGACT";
+  query_seq[1] = (char*) "AGCTAGTCNN";
   query_seq[2] = (char*) "TAACCTAGCTAGCT";
   query_seq[3] = (char*) "CCATGTATCG";
   query_seq[4] = (char*) "TATNCATGG";
   for (int i = 0; i < NUM_QUERIES; i++) {
     query_lens[i] = strlen(query_seq[i]);
     query_ids[i] = query_seq_manager.AddQuery(query_seq[i], query_lens[i]);
-    query_seq_manager.SetQueryNumJobs(query_ids[i], NUM_FPGAS * NUM_ENGINES_PER_FPGA);    
   }
 
   // Set up scoring parameters
+  std::cout << "Setting up scoring parameters..." << std::endl;
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       if (i == j) {
@@ -57,14 +61,16 @@ int main(void) {
   }
   params.gap_open = -2;
   params.gap_extend = -1;
-
+  
   // Set up pico drivers
+  std::cout << "Setting up Pico drivers..." << std::endl;
   pico_drivers = new PicoDrv[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     pico_drivers[i].Init(NUM_ENGINES_PER_FPGA);
   }
 
   // Set up streams
+  std::cout << "Setting up streams..." << std::endl;
   streams = new int*[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     streams[i] = new int[NUM_ENGINES_PER_FPGA];
@@ -73,24 +79,30 @@ int main(void) {
     }
   }
 
+  // Set up alignment job queue
+  std::cout << "Setting up alignment job queue..." << std::endl;
+  for (int i = 0; i < NUM_QUERIES; i++) {
+    AlignmentJob job;
+    job.query_id = query_ids[i];
+    job.query_len = query_lens[i];
+    job.ref_id = 0;
+    job.ref_offset = 0;
+    job.ref_len = ref_seq_manager.GetRefLength(0);
+    job.threshold = 10;
+    alignment_job_queue.Push(job);
+    std::cout<<"Job "<<i<<":\tQuery ID:"<<job.query_id<<"\tQuery Len:"<<job.query_len<<"\tRef ID: "<<job.ref_id<<"\tRef Offset: "<<job.ref_offset<<"\tRef Len: "<<job.ref_len<<"\tThreshold: "<<job.threshold<<std::endl;
+  }
+  
   // Set up engine job queues
+  std::cout << "Setting up engine job queues..." << std::endl;
   engine_job_queues = new ThreadQueue<EngineJob>*[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     engine_job_queues[i] = new ThreadQueue<EngineJob>[NUM_ENGINES_PER_FPGA];
-    for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
-      for (int k = 0; k < NUM_QUERIES; k++) {
-        EngineJob job;
-        job.query_id = query_ids[k];
-        job.query_len = query_lens[k];
-        job.ref_id = 0;
-        job.ref_offset = k;
-        job.ref_len = 256 - 2*k;
-        job.overlap_offset = job.ref_offset + job.ref_len;
-        job.threshold = 10;
-        engine_job_queues[i][j].Push(job);
-      }
-    }
   }
+  
+  // Set up Engine Dispatch thread
+  edthread.Init(pico_drivers, streams, &alignment_job_queue, engine_job_queues,
+                &query_seq_manager, &ref_seq_manager);
 
   // Set up Results Reader thread
   rrthread.Init(pico_drivers, streams, &hsr_queue, &query_seq_manager,
@@ -100,12 +112,15 @@ int main(void) {
   for (int i = 0; i < NUM_THREADS; i++) {
     swthreads[i].Init(params, &hsr_queue, &result_queue, &ref_seq_manager, &query_seq_manager);
   }
-
+  
+  // Start threads
   std::cout << "Starting threads" << std::endl;
   for (int i = 0; i < NUM_THREADS; i++) {
     swthreads[i].Run();
   }
   rrthread.Run();
+  edthread.Run();
+  
 
   // Wait until all jobs are done
   bool done = false;
@@ -117,19 +132,31 @@ int main(void) {
       }
     }
   }
-
-  std::cout<<"Printing alignment results\n"<<std::endl;
-
+  
   // Print out alignment results
   while (result_queue.Size() != 0) {
     AlignmentResult res = result_queue.Pop();
     std::cout << "Query: " << res.hsr.query_id << "\tScore: " << res.score << std::endl;
     res.alignment->Print(std::cout);
     std::cout << std::endl;
+    delete res.alignment;
   }
 
   std::cout<<"All Done!"<<std::endl;
+  //while(true);
   return 0;
 }
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   

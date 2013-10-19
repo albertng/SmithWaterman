@@ -66,7 +66,7 @@ int main(void) {
   for (int i = 0; i < NUM_JOBS; i++) {
     query_ids[i] = query_seq_manager.AddQuery(query_seq[i % NUM_QUERIES], 
                                               strlen(query_seq[i % NUM_QUERIES]));
-    query_seq_manager.SetQueryNumEngines(query_ids[i], NUM_ENGINES);
+    query_seq_manager.SetQueryNumJobs(query_ids[i], NUM_ENGINES);
     HighScoreRegion hsr;  
     hsr.query_id = query_ids[i];
     hsr.ref_id = 0;

@@ -27,6 +27,7 @@
 //      Albert Ng   Oct 08 2013     Initial Revision 
 //      Albert Ng   Oct 10 2013     Finished initial implementation
 //      Albert Ng   Oct 15 2013     Removed num_drivers and num_streams
+//      Albert Ng   Oct 17 2013     Added NOT_IN_HSR state and IsValidBlock()
 
 #ifndef RESULTSREADERTHREAD_H_
 #define RESULTSREADERTHREAD_H_
@@ -49,12 +50,12 @@ class ResultsReaderThread {
     ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
                         ThreadQueue<HighScoreRegion>* hsr_queue, 
                         QuerySeqManager* query_seq_manager,
-                        ThreadQueue<AlignmentJob>** engine_job_queues);
+                        ThreadQueue<EngineJob>** engine_job_queues);
 
     // Initialization function (called by constructor)
     void Init(PicoDrv* pico_drivers, int** streams, 
               ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager,
-              ThreadQueue<AlignmentJob>** engine_job_queues);
+              ThreadQueue<EngineJob>** engine_job_queues);
 
     // Run the thread
     void Run();
@@ -65,7 +66,7 @@ class ResultsReaderThread {
 
   private:
     // High Score Region parser FSM states
-    enum HSRParserState {INIT, IN_HSR};
+    enum HSRParserState {INIT, IN_HSR, NOT_IN_HSR};
 
     // FPGA engine results reader thread arguments struct
     struct ResultsReaderThreadArgs {
@@ -83,7 +84,7 @@ class ResultsReaderThread {
 
       // Pointers to queues of alignment jobs scheduled to the FPGA engines
       // Indexed by [FPGA][Stream]
-      ThreadQueue<AlignmentJob>** engine_job_queues;
+      ThreadQueue<EngineJob>** engine_job_queues;
     };
 
     // Data structure holding a coalesced group of adjacent high scoring blocks
@@ -111,7 +112,7 @@ class ResultsReaderThread {
 
     // HELPER FUNCTIONS
     // Store the high-score-region onto the high-score-region queue
-    static void StoreHSR(CoalescedHighScoreBlock chsb, AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
+    static void StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
 
     // Begin a new high-score-block for the alignment job
     static CoalescedHighScoreBlock StartCHSB(uint32_t block_offset);
@@ -121,6 +122,9 @@ class ResultsReaderThread {
 
     // Check if a high-score-block is adjacent to the coalesced high-score-block
     static bool IsAdjacentBlock(uint32_t high_score_block, CoalescedHighScoreBlock);
+    
+    // Check if a high-score-block is valid for the alignment
+    static bool IsValidBlock(EngineJob job, int high_score_block);
 };
 
 #endif // RESULTSREADERTHREAD_H_

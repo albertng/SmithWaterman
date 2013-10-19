@@ -6,8 +6,10 @@
 //      Albert Ng   Oct 08 2013     Initial Revision 
 //      Albert Ng   Oct 10 2013     Finished initial implementation, untested
 //      Albert Ng   Oct 14 2013     Tested with swthread
-//      Albert Ng   oct 15 2013     Replaced num_drivers and num_streams with
+//      Albert Ng   Oct 15 2013     Replaced num_drivers and num_streams with
 //                                    NUM_FPGAS and NUM_ENGINES_PER_FPGA
+//      Albert Ng   Oct 17 2013     Added NOT_IN_HSR state
+//      Albert Ng   Oct 18 2013     Fixed engine job queue empty bug
 
 #include "picodrv_stub.h"
 #include "resultsreaderthread.h"
@@ -20,9 +22,9 @@ ResultsReaderThread::ResultsReaderThread() {
 }
 
 ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
-                                         hreadQueue<HighScoreRegion>* hsr_queue,
+                                         ThreadQueue<HighScoreRegion>* hsr_queue,
                                          QuerySeqManager* query_seq_manager,
-                                         ThreadQueue<AlignmentJob>** engine_job_queues) {
+                                         ThreadQueue<EngineJob>** engine_job_queues) {
   Init(pico_drivers, streams, hsr_queue, query_seq_manager,
        engine_job_queues);
 }
@@ -30,7 +32,7 @@ ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
 void ResultsReaderThread::Init(PicoDrv* pico_drivers, int** streams,
                                ThreadQueue<HighScoreRegion>* hsr_queue,
                                QuerySeqManager* query_seq_manager,
-                               ThreadQueue<AlignmentJob>** engine_job_queues) {
+                               ThreadQueue<EngineJob>** engine_job_queues) {
   args_.pico_drivers = pico_drivers;
   args_.streams = streams;
   args_.hsr_queue = hsr_queue;
@@ -52,7 +54,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
   int** streams = ((ResultsReaderThreadArgs*)args)->streams;
   ThreadQueue<HighScoreRegion>* hsr_queue = ((ResultsReaderThreadArgs*)args)->hsr_queue;
   QuerySeqManager* query_seq_manager = ((ResultsReaderThreadArgs*)args)->query_seq_manager;
-  ThreadQueue<AlignmentJob>** engine_job_queues = ((ResultsReaderThreadArgs*)args)->engine_job_queues;
+  ThreadQueue<EngineJob>** engine_job_queues = ((ResultsReaderThreadArgs*)args)->engine_job_queues;
 
   // Set up memory buffers
   uint32_t*** read_mem_buf = new uint32_t**[NUM_FPGAS];
@@ -75,16 +77,17 @@ void* ResultsReaderThread::ReadResults(void* args) {
     }
   }
   CoalescedHighScoreBlock* chsbs[NUM_FPGAS];
-  AlignmentJob* jobs[NUM_FPGAS];
+  EngineJob* jobs[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     chsbs[i] = new CoalescedHighScoreBlock[NUM_ENGINES_PER_FPGA];
-    jobs[i] = new AlignmentJob[NUM_ENGINES_PER_FPGA];
+    jobs[i] = new EngineJob[NUM_ENGINES_PER_FPGA];
   }
 
   while(true) {
     for (int i = 0; i < NUM_FPGAS; i++) {
       for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
         int num_bytes_available = pico_drivers[i].GetBytesAvailable(streams[i][j], true);
+        //std::cout<<num_bytes_available<<" ";
         if (num_bytes_available >= 16) {
           
           // Read full 128-bit packets (check might not be necessary)
@@ -93,20 +96,21 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
 
           for (int k = 0; k < num_bytes_to_read / 16; k++) {
+            //std::cout<<"Read stream:\t"<<i<<" "<<j<<"\tHSB:"<< read_mem_buf[i][j][k] << "\tQuery ID:" << read_mem_buf[i][j][k+1] << std::endl;
             uint32_t high_score_block = read_mem_buf[i][j][k*4];
             uint32_t query_id = read_mem_buf[i][j][k*4 + 1];
             
             // High scoring ref seq block parser FSM
             switch(states[i][j]) {
               case INIT:
-                jobs[i][j] = engine_job_queues[i][j].Pop();
-                if (high_score_block == END_OF_ALIGNMENT) {
-                  query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
-                  states[i][j] = INIT;
-                } else {
-                  chsbs[i][j] = StartCHSB(high_score_block);
-                  states[i][j] = IN_HSR;
-                }
+                  jobs[i][j] = engine_job_queues[i][j].Pop();
+                  if (high_score_block == END_OF_ALIGNMENT) {
+                    query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
+                    states[i][j] = INIT;
+                  } else if (IsValidBlock(jobs[i][j], high_score_block)) {
+                    chsbs[i][j] = StartCHSB(high_score_block);
+                    states[i][j] = IN_HSR;
+                  }
                 break;
 
               case IN_HSR:
@@ -114,11 +118,24 @@ void* ResultsReaderThread::ReadResults(void* args) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                   states[i][j] = INIT;
-                } else if (IsAdjacentBlock(high_score_block, chsbs[i][j])) {
+                } else if (IsValidBlock(jobs[i][j], high_score_block) && IsAdjacentBlock(high_score_block, chsbs[i][j])) {
                   chsbs[i][j] = ExtendCHSB(chsbs[i][j]);
+                  states[i][j] = IN_HSR;
+                } else if (IsValidBlock(jobs[i][j], high_score_block)) {
+                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  chsbs[i][j] = StartCHSB(high_score_block);
                   states[i][j] = IN_HSR;
                 } else {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  states[i][j] = INIT;
+                }
+                break;
+              
+              case NOT_IN_HSR:
+                if (high_score_block == END_OF_ALIGNMENT) {
+                  query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
+                  states[i][j] = INIT;
+                } else if (IsValidBlock(jobs[i][j], high_score_block)) {
                   chsbs[i][j] = StartCHSB(high_score_block);
                   states[i][j] = IN_HSR;
                 }
@@ -137,7 +154,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
 // Stores the high scoring region onto the high score region queue to pass to Smith-Waterman
 //   threads for alignment. Modifies the HSR length and offset to include up to 2 query
 //   length extension at the front (bounded by the job boundaries).
-void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, AlignmentJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
+void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
   HighScoreRegion hsr;
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
@@ -157,6 +174,8 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, AlignmentJob jo
   if ((hsr.offset + hsr.len) > (job.ref_offset + job.ref_len)) {
     hsr.len -= ((hsr.offset + hsr.len) - (job.ref_offset + job.ref_len));
   } 
+  
+  //std::cout<<"HSR Stored:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
   
   hsr_queue->Push(hsr);
   query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
@@ -183,4 +202,13 @@ bool ResultsReaderThread::IsAdjacentBlock(uint32_t high_score_block, CoalescedHi
     return true;
   }
   return false;
+}
+
+// Checks if a high score block index is within the job's boundaries.
+// This is necessary for the edge case where the number of blocks spanned by the ref seq is less than 
+// the minimum job size allowable on an engine. For example, if the ref seq length is 128 bp, the ref 
+// seq offset is 0, and the min job size is 2 blocks (256 bp), then the second block should not be 
+// considered for the alignment.
+bool ResultsReaderThread::IsValidBlock(EngineJob job, int high_score_block) {
+  return (job.ref_offset + job.ref_len) >= (job.ref_offset / REF_BLOCK_LEN + high_score_block) * REF_BLOCK_LEN;
 }

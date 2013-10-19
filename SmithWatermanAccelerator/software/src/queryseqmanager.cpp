@@ -4,6 +4,7 @@
 //  Revision History :
 //      Albert Ng   Oct 09 2013     Initial Revision 
 //      Albert Ng   Oct 14 2013     Added SetQueryNumEngines()
+//      Albert Ng   Oct 17 2013     Renamed SetQueryNumEngines to SetQueryNumJobs
 
 #include <pthread.h>
 #include <map>
@@ -36,14 +37,15 @@ int QuerySeqManager::AddQuery(char* query_seq, int query_len) {
   query_semaphore_map_[query_id] = new_sem;
   pthread_mutex_unlock(&query_semaphore_map_mutex_);
 
+  // NOTE: no mutex guards. Be careful.
   cur_query_id_++;
   return query_id;
 }
 
 // Note: No error handling for invalid query_ids
-void QuerySeqManager::SetQueryNumEngines(int query_id, int num_engines) {
+void QuerySeqManager::SetQueryNumJobs(int query_id, int num_jobs) {
   pthread_mutex_lock(&query_semaphore_map_mutex_);
-  sem_init(query_semaphore_map_[query_id], 0, num_engines);
+  sem_init(query_semaphore_map_[query_id], 0, num_jobs);
   pthread_mutex_unlock(&query_semaphore_map_mutex_);
 }
 

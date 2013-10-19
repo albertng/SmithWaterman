@@ -4,6 +4,7 @@
 //  Revision History :
 //      Albert Ng   Oct 09 2013     Initial Revision 
 //      Albert Ng   Oct 14 2013     Added SetQueryNumEngines()
+//      Albert Ng   Oct 17 2013     Renamed SetQueryNumEngines to SetQueryNumJobs
 
 
 #ifndef QUERYSEQMANAGER_H_
@@ -24,7 +25,7 @@
 //   It is also decremented when a FPGA engine finishes its alignment.
 //   Thus, the semaphore only reaches zero when all high scoring regions
 //   are found and aligned by the software threads.
-// Note: SetQueryNumEngines() must be called after a query is added via
+// Note: SetQueryNumJobs() must be called after a query is added via
 //   AddQuery(), before Inc/DecHighScoreRegionCount() are called.
 class QuerySeqManager {
   public:
@@ -34,7 +35,7 @@ class QuerySeqManager {
     int AddQuery(char* query_seq, int query_len);
 
     // Set the number of engines the query is scheduled across
-    void SetQueryNumEngines(int query_id, int num_engines);
+    void SetQueryNumJobs(int query_id, int num_jobs);
 
     // Removes a query sequence under management
     void RemoveQuery(int query_id);

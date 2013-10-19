@@ -1,0 +1,32 @@
+all: enginedispatch_resultsreader_swthread_test
+
+enginedispatch_resultsreader_swthread_test: alignment.o refseqmanager_stub.o queryseqmanager.o enginedispatchthread.o resultsreaderthread.o enginedispatch_resultsreader_swthread_test.o picodrv_stub.o swthread.o
+	g++ alignment.o refseqmanager_stub.o queryseqmanager.o enginedispatchthread.o resultsreaderthread.o enginedispatch_resultsreader_swthread_test.o picodrv_stub.o swthread.o -o enginedispatch_resultsreader_swthread_test -pthread -g
+
+alignment.o: alignment.cpp
+	g++ -c alignment.cpp -g
+
+refseqmanager_stub.o: refseqmanager_stub.cpp
+	g++ -c refseqmanager_stub.cpp -g
+
+queryseqmanager.o: queryseqmanager.cpp
+	g++ -c queryseqmanager.cpp -g
+
+enginedispatchthread.o: enginedispatchthread.cpp
+	g++ -c enginedispatchthread.cpp -g
+
+resultsreaderthread.o: resultsreaderthread.cpp
+	g++ -c resultsreaderthread.cpp -g
+
+enginedispatch_resultsreader_swthread_test.o: enginedispatch_resultsreader_swthread_test.cpp
+	g++ -c enginedispatch_resultsreader_swthread_test.cpp -g
+
+picodrv_stub.o: picodrv_stub.cpp
+	g++ -c picodrv_stub.cpp -g
+
+swthread.o: swthread.cpp
+	g++ -c swthread.cpp -g
+
+clean:
+	rm -rf *o enginedispatch_resultsreader_swthread_test
+

@@ -67,6 +67,11 @@ void PicoDrv::Init(int num_streams) {
     cur_index_[i] = 0;
   }
 
+  jobs_outstanding_ = new int[num_streams];
+  for (int i = 0; i < num_streams; i++) {
+    jobs_outstanding_[i] = 0;
+  }
+
   mutex_ = new pthread_mutex_t[num_streams];
   for (int i = 0; i < num_streams; i++) {
     pthread_mutex_init(&(mutex_[i]), NULL);
@@ -79,32 +84,32 @@ PicoDrv::~PicoDrv() {
   }
   delete[] read_buf_;
   delete[] cur_index_;
+  delete[] jobs_outstanding_;
 }
 
 int PicoDrv::GetBytesAvailable(int stream, bool read) {
-//  std::cout<<"In getbytesavailable stream: "<<stream<<std::endl;
-//  std::cout<<"Checking mutex "<<&(mutex_[stream])<<std::endl;
   pthread_mutex_lock(&(mutex_[stream]));
-//  std::cout<<"After mutex lock"<<std::endl;
-  int num_bytes_available = (READ_BUF_LENGTH - cur_index_[stream]) * 16;
-  pthread_mutex_unlock(&(mutex_[stream]));
-//  std::cout<<"Unlocked mutex "<<&(mutex_[stream])<<std::endl;
+  //std::cout<<"Locked Mutex "<<&(mutex_[stream])<<std::endl;
+  int num_bytes_available = (jobs_outstanding_[stream] > 0) ? (READ_BUF_LENGTH - cur_index_[stream]) * 16 : 0;
+  //std::cout<<"Unlocking Mutex "<<&(mutex_[stream])<<std::endl;
+  pthread_mutex_unlock(&mutex_[stream]);
   return num_bytes_available > 16 ? 16 : num_bytes_available;
 }
 
 void PicoDrv::ReadStream(int stream, uint32_t* buf, int num_bytes) {
-//  std::cout<<"In readstream stream:"<<stream<<std::endl;
-//  std::cout<<"Checking mutex "<<&(mutex_[stream])<<std::endl;
   pthread_mutex_lock(&(mutex_[stream]));
-//  std::cout<<"After mutex lock"<<std::endl;
+  //std::cout<<"Readstream Mutex locked"<<&(mutex_[stream])<<std::endl;
   int num_bytes_to_read = cur_index_[stream] + (num_bytes / 16) > READ_BUF_LENGTH ?
                             (READ_BUF_LENGTH - cur_index_[stream])*16 : num_bytes;
   for (int i = 0; i < num_bytes_to_read/16; i++) {
     buf[i] = read_buf_[stream][cur_index_[stream]];
+    if (buf[i] == 0xFFFFFFFF) {
+      jobs_outstanding_[stream]--;
+    }
     cur_index_[stream]++;
   }
+  //std::cout<<"ReadStream Unlocking Mutex "<<&(mutex_[stream])<<std::endl;
   pthread_mutex_unlock(&(mutex_[stream]));
-//  std::cout<<"Unlocked mutex "<<&(mutex_[stream])<<std::endl;
 }
 
 void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
@@ -113,7 +118,8 @@ void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
     return;
   }
   
-  std::cout << "Engine job\tNum Ref Blocks: " << buf[0]
+  /*std::cout << "Engine job for stream " << stream
+            <<"\tNum Ref Blocks: " << buf[0]
             << "\tRef Block Offset: " << buf[1]
             << "\tQuery ID: " << (buf[2] >> 16)
             << "\tQuery Len: " << (buf[2] & 0xFFFF)
@@ -122,6 +128,12 @@ void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
   for (int i = 0; i < (num_bytes / 4) - 4; i++) {
     std::cout << buf[i + 4] << ' ';
   }
-  std::cout << std::endl;
+  std::cout << std::endl;*/
+  
+  pthread_mutex_lock(&(mutex_[stream]));
+  //std::cout<<"Writestream Mutex locked"<<&(mutex_[stream])<<std::endl;
+  jobs_outstanding_[stream]++;
+  //std::cout<<"WriteStream Unlocking Mutex "<<&(mutex_[stream])<<std::endl;
+  pthread_mutex_unlock(&(mutex_[stream]));
 }
 
