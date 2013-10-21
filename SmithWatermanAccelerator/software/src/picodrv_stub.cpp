@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 10 2013     Initial Revision (dummy implementation)
-//
+//      Albert Ng   Oct 21 2013     Added WriteRam() and dram_
 
 #include "picodrv_stub.h"
 #include <stdint.h>
@@ -76,6 +76,8 @@ void PicoDrv::Init(int num_streams) {
   for (int i = 0; i < num_streams; i++) {
     pthread_mutex_init(&(mutex_[i]), NULL);
   }
+
+  dram_ = new char[1000000];
 }
 
 PicoDrv::~PicoDrv() {
@@ -136,4 +138,13 @@ void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
   //std::cout<<"WriteStream Unlocking Mutex "<<&(mutex_[stream])<<std::endl;
   pthread_mutex_unlock(&(mutex_[stream]));
 }
+
+int PicoDrv::WriteRam(int ref_addr, char* ref_buf, int ref_buf_length, int ddr) {
+  std::cout << "Writing to FPGA DRAM: ";
+  for (int i = 0; i < ref_buf_length; i++) {
+    std::cout << ref_buf[i] << " ";
+  }
+  std::cout << std::endl;
+}
+
 

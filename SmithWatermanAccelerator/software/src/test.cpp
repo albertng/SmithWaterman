@@ -1,23 +1,12 @@
 #include <iostream>
-#include <stdint.h>
 
 int main (void) {
-  uint32_t** asdf;
-  asdf = new uint32_t* [2];
-  for (int i = 0; i < 2; i++) {
-    asdf[i] = new uint32_t [2];
+  std::cout<<isdigit('1')<<" " <<isdigit('a')<<std::endl;
+  if (isdigit('1')) {
+    std::cout<<'1'<<std::endl;
   }
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 2; j++) {
-      asdf[i][j] = j;
-    }
+  if (isalpha('a')) {
+    std::cout<<" a1"<<std::endl;
   }
-
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 2; j++) {
-      std::cout<<asdf[i][j]<<" ";
-    }
-  }
-  std::cout<<std::endl;
   return 0;
 }

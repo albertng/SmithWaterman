@@ -3,13 +3,15 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 10 2013     Initial Revision (dummy implementation)
-//
+//      Albert Ng   Oct 21 2013     Added WriteRam();
 
 #ifndef PICODRVSTUB_H_
 #define PICODRVSTUB_H_
 
 #include <stdint.h>
 #include <pthread.h>
+
+#define PICO_DDR3_0 0
 
 class PicoDrv {
   public:
@@ -24,15 +26,18 @@ class PicoDrv {
     void ReadStream(int stream, uint32_t* buf, int num_bytes);
 
     void WriteStream(int stream, uint32_t* buf, int num_bytes);
+
+    int WriteRam(int ref_addr, char* ref_buf, int ref_buf_length, int ddr3);
     
   private:
     int num_streams_;
     uint32_t** read_buf_;
     int* cur_index_;
-    //static const int READ_BUF_LENGTH = 25;
     static const int READ_BUF_LENGTH = 13;
     int* jobs_outstanding_;
     pthread_mutex_t* mutex_;
+
+    char* dram_;
 };
 
 #endif // PICODRVSTUB_H_
