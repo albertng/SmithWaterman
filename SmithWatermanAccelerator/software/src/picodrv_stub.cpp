@@ -8,6 +8,7 @@
 #include "picodrv_stub.h"
 #include <stdint.h>
 #include <pthread.h>
+#include <string.h>
 
 #include <iostream>
 
@@ -140,11 +141,18 @@ void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
 }
 
 int PicoDrv::WriteRam(int ref_addr, char* ref_buf, int ref_buf_length, int ddr) {
-  std::cout << "Writing to FPGA DRAM: ";
+  std::cout << "Writing to FPGA DRAM at block " << ref_addr << ": ";
   for (int i = 0; i < ref_buf_length; i++) {
-    std::cout << ref_buf[i] << " ";
+    std::cout << (int) ref_buf[i] << " ";
   }
   std::cout << std::endl;
+}
+
+char* PicoErrors_FullError(int err, char* ibuf, size_t size) {
+  std::string error_str = "Dummy Error!";
+  ibuf[error_str.size()] = 0;
+  memcpy(ibuf, error_str.c_str(), error_str.size());
+  return ibuf;
 }
 
 

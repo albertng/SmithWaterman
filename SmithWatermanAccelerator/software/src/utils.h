@@ -28,8 +28,8 @@ inline NtInt NtChar2Int (char nt) {
     case 'G': return G_NT;
     case 'n':
     case 'N': return N_NT;
-    default: std::err << "Invalid nucleotide character " << nt 
-                      << ". Replacing with 'N'." << std::endl;
+    default: std::cerr << "Invalid nucleotide character " << nt 
+                       << ". Replacing with 'N'." << std::endl;
              return N_NT;
   }
 }

@@ -120,6 +120,8 @@ void RefSeqManager::AddRef(std::string filename) {
     if (line[0] == '>') {
       if (first == false) {
         StreamRefSeq(ref_seq_[cur_ref], ref_addr_[cur_ref], ref_length_[cur_ref]);
+      } else {
+        first = false;
       }
       cur_ref++;
       seq = ref_seq_[cur_ref];
@@ -139,7 +141,7 @@ void RefSeqManager::AddRef(std::string filename) {
       std::cout << seq[j];
     }
     std::cout << '\n' << std::endl;
-  } 
+  }
 }
 
 std::string RefSeqManager::GetFastaSeqName(std::string line) {
@@ -154,19 +156,20 @@ std::string RefSeqManager::GetFastaSeqName(std::string line) {
   return name;
 }
 
+// Note: Assumes REF_BLOCK_LEN is a multiple of 4
 void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long long int ref_length) {
   // Compute length of 2-bit formatted ref seq buffer
   // Pad ref seq buffer hold a multiple of REF_BLOCK_LEN nucleotides
-  int ref_buf_length = ref_length / REF_BLOCK_LEN;
+  int twobit_buf_length = ref_length / REF_BLOCK_LEN;
   if (ref_length % REF_BLOCK_LEN != 0) {
-    ref_buf_length++;
+    twobit_buf_length++;
   }
-  ref_buf_length *= (REF_BLOCK_LEN / 4);
+  twobit_buf_length *= (REF_BLOCK_LEN / 4);
 
   // Build 2-bit formatted ref seq buffer
   // Replace N's with random nucleotide
-  char* ref_buf = new char[ref_buf_length];
-  for (int i = 0; i < ref_buf_length; i++) {
+  char* twobit_buf = new char[twobit_buf_length];
+  for (int i = 0; i < twobit_buf_length; i++) {
     char val = 0;
     for (int j = i*4+3; j >= i*4; j--) {
       val <<= 2;
@@ -178,20 +181,20 @@ void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long lon
         }
       }
     }
-    ref_buf[i] = val;
+    twobit_buf[i] = val;
   }
 
   // Write the ref seq to the FPGA DRAMS
   int err;
   char ibuf[1024];
   for (int i = 0; i < NUM_FPGAS; i++) {
-    err = pico_drivers[i].WriteRam(ref_addr, ref_buf, ref_buf_length, PICO_DDR3_0);
+    err = pico_drivers_[i].WriteRam(ref_addr, twobit_buf, twobit_buf_length, PICO_DDR3_0);
     if (err < 0) {
       fprintf(stderr, "Failed to write ref seq to FPGA %d, error: %s\n", i, 
               PicoErrors_FullError(err, ibuf, sizeof(ibuf)));
     }
   }
 
-  delete[] ref_buf;
+  delete[] twobit_buf;
 }
 

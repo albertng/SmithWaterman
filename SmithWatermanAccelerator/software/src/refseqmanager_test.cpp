@@ -10,12 +10,14 @@
 #include <iostream>
 #include <vector>
 #include "def.h"
+#include <stdio.h>
+#include <cstdlib>
 
 int main(int argc, char *argv[]) {
   RefSeqManager ref_seq_manager;
   PicoDrv* pico_drivers;
   if (argc < 2) {
-    fprintf(stderr, "Usage: ./refseqmanager_test <REF SEQ FASTA FILE1> [<REF SEQ FASTA FILE2> ...]");
+    fprintf(stderr, "Usage: ./refseqmanager_test <REF SEQ FASTA FILE1> [<REF SEQ FASTA FILE2> ...]\n");
     exit(1);
   }
 

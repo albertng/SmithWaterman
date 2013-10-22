@@ -40,4 +40,6 @@ class PicoDrv {
     char* dram_;
 };
 
+char* PicoErrors_FullError(int err, char* ibuf, size_t size);
+
 #endif // PICODRVSTUB_H_
