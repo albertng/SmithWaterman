@@ -16,7 +16,7 @@
 #include "resultsreaderthread.h"
 #include "threadqueue.h"
 #include "def.h"
-#include "scoring.h"
+#include "scoring.h'
 #include <pthread.h>
 #include <stdint.h>
 

@@ -16,7 +16,6 @@ class ServerSocket: public Socket {
   public:
     ServerSocket();
     ServerSocket(int port);
-    void Init(int port);
     virtual ~ServerSocket();
     bool Accept(Socket* new_sock);
 

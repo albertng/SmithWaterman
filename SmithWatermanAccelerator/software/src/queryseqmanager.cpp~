@@ -6,7 +6,6 @@
 //      Albert Ng   Oct 14 2013     Added SetQueryNumEngines()
 //      Albert Ng   Oct 17 2013     Renamed SetQueryNumEngines to SetQueryNumJobs
 //      Albert Ng   Oct 22 2013     Changed AddQuery to take a string
-//                                  Added query name
 
 #include <pthread.h>
 #include <map>

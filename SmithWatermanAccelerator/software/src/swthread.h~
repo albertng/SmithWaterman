@@ -23,8 +23,7 @@
 //      Albert Ng   Oct 02 2013     Initial Revision 
 //      Albert Ng   Oct 05 2013     AlnOp names suffixed with _OP
 //      Albert Ng   Oct 07 2013     Added SWThread::Join()
-//      Albert Ng   Oct 09 2013     Added query seq manager
-//      Albert Ng   Oct 22 2013     Removed params and params_mutex member variables
+//      Albert Ng   oct 09 2013     Added query seq manager
 
 #ifndef SWTHREAD_H_
 #define SWTHREAD_H_

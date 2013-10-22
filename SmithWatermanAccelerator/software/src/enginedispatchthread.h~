@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 15 2013     Initial Revision 
-//      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and EngineJob
+//      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and  EngineJob
 
 #ifndef ENGINEDISPATCHTHREAD_H_
 #define ENGINEDISPATCHTHREAD_H_

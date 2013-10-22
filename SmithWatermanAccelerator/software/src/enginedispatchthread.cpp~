@@ -69,6 +69,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
     if (query_id == PARAMS_JOB) {     // Set scoring params between query groups
       int* params_buf;
       int params_buf_len = params.ToBuf(params_buf);
+      int err;
       for (int i = 0; i < NUM_FPGAS; i++) {
         pico_drivers[i].WriteDeviceAbsolute(0, (uint32_t*) params_buf, params_buf_len);
       }

@@ -1,0 +1,36 @@
+//  File Name        : serverqueryparser.h
+//  Description      : Server Query Parser class definitions
+//
+//  Revision History :
+//      Albert Ng   Oct 22 2013     Initial Revision
+//
+
+#ifndef SERVERQUERYPARSER_H_
+#define SERVERQUERYPARSER_H_
+
+#include "serversocket.h"
+#include "threadqueue.h"
+#include "queryseqmanager.h"
+#include "refseqmanager.h"
+#include <list>
+
+class ServerQueryParser {
+  public:
+    ServerQueryParser(int port);
+    ~ServerQueryParser();
+    
+    // Receive the next query group from the client.
+    // Add the queries to the query seq manager
+    // Store the scoring params and queries onto the alignment job queue
+    // Returns the list of query IDs in this group
+    std::list<int> ParseQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
+                                   QuerySeqManager* query_seq_manager,
+                                   RefSeqManager* ref_seq_manager);
+     
+  private:
+    ServerSocket server_;
+};
+    
+    
+    
+#endif // SERVERQUERYPARSER_H_

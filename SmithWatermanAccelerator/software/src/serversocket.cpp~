@@ -12,7 +12,7 @@ ServerSocket::ServerSocket() {
 }
 
 ServerSocket::ServerSocket(int port) {
-  Init(port);
+  Init( port);
 }
 
 ServerSocket::Init(int port) {

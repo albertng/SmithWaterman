@@ -30,9 +30,6 @@
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"
 
-// Alignment Job Queue definitions
-#define PARAMS_JOB -1
-
 // Nucleotide character definitions
 #define T_NT 0
 #define C_NT 1

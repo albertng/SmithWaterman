@@ -7,7 +7,6 @@
 
 #include "socket.h"
 #include <string>
-#include <cstring>  // memset()
 #include <iostream>
 #include <errno.h>
 

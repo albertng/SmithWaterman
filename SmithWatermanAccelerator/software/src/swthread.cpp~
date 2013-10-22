@@ -11,7 +11,6 @@
 //      Albert Ng   Oct 15 2013     Ignore alignments starting in overlap region
 //      Albert Ng   Oct 18 2013     Removed duplicate alignments
 //      Albert Ng   Oct 22 2013     Changed SwAffineGapParams to a class
-//                                  Removed params and params_mutex member variables
 
 #include "swthread.h"
 #include "def.h"
@@ -25,19 +24,33 @@
 SWThread::SWThread() {
 }
 
-SWThread::SWThread(ThreadQueue<HighScoreRegion>* hsr_queue,
+SWThread::SWThread(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
                    ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager,
                    QuerySeqManager* query_seq_manager) {
-  Init(hsr_queue, result_queue, ref_seq_manager, query_seq_manager);
+  Init(params, hsr_queue, result_queue, ref_seq_manager, query_seq_manager);
 }
 
-void SWThread::Init(ThreadQueue<HighScoreRegion>* hsr_queue,
+void SWThread::Init(SwAffineGapParams params, ThreadQueue<HighScoreRegion>* hsr_queue,
           ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager,
           QuerySeqManager* query_seq_manager) {
+  args_.params = &params_;
+  args_.params_mutex = &params_mutex_;
   args_.hsr_queue = hsr_queue;
   args_.result_queue = result_queue;
   args_.ref_seq_manager = ref_seq_manager;
   args_.query_seq_manager = query_seq_manager;
+
+  params_ = params;
+  pthread_mutex_init(&params_mutex_, NULL);
+}
+
+// Locks the params mutex before setting the params
+//   so the params don't change in the middle of an
+//   alignment.
+void SWThread::SetParams(SwAffineGapParams params) {
+  pthread_mutex_lock(&params_mutex_);
+  params_ = params;
+  pthread_mutex_unlock(&params_mutex_);
 }
 
 void SWThread::Run() {
