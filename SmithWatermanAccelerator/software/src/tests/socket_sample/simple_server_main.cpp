@@ -24,6 +24,7 @@ int main ( int argc, char* argv[] )
 		{
 		  std::string data;
 		  new_sock >> data;
+      sleep(1);
 		  new_sock << data;
 		}
 	    }

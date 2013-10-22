@@ -1,0 +1,26 @@
+all: server_test client_test
+
+server_test: socket.o serversocket.o serversocket_test.o 
+	g++ socket.o serversocket.o serversocket_test.o -o server_test
+
+client_test: socket.o clientsocket.o clientsocket_test.o 
+	g++ socket.o clientsocket.o clientsocket_test.o -o client_test
+
+socket.o: socket.cpp
+	g++ -c socket.cpp
+
+serversocket.o: serversocket.cpp
+	g++ -c serversocket.cpp
+
+clientsocket.o: clientsocket.cpp
+	g++ -c clientsocket.cpp
+
+serversocket_test.o: serversocket_test.cpp
+	g++ -c serversocket_test.cpp
+
+clientsocket_test.o: clientsocket_test.cpp
+	g++ -c clientsocket_test.cpp
+
+clean:
+	rm -rf *o server_test client_test
+
