@@ -145,7 +145,7 @@ int PicoDrv::WriteRam(int ref_addr, char* ref_buf, int ref_buf_length, int ddr) 
   for (int i = 0; i < ref_buf_length; i++) {
     std::cout << (int) ref_buf[i] << " ";
   }
-  std::cout << std::endl;
+  std::cout << '\n' << std::endl;
 }
 
 char* PicoErrors_FullError(int err, char* ibuf, size_t size) {

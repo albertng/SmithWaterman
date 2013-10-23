@@ -15,7 +15,7 @@ ServerSocket::ServerSocket(int port) {
   Init(port);
 }
 
-ServerSocket::Init(int port) {
+void ServerSocket::Init(int port) {
   Create();
   Bind(port);
   Listen();

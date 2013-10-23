@@ -11,6 +11,9 @@
 #include "def.h"
 #include <string>
 
+SwAffineGapParams::SwAffineGapParams() {
+}
+
 SwAffineGapParams::SwAffineGapParams(int** sub_mat, int gap_open, int gap_extend) {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
@@ -76,7 +79,7 @@ bool SwAffineGapParams::IsValid() {
 }
 
 std::string SwAffineGapParams::ToString() {
-  stringstream ss;
+  std::stringstream ss;
   
   ss << sub_mat_[A_NT][A_NT] << " " << sub_mat_[A_NT][C_NT] << " " << sub_mat_[A_NT][G_NT] << " " 
      << sub_mat_[A_NT][T_NT] << " " << sub_mat_[C_NT][C_NT] << " " << sub_mat_[C_NT][G_NT] << " " 

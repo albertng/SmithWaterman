@@ -16,9 +16,11 @@ int main(void) {
     ServerSocket new_sock;
     server.Accept(&new_sock);
     std::string data;
-    new_sock.Recv(&data);
-    std::cout << data << std::endl;
-    new_sock.Send(data);
+    while(new_sock.Recv(&data) > 0) {
+      std::cout << data << std::endl;
+      new_sock.Send(data);
+    }
+    std::cout << "Socket closed by client." << std::endl;
   }
 
   return 0;

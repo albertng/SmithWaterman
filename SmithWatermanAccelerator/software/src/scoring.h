@@ -15,6 +15,7 @@
 // Data structure holding affine gap penalty scoring scheme parameters
 class SwAffineGapParams {
   public:
+    SwAffineGapParams();
     SwAffineGapParams(int** sub_mat, int gap_open, int gap_extend);
     SwAffineGapParams(std::string s);
     ~SwAffineGapParams();

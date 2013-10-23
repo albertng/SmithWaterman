@@ -49,7 +49,7 @@ int Socket::Recv(std::string* s) {
   int status = recv(sock_fd_, buf, RECV_BUF_SIZE, 0);
   *s = "";
   if (status == -1) {
-    std::cout << "In Socket::Recv(), Error number " << errno << std::endl;
+    //std::cout << "In Socket::Recv(), Error number " << errno << std::endl;
     return 0;
   } else if (status == 0) {
     return 0;

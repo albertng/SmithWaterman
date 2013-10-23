@@ -1,0 +1,38 @@
+all: serverqueryparser_test client_serverqueryparser_test
+
+serverqueryparser_test: picodrv_stub.o alignment.o refseqmanager.o queryseqmanager.o serversocket.o socket.o scoring.o serverqueryparser.o serverqueryparser_test.o
+	g++ picodrv_stub.o alignment.o refseqmanager.o queryseqmanager.o serversocket.o socket.o scoring.o serverqueryparser.o serverqueryparser_test.o -o serverqueryparser_test -pthread
+
+client_serverqueryparser_test: alignment.o socket.o clientsocket.o scoring.o client_serverqueryparser_test.o 
+	g++ alignment.o socket.o clientsocket.o scoring.o client_serverqueryparser_test.o -o client_serverqueryparser_test
+
+picodrv_stub.o: picodrv_stub.cpp
+	g++ -c picodrv_stub.cpp
+
+alignment.o: alignment.cpp
+	g++ -c alignment.cpp
+
+refseqmanager.o: refseqmanager.cpp
+	g++ -c refseqmanager.cpp
+	
+queryseqmanager.o: queryseqmanager.cpp
+	g++ -c queryseqmanager.cpp
+
+serversocket.o: serversocket.cpp
+	g++ -c serversocket.cpp
+	
+socket.o: socket.cpp
+	g++ -c socket.cpp
+	
+scoring.o: scoring.cpp
+	g++ -c scoring.cpp
+
+serverqueryparser.o: serverqueryparser.cpp
+	g++ -c serverqueryparser.cpp
+
+serverqueryparser_test.o: serverqueryparser_test.cpp
+	g++ -c serverqueryparser_test.cpp
+
+clean:
+	rm -rf *o serverqueryparser_test client_serverqueryparser_test
+
