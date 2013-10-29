@@ -8,11 +8,16 @@
 //      Albert Ng   Oct 15 2013     Changed target to ref
 //                                  Added get_ref_offset(), get_query_offset()
 //      Albert Ng   Oct 18 2013     Added GetLength()
+//      Albert Ng   Oct 28 2013     Changed Print() to ToString()
 
 #include "alignment.h"
 #include <utility>      // For std::pair
 #include <list>
-#include <iostream>
+#include <sstream>
+#include <string>
+
+Alignment::Alignment() {
+}
 
 Alignment::Alignment(long long int ref_offset, long long int query_offset) {
   alignment_ = new std::list<std::pair<char, char> >;
@@ -24,17 +29,21 @@ Alignment::~Alignment() {
   delete alignment_;
 }
 
-void Alignment::Print(std::ostream& stream) {
-  stream << ref_offset_ << std::endl;
+std::string Alignment::ToString() {
+  std::stringstream ss;
+
+  ss << ref_offset_ << std::endl;
   for (std::list<std::pair<char, char> >::iterator it = alignment_->begin(); it != alignment_->end(); ++it) {
-    stream << (*it).first;
+    ss << (*it).first;
   }
-  stream << std::endl;
+  ss << std::endl;
   for (std::list<std::pair<char, char> >::iterator it = alignment_->begin(); it != alignment_->end(); ++it) {
-    stream << (*it).second;
+    ss << (*it).second;
   }
-  stream << std::endl;
-  stream << query_offset_ << std::endl;
+  ss << std::endl;
+  ss << query_offset_ << std::endl;
+  
+  return ss.str();
 }
 
 void Alignment::Prepend(char ref_nt, char query_nt) {

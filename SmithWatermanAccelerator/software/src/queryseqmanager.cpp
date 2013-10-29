@@ -7,6 +7,7 @@
 //      Albert Ng   Oct 17 2013     Renamed SetQueryNumEngines to SetQueryNumJobs
 //      Albert Ng   Oct 22 2013     Changed AddQuery to take a string
 //                                  Added query name
+//      Albert Ng   Oct 28 2013     Deleted query seq char array in RemoveQuery()
 
 #include <pthread.h>
 #include <map>
@@ -54,6 +55,11 @@ void QuerySeqManager::SetQueryNumJobs(int query_id, int num_jobs) {
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::RemoveQuery(int query_id) {
+  pthread_mutex_lock(&query_seq_map_mutex_);
+  delete[] query_seq_map_[query_id].seq;
+  query_seq_map_.erase(query_id);
+  pthread_mutex_unlock(&query_seq_map_mutex_);
+
   pthread_mutex_lock(&query_jobcount_map_mutex_);
   query_jobcount_map_.erase(query_id);
   pthread_mutex_unlock(&query_jobcount_map_mutex_);

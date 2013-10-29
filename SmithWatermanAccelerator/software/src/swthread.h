@@ -33,7 +33,7 @@
 #include "def.h"
 #include "threadqueue.h"
 #include "utils.h"
-#include "refseqmanager_stub.h"
+#include "refseqmanager.h"
 #include "queryseqmanager.h"
 
 // Software Smith-Waterman aligner worker thread

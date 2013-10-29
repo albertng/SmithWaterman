@@ -12,6 +12,7 @@
 //      Albert Ng   Oct 22 2013     Changed SwAffineGapParams to a class in scoring.h
 //                                  Added SwAffineGapParams to bookkeeping structs
 //                                  Removed query_len from AlignmentJob
+//      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -84,7 +85,7 @@ struct HighScoreRegion {
 // Data structure holding the traceback result of a high scoring alignment
 struct AlignmentResult {
   HighScoreRegion hsr;
-  Alignment* alignment;
+  Alignment alignment;
   int score;
 };
 

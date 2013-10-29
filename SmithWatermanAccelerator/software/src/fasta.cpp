@@ -3,25 +3,27 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
-//
+//      Albert Ng   Oct 28 2013     Changed ParseFastaFile to return full descrip line
 
 #include "fasta.h"
 #include <string>
 #include <fstream>
 #include <vector>
+#include <iostream>
 
-void ParseFastaFile(std::string filename, std::list<std::string>* names,
+void ParseFastaFile(std::string filename,
+                    std::vector<std::string>* descrips,
                     std::vector<char*>* seqs,
                     std::vector<int>* lengths) {
   std::ifstream file(filename.c_str());
-  if (!ref_file.is_open()) {
+  if (!file.is_open()) {
     std::cerr << "Error: Could not open FASTA file " << filename << "." << std::endl;
     return;
   }
   
-  int start_size = lengths.size();
+  int start_size = lengths->size();
   
-  // First go through to get sequences names and lengths
+  // First go through to get sequence names and lengths
   std::string line;
   int cur_length = 0;
   bool first_seq = true;
@@ -34,8 +36,7 @@ void ParseFastaFile(std::string filename, std::list<std::string>* names,
         lengths->push_back(cur_length);
         cur_length = 0;
       }
-      
-      names->push_back(GetSeqName(line));
+      descrips->push_back(line);
     } else {
       cur_length += line.length();
     }
@@ -44,8 +45,8 @@ void ParseFastaFile(std::string filename, std::list<std::string>* names,
   lengths->push_back(cur_length);
   
   // Allocate char array memory
-  for (int i = 0; i < lengths.size() - start_size; i++) {
-    char* seq = new char[lengths[i + start_size]];
+  for (int i = 0; i < lengths->size() - start_size; i++) {
+    char* seq = new char[lengths->at(i + start_size)];
     seqs->push_back(seq);
   }
   
@@ -57,7 +58,7 @@ void ParseFastaFile(std::string filename, std::list<std::string>* names,
   int cur_ref = start_size - 1;
   first_seq = true;
   while (getline(file, line)) {
-    if (line[0] == '>')
+    if (line[0] == '>') {
       cur_ref++;
       seq = seqs->at(cur_ref);
       index = 0;
@@ -68,15 +69,15 @@ void ParseFastaFile(std::string filename, std::list<std::string>* names,
   }
 }
 
-static void GetSeqName(std::string line) {
-  std::string name;
+static void GetSeqName(std::string line, std::string* name, std::string* descrip) {
+  bool in_name = true;
   for (int i = 1; i < line.length(); i++) {
-    if (isalpha(line[i]) || isdigit(line[i])) {
-      name.push_back(line[i]);
+    if (in_name && (isalpha(line[i]) || isdigit(line[i]))) {
+      name->push_back(line[i]);
     } else {
-      break;
+      in_name = false;
+      descrip->push_back(line[i]);
     }
   }
-  return name;
 }
       

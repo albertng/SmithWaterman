@@ -1,25 +1,26 @@
-//  File Name        : serverqueryparser.h
-//  Description      : Server Query Parser class definitions
+//  File Name        : servercomm.h
+//  Description      : Server Communicator class definitions
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
 //
 
-#ifndef SERVERQUERYPARSER_H_
-#define SERVERQUERYPARSER_H_
+#ifndef SERVERCOMM_H_
+#define SERVERCOMM_H_
 
 #include "serversocket.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
+#include "alignment.h"
 #include "def.h"
 #include <string>
 #include <list>
 
-class ServerQueryParser {
+class ServerComm {
   public:
-    ServerQueryParser(int port);
-    ~ServerQueryParser();
+    ServerComm(int port);
+    ~ServerComm();
     
     // Receive the next query group from a client.
     // Add the queries to the query seq manager
@@ -28,7 +29,13 @@ class ServerQueryParser {
     std::list<int> ParseQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                    QuerySeqManager* query_seq_manager,
                                    RefSeqManager* ref_seq_manager);
-     
+    
+    // Send the alignment result to the client
+    void SendAlignment(AlignmentResult res, std::string query_name);
+    
+    // Send end of query group signal
+    void SendEndOfQueryGroup();
+    
   private:
     enum ParserState {PARAMS, QUERIES};
     
@@ -51,4 +58,4 @@ class ServerQueryParser {
     
     
     
-#endif // SERVERQUERYPARSER_H_
+#endif // SERVERCOMM_H_

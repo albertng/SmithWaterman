@@ -11,7 +11,7 @@
 #include "picodrv_stub.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
-#include "refseqmanager_stub.h"
+#include "refseqmanager.h"
 #include "def.h"
 #include "scoring.h"
 #include <pthread.h>

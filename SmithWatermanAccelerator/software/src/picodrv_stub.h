@@ -29,6 +29,8 @@ class PicoDrv {
 
     int WriteRam(int ref_addr, char* ref_buf, int ref_buf_length, int ddr3);
     
+    void WriteDeviceAbsolute(int addr, uint32_t* buf, int buf_len);
+    
   private:
     int num_streams_;
     uint32_t** read_buf_;

@@ -1,0 +1,56 @@
+all: smithwatermanclient smithwatermanserver
+
+smithwatermanclient: fasta.o socket.o clientsocket.o scoring.o smithwatermanclient.o 
+	g++ fasta.o socket.o clientsocket.o scoring.o smithwatermanclient.o -o smithwatermanclient
+
+smithwatermanserver: alignment.o servercomm.o picodrv_stub.o queryseqmanager.o refseqmanager.o scoring.o enginedispatchthread.o resultsreaderthread.o swthread.o serversocket.o socket.o smithwatermanserver.o
+	g++ alignment.o servercomm.o picodrv_stub.o queryseqmanager.o refseqmanager.o scoring.o enginedispatchthread.o resultsreaderthread.o swthread.o serversocket.o socket.o smithwatermanserver.o -o smithwatermanserver -pthread
+
+fasta.o: fasta.cpp
+	g++ -c fasta.cpp
+	
+socket.o: socket.cpp
+	g++ -c socket.cpp
+	
+scoring.o: scoring.cpp
+	g++ -c scoring.cpp
+
+clientsocket.o: clientsocket.cpp
+	g++ -c clientsocket.cpp
+
+smithwatermanclient.o: smithwatermanclient.cpp
+	g++ -c smithwatermanclient.cpp
+
+alignment.o: alignment.cpp
+	g++ -c alignment.cpp
+
+servercomm.o: servercomm.cpp
+	g++ -c servercomm.cpp
+	
+picodrv_stub.o: picodrv_stub.cpp
+	g++ -c picodrv_stub.cpp
+	
+queryseqmanager.o: queryseqmanager.cpp
+	g++ -c queryseqmanager.cpp
+
+refseqmanager.o: refseqmanager.cpp
+	g++ -c refseqmanager.cpp
+
+enginedispatchthread.o: enginedispatchthread.cpp
+	g++ -c enginedispatchthread.cpp
+
+resultsreaderthread.o: resultsreaderthread.cpp
+	g++ -c resultsreaderthread.cpp
+
+swthread.o: swthread.cpp
+	g++ -c swthread.cpp
+
+serversocket.o: serversocket.cpp
+	g++ -c serversocket.cpp
+
+smithwatermanserver.o: smithwatermanserver.cpp
+	g++ -c smithwatermanserver.cpp
+
+clean:
+	rm -rf *o smithwatermanclient smithwatermanserver
+

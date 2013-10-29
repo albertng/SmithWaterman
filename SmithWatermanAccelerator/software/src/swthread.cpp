@@ -12,11 +12,12 @@
 //      Albert Ng   Oct 18 2013     Removed duplicate alignments
 //      Albert Ng   Oct 22 2013     Changed SwAffineGapParams to a class
 //                                  Removed params and params_mutex member variables
+//      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 
 #include "swthread.h"
 #include "def.h"
 #include "threadqueue.h"
-#include "refseqmanager_stub.h"
+#include "refseqmanager.h"
 #include "queryseqmanager.h"
 #include "utils.h"
 #include "scoring.h"
@@ -178,27 +179,25 @@ void* SWThread::Align(void* args) {
     // Backtrace to obtain alignments
     hsr_alignments.clear();
     if (max_score > hsr.threshold) {
-      // TODO: POTENTIAL MEMORY LEAK IF NOT CAREFUL
-      // MAKE SURE ALIGNMENT IS FREED AFTER BEING USED (I.E. SENT BACK TO CLIENT)
       for (it_query_index = max_query_index.begin(), it_ref_index = max_ref_index.begin(); 
            it_query_index != max_query_index.end() && it_ref_index != max_ref_index.end(); 
            ++it_query_index, ++it_ref_index) {
         query_index = *it_query_index;
         ref_index = *it_ref_index;
-        aln = new Alignment(hsr.offset + ref_index, query_index);
+        Alignment aln(hsr.offset + ref_index, query_index);
         while (dir_matrix[ref_index][query_index] != ZERO_OP) {
           switch(dir_matrix[ref_index][query_index]) {
-            case MATCH_OP:  aln->Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
+            case MATCH_OP:  aln.Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
                             query_index--;
                             ref_index--;
                             break;
-            case INSERT_OP: aln->Prepend(ref_seq[ref_index-1], GAP);
+            case INSERT_OP: aln.Prepend(ref_seq[ref_index-1], GAP);
                             ref_index--;
                            break;
-            case DELETE_OP: aln->Prepend(GAP, query_seq[query_index-1]);
+            case DELETE_OP: aln.Prepend(GAP, query_seq[query_index-1]);
                             query_index--;
                             break;
-           default:        aln->Prepend('X', 'X');   // Shouldn't get here
+           default:         aln.Prepend('X', 'X');   // Shouldn't get here
                             query_index--;
                             ref_index--;
                             break;
@@ -213,9 +212,9 @@ void* SWThread::Align(void* args) {
         // Filter out duplicate alignments, pick the longest duplicated alignment
         bool duplicate = false;
         for (std::list<AlignmentResult>::iterator it = hsr_alignments.begin(); it != hsr_alignments.end(); ++it) {
-          if ((*it).alignment->get_ref_offset() == aln_res.alignment->get_ref_offset()) {
+          if ((*it).alignment.get_ref_offset() == aln_res.alignment.get_ref_offset()) {
             duplicate = true;
-            if ((*it).alignment->GetLength() < aln_res.alignment->GetLength()) {
+            if ((*it).alignment.GetLength() < aln_res.alignment.GetLength()) {
               hsr_alignments.insert(it, aln_res);
               it = hsr_alignments.erase(it);
               --it;
@@ -225,7 +224,7 @@ void* SWThread::Align(void* args) {
         
         // Ignore alignments starting in the overlap region to prevent reporting duplicated
         //   alignments across job borders
-        if (aln_res.alignment->get_ref_offset() < hsr.overlap_offset && duplicate == false) {
+        if (aln_res.alignment.get_ref_offset() < hsr.overlap_offset && duplicate == false) {
           hsr_alignments.push_back(aln_res);
         }
       }

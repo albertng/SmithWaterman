@@ -8,6 +8,7 @@
 //      Albert Ng   Oct 15 2013     Changed target to ref
 //                                  Added get_ref_offset(), get_query_offset()
 //      Albert Ng   Oct 18 2013     Added GetLength();
+//      Albert Ng   Oct 28 2013     Changed Print() to ToString()
 
 #ifndef ALIGNMENT_H_
 #define ALIGNMENT_H_
@@ -15,16 +16,18 @@
 #include <utility>    // For std::pair
 #include <list>
 #include <iostream>
+#include <string>
 
 #define GAP '-'
 
 // Alignment information between two sequences
 class Alignment {
   public :
+    Alignment();
     Alignment(long long int ref_offset, long long int query_offset);
     ~Alignment();
     
-    void Print(std::ostream& stream);
+    std::string ToString();
 
     // Alignments are built backwards, so we prepend to the beginning of
     // the alignment, rather than extend from the end of the alignment.

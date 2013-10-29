@@ -1,20 +1,21 @@
-//  File Name        : serverqueryparser.cpp
-//  Description      : Server Query Parser class
+//  File Name        : servercomm.cpp
+//  Description      : Server Communicator class
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
 //
 
-#include "serverqueryparser.h"
+#include "servercomm.h"
 #include "threadqueue.h"
 #include "scoring.h"
 #include <sstream>
 #include "def.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
+#include "alignment.h"
 #include <iostream>
 
-ServerQueryParser::ServerQueryParser(int port) {
+ServerComm::ServerComm(int port) {
   server_.Init(port);
   rcv_buf_ = "";
   cur_line_ = "";
@@ -22,10 +23,10 @@ ServerQueryParser::ServerQueryParser(int port) {
   state_ = PARAMS;
 }
 
-ServerQueryParser::~ServerQueryParser() {
+ServerComm::~ServerComm() {
 }
 
-std::list<int> ServerQueryParser::ParseQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
+std::list<int> ServerComm::ParseQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                                   QuerySeqManager* query_seq_manager,
                                                   RefSeqManager* ref_seq_manager) {
   std::list<int> query_ids;
@@ -68,7 +69,7 @@ std::list<int> ServerQueryParser::ParseQueryGroup(ThreadQueue<AlignmentJob>* ali
   return query_ids;
 }
 
-bool ServerQueryParser::Action(std::string line, 
+bool ServerComm::Action(std::string line, 
                                ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                QuerySeqManager* query_seq_manager,
                                RefSeqManager* ref_seq_manager,
@@ -137,3 +138,17 @@ bool ServerQueryParser::Action(std::string line,
   
   return query_group_done;
 }
+
+void ServerComm::SendAlignment(AlignmentResult res, std::string query_name) {
+  std::stringstream ss;
+  
+  ss << "Query: " << query_name << "\tScore: " << res.score << "\n"
+     << res.alignment.ToString() << "\n";
+
+  client_sock_.Send(ss.str());
+}
+
+void ServerComm::SendEndOfQueryGroup() {
+  client_sock_.Send(END_OF_QUERY_GROUP);
+}
+

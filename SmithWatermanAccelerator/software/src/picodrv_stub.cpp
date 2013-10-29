@@ -155,4 +155,15 @@ char* PicoErrors_FullError(int err, char* ibuf, size_t size) {
   return ibuf;
 }
 
+void PicoDrv::WriteDeviceAbsolute(int addr, uint32_t* buf, int buf_len) {
+  std::cout << "Writing to absolute address " << addr << ":\n";
+  for (int i = 0; i < buf_len; i++) {
+    std::cout << buf[i] << " ";
+  }
+  std::cout << std::endl;
+}
+
+
+
+
 
