@@ -48,6 +48,7 @@ int QuerySeqManager::AddQuery(std::string query_name, std::string query_string) 
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::SetQueryNumJobs(int query_id, int num_jobs) {
+  //std::cout<<"Query "<<query_id<<" init num jobs "<< num_jobs<<std::endl;
   pthread_mutex_lock(&query_jobcount_map_mutex_);
   query_jobcount_map_[query_id] = num_jobs;
   pthread_mutex_unlock(&query_jobcount_map_mutex_);
@@ -67,9 +68,9 @@ void QuerySeqManager::RemoveQuery(int query_id) {
 
 // Note: No error handling for invalid query_ids
 void QuerySeqManager::IncHighScoreRegionCount(int query_id) {
-  std::cout<<"HighScoreRegion"<<std::endl;
   pthread_mutex_lock(&query_jobcount_map_mutex_);
   query_jobcount_map_[query_id]++;
+  //std::cout<<"Query "<<query_id<<" Inc HSR count to "<<query_jobcount_map_[query_id]<<std::endl;
   pthread_mutex_unlock(&query_jobcount_map_mutex_);
 }
 
@@ -79,6 +80,7 @@ void QuerySeqManager::DecHighScoreRegionCount(int query_id) {
   if (query_jobcount_map_.count(query_id) > 0) {
     query_jobcount_map_[query_id]--;
   }
+  //std::cout<<"Query "<<query_id<<" Dec HSR count to "<<query_jobcount_map_[query_id]<<std::endl;
   pthread_mutex_unlock(&query_jobcount_map_mutex_);
 }
 

@@ -9,7 +9,7 @@
 //                                  Set scoring params between query groups
 
 #include "enginedispatchthread.h"
-#include "picodrv_stub.h"
+#include "picodrv.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
@@ -21,7 +21,7 @@
 EngineDispatchThread::EngineDispatchThread() {
 }
 
-EngineDispatchThread::EngineDispatchThread(PicoDrv* pico_drivers, int** streams,
+EngineDispatchThread::EngineDispatchThread(PicoDrv** pico_drivers, int** streams,
                                            ThreadQueue<AlignmentJob>* alignment_job_queue,
                                            ThreadQueue<EngineJob>** engine_job_queues,
                                            QuerySeqManager* query_seq_manager,
@@ -30,7 +30,7 @@ EngineDispatchThread::EngineDispatchThread(PicoDrv* pico_drivers, int** streams,
        query_seq_manager, ref_seq_manager);
 }
 
-void EngineDispatchThread::Init(PicoDrv* pico_drivers, int** streams,
+void EngineDispatchThread::Init(PicoDrv** pico_drivers, int** streams,
                                 ThreadQueue<AlignmentJob>* alignment_job_queue,
                                 ThreadQueue<EngineJob>** engine_job_queues,
                                 QuerySeqManager* query_seq_manager,
@@ -53,24 +53,28 @@ void EngineDispatchThread::Join() {
 
 void* EngineDispatchThread::Dispatch(void* args) {
   // Get thread arguments
-  PicoDrv* pico_drivers = ((EngineDispatchThreadArgs*)args)->pico_drivers;
+  PicoDrv** pico_drivers = ((EngineDispatchThreadArgs*)args)->pico_drivers;
   int** streams = ((EngineDispatchThreadArgs*)args)->streams;
   ThreadQueue<AlignmentJob>* alignment_job_queue = ((EngineDispatchThreadArgs*)args)->alignment_job_queue;
   ThreadQueue<EngineJob>** engine_job_queues = ((EngineDispatchThreadArgs*)args)->engine_job_queues;
   QuerySeqManager* query_seq_manager = ((EngineDispatchThreadArgs*)args)->query_seq_manager;
   RefSeqManager* ref_seq_manager = ((EngineDispatchThreadArgs*)args)->ref_seq_manager;
 
+  // Current scoring parameters;
+  SwAffineGapParams params;
+  
   while (true) {
     AlignmentJob aln_job = alignment_job_queue->Pop();
-    SwAffineGapParams params = aln_job.params;
+    //std::cout<<"Engine Dispatch Thread job: "<<aln_job.query_id<< " "<<aln_job.ref_id<<" "<<aln_job.ref_offset<<" "<<aln_job.ref_len<<" "<<aln_job.threshold<<" "<<aln_job.params.ToString()<<std::endl;
     int query_id = aln_job.query_id;
     int query_len;
     
     if (query_id == PARAMS_JOB) {     // Set scoring params between query groups
-      int* params_buf;
-      int params_buf_len = params.ToBuf(params_buf);
+      params = aln_job.params;
+      int params_buf_len;
+      int* params_buf = params.ToBuf(&params_buf_len);
       for (int i = 0; i < NUM_FPGAS; i++) {
-        pico_drivers[i].WriteDeviceAbsolute(0, (uint32_t*) params_buf, params_buf_len);
+        pico_drivers[i]->WriteDeviceAbsolute(0, (uint32_t*) params_buf, params_buf_len);
       }
     } else {
       char* query_seq = query_seq_manager->GetQuerySeq(query_id, &query_len);
@@ -85,8 +89,8 @@ void* EngineDispatchThread::Dispatch(void* args) {
       } else {
         // Compute first block index and total number of blocks spanned by reference sequence
         int ref_addr = ref_seq_manager->GetRefAddr(ref_id);
-        int first_ref_block = ref_addr + (ref_offset / 128);
-        int last_ref_block = ref_addr + ((ref_offset + ref_len - 1) / 128);
+        int first_ref_block = ref_addr + (ref_offset / REF_BLOCK_LEN);
+        int last_ref_block = ref_addr + ((ref_offset + ref_len - 1) / REF_BLOCK_LEN);
         int total_num_ref_blocks = last_ref_block - first_ref_block + 1;
 
         // Compute minimum job size allowable
@@ -113,7 +117,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           num_jobs = NUM_FPGAS * NUM_ENGINES_PER_FPGA;
         }
         query_seq_manager->SetQueryNumJobs(query_id, num_jobs);
-        
+        //std::cout<<"Num FPGAS: "<<NUM_FPGAS<<" Num Engines per FPGA: "<< NUM_ENGINES_PER_FPGA<< " Min Job Num Blocks: " << min_job_num_blocks<<" Total Num Ref Blocks " << total_num_ref_blocks<< " Num jobs: "<<num_jobs<<std::endl;
         // Compute the nucleotide length and number of ref seq blocks each job spans
         int job_num_blocks[num_jobs];
         long long int job_length[num_jobs];
@@ -167,8 +171,10 @@ void* EngineDispatchThread::Dispatch(void* args) {
         // Dispatch and record the jobs
         int cur_fpga = 0;
         int cur_engine = 0;
+        //std::cout<<"Dispatching "<<num_jobs<<" jobs"<<std::endl;
         for (int i = 0; i < num_jobs; i++) {
-          DispatchJob(&(pico_drivers[cur_fpga]), streams[cur_fpga][cur_engine],
+          //std::cout<<"Cur FPGA: "<<cur_fpga<<" Cur engine: "<<cur_engine<<std::endl;
+          DispatchJob(pico_drivers[cur_fpga], streams[cur_fpga][cur_engine],
                       query_id, query_seq, query_len,
                       job_num_blocks[i], job_block_offset[i],
                       threshold);
@@ -231,7 +237,7 @@ void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_qu
   job.threshold = threshold;
   job.params = params;
 
-  std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
+  //std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
 
   engine_job_queue->Push(job);
 }

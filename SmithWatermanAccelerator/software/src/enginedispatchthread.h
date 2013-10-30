@@ -8,7 +8,7 @@
 #ifndef ENGINEDISPATCHTHREAD_H_
 #define ENGINEDISPATCHTHREAD_H_
 
-#include "picodrv_stub.h"
+#include "picodrv.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
@@ -22,14 +22,14 @@ class EngineDispatchThread{
     EngineDispatchThread();
 
     // Complete constructor
-    EngineDispatchThread(PicoDrv* pico_drivers, int** streams, 
+    EngineDispatchThread(PicoDrv** pico_drivers, int** streams, 
                          ThreadQueue<AlignmentJob>* alignment_job_queue,
                          ThreadQueue<EngineJob>** engine_job_queues,
                          QuerySeqManager* query_seq_manager,
                          RefSeqManager* ref_seq_manager);
 
     // Initialization function (called by constructor)
-    void Init(PicoDrv* pico_drivers, int** streams,
+    void Init(PicoDrv** pico_drivers, int** streams,
               ThreadQueue<AlignmentJob>* alignment_job_queue,
               ThreadQueue<EngineJob>** engine_job_queues,
               QuerySeqManager* query_seq_manager,
@@ -45,8 +45,8 @@ class EngineDispatchThread{
   private:
     // FPGA engine dispatch thread arguments struct
     struct EngineDispatchThreadArgs {
-      // Pointers to FPGA driver class objects
-      PicoDrv* pico_drivers;
+      // Array of pointers to FPGA driver class objects
+      PicoDrv** pico_drivers;
       
       // Engine stream handles, indexed by [FPGA][Stream]
       int** streams;

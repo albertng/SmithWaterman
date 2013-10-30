@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 21 2013     Initial Revision
-//
+//      Albetr Ng   Oct 29 2013     Added ShutdownRecv()
 
 #ifndef SERVERSOCKET_H_
 #define SERVERSOCKET_H_
@@ -19,7 +19,8 @@ class ServerSocket: public Socket {
     void Init(int port);
     virtual ~ServerSocket();
     bool Accept(Socket* new_sock);
-
+    bool ShutdownRecv();
+    
   private:
     bool Bind(int port);
     bool Listen();

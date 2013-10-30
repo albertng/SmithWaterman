@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 21 2013     Initial Revision
-//
+//      Albert Ng   Oct 29 2013     Added Close()
 
 #include "socket.h"
 #include <string>
@@ -61,4 +61,12 @@ int Socket::Recv(std::string* s) {
 
 void Socket::SetSockFD(int sock_fd) {
   sock_fd_ = sock_fd;
+}
+
+bool Socket::Close() {
+  if (sock_fd_ == INVALID) {
+    return false;
+  }
+  
+  return (close(sock_fd_) == 0);
 }

@@ -85,17 +85,43 @@ void* SWThread::Align(void* args) {
   RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
   QuerySeqManager* query_seq_manager = ((SWThreadArgs*)args)->query_seq_manager;
 
+  sub_mat = new int*[4];
+  for (int i = 0; i < 4; i++) {
+    sub_mat[i] = new int[4];
+  }
+
   while(true) {
     // Grab available high scoring region
     hsr = hsr_queue->Pop();
+    //std::cout<<"HSR Popped:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<" Params: "<<hsr.params.ToString()<<std::endl;
     ref_len = hsr.len;
+    //std::cout<<"Getting RefSeq "<<hsr.ref_id<<" " <<hsr.offset<<" " <<ref_len<<std::endl;
     ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
     query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
+    
+    /*std::cout<<"Ref len: "<<ref_len<<" Ref seq: ";
+    for (int i = 0; i < ref_len; i++) {
+      std::cout<<ref_seq[i];
+    }
+    
+    std::cout<<"\nQuery len: "<<query_len<<" Query seq: ";
+    for (int i = 0; i < query_len; i++) {
+      std::cout<<query_seq[i];
+    }
+    std::cout<<std::endl;*/
     
     // Get the scoring parameters
     hsr.params.GetSubMat(sub_mat);
     gap_open = hsr.params.GetGapOpen();
     gap_extend = hsr.params.GetGapExtend();
+    
+    /*std::cout<<"Sub mat: ";
+    for (int i =0 ; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        std::cout<<sub_mat[i][j]<<" ";
+      }
+    }
+    std::cout<<std::endl;*/
     
     // Initialize new score matrices
     v_matrix = new int*[ref_len + 1];
@@ -178,6 +204,7 @@ void* SWThread::Align(void* args) {
 
     // Backtrace to obtain alignments
     hsr_alignments.clear();
+    //std::cout<<"Max score: "<<max_score<<std::endl;
     if (max_score > hsr.threshold) {
       for (it_query_index = max_query_index.begin(), it_ref_index = max_ref_index.begin(); 
            it_query_index != max_query_index.end() && it_ref_index != max_ref_index.end(); 
@@ -231,10 +258,11 @@ void* SWThread::Align(void* args) {
       
       // Store alignment results list onto results queue
       for (std::list<AlignmentResult>::iterator it = hsr_alignments.begin(); it != hsr_alignments.end(); ++it) {
+        //std::cout<<"Storing alignment result "<<std::endl;
         result_queue->Push(*it);
       }
     }
-    std::cout<<"Aligned HSR:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
+    //std::cout<<"Aligned HSR:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
 
     // Memory cleanup
     for (int i = 0; i < ref_len + 1; i++) {
@@ -250,6 +278,7 @@ void* SWThread::Align(void* args) {
  
     // Decrement outstanding high scoring region count 
     query_seq_manager->DecHighScoreRegionCount(hsr.query_id);
+    //std::cout<<"Query "<<hsr.query_id<<" Decrement HSR Count after done with HSR"<<std::endl;
   } 
 }
 

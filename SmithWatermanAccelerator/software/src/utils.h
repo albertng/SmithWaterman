@@ -34,7 +34,20 @@ inline NtInt NtChar2Int (char nt) {
   }
 }
 
-
+// Converts a nucleotide integer to nucleotide char,
+// Returns 'X' if not TCAGN.
+inline char NtInt2Char (NtInt nt) {
+  switch(nt) {
+    case T_NT: return 'T';
+    case C_NT: return 'C';
+    case A_NT: return 'A';
+    case G_NT: return 'G';
+    case N_NT: return 'N';
+    default  : std::cerr << "Invalid nucleotide integer " << nt 
+                       << ". Replacing with 'X'." << std::endl;
+               return 'X';
+  }
+}
 
 #endif // UTILS_H_
 

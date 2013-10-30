@@ -15,38 +15,26 @@
 #include <vector>
 #include <string>
 
-#define QUERY_NAME_FIELD 0
-#define REF_NAME_FIELD 1
-#define REF_START_FIELD 2
-#define REF_END_FIELD 3
-#define THRESHOLD_FIELD 4
+static const int QUERY_NAME_FIELD = 0;
+static const int REF_NAME_FIELD = 1;
+static const int REF_START_FIELD = 2;
+static const int REF_END_FIELD = 3;
+static const int THRESHOLD_FIELD = 4;
 
-void SendQuery(ClientSocket* client_socket, std::string descrip, char* seq, int length) {
+void SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, char* seq, int length) {
   std::string seq_str(seq, length);
 
-  std::vector<std::string> fields;
-  std::string cur_str = "";
-  for (int i = 1; i < descrip.length(); i++) {
-    if (!isalpha(descrip[i]) && !isdigit(descrip[i])) {
-      fields.push_back(cur_str);
-      cur_str = "";
-    } else {
-      cur_str.push_back(descrip[i]);
-    }
-  }
-  fields.push_back(cur_str);
-
-  client_socket->Send(fields[QUERY_NAME_FIELD]);
+  client_socket->Send(descrip[QUERY_NAME_FIELD]);
   client_socket->Send(" ");
   client_socket->Send(seq_str);
   client_socket->Send(" ");
-  client_socket->Send(fields[REF_NAME_FIELD]);
+  client_socket->Send(descrip[REF_NAME_FIELD]);
   client_socket->Send(" ");
-  client_socket->Send(fields[REF_START_FIELD]);
+  client_socket->Send(descrip[REF_START_FIELD]);
   client_socket->Send(" ");
-  client_socket->Send(fields[REF_END_FIELD]);
+  client_socket->Send(descrip[REF_END_FIELD]);
   client_socket->Send(" ");
-  client_socket->Send(fields[THRESHOLD_FIELD]);
+  client_socket->Send(descrip[THRESHOLD_FIELD]);
   client_socket->Send("\n");
 }
 
@@ -56,7 +44,7 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
   
-  std::vector<std::string> descrips;
+  std::vector<std::vector<std::string> > descrips;
   std::vector<char*> seqs;
   std::vector<int> lengths;
   
@@ -66,6 +54,7 @@ int main(int argc, char *argv[]) {
     ParseFastaFile(filename, &descrips, &seqs, &lengths);
   }
   
+  // Connect to server
   ClientSocket client_socket("localhost", 30000);
   
   // Send the parameters
@@ -82,7 +71,7 @@ int main(int argc, char *argv[]) {
   client_socket.Send(END_OF_QUERY_GROUP);
   client_socket.Send("\n");
   
-  // RECEIVE AND PRINT ALIGNMENTS
+  // Receive and print alignments
   bool done = false;
   std::string rcv_buf;
   while (done == false) {

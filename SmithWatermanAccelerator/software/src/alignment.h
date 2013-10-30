@@ -9,6 +9,7 @@
 //                                  Added get_ref_offset(), get_query_offset()
 //      Albert Ng   Oct 18 2013     Added GetLength();
 //      Albert Ng   Oct 28 2013     Changed Print() to ToString()
+//      Albert Ng   Oct 29 2013     Changed from list<pair> to string based
 
 #ifndef ALIGNMENT_H_
 #define ALIGNMENT_H_
@@ -41,7 +42,9 @@ class Alignment {
     long long int get_query_offset();
 
   private :
-    std::list<std::pair<char, char> >* alignment_;
+    std::string ref_str_;
+    std::string query_str_;
+    //std::list<std::pair<char, char> >* alignment_;
     long long int ref_offset_;
     long long int query_offset_;
 };

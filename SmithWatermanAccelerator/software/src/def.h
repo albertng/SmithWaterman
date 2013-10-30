@@ -13,6 +13,7 @@
 //                                  Added SwAffineGapParams to bookkeeping structs
 //                                  Removed query_len from AlignmentJob
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
+//      Albert Ng   Oct 30 2013     Added END_OF_ENGINE_ALIGNMENT;
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -26,10 +27,15 @@
 #define NUM_FPGAS 1
 #define NUM_ENGINES_PER_FPGA 1
 #define REF_BLOCK_LEN 128
+#define QUERY_BLOCK_LEN 64
 #define MAX_QUERY_LEN 65535
 
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"
+
+// FPGA protocol definitions
+#define END_OF_ENGINE_ALIGNMENT 0xFFFFFFFF  // High score block value indicating the end 
+                                            //   of an alignment for an engine
 
 // Alignment Job Queue definitions
 #define PARAMS_JOB -1
@@ -42,16 +48,15 @@
 #define N_NT -1
 typedef int NtInt;
 
-// Data structure holding an alignment job requested by a client
-//   Can be used to hold a job requested from the client, or a sub-job
-//   scheduled to an engine.
+// Data structure holding an alignment job requested by a client, or
+//   a change in scoring parameters.
 struct AlignmentJob {
   int query_id;
   int ref_id;
   long long int ref_offset;
   long long int ref_len;
   int threshold;
-  SwAffineGapParams params;
+  SwAffineGapParams params; // Unused when query_id != PARAMS_JOB
 };
 
 // Data structure holding an alignment job scheduled to an engine.

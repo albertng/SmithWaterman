@@ -4,17 +4,22 @@
 //  Revision History :
 //      Albert Ng   Oct 18 2013     Initial Revision
 //      Albert Ng   Oct 19 2013     Completed StreamRefSeq()
+//      Albert Ng   Oct 29 2013     Uses fasta.h to parse FASTA files
 
 #include "refseqmanager.h"
 #include "def.h"
 #include "utils.h"
-#include "picodrv_stub.h"
+#include "picodrv.h"
+#include "fasta.h"
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <assert.h>
+
+static const int REF_NAME_FIELD = 0;
 
 RefSeqManager::RefSeqManager() {
   cur_ref_id_ = 0;
@@ -22,26 +27,27 @@ RefSeqManager::RefSeqManager() {
   srand(time(NULL));
 }
 
-RefSeqManager::RefSeqManager(PicoDrv* pico_drivers) {
+RefSeqManager::RefSeqManager(PicoDrv** pico_drivers) {
   Init(pico_drivers);
 }
 
-void RefSeqManager::Init(PicoDrv* pico_drivers) {
+void RefSeqManager::Init(PicoDrv** pico_drivers) {
   cur_ref_id_ = 0;
   cur_block_ = 0;
   pico_drivers_ = pico_drivers;
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, long long int ref_offset, long long int ref_len) {
+  //std::cout<<"GetRefSeq: "<<ref_id <<" "<<ref_offset<<" " <<ref_len<<std::endl;
   if (ref_seq_.count(ref_id) > 0) {
     if (ref_offset + ref_len <= ref_length_[ref_id]) {
       char* ref_seq = ref_seq_[ref_id];
       return &(ref_seq[ref_offset]);
     } else {
-      std::cerr << "Error: Ref offset and length exceed reference sequence bounds." << std::endl;
+      std::cerr << "RefSeqManager Error: Ref offset and length exceed reference sequence bounds." << std::endl;
     }
   } else {
-    std::cerr << "Error: Invalid ref ID " << ref_id << "." << std::endl;
+    std::cerr << "RefSeqManager Error: Invalid ref ID " << ref_id << "." << std::endl;
     return NULL;
   }
 }
@@ -58,106 +64,44 @@ int RefSeqManager::GetRefID(std::string ref_name) {
   return ref_id_[ref_name];
 }
 
-// Note: FASTA reader not very robust
 void RefSeqManager::AddRef(std::string filename) {
-  std::ifstream ref_file(filename.c_str());
-  if (!ref_file.is_open()) {
-    std::cerr << "Error: Could not open reference sequence file " << filename << "." << std::endl;
-    return;
-  }
-
-  // First go through the file to assign ref IDs and get sequence names, 
-  //   lengths, and block addresses
-  std::string line;
-  int cur_length = 0;
-  int first_ref_id = cur_ref_id_;
+  std::vector<std::vector<std::string> > descrips;
+  std::vector<char*> seqs;
   std::vector<int> lengths;
-  bool first_ref = true;
-  while (getline(ref_file, line)) {
-    if (line.length() == 0) {
-      continue;
-    }
-    if (line[0] == '>') {
-      if (first_ref == false) {
-        if (cur_length % REF_BLOCK_LEN == 0) {
-          cur_block_ += (cur_length / REF_BLOCK_LEN);
-        } else {
-          cur_block_ += ((cur_length / REF_BLOCK_LEN) + 1);
-        }
+  
+  ParseFastaFile(filename, &descrips, &seqs, &lengths);
 
-        ref_length_[cur_ref_id_ - 1] = cur_length;
-        lengths.push_back(cur_length);
-        cur_length = 0;
-      }
-      std::string name = GetFastaSeqName(line);
-      ref_id_[name] = cur_ref_id_;
-      ref_name_[cur_ref_id_] = name;
-      ref_addr_[cur_ref_id_] = cur_block_;
-      cur_ref_id_++;
-    } else {
-      cur_length += line.length();
-    }
-    first_ref = false;
-  }
-  ref_length_[cur_ref_id_ - 1] = cur_length;
-  lengths.push_back(cur_length);
+  for (int i = 0; i < seqs.size(); i++) {     
+    // Stream ref seq to DRAM
+    StreamRefSeq(seqs[i], ((long long int) cur_block_) * (REF_BLOCK_LEN/4), lengths[i]);
+    
+    // Record ref seq information
+    ref_id_[descrips[i][REF_NAME_FIELD]] = cur_ref_id_;
+    ref_name_[cur_ref_id_] = descrips[i][REF_NAME_FIELD];
+    ref_seq_[cur_ref_id_] = seqs[i];
+    ref_addr_[cur_ref_id_] = cur_block_;
+    ref_length_[cur_ref_id_] = lengths[i];
 
-  // Allocate char array memory
-  for (int i = 0; i < lengths.size(); i++) {
-    char* seq = new char[lengths[i]];
-    ref_seq_[i + first_ref_id] = seq;
-  }
-
-  // Go through file again and fill char arrays with sequences
-  ref_file.close();
-  ref_file.open(filename.c_str());
-  //ref_file.seekg(0, std::ios::beg);
-  int cur_ref = first_ref_id - 1;
-  char* seq;
-  int index;
-  bool first = true;
-  while (getline(ref_file, line)) {
-    if (line[0] == '>') {
-      if (first == false) {
-        StreamRefSeq(ref_seq_[cur_ref], ref_addr_[cur_ref], ref_length_[cur_ref]);
-      } else {
-        first = false;
-      }
-      cur_ref++;
-      seq = ref_seq_[cur_ref];
-      index = 0;
-    } else {
-      line.copy(&(seq[index]), line.length());
-      index += line.length();
-    }
-  }
-  StreamRefSeq(ref_seq_[cur_ref], ref_addr_[cur_ref], ref_length_[cur_ref]);
-
-  for (int i = 0; i < lengths.size(); i++) {
-    int ref_id = i + first_ref_id;
-    std::cout<<"Ref ID: "<<ref_id<<"\tName: "<<ref_name_[ref_id]<<"\tRef Len: "<<ref_length_[ref_id]<<"\tRef Addr: "<<ref_addr_[ref_id]<<std::endl;
-    char* seq = ref_seq_[ref_id];
-    for (int j = 0; j < ref_length_[ref_id]; j++) {
-      std::cout << seq[j];
+    std::cout<<"Ref ID: "<<cur_ref_id_<<"\tName: "<<ref_name_[cur_ref_id_]<<"\tRef Len: "<<ref_length_[cur_ref_id_]<<"\tRef Addr: "<<ref_addr_[cur_ref_id_]<<std::endl;
+    for (int j = 0; j < ref_length_[cur_ref_id_]; j++) {
+      std::cout<<seqs[i][j];
     }
     std::cout << '\n' << std::endl;
-  }
-}
 
-std::string RefSeqManager::GetFastaSeqName(std::string line) {
-  std::string name;
-  for (int i = 1; i < line.length(); i++) {
-    if (isalpha(line[i]) || isdigit(line[i])) {
-      name.push_back(line[i]);
+    // Move to next ref seq
+    cur_ref_id_++;
+    if (lengths[i] % REF_BLOCK_LEN == 0) {
+      cur_block_ += (lengths[i] / REF_BLOCK_LEN);
     } else {
-      break;
+      cur_block_ += ((lengths[i] / REF_BLOCK_LEN) + 1);
     }
   }
-  return name;
 }
 
-// Note: Assumes REF_BLOCK_LEN is a multiple of 4
+// Note: ref_addr is the BYTE address in the FPGA DRAM to stream to
 void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long long int ref_length) {
+  assert(REF_BLOCK_LEN % 4 == 0);
+
   // Compute length of 2-bit formatted ref seq buffer
   // Pad ref seq buffer hold a multiple of REF_BLOCK_LEN nucleotides
   int twobit_buf_length = ref_length / REF_BLOCK_LEN;
@@ -188,7 +132,7 @@ void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long lon
   int err;
   char ibuf[1024];
   for (int i = 0; i < NUM_FPGAS; i++) {
-    err = pico_drivers_[i].WriteRam(ref_addr, twobit_buf, twobit_buf_length, PICO_DDR3_0);
+    err = pico_drivers_[i]->WriteRam(ref_addr, (void*) twobit_buf, twobit_buf_length);
     if (err < 0) {
       fprintf(stderr, "Failed to write ref seq to FPGA %d, error: %s\n", i, 
               PicoErrors_FullError(err, ibuf, sizeof(ibuf)));

@@ -22,19 +22,19 @@ class ServerComm {
     ServerComm(int port);
     ~ServerComm();
     
-    // Receive the next query group from a client.
-    // Add the queries to the query seq manager
-    // Store the scoring params and queries onto the alignment job queue
-    // Returns the list of query IDs in this group
-    std::list<int> ParseQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
-                                   QuerySeqManager* query_seq_manager,
-                                   RefSeqManager* ref_seq_manager);
+    // Get a query group from a client.
+    // Add the queries to the query seq manager.
+    // Store the scoring params and queries onto the alignment job queue.
+    // Returns the list of query IDs in this group.
+    std::list<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
+                                 QuerySeqManager* query_seq_manager,
+                                 RefSeqManager* ref_seq_manager);
     
-    // Send the alignment result to the client
+    // Send the alignment result to the client.
     void SendAlignment(AlignmentResult res, std::string query_name);
     
-    // Send end of query group signal
-    void SendEndOfQueryGroup();
+    // Finish off a query group and close the client.
+    void EndQueryGroup();
     
   private:
     enum ParserState {PARAMS, QUERIES};
@@ -49,13 +49,8 @@ class ServerComm {
     
     ServerSocket server_;
     ServerSocket client_sock_;
-    std::string rcv_buf_;
-    std::string cur_line_;
-    bool client_active_;
     ParserState state_;
     SwAffineGapParams params_;
 };
-    
-    
     
 #endif // SERVERCOMM_H_

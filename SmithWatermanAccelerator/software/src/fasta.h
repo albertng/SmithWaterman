@@ -12,7 +12,7 @@
 #include <vector>
 
 void ParseFastaFile(std::string filename, 
-                    std::vector<std::string>* descrips,
+                    std::vector<std::vector<std::string> >* descrips,
                     std::vector<char*>* seqs,
                     std::vector<int>* lengths);
 

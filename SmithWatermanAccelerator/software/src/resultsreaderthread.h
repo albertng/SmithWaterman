@@ -28,11 +28,12 @@
 //      Albert Ng   Oct 10 2013     Finished initial implementation
 //      Albert Ng   Oct 15 2013     Removed num_drivers and num_streams
 //      Albert Ng   Oct 17 2013     Added NOT_IN_HSR state and IsValidBlock()
+//      Albert Ng   Oct 30 2013     Moved END_OF_ALIGNMENT to def.h
 
 #ifndef RESULTSREADERTHREAD_H_
 #define RESULTSREADERTHREAD_H_
 
-#include "picodrv_stub.h"
+#include "picodrv.h"
 #include "threadqueue.h"
 #include "def.h"
 #include "queryseqmanager.h"
@@ -47,13 +48,13 @@ class ResultsReaderThread {
     ResultsReaderThread();
 
     // Complete constructor
-    ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
+    ResultsReaderThread(PicoDrv** pico_drivers, int** streams,
                         ThreadQueue<HighScoreRegion>* hsr_queue, 
                         QuerySeqManager* query_seq_manager,
                         ThreadQueue<EngineJob>** engine_job_queues);
 
     // Initialization function (called by constructor)
-    void Init(PicoDrv* pico_drivers, int** streams, 
+    void Init(PicoDrv** pico_drivers, int** streams, 
               ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager,
               ThreadQueue<EngineJob>** engine_job_queues);
 
@@ -70,8 +71,8 @@ class ResultsReaderThread {
 
     // FPGA engine results reader thread arguments struct
     struct ResultsReaderThreadArgs {
-      // Pointers to FPGA driver class objects
-      PicoDrv* pico_drivers;
+      // Array of pointers to FPGA driver class objects
+      PicoDrv** pico_drivers;
 
       // Engine stream handles, indexed by [FPGA][Stream]
       int** streams;
@@ -106,9 +107,6 @@ class ResultsReaderThread {
 
     // Memory buffer size
     static const int READ_BUF_SIZE = 4096;
-
-    // High Score Block value indicating the end of an alignment for the engine
-    static const uint32_t END_OF_ALIGNMENT = 0xFFFFFFFF;
 
     // HELPER FUNCTIONS
     // Store the high-score-region onto the high-score-region queue

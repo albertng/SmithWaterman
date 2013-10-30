@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 21 2013     Initial Revision
-//
+//      Albert Ng   Oct 29 2013     Added Close()
 
 #ifndef SOCKET_H_
 #define SOCKET_H_
@@ -23,7 +23,8 @@ class Socket {
 
     bool Send(std::string s);
     int  Recv(std::string* s);
-
+    bool Close();
+    
     void SetSockFD(int sock_fd);
 
   protected:

@@ -4,8 +4,10 @@
 //  Revision History :
 //      Albert Ng   Oct 10 2013     Initial Revision (dummy implementation)
 //      Albert Ng   Oct 21 2013     Added WriteRam() and dram_
+//      Albert Ng   Oct 29 2013     Added RunBitFile() and PicoDrv::CreateStream()
 
 #include "picodrv_stub.h"
+#include "def.h"
 #include <stdint.h>
 #include <pthread.h>
 #include <string.h>
@@ -13,10 +15,6 @@
 #include <iostream>
 
 PicoDrv::PicoDrv() {
-}
-
-PicoDrv::PicoDrv(int num_streams) {
-  Init(num_streams);
 }
 
 void PicoDrv::Init(int num_streams) {
@@ -39,31 +37,6 @@ void PicoDrv::Init(int num_streams) {
     read_buf_[i][10] = 0;
     read_buf_[i][11] = 1;
     read_buf_[i][12] = 0xFFFFFFFF;
-    /*read_buf_[i][0] = 0;
-    read_buf_[i][1] = 2;
-    read_buf_[i][2] = 3;
-    read_buf_[i][3] = 5;
-    read_buf_[i][4] = 0xFFFFFFFF;
-    read_buf_[i][5] = 0;
-    read_buf_[i][6] = 1;
-    read_buf_[i][7] = 3;
-    read_buf_[i][8] = 7;
-    read_buf_[i][9] = 0xFFFFFFFF;
-    read_buf_[i][10] = 3;
-    read_buf_[i][11] = 5;
-    read_buf_[i][12] = 7;
-    read_buf_[i][13] = 9;
-    read_buf_[i][14] = 0xFFFFFFFF;
-    read_buf_[i][15] = 1;
-    read_buf_[i][16] = 2;
-    read_buf_[i][17] = 3;
-    read_buf_[i][18] = 4;
-    read_buf_[i][19] = 0xFFFFFFFF;
-    read_buf_[i][20] = 0;
-    read_buf_[i][21] = 2;
-    read_buf_[i][22] = 3;
-    read_buf_[i][23] = 4;
-    read_buf_[i][24] = 0xFFFFFFFF;*/
 
     cur_index_[i] = 0;
   }
@@ -78,7 +51,7 @@ void PicoDrv::Init(int num_streams) {
     pthread_mutex_init(&(mutex_[i]), NULL);
   }
 
-  dram_ = new char[1000000];
+  dram_ = new char[1048576];
 }
 
 PicoDrv::~PicoDrv() {
@@ -97,6 +70,14 @@ int PicoDrv::GetBytesAvailable(int stream, bool read) {
   //std::cout<<"Unlocking Mutex "<<&(mutex_[stream])<<std::endl;
   pthread_mutex_unlock(&mutex_[stream]);
   return num_bytes_available > 16 ? 16 : num_bytes_available;
+}
+
+int PicoDrv::CreateStream(int stream) {
+  if (stream > NUM_ENGINES_PER_FPGA) {
+    return -1;
+  }
+  
+  return stream-1;
 }
 
 void PicoDrv::ReadStream(int stream, uint32_t* buf, int num_bytes) {
@@ -143,9 +124,17 @@ void PicoDrv::WriteStream(int stream, uint32_t* buf, int num_bytes) {
 int PicoDrv::WriteRam(int ref_addr, char* ref_buf, int ref_buf_length, int ddr) {
   std::cout << "Writing to FPGA DRAM at block " << ref_addr << ": ";
   for (int i = 0; i < ref_buf_length; i++) {
-    std::cout << (int) ref_buf[i] << " ";
+    std::cout << (((uint32_t) ref_buf[i]) & 0xFF) << " ";
   }
   std::cout << '\n' << std::endl;
+}
+
+void PicoDrv::WriteDeviceAbsolute(int addr, uint32_t* buf, int buf_len) {
+  /*std::cout << "Writing to absolute address " << addr << ":\n";
+  for (int i = 0; i < buf_len/4; i++) {
+    std::cout << buf[i] << " ";
+  }
+  std::cout << std::endl;*/
 }
 
 char* PicoErrors_FullError(int err, char* ibuf, size_t size) {
@@ -155,13 +144,10 @@ char* PicoErrors_FullError(int err, char* ibuf, size_t size) {
   return ibuf;
 }
 
-void PicoDrv::WriteDeviceAbsolute(int addr, uint32_t* buf, int buf_len) {
-  std::cout << "Writing to absolute address " << addr << ":\n";
-  for (int i = 0; i < buf_len; i++) {
-    std::cout << buf[i] << " ";
-  }
-  std::cout << std::endl;
+int RunBitFile(const char* bitfile_name, PicoDrv* pico) {
+  pico->Init(NUM_ENGINES_PER_FPGA);
 }
+
 
 
 

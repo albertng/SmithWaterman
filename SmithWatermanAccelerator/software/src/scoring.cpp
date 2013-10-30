@@ -3,18 +3,19 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
-//
+//      Albert Ng   Oct 29 2013     Changed sub_mat_ to int** from [][]
 
 #include "scoring.h"
 #include <iostream>
 #include <sstream>
 #include "def.h"
 #include <string>
+#include <iostream>
 
 SwAffineGapParams::SwAffineGapParams() {
 }
 
-SwAffineGapParams::SwAffineGapParams(int** sub_mat, int gap_open, int gap_extend) {
+SwAffineGapParams::SwAffineGapParams(int sub_mat[][4], int gap_open, int gap_extend) {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       sub_mat_[i][j] = sub_mat[i][j];
@@ -43,15 +44,21 @@ SwAffineGapParams::SwAffineGapParams(std::string s) {
   iss >> sub_mat_[T_NT][T_NT];
   iss >> gap_open_;
   iss >> gap_extend_;
+  
+  // Fill other half of matrix
+  sub_mat_[C_NT][A_NT] = sub_mat_[A_NT][C_NT];
+  sub_mat_[G_NT][A_NT] = sub_mat_[A_NT][G_NT];
+  sub_mat_[G_NT][C_NT] = sub_mat_[C_NT][G_NT];
+  sub_mat_[T_NT][A_NT] = sub_mat_[A_NT][T_NT];
+  sub_mat_[T_NT][C_NT] = sub_mat_[C_NT][T_NT];
+  sub_mat_[T_NT][G_NT] = sub_mat_[G_NT][T_NT];
 }
 
 SwAffineGapParams::~SwAffineGapParams() {
 }
 
 void SwAffineGapParams::GetSubMat(int** sub_mat) {
-  sub_mat = new int*[4];
   for (int i = 0; i < 4; i++) {
-    sub_mat[i] = new int[4];
     for (int j = 0; j < 4; j++) {
       sub_mat[i][j] = sub_mat_[i][j];
     }
@@ -88,8 +95,8 @@ std::string SwAffineGapParams::ToString() {
   return ss.str();
 }
 
-int SwAffineGapParams::ToBuf(int* buf) {
-  buf = new int[SW_PARAMS_BUF_LENGTH];
+int* SwAffineGapParams::ToBuf(int* buf_len) {
+  int* buf = new int[SW_PARAMS_BUF_LENGTH];
   buf[0] = sub_mat_[A_NT][A_NT];
   buf[1] = sub_mat_[A_NT][C_NT];
   buf[2] = sub_mat_[A_NT][G_NT];
@@ -103,7 +110,9 @@ int SwAffineGapParams::ToBuf(int* buf) {
   buf[10] = gap_open_;
   buf[11] = gap_extend_;
   
-  return SW_PARAMS_BUF_LENGTH * sizeof(int);  // 4 bytes per int
+  *buf_len = SW_PARAMS_BUF_LENGTH * sizeof(int); // 4 bytes per int
+  
+  return buf;
 }
 
   

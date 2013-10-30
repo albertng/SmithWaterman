@@ -6,7 +6,7 @@
 //
 
 #include "servercomm.h"
-#include "picodrv_stub.h"
+#include "picodrv.h"
 #include "threadqueue.h"
 #include "def.h"
 #include "queryseqmanager.h"
@@ -21,7 +21,7 @@
 
 int main(int argc, char *argv[]) {
   // Shared structures
-  PicoDrv* pico_drivers;
+  PicoDrv** pico_drivers;
   int** streams;
   QuerySeqManager query_seq_manager;
   RefSeqManager ref_seq_manager;
@@ -36,27 +36,38 @@ int main(int argc, char *argv[]) {
   SWThread swthreads[NUM_THREADS];
 
   // Check program args
-  if (argc < 2) {
-    std::cerr << "Usage: ./serverqueryparser_test <REF SEQ FASTA FILE1> [<REF SEQ FASTA FILE2> ...]\n";
+  if (argc < 3) {
+    std::cerr << "Usage: ./serverqueryparser_test <BIT FILE> <REF SEQ FASTA FILE1> [<REF SEQ FASTA FILE2> ...]" << std::endl;;
     return 1;
   }
   
-  // Set up pico drivers and streams
-  pico_drivers = new PicoDrv[NUM_FPGAS];
+  // Set up pico FPGA drivers
+  const char* bitfile_name = argv[1];
+  pico_drivers = new PicoDrv*[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
-    pico_drivers[i].Init(NUM_ENGINES_PER_FPGA);
+    int err = RunBitFile(bitfile_name, &(pico_drivers[i]));
+    if (err < 0) {
+      std::cerr << "RunBitFile error: " << PicoErrors_FullError << "\n";
+      return 1;
+    }
   }
+  
+  // Set up streams to engines
   streams = new int*[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
     streams[i] = new int[NUM_ENGINES_PER_FPGA];
     for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
-      streams[i][j] = j;
+      streams[i][j] = pico_drivers[i]->CreateStream(j+1);
+      if (streams[i][j] < 0) {
+        std::cerr << "Couldn't open stream " << j+1 << " on FPGA " << i << "! (return code: " << streams[i][j] << ")" << std::endl;
+        return 1;
+      }
     }
   }
   
   // Set up ref seq manager
   ref_seq_manager.Init(pico_drivers);
-  for (int i = 1; i < argc; i++) {
+  for (int i = 2; i < argc; i++) {
     std::string filename(argv[i]);
     ref_seq_manager.AddRef(filename);
   }
@@ -85,12 +96,34 @@ int main(int argc, char *argv[]) {
   
   // Continuously accept and run alignments
   while (true) {
-    // Parse and align the query group
-    std::list<int> query_ids = server_comm.ParseQueryGroup(&alignment_job_queue,
-                                                           &query_seq_manager,
-                                                           &ref_seq_manager);
+    // Parse the query group and initiate alignment
+    std::list<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
+                                                         &query_seq_manager,
+                                                         &ref_seq_manager);
 
     // Wait for alignment of query group to finish
+    //   Send alignment results back to client when we get them
+    bool group_done = false;
+    while (group_done == false || result_queue.Size() != 0) {
+      while (result_queue.Size() != 0) {
+        AlignmentResult aln_res = result_queue.Pop();
+        std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
+        std::cout<<"Query name "<<query_name<<std::endl;
+        server_comm.SendAlignment(aln_res, query_name);
+      }
+      
+      group_done = true;
+      for (std::list<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
+        if (!query_seq_manager.QueryDone(*it)) {
+          group_done = false;
+        }
+      }
+    }
+    server_comm.EndQueryGroup();
+
+
+
+    /*// Wait for alignment of query group to finish
     bool group_done = false;
     while (group_done == false) {
       group_done = true;
@@ -100,14 +133,15 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-    
+    std::cout<<"Group done with "<<result_queue.Size()<<" alignments"<<std::endl;
     // Send alignment results
     while (result_queue.Size() != 0){
       AlignmentResult aln_res = result_queue.Pop();
       std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
+      std::cout<<"Query name "<<query_name<<std::endl;
       server_comm.SendAlignment(aln_res, query_name);
     }
-    server_comm.SendEndOfQueryGroup();
+    server_comm.SendEndOfQueryGroup();*/
     
     // Reclaim finished query memory
     for (std::list<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {

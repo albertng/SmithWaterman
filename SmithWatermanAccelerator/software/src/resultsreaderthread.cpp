@@ -12,7 +12,7 @@
 //      Albert Ng   Oct 18 2013     Fixed engine job queue empty bug
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to HighScoreRegion
 
-#include "picodrv_stub.h"
+#include "picodrv.h"
 #include "resultsreaderthread.h"
 #include "threadqueue.h"
 #include "def.h"
@@ -23,7 +23,7 @@
 ResultsReaderThread::ResultsReaderThread() {
 }
 
-ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
+ResultsReaderThread::ResultsReaderThread(PicoDrv** pico_drivers, int** streams,
                                          ThreadQueue<HighScoreRegion>* hsr_queue,
                                          QuerySeqManager* query_seq_manager,
                                          ThreadQueue<EngineJob>** engine_job_queues) {
@@ -31,7 +31,7 @@ ResultsReaderThread::ResultsReaderThread(PicoDrv* pico_drivers, int** streams,
        engine_job_queues);
 }
 
-void ResultsReaderThread::Init(PicoDrv* pico_drivers, int** streams,
+void ResultsReaderThread::Init(PicoDrv** pico_drivers, int** streams,
                                ThreadQueue<HighScoreRegion>* hsr_queue,
                                QuerySeqManager* query_seq_manager,
                                ThreadQueue<EngineJob>** engine_job_queues) {
@@ -52,7 +52,7 @@ void ResultsReaderThread::Join() {
 
 void* ResultsReaderThread::ReadResults(void* args) {
   // Get result reader arguments
-  PicoDrv* pico_drivers = ((ResultsReaderThreadArgs*)args)->pico_drivers;
+  PicoDrv** pico_drivers = ((ResultsReaderThreadArgs*)args)->pico_drivers;
   int** streams = ((ResultsReaderThreadArgs*)args)->streams;
   ThreadQueue<HighScoreRegion>* hsr_queue = ((ResultsReaderThreadArgs*)args)->hsr_queue;
   QuerySeqManager* query_seq_manager = ((ResultsReaderThreadArgs*)args)->query_seq_manager;
@@ -88,13 +88,13 @@ void* ResultsReaderThread::ReadResults(void* args) {
   while(true) {
     for (int i = 0; i < NUM_FPGAS; i++) {
       for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
-        int num_bytes_available = pico_drivers[i].GetBytesAvailable(streams[i][j], true);
+        int num_bytes_available = pico_drivers[i]->GetBytesAvailable(streams[i][j], true);
         //std::cout<<num_bytes_available<<" ";
         if (num_bytes_available >= 16) {
           
           // Read full 128-bit packets (check might not be necessary)
           int num_bytes_to_read = num_bytes_available > 4096 ? 4096 : (num_bytes_available/16)*16;
-          pico_drivers[i].ReadStream(streams[i][j], read_mem_buf[i][j], num_bytes_to_read);
+          pico_drivers[i]->ReadStream(streams[i][j], read_mem_buf[i][j], num_bytes_to_read);
 
 
           for (int k = 0; k < num_bytes_to_read / 16; k++) {
@@ -106,19 +106,23 @@ void* ResultsReaderThread::ReadResults(void* args) {
             switch(states[i][j]) {
               case INIT:
                   jobs[i][j] = engine_job_queues[i][j].Pop();
-                  if (high_score_block == END_OF_ALIGNMENT) {
+                  std::cout<<"Engine Job:\tQuery ID:"<<jobs[i][j].query_id<<" Query Len: "<<jobs[i][j].query_len<<" Ref ID: "<<jobs[i][j].ref_id<<" Ref Offset: "<<jobs[i][j].ref_offset<<" Ref Len: "<<jobs[i][j].ref_len<<" Overlap Offset: "<<jobs[i][j].overlap_offset<<" Threshold: "<<jobs[i][j].threshold<<std::endl;
+                  if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                     query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                     states[i][j] = INIT;
                   } else if (IsValidBlock(jobs[i][j], high_score_block)) {
                     chsbs[i][j] = StartCHSB(high_score_block);
                     states[i][j] = IN_HSR;
+                  } else {
+                    std::cerr << "Invalid high scoring block received!" << std::endl;
                   }
                 break;
 
               case IN_HSR:
-                if (high_score_block == END_OF_ALIGNMENT) {
+                if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
+                  std::cout<<"Query " <<jobs[i][j].query_id<<" Decrement HSR count"<<std::endl;
                   states[i][j] = INIT;
                 } else if (IsValidBlock(jobs[i][j], high_score_block) && IsAdjacentBlock(high_score_block, chsbs[i][j])) {
                   chsbs[i][j] = ExtendCHSB(chsbs[i][j]);
@@ -134,7 +138,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
                 break;
               
               case NOT_IN_HSR:
-                if (high_score_block == END_OF_ALIGNMENT) {
+                if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                   states[i][j] = INIT;
                 } else if (IsValidBlock(jobs[i][j], high_score_block)) {
@@ -178,7 +182,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
     hsr.len -= ((hsr.offset + hsr.len) - (job.ref_offset + job.ref_len));
   } 
   
-  //std::cout<<"HSR Stored:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
+  std::cout<<"HSR Stored:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
   
   hsr_queue->Push(hsr);
   query_seq_manager->IncHighScoreRegionCount(hsr.query_id);

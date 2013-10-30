@@ -11,8 +11,24 @@
 #include <vector>
 #include <iostream>
 
+static std::vector<std::string> SplitFields(std::string descrip_line) {
+  std::vector<std::string> fields;
+  std::string cur_str = "";
+  for (int i = 1; i < descrip_line.length(); i++) {
+    if (!isalpha(descrip_line[i]) && !isdigit(descrip_line[i])) {
+      fields.push_back(cur_str);
+      cur_str = "";
+    } else {
+      cur_str.push_back(descrip_line[i]);
+    }
+  }
+  fields.push_back(cur_str);
+  
+  return fields;
+}
+
 void ParseFastaFile(std::string filename,
-                    std::vector<std::string>* descrips,
+                    std::vector<std::vector<std::string> >* descrips,
                     std::vector<char*>* seqs,
                     std::vector<int>* lengths) {
   std::ifstream file(filename.c_str());
@@ -36,7 +52,7 @@ void ParseFastaFile(std::string filename,
         lengths->push_back(cur_length);
         cur_length = 0;
       }
-      descrips->push_back(line);
+      descrips->push_back(SplitFields(line));
     } else {
       cur_length += line.length();
     }
@@ -65,18 +81,6 @@ void ParseFastaFile(std::string filename,
     } else {
       line.copy(&(seq[index]), line.length());
       index += line.length();
-    }
-  }
-}
-
-static void GetSeqName(std::string line, std::string* name, std::string* descrip) {
-  bool in_name = true;
-  for (int i = 1; i < line.length(); i++) {
-    if (in_name && (isalpha(line[i]) || isdigit(line[i]))) {
-      name->push_back(line[i]);
-    } else {
-      in_name = false;
-      descrip->push_back(line[i]);
     }
   }
 }

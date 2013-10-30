@@ -3,12 +3,12 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 18 2013     Initial Revision
-//
+//      Albert Ng   Oct 29 2013     Removed GetSeqName()
 
 #ifndef REFSEQMANAGER_H_
 #define REFSEQMANAGER_H_
 
-#include "picodrv_stub.h"
+#include "picodrv.h"
 #include <map>
 #include <string>
 
@@ -18,10 +18,10 @@ class RefSeqManager {
     RefSeqManager();
 
     // Calls Init()
-    RefSeqManager(PicoDrv* pico_drivers);
+    RefSeqManager(PicoDrv** pico_drivers);
 
     // Actual initialization function
-    void Init(PicoDrv* pico_drivers);
+    void Init(PicoDrv** pico_drivers);
 
     // Get the char array of the reference sequence starting from a given offset.
     // Makes sure the requested offset and length adhere to reference sequence
@@ -43,11 +43,6 @@ class RefSeqManager {
 
   private:
     // Helper functions
-    // Grab the name of the sequence from a FASTA sequence description line
-    //   (a line starting with '>'). The name is assumed to be the first
-    //   word after the '>' symbol.
-    std::string GetFastaSeqName(std::string line);    
-
     // Convert the ref seq to 2bit format and stream to the FPGA DRAM
     // Replaces each N with a random nucleotide
     void StreamRefSeq(char* ref_seq, long long int ref_addr, long long int ref_length);
@@ -73,8 +68,8 @@ class RefSeqManager {
     // Starting block address of the next ref seq to be added.
     int cur_block_;
 
-    // Pointers to FPGA drivers
-    PicoDrv* pico_drivers_;
+    // Array of pointers to FPGA drivers
+    PicoDrv** pico_drivers_;
 };
 
 #endif // REFSEQMANAGER_H_

@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 21 2013     Initial Revision
-//
+//      Albert Ng   Oct 29 2013     Added ShutdownRecv()
 
 #include "serversocket.h"
 #include <arpa/inet.h>
@@ -50,4 +50,12 @@ bool ServerSocket::Accept(Socket* new_sock) {
   new_sock->SetSockFD(new_sock_fd);
 
   return (new_sock_fd > 0);
+}
+
+bool ServerSocket::ShutdownRecv() {
+  if (sock_fd_ == INVALID) {
+    return false;
+  }
+  
+  return shutdown(sock_fd_, SHUT_RD);
 }

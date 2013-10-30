@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
-//
+//      Albert Ng   Oct 29 2013     Changed sub_mat_ to int** from [][]
 
 #ifndef SCORING_H_
 #define SCORING_H_
@@ -16,7 +16,7 @@
 class SwAffineGapParams {
   public:
     SwAffineGapParams();
-    SwAffineGapParams(int** sub_mat, int gap_open, int gap_extend);
+    SwAffineGapParams(int sub_mat[][4], int gap_open, int gap_extend);
     SwAffineGapParams(std::string s);
     ~SwAffineGapParams();
     
@@ -31,7 +31,7 @@ class SwAffineGapParams {
     std::string ToString();
     
     // Allocate and store params in the buffer and get the buffer length
-    int ToBuf(int* buf);
+    int* ToBuf(int* buf_len);
     
   private:
     int sub_mat_[4][4];
