@@ -25,7 +25,7 @@
 
 // Hardware Parameter definitions
 #define NUM_FPGAS 1
-#define NUM_ENGINES_PER_FPGA 1
+#define NUM_ENGINES_PER_FPGA 2
 #define REF_BLOCK_LEN 128
 #define QUERY_BLOCK_LEN 64
 #define MAX_QUERY_LEN 65535

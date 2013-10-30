@@ -16,6 +16,8 @@ PicoDrv::PicoDrv() {
   args_.high_score_block_queues = &high_score_block_queues_;
   args_.dram = dram_;
   args_.params = &params_;
+  
+  pthread_create(&thread_, NULL, &PicoDrv::RunEngines, (void*) (&args_));
 }
 
 PicoDrv::~PicoDrv() {
@@ -70,7 +72,7 @@ int PicoDrv::ReadStream(int streamHandle, void* buf, int size) {
 }
 
 int PicoDrv::WriteStream(int streamHandle, const void* buf, int size) {
-  assert(size > 128);
+  assert(size > 16);
   assert(size % 16 == 0);
   
   // Grab query metadata
@@ -81,6 +83,11 @@ int PicoDrv::WriteStream(int streamHandle, const void* buf, int size) {
   uint32_t query_len = buf_i[2] & 0xFFFF;
   uint32_t threshold = buf_i[3];
   
+  /*for (int i = 0; i < size/4; i++) {
+    std::cout<<buf_i[i] << " ";
+  }
+  std::cout << std::endl;*/
+  
   // Check query length is correct
   int num_query_blocks = query_len / QUERY_BLOCK_LEN;
   if (query_len % QUERY_BLOCK_LEN != 0) {
@@ -90,13 +97,8 @@ int PicoDrv::WriteStream(int streamHandle, const void* buf, int size) {
   
   // Grab query sequence and convert to NtInt array
   char* query_seq = new char[query_len];
-  int cur_block = 0;
   for (int i = 0; i < query_len; i++) {
-    query_seq[i] = NtInt2Char((buf_i[cur_block] >> ((i % 16)*2)) & 0x3);
-    
-    if (i % 16 == 15) {
-      cur_block++;
-    }
+    query_seq[i] = NtInt2Char((buf_i[4 + i/16] >> ((i % 16)*2)) & 0x3);
   }
   
   // Store query job onto queue
@@ -110,16 +112,16 @@ int PicoDrv::WriteStream(int streamHandle, const void* buf, int size) {
   job.stream_num = streamHandle;
   query_job_queue_.Push(job);
   
-  std::cout << "Num ref blocks: " << num_ref_blocks
+  /*std::cout << "Num ref blocks: " << num_ref_blocks
             << " First ref block: " << first_ref_block
-            << "Query ID: " << query_id
-            << "Query Length: " << query_len
-            << "Threshold: " << threshold
+            << " Query ID: " << query_id
+            << " Query Length: " << query_len
+            << " Threshold: " << threshold
             << " Query Seq: ";
   for (int i = 0; i < query_len; i++) {
     std::cout << query_seq[i];
   }
-  std::cout << std::endl;
+  std::cout << std::endl;*/
 }
 
 int PicoDrv::GetBytesAvailable(int streamHandle, bool isRead) {
@@ -136,10 +138,9 @@ int PicoDrv::WriteRam(uint64_t addr, const void* buf, int size, int memID) {
   assert((addr + size) < DRAM_SIZE);
   assert(memID == PICO_DDR3_0);
   
-  for (int i = 0; i < size; i++) {
-    dram_[addr + i] = ((char*) buf)[i];
+  for (int i = 0; i < size*4; i++) {
+    dram_[addr*4 + i] = NtInt2Char((((char*) buf)[i/4] >> ((i%4)*2)) & 0x3);
   }
-  
   return size;
 }
 
@@ -198,7 +199,7 @@ void* PicoDrv::RunEngines(void* args) {
     bool high_score_block;
     for (int i = 1; i < ref_len + 1; i++) {
       for (int j = 1; j < query_len + 1; j++) {
-        if ((i - 1) % REF_BLOCK_LEN == 0) {
+        if ((i - 1) % REF_BLOCK_LEN == 0 && j == 1) {
           high_score_block = false;
         }
       
@@ -238,10 +239,12 @@ void* PicoDrv::RunEngines(void* args) {
         // Store HSB onto queue if score is above threshold
         if (v_matrix[i][j] >= job.threshold && high_score_block == false) {
           HighScoreBlock hsb;
-          hsb.high_score_block = job.first_ref_block + ((i - 1) % REF_BLOCK_LEN);
+          hsb.high_score_block = (i - 1) / REF_BLOCK_LEN;
           hsb.query_id = job.query_id;
           (*high_score_block_queues)[job.stream_num].Push(hsb);
           high_score_block = true;
+          
+          //std::cout<<"High score block: "<<hsb.high_score_block<<" Query ID: "<<hsb.query_id<<std::endl;
         }
       }
     }
@@ -251,6 +254,7 @@ void* PicoDrv::RunEngines(void* args) {
     hsb.high_score_block = END_OF_ENGINE_ALIGNMENT;
     hsb.query_id = job.query_id;
     (*high_score_block_queues)[job.stream_num].Push(hsb);
+    //std::cout<<"End of Alignment Query ID: "<<hsb.query_id<<std::endl;
   }
 }
           

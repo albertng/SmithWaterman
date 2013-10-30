@@ -19,6 +19,7 @@
 #include "scoring.h"
 #include <pthread.h>
 #include <stdint.h>
+#include <assert.h>
 
 ResultsReaderThread::ResultsReaderThread() {
 }
@@ -98,7 +99,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
 
           for (int k = 0; k < num_bytes_to_read / 16; k++) {
-            std::cout<<"Read stream:\t"<<i<<" "<<j<<"\tHSB:"<< read_mem_buf[i][j][k] << "\tQuery ID:" << read_mem_buf[i][j][k+1] << std::endl;
+            //std::cout<<"Read stream:\t"<<i<<" "<<j<<"\tHSB:"<< read_mem_buf[i][j][k] << "\tQuery ID:" << read_mem_buf[i][j][k+1] << std::endl;
             uint32_t high_score_block = read_mem_buf[i][j][k*4];
             uint32_t query_id = read_mem_buf[i][j][k*4 + 1];
             
@@ -106,7 +107,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
             switch(states[i][j]) {
               case INIT:
                   jobs[i][j] = engine_job_queues[i][j].Pop();
-                  std::cout<<"Engine Job:\tQuery ID:"<<jobs[i][j].query_id<<" Query Len: "<<jobs[i][j].query_len<<" Ref ID: "<<jobs[i][j].ref_id<<" Ref Offset: "<<jobs[i][j].ref_offset<<" Ref Len: "<<jobs[i][j].ref_len<<" Overlap Offset: "<<jobs[i][j].overlap_offset<<" Threshold: "<<jobs[i][j].threshold<<std::endl;
+                  //std::cout<<"Engine Job:\tQuery ID:"<<jobs[i][j].query_id<<" Query Len: "<<jobs[i][j].query_len<<" Ref ID: "<<jobs[i][j].ref_id<<" Ref Offset: "<<jobs[i][j].ref_offset<<" Ref Len: "<<jobs[i][j].ref_len<<" Overlap Offset: "<<jobs[i][j].overlap_offset<<" Threshold: "<<jobs[i][j].threshold<<std::endl;
                   if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                     query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                     states[i][j] = INIT;
@@ -114,7 +115,8 @@ void* ResultsReaderThread::ReadResults(void* args) {
                     chsbs[i][j] = StartCHSB(high_score_block);
                     states[i][j] = IN_HSR;
                   } else {
-                    std::cerr << "Invalid high scoring block received!" << std::endl;
+                    std::cerr << "Invalid high scoring block received! " << jobs[i][j].ref_offset <<" " <<jobs[i][j].ref_len<<" " <<high_score_block << std::endl;
+                    assert(false);
                   }
                 break;
 
@@ -122,7 +124,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
                 if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
-                  std::cout<<"Query " <<jobs[i][j].query_id<<" Decrement HSR count"<<std::endl;
+                  //std::cout<<"Query " <<jobs[i][j].query_id<<" Decrement HSR count"<<std::endl;
                   states[i][j] = INIT;
                 } else if (IsValidBlock(jobs[i][j], high_score_block) && IsAdjacentBlock(high_score_block, chsbs[i][j])) {
                   chsbs[i][j] = ExtendCHSB(chsbs[i][j]);
@@ -182,7 +184,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
     hsr.len -= ((hsr.offset + hsr.len) - (job.ref_offset + job.ref_len));
   } 
   
-  std::cout<<"HSR Stored:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
+  //std::cout<<"HSR Stored:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
   
   hsr_queue->Push(hsr);
   query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
@@ -219,3 +221,6 @@ bool ResultsReaderThread::IsAdjacentBlock(uint32_t high_score_block, CoalescedHi
 bool ResultsReaderThread::IsValidBlock(EngineJob job, int high_score_block) {
   return (job.ref_offset + job.ref_len) >= (job.ref_offset / REF_BLOCK_LEN + high_score_block) * REF_BLOCK_LEN;
 }
+
+
+

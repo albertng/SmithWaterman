@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
       while (result_queue.Size() != 0) {
         AlignmentResult aln_res = result_queue.Pop();
         std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
-        std::cout<<"Query name "<<query_name<<std::endl;
+        //std::cout<<"Query name "<<query_name<<std::endl;
         server_comm.SendAlignment(aln_res, query_name);
       }
       

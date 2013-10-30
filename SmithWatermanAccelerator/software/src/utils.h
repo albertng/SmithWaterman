@@ -13,9 +13,10 @@
 
 #include "def.h"
 #include <iostream>
+#include <assert.h>
 
 // Converts a nucleotide char to nucleotide integer, accepting
-// both lowercase and uppercase. Returns -1 if not TCAG.
+// both lowercase and uppercase.
 inline NtInt NtChar2Int (char nt) {
   switch(nt) {
     case 't':
@@ -28,14 +29,11 @@ inline NtInt NtChar2Int (char nt) {
     case 'G': return G_NT;
     case 'n':
     case 'N': return N_NT;
-    default: std::cerr << "Invalid nucleotide character " << nt 
-                       << ". Replacing with 'N'." << std::endl;
-             return N_NT;
+    default: assert(false);
   }
 }
 
 // Converts a nucleotide integer to nucleotide char,
-// Returns 'X' if not TCAGN.
 inline char NtInt2Char (NtInt nt) {
   switch(nt) {
     case T_NT: return 'T';
@@ -43,9 +41,7 @@ inline char NtInt2Char (NtInt nt) {
     case A_NT: return 'A';
     case G_NT: return 'G';
     case N_NT: return 'N';
-    default  : std::cerr << "Invalid nucleotide integer " << nt 
-                       << ". Replacing with 'X'." << std::endl;
-               return 'X';
+    default  : assert(false);
   }
 }
 

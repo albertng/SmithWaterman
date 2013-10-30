@@ -17,6 +17,7 @@
 #include "utils.h"
 #include "scoring.h"
 #include <pthread.h>
+#include <stdlib.h>
 
 EngineDispatchThread::EngineDispatchThread() {
 }
@@ -211,13 +212,29 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
 
   int num_query_blocks = 0;
   for (int i = 0; i < query_len; i++) {
+    NtInt nt = NtChar2Int(query_seq[i]);
+    if (query_seq[i] == 'N') {
+      nt = rand() % 4;
+    }
     if (i % 16 == 0) {
-      out_buf[4+i/16] = NtChar2Int(query_seq[i]);
+      out_buf[4+i/16] = nt;
       num_query_blocks++;
     } else {
-      out_buf[4+i/16] += (NtChar2Int(query_seq[i]) << (2 * (i % 16)));
+      out_buf[4+i/16] += (nt << (2 * (i % 16)));
     }
   }
+  
+  /*std::cout << "Engine job for stream " << stream
+            <<"\tNum Ref Blocks: " << out_buf[0]
+            << "\tRef Block Offset: " << out_buf[1]
+            << "\tQuery ID: " << (out_buf[2] >> 16)
+            << "\tQuery Len: " << (out_buf[2] & 0xFFFF)
+            << "\tThreshold: " << out_buf[3]
+            << "\tQuery Seq: ";
+  for (int i = 0; i < ((num_query_blocks+1)*16 / 4) - 4; i++) {
+    std::cout << out_buf[i + 4] << ' ';
+  }
+  std::cout << std::endl;*/
   
   pico_driver->WriteStream(stream, out_buf, (num_query_blocks+1)*16);
 }

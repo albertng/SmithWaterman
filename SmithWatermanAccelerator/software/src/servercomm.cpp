@@ -78,7 +78,7 @@ bool ServerComm::Action(std::string line,
       params_job.query_id = PARAMS_JOB;
       params_job.params = params;
       alignment_job_queue->Push(params_job);
-      std::cout<<"Alignment params job: "<<params_job.query_id<< " "<<params_job.ref_id<<" "<<params_job.ref_offset<<" "<<params_job.ref_len<<" "<<params_job.threshold<<" "<<params_job.params.ToString()<<std::endl;
+      //std::cout<<"Alignment params job: "<<params_job.query_id<< " "<<params_job.ref_id<<" "<<params_job.ref_offset<<" "<<params_job.ref_len<<" "<<params_job.threshold<<" "<<params_job.params.ToString()<<std::endl;
       params_ = params;
       state_ = QUERIES;
       break;
