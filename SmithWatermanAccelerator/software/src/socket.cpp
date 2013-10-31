@@ -68,5 +68,8 @@ bool Socket::Close() {
     return false;
   }
   
+  sock_fd_ = INVALID;
+  memset(&sock_addr_, 0, sizeof(sock_addr_));
+  
   return (close(sock_fd_) == 0);
 }

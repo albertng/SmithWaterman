@@ -120,28 +120,6 @@ int main(int argc, char *argv[]) {
       }
     }
     server_comm.EndQueryGroup();
-
-
-
-    /*// Wait for alignment of query group to finish
-    bool group_done = false;
-    while (group_done == false) {
-      group_done = true;
-      for (std::list<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
-        if (!query_seq_manager.QueryDone(*it)) {
-          group_done = false;
-        }
-      }
-    }
-    std::cout<<"Group done with "<<result_queue.Size()<<" alignments"<<std::endl;
-    // Send alignment results
-    while (result_queue.Size() != 0){
-      AlignmentResult aln_res = result_queue.Pop();
-      std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
-      std::cout<<"Query name "<<query_name<<std::endl;
-      server_comm.SendAlignment(aln_res, query_name);
-    }
-    server_comm.SendEndOfQueryGroup();*/
     
     // Reclaim finished query memory
     for (std::list<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
