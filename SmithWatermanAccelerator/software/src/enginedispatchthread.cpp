@@ -156,7 +156,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           if (i == 0) {
             job_offset[i] = ref_offset;
           } else {
-            job_offset[i] = ((long long int) cur_block) * REF_BLOCK_LEN;
+            job_offset[i] = ((long long int) cur_block - first_ref_block) * REF_BLOCK_LEN;
           }
           
           cur_block += (job_num_blocks[i] - num_overlap_blocks);

@@ -38,18 +38,11 @@ void RefSeqManager::Init(PicoDrv** pico_drivers) {
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, long long int ref_offset, long long int ref_len) {
+  assert(ref_seq_.count(ref_id) > 0);
+  assert(ref_offset + ref_len <= ref_length_[ref_id]);
   //std::cout<<"GetRefSeq: "<<ref_id <<" "<<ref_offset<<" " <<ref_len<<std::endl;
-  if (ref_seq_.count(ref_id) > 0) {
-    if (ref_offset + ref_len <= ref_length_[ref_id]) {
-      char* ref_seq = ref_seq_[ref_id];
-      return &(ref_seq[ref_offset]);
-    } else {
-      std::cerr << "RefSeqManager Error: Ref offset and length exceed reference sequence bounds." << std::endl;
-    }
-  } else {
-    std::cerr << "RefSeqManager Error: Invalid ref ID " << ref_id << "." << std::endl;
-    return NULL;
-  }
+  char* ref_seq = ref_seq_[ref_id];
+  return &(ref_seq[ref_offset]);
 }
 
 long long int RefSeqManager::GetRefAddr(int ref_id) {
