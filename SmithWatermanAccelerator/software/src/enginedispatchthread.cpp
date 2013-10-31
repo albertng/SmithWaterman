@@ -210,15 +210,17 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
   out_buf[2] = (uint32_t) ((query_id << 16) + (query_len));
   out_buf[3] = (uint32_t) threshold;
 
-  int num_query_blocks = 0;
+  int num_query_blocks = query_len / QUERY_BLOCK_LEN;
+  if (query_len % QUERY_BLOCK_LEN != 0) {
+    num_query_blocks++;
+  }
   for (int i = 0; i < query_len; i++) {
     NtInt nt = NtChar2Int(query_seq[i]);
-    if (query_seq[i] == 'N') {
+    if (query_seq[i] == 'N' || query_seq[i] == 'n') {
       nt = rand() % 4;
     }
     if (i % 16 == 0) {
       out_buf[4+i/16] = nt;
-      num_query_blocks++;
     } else {
       out_buf[4+i/16] += (nt << (2 * (i % 16)));
     }

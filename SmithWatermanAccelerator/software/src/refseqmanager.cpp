@@ -76,10 +76,10 @@ void RefSeqManager::AddRef(std::string filename) {
     ref_length_[cur_ref_id_] = lengths[i];
 
     std::cout<<"Ref ID: "<<cur_ref_id_<<"\tName: "<<ref_name_[cur_ref_id_]<<"\tRef Len: "<<ref_length_[cur_ref_id_]<<"\tRef Addr: "<<ref_addr_[cur_ref_id_]<<std::endl;
-    for (int j = 0; j < ref_length_[cur_ref_id_]; j++) {
+    /*for (int j = 0; j < ref_length_[cur_ref_id_]; j++) {
       std::cout<<seqs[i][j];
     }
-    std::cout << '\n' << std::endl;
+    std::cout << '\n' << std::endl;*/
 
     // Move to next ref seq
     cur_ref_id_++;
@@ -111,7 +111,7 @@ void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long lon
     for (int j = i*4+3; j >= i*4; j--) {
       val <<= 2;
       if (j < ref_length) {
-        if (ref_seq[j] != 'N') {
+        if (ref_seq[j] != 'N' && ref_seq[j] != 'n') {
           val += NtChar2Int(ref_seq[j]);
         } else {
           val += (rand() % 4);

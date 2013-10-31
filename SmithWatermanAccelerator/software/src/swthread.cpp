@@ -205,7 +205,7 @@ void* SWThread::Align(void* args) {
     // Backtrace to obtain alignments
     hsr_alignments.clear();
     //std::cout<<"Max score: "<<max_score<<std::endl;
-    if (max_score > hsr.threshold) {
+    if (max_score >= hsr.threshold) {
       for (it_query_index = max_query_index.begin(), it_ref_index = max_ref_index.begin(); 
            it_query_index != max_query_index.end() && it_ref_index != max_ref_index.end(); 
            ++it_query_index, ++it_ref_index) {

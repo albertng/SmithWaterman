@@ -1,0 +1,271 @@
+Query: query1	Score: 9
+10
+AG-CNATCGNATCA
+AGTC-A-CG--TCA
+4
+
+Query: query1	Score: 9
+20
+TCATCGNATC
+TCA-CG--TC
+6
+
+Query: query1	Score: 9
+71
+AG-CNATCGNATCA
+AGTC-A-CG--TCA
+4
+
+Query: query1	Score: 9
+81
+TCATCGNATC
+TCA-CG--TC
+6
+
+Query: query1	Score: 9
+132
+AG-CNATCGNATCA
+AGTC-A-CG--TCA
+4
+
+Query: query1	Score: 9
+142
+TCATCGNATC
+TCA-CG--TC
+6
+
+Query: query1	Score: 9
+193
+AG-CNATCGNATCA
+AGTC-A-CG--TCA
+4
+
+Query: query1	Score: 9
+203
+TCATCGNATC
+TCA-CG--TC
+6
+
+Query: query1	Score: 9
+254
+AG-CNATCGNATCA
+AGTC-A-CG--TCA
+4
+
+Query: query1	Score: 9
+264
+TCATCGNATC
+TCA-CG--TC
+6
+
+Query: query2	Score: 8
+21
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+67
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+113
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+159
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+205
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+251
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+297
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+343
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+389
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+435
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+481
+acgN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+527
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+573
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+619
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+665
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+711
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+757
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+803
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+849
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+895
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+941
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+987
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+1033
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query2	Score: 8
+1079
+ACGN-AGN-CAG
+ACG-GAG-TCAG
+0
+
+Query: query3	Score: 6
+21
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+67
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+113
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+159
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+205
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+251
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+297
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+343
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+389
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+435
+ACG
+ACG
+0
+
+Query: query3	Score: 6
+481
+acg
+ACG
+0
+
+END
