@@ -1,0 +1,29 @@
+Query: query1
+Score: 100
+700
+TAAATAGCATTGAGTTATCAGTACTTTCATGTCTTGATACATTTCTTCTT
+TAAATAGCATTGAGTTATCAGTACTTTCATGTCTTGATACATTTCTTCTT
+0
+
+Query: query1
+Score: 51
+62958
+aattgatg-attata-ttatctattatctctcatctct-gatactatttcttgtt
+AAT--A-GCATTG-AGTTATC-AGTA-CTTTCATGTCTTGATAC-ATTTCTTCTT
+2
+
+Query: query1
+Score: 50
+98343
+TAAATGCCTGCCTTG-GTTCATGCATCAGTactgtttccacttggcttccttggacatcac-tttct-ctt
+TAAATA---GCATTGAGTT-----ATCAGTACT--TTC-A--TG---TC-TTG---AT-ACATTTCTTCTT
+0
+
+Query: query1
+Score: 50
+567252
+atagcagtgaatctataaattactttgggcagtaggtcactttcacgatactgatt-cttctt
+ATAGCATTGAGT-TATCAGT-ACTTT---CA-T--GTC---TT---GATAC--ATTTCTTCTT
+3
+
+END
