@@ -134,7 +134,7 @@ bool ServerComm::Action(std::string line,
 void ServerComm::SendAlignment(AlignmentResult res, std::string query_name) {
   std::stringstream ss;
   
-  ss << "Query: " << query_name << "\tScore: " << res.score << "\n"
+  ss << "Query: " << query_name << "\nScore: " << res.score << "\n"
      << res.alignment.ToString() << "\n";
 
   client_sock_.Send(ss.str());

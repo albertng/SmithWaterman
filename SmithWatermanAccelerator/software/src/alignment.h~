@@ -42,7 +42,7 @@ class Alignment {
     void TrimEnd(int index);
     
     // Compute length of the alignment
-    int GetLength() const;
+    int GetLength();
     
     // Accessor functions
     long long int get_ref_offset() const;

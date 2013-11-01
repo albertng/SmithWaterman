@@ -62,14 +62,14 @@ void Alignment::TrimEnd(int index) {
   query_str_ = query_str_.substr(0, index);
 }
 
-int Alignment::GetLength() const {
+int Alignment::GetLength() {
   return ref_str_.length();
 }
 
-long long int Alignment::get_ref_offset() const {
+long long int Alignment::get_ref_offset() {
   return ref_offset_;
 }
 
-long long int Alignment::get_query_offset() const {
+long long int Alignment::get_query_offset() {
   return query_offset_;
 }

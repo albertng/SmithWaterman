@@ -1,10 +1,13 @@
-all: smithwatermanclient smithwatermanserver
+all: smithwatermanclient smithwatermanserver smithwatermanreference
 
 smithwatermanclient: fasta.o socket.o clientsocket.o scoring.o smithwatermanclient.o 
 	g++ fasta.o socket.o clientsocket.o scoring.o smithwatermanclient.o -o smithwatermanclient
 
 smithwatermanserver: fasta.o alignment.o servercomm.o picodrv.o queryseqmanager.o refseqmanager.o scoring.o enginedispatchthread.o resultsreaderthread.o swthread.o serversocket.o socket.o smithwatermanserver.o
 	g++ fasta.o alignment.o servercomm.o picodrv.o queryseqmanager.o refseqmanager.o scoring.o enginedispatchthread.o resultsreaderthread.o swthread.o serversocket.o socket.o smithwatermanserver.o -o smithwatermanserver -pthread
+
+smithwatermanreference: fasta.o alignment.o scoring.o smithwatermanreference.o
+	g++ fasta.o alignment.o scoring.o smithwatermanreference.o -o smithwatermanreference -lrt
 
 fasta.o: fasta.cpp
 	g++ -c fasta.cpp -g
@@ -51,6 +54,9 @@ serversocket.o: serversocket.cpp
 smithwatermanserver.o: smithwatermanserver.cpp
 	g++ -c smithwatermanserver.cpp -g
 
+smithwatermanreference.o: smithwatermanreference.cpp
+	g++ -c smithwatermanreference.cpp -g
+
 clean:
-	rm -rf *o smithwatermanclient smithwatermanserver
+	rm -rf *o smithwatermanclient smithwatermanserver smithwatermanreference
 
