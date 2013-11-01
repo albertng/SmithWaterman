@@ -13,6 +13,7 @@
 //      Albert Ng   Oct 22 2013     Changed SwAffineGapParams to a class
 //                                  Removed params and params_mutex member variables
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
+//      Albert Ng   Oct 31 2013     Now reports all alignments above threshold
 
 #include "swthread.h"
 #include "def.h"
@@ -22,6 +23,8 @@
 #include "utils.h"
 #include "scoring.h"
 #include <list>
+#include <set>
+#include <assert.h>
 
 SWThread::SWThread() {
 }
@@ -54,50 +57,29 @@ void SWThread::Join() {
 //   by an FPGA engine. In the case of a terminating packet, decrement
 //   the high score region count for that query, which was initialize
 //   at the number of FPGA engine alignments allocated to the query.
-// Grabs the mutex for the params before proceeding with each
-//   alignment to make sure the params are coherent for the
-//   entire alignment.
 void* SWThread::Align(void* args) {
-  int** v_matrix;   // Score matrix
-  int** e_matrix;   // Insertion score matrix
-  int** f_matrix;   // Deletion score matrix
-  AlnOp** dir_matrix; // Alignment ops for score matrix
-  char* ref_seq;
-  char* query_seq;
-  int ref_len, query_len;
-  HighScoreRegion hsr;
-  NtInt ref_nt, query_nt;
-  int ins_open, ins_extend, del_open, del_extend, match;
-  int max_score, query_index, ref_index;
-  std::list<int> max_query_index, max_ref_index;
-  std::list<int>::iterator it_query_index, it_ref_index;
-  Alignment* aln;
-  int max1, max2;
-  AlnOp dir1, dir2;
-  std::list<AlignmentResult> hsr_alignments;
-  int** sub_mat;
-  int gap_open;
-  int gap_extend;
-
   // Get alignment arguments 
   ThreadQueue<HighScoreRegion>* hsr_queue = ((SWThreadArgs*)args)->hsr_queue;
   ThreadQueue<AlignmentResult>* result_queue = ((SWThreadArgs*)args)->result_queue;
   RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
   QuerySeqManager* query_seq_manager = ((SWThreadArgs*)args)->query_seq_manager;
 
-  sub_mat = new int*[4];
+  int** sub_mat = new int*[4];
   for (int i = 0; i < 4; i++) {
     sub_mat[i] = new int[4];
   }
+  int gap_open;
+  int gap_extend;
 
   while(true) {
     // Grab available high scoring region
-    hsr = hsr_queue->Pop();
+    HighScoreRegion hsr = hsr_queue->Pop();
     //std::cout<<"HSR Popped:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<" Params: "<<hsr.params.ToString()<<std::endl;
-    ref_len = hsr.len;
+    int ref_len = hsr.len;
+    int query_len;
     //std::cout<<"Getting RefSeq "<<hsr.ref_id<<" " <<hsr.offset<<" " <<ref_len<<std::endl;
-    ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
-    query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
+    char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
+    char* query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
     
     /*std::cout<<"Ref len: "<<ref_len<<" Ref seq: ";
     for (int i = 0; i < ref_len; i++) {
@@ -124,10 +106,10 @@ void* SWThread::Align(void* args) {
     std::cout<<std::endl;*/
     
     // Initialize new score matrices
-    v_matrix = new int*[ref_len + 1];
-    e_matrix = new int*[ref_len + 1];
-    f_matrix = new int*[ref_len + 1];
-    dir_matrix = new AlnOp*[ref_len + 1];
+    int** v_matrix = new int*[ref_len + 1];       // Score matrix
+    int** e_matrix = new int*[ref_len + 1];       // Insertion score matrix
+    int** f_matrix = new int*[ref_len + 1];       // Deletion score matrix
+    AlnOp** dir_matrix = new AlnOp*[ref_len + 1]; // Alignment ops for score matrix
     for (int i = 0; i < ref_len + 1; i++) {
       v_matrix[i] = new int[query_len + 1];
       e_matrix[i] = new int[query_len + 1];
@@ -140,44 +122,42 @@ void* SWThread::Align(void* args) {
         dir_matrix[i][j] = ZERO_OP;
       }
     }
-    max_score = 0;
-    max_query_index.clear();
-    max_ref_index.clear();
 
     // Compute dynamic programming matrices
+    std::set<Cell, CellComp> highscore_cells;
     for (int i = 1; i < ref_len + 1; i++) {
       for (int j = 1; j < query_len + 1; j++) {
-        ref_nt = NtChar2Int(ref_seq[i-1]);
-        query_nt = NtChar2Int(query_seq[j-1]);
+        NtInt ref_nt = NtChar2Int(ref_seq[i-1]);
+        NtInt query_nt = NtChar2Int(query_seq[j-1]);
       
         // Compute possible choices
+        int match;
         if (ref_nt == N_NT || query_nt == N_NT) {
           match = -2147483648; // Force N's to align with gaps
         } else {
           match = v_matrix[i-1][j-1] + sub_mat[query_nt][ref_nt];
         }
-        ins_open   = v_matrix[i-1][j] + gap_open;
-        ins_extend = e_matrix[i-1][j] + gap_extend;
-        del_open   = v_matrix[i][j-1] + gap_open;
-        del_extend = f_matrix[i][j-1] + gap_extend;
+        int ins_open   = v_matrix[i-1][j] + gap_open;
+        int ins_extend = e_matrix[i-1][j] + gap_extend;
+        int del_open   = v_matrix[i][j-1] + gap_open;
+        int del_extend = f_matrix[i][j-1] + gap_extend;
 
         // Pick choice with highest score
         // Record decision in dir_matrix
         e_matrix[i][j] = (ins_open > ins_extend) ? ins_open : ins_extend;
         f_matrix[i][j] = (del_open > del_extend) ? del_open : del_extend;
-        if (match > e_matrix[i][j]) {
+        
+        int max1 = e_matrix[i][j];
+        AlnOp dir1 = INSERT_OP;
+        if (match > max1) {
           max1 = match;
           dir1 = MATCH_OP;
-        } else {
-          max1 = e_matrix[i][j];
-          dir1 = INSERT_OP;
         }
+        int max2 = 0;
+        AlnOp dir2 = ZERO_OP;
         if (f_matrix[i][j] > 0) {
           max2 = f_matrix[i][j];
           dir2 = DELETE_OP;
-        } else {
-          max2 = 0;
-          dir2 = ZERO_OP;
         }
         if (max1 > max2) {
           v_matrix[i][j] = max1;
@@ -187,80 +167,81 @@ void* SWThread::Align(void* args) {
           dir_matrix[i][j] = dir2;
         }
         
-        // Record max score
-        if (v_matrix[i][j] > max_score) {
-          max_score = v_matrix[i][j];
-          max_query_index.clear();
-          max_query_index.push_back(j);
-          max_ref_index.clear();
-          max_ref_index.push_back(i);
-        } else if (v_matrix[i][j] == max_score) {
-          max_query_index.push_back(j);
-          max_ref_index.push_back(i);
+        // Record high-scoring cells
+        if (v_matrix[i][j] >= hsr.threshold) {
+          Cell hsc;
+          hsc.ref_index = i;
+          hsc.query_index = j;
+          hsc.score = v_matrix[i][j];
+          highscore_cells.insert(hsc);
         }
         
       }
     }
 
     // Backtrace to obtain alignments
-    hsr_alignments.clear();
-    //std::cout<<"Max score: "<<max_score<<std::endl;
-    if (max_score >= hsr.threshold) {
-      for (it_query_index = max_query_index.begin(), it_ref_index = max_ref_index.begin(); 
-           it_query_index != max_query_index.end() && it_ref_index != max_ref_index.end(); 
-           ++it_query_index, ++it_ref_index) {
-        query_index = *it_query_index;
-        ref_index = *it_ref_index;
-        Alignment aln(hsr.offset + ref_index, query_index);
-        while (dir_matrix[ref_index][query_index] != ZERO_OP) {
-          switch(dir_matrix[ref_index][query_index]) {
-            case MATCH_OP:  aln.Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
-                            query_index--;
-                            ref_index--;
-                            break;
-            case INSERT_OP: aln.Prepend(ref_seq[ref_index-1], GAP);
-                            ref_index--;
-                           break;
-            case DELETE_OP: aln.Prepend(GAP, query_seq[query_index-1]);
-                            query_index--;
-                            break;
-           default:         aln.Prepend('X', 'X');   // Shouldn't get here
-                            query_index--;
-                            ref_index--;
-                            break;
-          }
+    std::set<AlignmentResult, AlignmentResultComp> hsr_alignments;
+    for (std::set<Cell, CellComp>::iterator it = highscore_cells.begin(); it != highscore_cells.end(); ++it) {
+      int query_index = (*it).query_index;
+      int ref_index = (*it).ref_index;
+      int score = (*it).score;
+      
+      // Build the alignment
+      Alignment aln(hsr.offset + ref_index, query_index);
+      while (dir_matrix[ref_index][query_index] != ZERO_OP) {
+        // Keep alignments ending with the right-most max score cell
+        if (v_matrix[ref_index][query_index] > score) {
+          score = v_matrix[ref_index][query_index];
+          aln.TrimEnd(0);
         }
-        
-        AlignmentResult aln_res;
-        aln_res.hsr = hsr;
-        aln_res.alignment = aln;
-        aln_res.score = max_score;
-        
-        // Filter out duplicate alignments, pick the longest duplicated alignment
-        bool duplicate = false;
-        for (std::list<AlignmentResult>::iterator it = hsr_alignments.begin(); it != hsr_alignments.end(); ++it) {
-          if ((*it).alignment.get_ref_offset() == aln_res.alignment.get_ref_offset()) {
-            duplicate = true;
-            if ((*it).alignment.GetLength() < aln_res.alignment.GetLength()) {
-              hsr_alignments.insert(it, aln_res);
-              it = hsr_alignments.erase(it);
-              --it;
-            }
-          }
+    
+        // Remove visited cells from the high score cell list
+        if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
+          Cell hsc;
+          hsc.query_index = query_index;
+          hsc.ref_index = ref_index;
+          hsc.score = score;
+          highscore_cells.erase(hsc);
         }
-        
+
+        switch(dir_matrix[ref_index][query_index]) {
+          case MATCH_OP:  aln.Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
+                          query_index--;
+                          ref_index--;
+                          break;
+          case INSERT_OP: aln.Prepend(ref_seq[ref_index-1], GAP);
+                          ref_index--;
+                          break;
+          case DELETE_OP: aln.Prepend(GAP, query_seq[query_index-1]);
+                          query_index--;
+                          break;
+         default:         assert(false);
+        }
+      }
+      AlignmentResult aln_res;
+      aln_res.hsr = hsr;
+      aln_res.alignment = aln;
+      aln_res.score = score;
+
+      std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = hsr_alignments.find(aln_res);
+      if (aln_it != hsr_alignments.end()) {
+        // Filter out duplicate alignments, pick the highest scoring, longest duplicated alignment
+        if (((*aln_it).score < aln_res.score) || 
+            ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
+          hsr_alignments.erase(aln_it);
+          hsr_alignments.insert(aln_res);
+        }
+      } else if (aln_res.alignment.get_ref_offset() < hsr.overlap_offset) {
         // Ignore alignments starting in the overlap region to prevent reporting duplicated
         //   alignments across job borders
-        if (aln_res.alignment.get_ref_offset() < hsr.overlap_offset && duplicate == false) {
-          hsr_alignments.push_back(aln_res);
-        }
+        hsr_alignments.insert(aln_res);
       }
-      
-      // Store alignment results list onto results queue
-      for (std::list<AlignmentResult>::iterator it = hsr_alignments.begin(); it != hsr_alignments.end(); ++it) {
-        //std::cout<<"Storing alignment result "<<std::endl;
-        result_queue->Push(*it);
-      }
+    }
+    
+    // Store alignment results list onto results queue
+    for (std::set<AlignmentResult, AlignmentResultComp>::iterator it = hsr_alignments.begin(); it != hsr_alignments.end(); ++it) {
+      //std::cout<<"Storing alignment result "<<std::endl;
+      result_queue->Push(*it);
     }
     //std::cout<<"Aligned HSR:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
 

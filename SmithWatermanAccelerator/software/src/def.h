@@ -13,7 +13,8 @@
 //                                  Added SwAffineGapParams to bookkeeping structs
 //                                  Removed query_len from AlignmentJob
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
-//      Albert Ng   Oct 30 2013     Added END_OF_ENGINE_ALIGNMENT;
+//      Albert Ng   Oct 30 2013     Added END_OF_ENGINE_ALIGNMENT
+//      Albert Ng   Oct 31 2013     Added AlignmentResultComp
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -24,8 +25,8 @@
 #include <string>
 
 // Hardware Parameter definitions
-#define NUM_FPGAS 1
-#define NUM_ENGINES_PER_FPGA 1
+#define NUM_FPGAS 6
+#define NUM_ENGINES_PER_FPGA 5
 #define REF_BLOCK_LEN 128
 #define QUERY_BLOCK_LEN 64
 #define MAX_QUERY_LEN 65535
@@ -92,6 +93,13 @@ struct AlignmentResult {
   HighScoreRegion hsr;
   Alignment alignment;
   int score;
+};
+
+// Alignment Result comparison
+struct AlignmentResultComp {
+  bool operator() (const AlignmentResult& lhs, const AlignmentResult& rhs) const {
+    return lhs.alignment.get_ref_offset() < rhs.alignment.get_ref_offset();
+  }
 };
 
 #endif // DEF_H_

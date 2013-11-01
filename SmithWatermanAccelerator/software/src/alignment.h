@@ -29,7 +29,7 @@ class Alignment {
     Alignment(long long int ref_offset, long long int query_offset);
     ~Alignment();
     
-    std::string ToString();
+    std::string ToString() const;
 
     // Alignments are built backwards, so we prepend to the beginning of
     // the alignment, rather than extend from the end of the alignment.

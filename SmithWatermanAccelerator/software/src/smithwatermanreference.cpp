@@ -46,12 +46,6 @@ struct HighScoreCellComp {
   }
 };
 
-struct AlignmentResultComp {
-  bool operator() (const AlignmentResult& lhs, const AlignmentResult& rhs) const {
-    return lhs.alignment.get_ref_offset() < rhs.alignment.get_ref_offset();
-  }
-};
-
 template <class T>
 T String2Type (std::string str) {
   std::stringstream ss(str);
@@ -88,9 +82,6 @@ void Align(std::string query_name,
     }
   }
 
-  /*std::list<int> highscore_query_index;
-  std::list<int> highscore_ref_index;
-  std::list<int> highscore_scores;*/
   std::set<HighScoreCell, HighScoreCellComp> highscore_cells;
 
   int** sub_mat = new int*[4];
@@ -102,8 +93,8 @@ void Align(std::string query_name,
   int gap_extend = params.GetGapExtend();
 
   // Compute dynamic programming matrices
-  /*struct timespec start, finish;
-  clock_gettime(CLOCK_MONOTONIC, &start);*/
+  struct timespec start, finish;
+  clock_gettime(CLOCK_MONOTONIC, &start);
   for (int i = 1; i < ref_len + 1; i++) {
     for (int j = 1; j < query_len + 1; j++) {
       NtInt ref_nt = NtChar2Int(ref_seq[offset + i-1]);
@@ -158,24 +149,20 @@ void Align(std::string query_name,
         cell.query_index = j;
         cell.score = v_matrix[i][j];
         highscore_cells.insert(cell);
-        /*highscore_query_index.push_front(j);
-        highscore_ref_index.push_front(i);
-        highscore_scores.push_front(v_matrix[i][j]);*/
+
       }
     }
   }
-  /*clock_gettime(CLOCK_MONOTONIC, &finish);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
   double elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-  std::cout<<"Matrix fill took "<<elapsed<<" seconds"<<std::endl;*/
+  //std::cout<<"Matrix fill took "<<elapsed<<" seconds"<<std::endl;
   
   // Backtrace to obtain alignments
-  /*struct timespec sub_start, sub_finish;
+  struct timespec sub_start, sub_finish;
   double sub_elapsed = 0;
-  clock_gettime(CLOCK_MONOTONIC, &start);*/
-  //std::list<AlignmentResult> alignments;
+  clock_gettime(CLOCK_MONOTONIC, &start);
   std::set<AlignmentResult, AlignmentResultComp> alignments;
-  //int duplicates = 0;
   for (std::set<HighScoreCell, HighScoreCellComp>::iterator it = highscore_cells.begin(); it != highscore_cells.end(); ++it) {
     int query_index = (*it).query_index;
     int ref_index = (*it).ref_index;
@@ -183,86 +170,60 @@ void Align(std::string query_name,
     
     Alignment aln(offset + ref_index, query_index);
     while (dir_matrix[ref_index][query_index] != ZERO_OP) {
-      switch(dir_matrix[ref_index][query_index]) {
+      // Keep alignments ending with the right-most max score cell
+      if (v_matrix[ref_index][query_index] > score) {
+        score = v_matrix[ref_index][query_index];
+        aln.TrimEnd(0);
+      }
+      
+      // Remove visited cells from the high score cell list
+      if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
+        HighScoreCell hsc;
+        hsc.query_index = query_index;
+        hsc.ref_index = ref_index;
+        hsc.score = score;
+        highscore_cells.erase(hsc);
+      }
+      
+      switch(dir_matrix[ref_index][query_index]) {        
         case MATCH_OP:  aln.Prepend(ref_seq[offset + ref_index-1], query_seq[query_index-1]);
                         query_index--;
                         ref_index--;
                         break;
         case INSERT_OP: aln.Prepend(ref_seq[offset + ref_index-1], GAP);
                         ref_index--;
-                       break;
+                        break;
         case DELETE_OP: aln.Prepend(GAP, query_seq[query_index-1]);
                         query_index--;
                         break;
-       default:         assert(false);
+        default:        assert(false);
       }
-      
-      // Keep alignments ending with the right-most max score cell
-      if (v_matrix[ref_index][query_index] > score) {
-        score = v_matrix[ref_index][query_index];
-        aln.TrimEnd(1);
-      }
-  
-      // Remove visited cells from the high score cell list
-      HighScoreCell hsc;
-      hsc.query_index = query_index;
-      hsc.ref_index = ref_index;
-      hsc.score = score;
-      highscore_cells.erase(hsc);
     }
     
     AlignmentResult aln_res;
     aln_res.alignment = aln;
     aln_res.score = score;
-    
-    // Filter out duplicate alignments, pick the longest duplicated alignment
-    //clock_gettime(CLOCK_MONOTONIC, &sub_start);
-    /*bool duplicate = false;
-    for (std::list<AlignmentResult>::iterator it = alignments.begin(); it != alignments.end(); ++it) {
-      if ((*it).alignment.get_ref_offset() == aln_res.alignment.get_ref_offset()) {
-        duplicate = true;
-        std::cout<<"Duplicate:"<<std::endl;
-        std::cout<<(*it).alignment.ToString()<<aln_res.alignment.ToString()<<std::endl;
-        duplicates++;
-        if (((*it).score < aln_res.score) || 
-            ((*it).score == aln_res.score && (*it).alignment.GetLength() < aln_res.alignment.GetLength())) {
-          alignments.insert(it, aln_res);
-          it = alignments.erase(it);
-          --it;
-        }
-      }
-    }
-    
-    if (duplicate == false) {
-      alignments.push_back(aln_res);
-    }*/
     std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = alignments.find(aln_res);
     if (aln_it != alignments.end()) {
       if (((*aln_it).score < aln_res.score) || 
           ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
-        std::set<AlignmentResult, AlignmentResultComp>::iterator aln_insert_it = aln_it;
-        aln_insert_it--;
         alignments.erase(aln_it);
-        alignments.insert(aln_insert_it, aln_res);
-        //duplicates++;
+        alignments.insert(aln_res);
       }
     } else {
       alignments.insert(aln_res);
     }
       
-    /*clock_gettime(CLOCK_MONOTONIC, &sub_finish);
+    clock_gettime(CLOCK_MONOTONIC, &sub_finish);
     sub_elapsed += (sub_finish.tv_sec - sub_start.tv_sec);
-    sub_elapsed += (sub_finish.tv_nsec - sub_start.tv_nsec) / 1000000000.0;*/
+    sub_elapsed += (sub_finish.tv_nsec - sub_start.tv_nsec) / 1000000000.0;
   }
-  /*clock_gettime(CLOCK_MONOTONIC, &finish);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-  std::cout<<"Backtrace took "<<elapsed<<" seconds"<<std::endl;
-  std::cout<<"Sub took "<<sub_elapsed<<" seconds"<<std::endl;
-  std::cout<<"Duplicates: "<<duplicates<<std::endl;*/
+  //std::cout<<"Backtrace took "<<elapsed<<" seconds"<<std::endl;
   
   // Print alignment results list
-  //for (std::list<AlignmentResult>::iterator it = alignments.begin(); it != alignments.end(); ++it) {
   for (std::set<AlignmentResult, AlignmentResultComp>::iterator it = alignments.begin(); it != alignments.end(); ++it) {
     PrintAlignment((*it).alignment, query_name, (*it).score);
   }

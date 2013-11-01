@@ -32,7 +32,7 @@ Alignment::Alignment(long long int ref_offset, long long int query_offset) {
 Alignment::~Alignment() {
 }
 
-std::string Alignment::ToString() {
+std::string Alignment::ToString() const {
   std::stringstream ss;
 
   ss << ref_offset_ << "\n"

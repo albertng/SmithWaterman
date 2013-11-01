@@ -78,6 +78,31 @@ class SWThread {
       QuerySeqManager* query_seq_manager;
     };
 
+    // Data structure representing an individual DP matrix cell
+    struct Cell {
+      int ref_index;
+      int query_index;
+      int score;
+      
+      bool operator==(const Cell& rhs) {
+        return ref_index == rhs.ref_index && query_index == rhs.query_index && score == rhs.score;
+      }
+    };
+    
+    // Individual DP matrix comparison (descending order by ref index)
+    struct CellComp {
+      bool operator() (const Cell& lhs, const Cell& rhs) const {
+        if (lhs.ref_index > rhs.ref_index) {
+          return true;
+        }
+        else if (lhs.ref_index == rhs.ref_index) {
+          return lhs.query_index > rhs.query_index;
+        } else {
+          return false;
+        }
+      }
+    };
+
     // Function for thread to run.
     // Continuously perform alignments, grabbing alignment jobs from the hsr_queue
     //   and storing results in the result_queue

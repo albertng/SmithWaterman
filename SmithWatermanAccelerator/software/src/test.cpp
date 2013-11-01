@@ -28,4 +28,18 @@ int main(void) {
 		}
 	}
 	std::cout<<std::endl;
+
+	l.clear();
+	l.push_front(1);
+	l.push_front(2);
+	l.push_front(3);
+	for (std::list<int>::iterator it = l.begin(); it != l.end(); ++it) {
+		std::cout<<"Erasing "<<*it<<std::endl;
+		l.erase(it);
+		it--;
+	}
+	l.push_front(4);
+	for (std::list<int>::iterator it = l.begin(); it != l.end(); ++it) {
+		std::cout<<*it<<std::endl;
+	}
 }
