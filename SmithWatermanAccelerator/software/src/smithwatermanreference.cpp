@@ -5,13 +5,13 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <time.h>
+#include <set>
 #include "fasta.h"
 #include "alignment.h"
 #include "scoring.h"
 #include "utils.h"
 #include "def.h"
-#include <time.h>
-#include <set>
 
 enum AlnOp {INSERT_OP, DELETE_OP, MATCH_OP, ZERO_OP};
 

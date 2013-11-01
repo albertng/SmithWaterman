@@ -6,11 +6,7 @@
 //      Albert Ng   Oct 19 2013     Completed StreamRefSeq()
 //      Albert Ng   Oct 29 2013     Uses fasta.h to parse FASTA files
 
-#include "refseqmanager.h"
 #include "def.h"
-#include "utils.h"
-#include "picodrv.h"
-#include "fasta.h"
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
@@ -18,6 +14,15 @@
 #include <string>
 #include <vector>
 #include <assert.h>
+#include "refseqmanager.h"
+#include "utils.h"
+#include "fasta.h"
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 static const int REF_NAME_FIELD = 0;
 

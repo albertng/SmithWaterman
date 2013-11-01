@@ -5,11 +5,11 @@
 //      Albert Ng   Oct 21 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Added Close()
 
-#include "socket.h"
 #include <string>
 #include <cstring>  // memset()
 #include <iostream>
 #include <errno.h>
+#include "socket.h"
 
 Socket::Socket() {
   sock_fd_ = INVALID;

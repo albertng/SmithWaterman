@@ -5,17 +5,22 @@
 //      Albert Ng   Oct 28 2013     Initial Revision
 //
 
-#include "servercomm.h"
-#include "picodrv.h"
-#include "threadqueue.h"
+#include <iostream>
 #include "def.h"
+#include "servercomm.h"
+#include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
 #include "scoring.h"
 #include "enginedispatchthread.h"
 #include "resultsreaderthread.h"
 #include "swthread.h"
-#include <iostream>
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 #define NUM_THREADS 1
 

@@ -12,14 +12,19 @@
 //      Albert Ng   Oct 18 2013     Fixed engine job queue empty bug
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to HighScoreRegion
 
-#include "picodrv.h"
-#include "resultsreaderthread.h"
-#include "threadqueue.h"
-#include "def.h"
-#include "scoring.h"
 #include <pthread.h>
 #include <stdint.h>
 #include <assert.h>
+#include "def.h"
+#include "resultsreaderthread.h"
+#include "threadqueue.h"
+#include "scoring.h"
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 ResultsReaderThread::ResultsReaderThread() {
 }

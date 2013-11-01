@@ -5,15 +5,15 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Requires a new client connection per query group
 
+#include <sstream>
+#include <iostream>
 #include "servercomm.h"
 #include "threadqueue.h"
 #include "scoring.h"
-#include <sstream>
 #include "def.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
 #include "alignment.h"
-#include <iostream>
 
 ServerComm::ServerComm(int port) {
   server_.Init(port);

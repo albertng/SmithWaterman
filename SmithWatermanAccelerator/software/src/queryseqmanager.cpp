@@ -11,10 +11,10 @@
 
 #include <pthread.h>
 #include <map>
-#include "queryseqmanager.h"
 #include <iostream> 
 #include <string>
 #include <cstring>
+#include "queryseqmanager.h"
 
 QuerySeqManager::QuerySeqManager() {
   pthread_mutex_init(&query_jobcount_map_mutex_, NULL);

@@ -19,10 +19,12 @@
 #ifndef DEF_H_
 #define DEF_H_
 
-#include "alignment.h"
-#include "scoring.h"
 #include <stdint.h>
 #include <string>
+#include "alignment.h"
+#include "scoring.h"
+
+#undef SIM_PICO
 
 // Hardware Parameter definitions
 #define NUM_FPGAS 6

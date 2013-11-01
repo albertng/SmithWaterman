@@ -8,9 +8,15 @@
 #ifndef REFSEQMANAGER_H_
 #define REFSEQMANAGER_H_
 
-#include "picodrv.h"
+#include "def.h"
 #include <map>
 #include <string>
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 class RefSeqManager {
   public:

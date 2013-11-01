@@ -8,13 +8,18 @@
 #ifndef ENGINEDISPATCHTHREAD_H_
 #define ENGINEDISPATCHTHREAD_H_
 
-#include "picodrv.h"
+#include <pthread.h>
+#include "def.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
-#include "def.h"
 #include "scoring.h"
-#include <pthread.h>
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 class EngineDispatchThread{
   public:

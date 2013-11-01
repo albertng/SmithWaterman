@@ -1,0 +1,23 @@
+all: smithwatermanclient
+
+smithwatermanclient: fasta.o socket.o clientsocket.o scoring.o smithwatermanclient.o 
+	g++ fasta.o socket.o clientsocket.o scoring.o smithwatermanclient.o -o smithwatermanclient
+
+fasta.o: fasta.cpp
+	g++ -c fasta.cpp -g
+	
+socket.o: socket.cpp
+	g++ -c socket.cpp -g
+	
+scoring.o: scoring.cpp
+	g++ -c scoring.cpp -g
+
+clientsocket.o: clientsocket.cpp
+	g++ -c clientsocket.cpp -g
+
+smithwatermanclient.o: smithwatermanclient.cpp
+	g++ -c smithwatermanclient.cpp -g
+
+clean:
+	rm -rf *o smithwatermanclient
+

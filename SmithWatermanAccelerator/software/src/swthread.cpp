@@ -15,6 +15,9 @@
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 //      Albert Ng   Oct 31 2013     Now reports all alignments above threshold
 
+#include <list>
+#include <set>
+#include <assert.h>
 #include "swthread.h"
 #include "def.h"
 #include "threadqueue.h"
@@ -22,9 +25,7 @@
 #include "queryseqmanager.h"
 #include "utils.h"
 #include "scoring.h"
-#include <list>
-#include <set>
-#include <assert.h>
+
 
 SWThread::SWThread() {
 }

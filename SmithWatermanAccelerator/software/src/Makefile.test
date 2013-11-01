@@ -1,0 +1,4 @@
+TARGET = test
+USER_SOURCES = test.cpp def.h threadqueue.h
+
+include $(PICOBASE)/software/Makefile.common

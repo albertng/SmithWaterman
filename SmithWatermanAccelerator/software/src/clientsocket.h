@@ -8,8 +8,8 @@
 #ifndef CLIENTSOCKET_H_
 #define CLIENTSOCKET_H_
 
-#include "socket.h"
 #include <string>
+#include "socket.h"
 
 class ClientSocket: public Socket {
   public:

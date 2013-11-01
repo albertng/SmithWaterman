@@ -33,12 +33,17 @@
 #ifndef RESULTSREADERTHREAD_H_
 #define RESULTSREADERTHREAD_H_
 
-#include "picodrv.h"
-#include "threadqueue.h"
-#include "def.h"
-#include "queryseqmanager.h"
 #include <pthread.h>
 #include <stdint.h>
+#include "def.h"
+#include "threadqueue.h"
+#include "queryseqmanager.h"
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 // Thread that handles reading and processing the results from the
 //   FPGA engines

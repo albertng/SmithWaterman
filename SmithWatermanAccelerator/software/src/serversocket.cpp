@@ -5,8 +5,8 @@
 //      Albert Ng   Oct 21 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Added ShutdownRecv()
 
-#include "serversocket.h"
 #include <arpa/inet.h>
+#include "serversocket.h"
 
 ServerSocket::ServerSocket() {
 }

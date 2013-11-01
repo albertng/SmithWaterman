@@ -8,16 +8,21 @@
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and EngineJob
 //                                  Set scoring params between query groups
 
-#include "enginedispatchthread.h"
-#include "picodrv.h"
+#include <pthread.h>
+#include <stdlib.h>
+#include "def.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
-#include "def.h"
 #include "utils.h"
 #include "scoring.h"
-#include <pthread.h>
-#include <stdlib.h>
+#include "enginedispatchthread.h"
+#ifdef SIM_PICO
+  #include "picodrv_sim.h"
+#else
+  #include <picodrv.h>
+  #include <pico_errors.h>
+#endif
 
 EngineDispatchThread::EngineDispatchThread() {
 }

@@ -5,9 +5,9 @@
 //      Albert Ng   Oct 21 2013     Initial Revision
 //
 
-#include "clientsocket.h"
 #include <string>
 #include <arpa/inet.h>
+#include "clientsocket.h"
 
 ClientSocket::ClientSocket() {
 }

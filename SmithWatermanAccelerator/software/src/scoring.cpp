@@ -5,12 +5,12 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Changed sub_mat_ to int** from [][]
 
-#include "scoring.h"
 #include <iostream>
 #include <sstream>
-#include "def.h"
 #include <string>
 #include <iostream>
+#include "def.h"
+#include "scoring.h"
 
 SwAffineGapParams::SwAffineGapParams() {
 }

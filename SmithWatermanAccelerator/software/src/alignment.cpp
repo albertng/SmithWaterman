@@ -12,10 +12,10 @@
 //      Albert Ng   Oct 29 2013     Changed from list<pair> to string based
 //      Albert Ng   Oct 31 2013     Added TrimEnd()
 
-#include "alignment.h"
 #include <list>
 #include <sstream>
 #include <string>
+#include "alignment.h"
 
 Alignment::Alignment() {
   ref_str_ = "";

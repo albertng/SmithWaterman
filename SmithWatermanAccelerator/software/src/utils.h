@@ -11,9 +11,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include "def.h"
 #include <iostream>
 #include <assert.h>
+#include "def.h"
 
 // Converts a nucleotide char to nucleotide integer, accepting
 // both lowercase and uppercase.

@@ -4,10 +4,11 @@
 //  Revision History :
 //      Albert Ng   Oct 29 2013     Initial Revision
 
-#include "picodrv.h"
-#include "utils.h"
 #include <assert.h>
 #include <cstring>
+#include "picodrv.h"
+#include "utils.h"
+
 
 PicoDrv::PicoDrv() {
   dram_ = new char[DRAM_SIZE];

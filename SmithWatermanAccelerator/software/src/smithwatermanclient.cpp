@@ -5,15 +5,15 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 28 2913     Completed initial revision
 
-#include "clientsocket.h"
-#include "def.h"
-#include "fasta.h"
-#include "scoring.h"
 #include <iostream>
 #include <stdio.h>
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include "def.h"
+#include "clientsocket.h"
+#include "fasta.h"
+#include "scoring.h"
 
 static const int QUERY_NAME_FIELD = 0;
 static const int REF_NAME_FIELD = 1;

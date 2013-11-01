@@ -5,11 +5,11 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 28 2013     Changed ParseFastaFile to return full descrip line
 
-#include "fasta.h"
 #include <string>
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include "fasta.h"
 
 static std::vector<std::string> SplitFields(std::string descrip_line) {
   std::vector<std::string> fields;

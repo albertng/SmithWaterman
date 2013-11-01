@@ -45,7 +45,7 @@ class ThreadQueue {
     pthread_mutex_t mutex_;
     pthread_cond_t nonfull_cond_;
     pthread_cond_t nonempty_cond_;
-    static const int MAX_SIZE = 1000000;
+    static const int MAX_Q_SIZE = 1000000;
 };
 
 // Simply initializes mutex and conditions
@@ -61,7 +61,7 @@ template <typename T>
 void ThreadQueue<T>::Push(T data) {
   pthread_mutex_lock(&mutex_);
   
-  if (queue_.size() == MAX_SIZE) {
+  if (queue_.size() == MAX_Q_SIZE) {
     pthread_cond_wait(&nonfull_cond_, &mutex_);
   }
 
@@ -86,7 +86,7 @@ T ThreadQueue<T>::Pop() {
   T ret = queue_.front();
   queue_.pop();
   
-  if (queue_.size() == MAX_SIZE-1) {
+  if (queue_.size() == MAX_Q_SIZE-1) {
     pthread_cond_signal(&nonfull_cond_);
   }
   

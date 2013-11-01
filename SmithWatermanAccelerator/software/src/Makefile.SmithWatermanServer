@@ -1,0 +1,6 @@
+TARGET = smithwatermanserver
+USER_SOURCES = alignment.cpp alignment.h clientsocket.cpp clientsocket.h def.h enginedispatchthread.cpp enginedispatchthread.h fasta.cpp fasta.h queryseqmanager.cpp queryseqmanager.h refseqmanager.cpp refseqmanager.h resultsreaderthread.cpp resultsreaderthread.h scoring.cpp scoring.h servercomm.cpp servercomm.h serversocket.cpp serversocket.h smithwatermanserver.cpp socket.cpp socket.h swthread.cpp swthread.h threadqueue.h utils.cpp utils.h
+
+CFLAGS += -pthread
+
+include $(PICOBASE)/software/Makefile.common

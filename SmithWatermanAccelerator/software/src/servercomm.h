@@ -8,14 +8,14 @@
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
 
+#include <string>
+#include <list>
+#include "def.h"
 #include "serversocket.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
 #include "alignment.h"
-#include "def.h"
-#include <string>
-#include <list>
 
 class ServerComm {
   public:
