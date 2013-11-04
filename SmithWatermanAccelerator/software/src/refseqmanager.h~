@@ -4,7 +4,6 @@
 //  Revision History :
 //      Albert Ng   Oct 18 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Removed GetSeqName()
-//      Albert Ng   Nov 01 2013     Added GetRefName()
 
 #ifndef REFSEQMANAGER_H_
 #define REFSEQMANAGER_H_

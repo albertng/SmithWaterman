@@ -4,7 +4,6 @@
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Requires a new client connection per query group
-//      Albert Ng   Nov 01 2013     Report ref name with each alignment
 
 #include <sstream>
 #include <iostream>

@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
-//      Albert Ng   Nov 01 2013     Report ref name with each alignment
+//
 
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
