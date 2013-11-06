@@ -130,9 +130,9 @@ int main(int argc, char *argv[]) {
   // Continuously accept and run alignments
   while (true) {
     // Parse the query group and initiate alignment
-    std::list<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
-                                                         &query_seq_manager,
-                                                         &ref_seq_manager);
+    std::vector<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
+                                                           &query_seq_manager,
+                                                           &ref_seq_manager);
 
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
@@ -143,11 +143,11 @@ int main(int argc, char *argv[]) {
         std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
         std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
         //std::cout<<"Query name "<<query_name<<std::endl;
-        server_comm.SendAlignment(aln_res, query_name);
+        server_comm.SendAlignment(aln_res, query_name, ref_name);
       }
       
       group_done = true;
-      for (std::list<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
+      for (std::vector<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
         if (!query_seq_manager.QueryDone(*it)) {
           group_done = false;
         }

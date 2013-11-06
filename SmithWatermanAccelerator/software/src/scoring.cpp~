@@ -28,7 +28,7 @@ SwAffineGapParams::SwAffineGapParams(int sub_mat[][4], int gap_open, int gap_ext
   assert(IsValid());
 }
 
-// Throws std::ios_base::failure exception
+// Note: No error checking, assumes string is in the right format
 SwAffineGapParams::SwAffineGapParams(std::string s) {
   std::istringstream iss(s);
   iss.exceptions(std::ios::failbit);

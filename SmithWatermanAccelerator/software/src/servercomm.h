@@ -26,9 +26,9 @@ class ServerComm {
     // Add the queries to the query seq manager.
     // Store the scoring params and queries onto the alignment job queue.
     // Returns the list of query IDs in this group.
-    std::list<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
-                                 QuerySeqManager* query_seq_manager,
-                                 RefSeqManager* ref_seq_manager);
+    std::vector<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
+                                   QuerySeqManager* query_seq_manager,
+                                   RefSeqManager* ref_seq_manager);
     
     // Send the alignment result to the client.
     void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name);
@@ -39,13 +39,15 @@ class ServerComm {
   private:
     enum ParserState {PARAMS, QUERIES};
     
-    // FSM action function
+    // FSM action function, performed on each line
     // Returns true when a query group is done
-    bool Action(std::string line,
-                ThreadQueue<AlignmentJob>* alignment_job_queue, 
-                QuerySeqManager* query_seq_manager,
+    // Returns whether the line is valid in line_good
+    bool Action(std::string line, 
+                std::vector<AlignmentJob>* new_jobs, 
                 RefSeqManager* ref_seq_manager,
-                std::list<int>* query_ids);
+                std::vector<std::string>* query_names,
+                std::vector<std::string>* query_seqs,
+                bool* line_good);
     
     ServerSocket server_;
     ServerSocket client_sock_;

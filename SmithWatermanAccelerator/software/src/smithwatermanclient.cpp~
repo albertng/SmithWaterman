@@ -46,6 +46,31 @@ bool SendParams(ClientSocket* client_socket, SwAffineGapParams params) {
   return success;
 }
 
+bool TrySendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, char* seq, int length) {
+  std::string rcv_buf;
+  std::string seq_str(seq, length);
+
+  // Send Query
+  client_socket->Send(descrip[QUERY_NAME_FIELD]);
+  client_socket->Send(" ");
+  client_socket->Send(seq_str);
+  client_socket->Send(" ");
+  client_socket->Send(descrip[REF_NAME_FIELD]);
+  client_socket->Send(" ");
+  client_socket->Send(descrip[REF_START_FIELD]);
+  client_socket->Send(" ");
+  client_socket->Send(descrip[REF_END_FIELD]);
+  client_socket->Send(" ");
+  client_socket->Send(descrip[THRESHOLD_FIELD]);
+  client_socket->Send("\n");
+  
+  // Receive success acknowledgement
+  client_socket.Recv(&recv_buf);
+  assert(rcv_buf.length() == 1);
+  
+  return (rcv_buf[0] == '0');
+}
+
 bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, char* seq, int length) {
   std::string seq_str(seq, length);
   std::stringstream ss;

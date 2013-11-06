@@ -3,7 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
-//
+//      Albert Ng   Nov 01 2013     Report ref name with each alignment
 
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
@@ -26,9 +26,9 @@ class ServerComm {
     // Add the queries to the query seq manager.
     // Store the scoring params and queries onto the alignment job queue.
     // Returns the list of query IDs in this group.
-    std::list<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
-                                 QuerySeqManager* query_seq_manager,
-                                 RefSeqManager* ref_seq_manager);
+    std::vector<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
+                                   QuerySeqManager* query_seq_manager,
+                                   RefSeqManager* ref_seq_manager);
     
     // Send the alignment result to the client.
     void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name);
