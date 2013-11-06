@@ -1,10 +1,13 @@
 //  File Name        : smithwatermanclient.cpp
 //  Description      : Client Process main thread
 //
+//  TODO: FASTA file syntax checker
+//
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 28 2913     Completed initial revision
 //      Albert Ng   Nov 05 2013     Added handshaking
+//      Albert Ng   Nov 06 2013     Removed handshaking
 
 #include <iostream>
 #include <stdio.h>
@@ -25,25 +28,14 @@ static const int REF_END_FIELD = 3;
 static const int THRESHOLD_FIELD = 4;
 
 bool TrySend(ClientSocket* client_socket, std::string msg) {
-  std::string rcv_buf;
-  
-  // Send the message
-  client_socket->Send(msg);
-  client_socket->Send("\n");
-  
-  // Receive success acknowledgement
-  client_socket->Recv(&rcv_buf);
-  assert(rcv_buf.length() == 1);
-  
-  return (rcv_buf[0] == '0');
+  if (!client_socket->Send(msg)) {
+    return false;
+  }
+  return client_socket->Send("\n");
 }
 
 bool SendParams(ClientSocket* client_socket, SwAffineGapParams params) {
-  bool success = TrySend(client_socket, params.ToString());
-  if (!success) {
-    success = TrySend(client_socket, params.ToString());
-  }
-  return success;
+  return TrySend(client_socket, params.ToString());
 }
 
 bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, char* seq, int length) {
@@ -56,25 +48,39 @@ bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, ch
      << descrip[REF_END_FIELD] << " "
      << descrip[THRESHOLD_FIELD];
 
-  bool success = TrySend(client_socket, ss.str());
-  if (!success) {
-    success = TrySend(client_socket, ss.str());
-  }
-  return success;
+  return TrySend(client_socket, ss.str());
 }
 
 bool SendEndOfQueryGroup(ClientSocket* client_socket) {
-  bool success = TrySend(client_socket, END_OF_QUERY_GROUP);
-  if (!success) {
-    success = TrySend(client_socket, END_OF_QUERY_GROUP);
-  }
-  return success;
+  return TrySend(client_socket, END_OF_QUERY_GROUP);
 }
   
 void PrintQuery(std::vector<std::string> descrip, char* seq, int length) {
   std::string seq_str(seq, length);
   std::cout<<descrip[QUERY_NAME_FIELD]<<" "<<seq_str<<" "<<descrip[REF_NAME_FIELD]<<" "
           <<descrip[REF_START_FIELD]<<" "<<descrip[REF_END_FIELD]<<" "<<descrip[THRESHOLD_FIELD]<<std::endl;
+}
+
+bool SendQueryGroup(ClientSocket* client_socket,
+                    SwAffineGapParams params,
+                    std::vector<std::vector<std::string> > descrips, 
+                    std::vector<char*> seqs, 
+                    std::vector<int> lengths) {
+  if (!SendParams(client_socket, params)) {
+    return false;
+  }
+  
+  for (int i = 0; i < seqs.size(); i++) {
+    if (!SendQuery(client_socket, descrips[i], seqs[i], lengths[i])) {
+      return false;
+    }
+  }
+  
+  if (!SendEndOfQueryGroup(client_socket)) {
+    return false;
+  }
+  
+  return true;
 }
 
 int main(int argc, char *argv[]) {
@@ -96,53 +102,24 @@ int main(int argc, char *argv[]) {
   // Connect to server
   ClientSocket client_socket("localhost", 30000);
   
-  // Send the parameters
+  // Send query group
   SwAffineGapParams params("2 -2 -2 -2 2 -2 -2 2 -2 2 -2 -1");
-  if (!SendParams(&client_socket, params)) {
-    std::cerr << "Error: Invalid parameter set " << params.ToString() << std::endl;
-    exit(1);
-  }
-  
-  // Send the queries
-  for (int i = 0; i < seqs.size(); i++) {
-    if (!SendQuery(&client_socket, descrips[i], seqs[i], lengths[i])) {
-      std::cerr << "Error: Invalid query " << std::endl;
-      std::cerr << ">";
-      for (int j = 0; j < descrips[i].size(); j++) {
-        std::cerr << descrips[i][j] << " ";
-      }
-      std::cerr << "\n";
-      std::string query_str(seqs[i], lengths[i]);
-      std:: cerr << query_str << std::endl;
-      exit(1);
-    }
-    //PrintQuery(descrips[i], seqs[i], lengths[i]);
-  }
+  SendQueryGroup(&client_socket, params, descrips, seqs, lengths);
 
-  // Send end of query group packet
-  if (!SendEndOfQueryGroup(&client_socket)) {
-    std::cerr << "Error: Invalid End Of Query Group msg " << END_OF_QUERY_GROUP << std::endl;
-    exit(1);
-  }
-  
-  // Print what was sent
-  std::cout<<params.ToString()<<std::endl;
-  for (int i = 0; i < seqs.size(); i++) {
-    PrintQuery(descrips[i], seqs[i], lengths[i]);
-  }
-  std::cout<<END_OF_QUERY_GROUP<<std::endl;
-  
   // Receive and print alignments
   bool done = false;
   std::string rcv_buf;
+  std::string out_str = "";
   while (done == false) {
     client_socket.Recv(&rcv_buf);
-    std::cout << rcv_buf;
-    if (rcv_buf.find(END_OF_QUERY_GROUP) != std::string::npos) {
+    out_str += rcv_buf;
+    if (rcv_buf.find(QUERY_GROUP_SUCCESS) != std::string::npos ||
+        rcv_buf.find(QUERY_GROUP_FAIL) != std::string::npos) {
       done = true;
     }
   }
-  std::cout << std::flush;
+
+  std::cout << out_str << std::flush;
 }
   
   

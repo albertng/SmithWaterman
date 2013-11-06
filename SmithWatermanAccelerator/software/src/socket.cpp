@@ -4,6 +4,7 @@
 //  Revision History :
 //      Albert Ng   Oct 21 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Added Close()
+//      Albert Ng   Nov 06 2013     Fixed bug in Recv() appending extra non-transmitted chars
 
 #include <string>
 #include <cstring>  // memset()
@@ -43,8 +44,8 @@ bool Socket::Send(std::string s) {
 }
 
 int Socket::Recv(std::string* s) {
-  char buf[RECV_BUF_SIZE];
-  memset(buf, 0, RECV_BUF_SIZE);
+  char buf[RECV_BUF_SIZE + 1];
+  memset(buf, 0, RECV_BUF_SIZE + 1);
 
   int status = recv(sock_fd_, buf, RECV_BUF_SIZE, 0);
   *s = "";
@@ -55,7 +56,13 @@ int Socket::Recv(std::string* s) {
     return 0;
   }
 
+  buf[status] = 0;
   *s = buf;
+  /*std::cout<<"Received "<<*s<<"\nRepeating: ";
+  for (int i = 0; i < status; i++) {
+    std::cout<<(*s)[i];
+  }
+  std::cout<<std::endl;*/
   return status;
 }
 

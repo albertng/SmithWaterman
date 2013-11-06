@@ -60,6 +60,9 @@ long long int RefSeqManager::GetRefLength(int ref_id) {
 }
 
 int RefSeqManager::GetRefID(std::string ref_name) {
+  if (ref_id_.count(ref_name) == 0) {
+    return -1;
+  }
   return ref_id_[ref_name];
 }
 

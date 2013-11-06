@@ -125,6 +125,7 @@ int main(int argc, char *argv[]) {
   }
   
   // Set up socket communication
+  std::cout << "Server running..." << std::endl;
   ServerComm server_comm(30000);
   
   // Continuously accept and run alignments
@@ -153,7 +154,12 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-    server_comm.EndQueryGroup();
+    
+    if (query_ids.size() > 0) {
+      server_comm.EndQueryGroup(true);    // Successfully parsed and aligned
+    } else {
+      server_comm.EndQueryGroup(false);   // Unsuccessful parsing
+    }
     
     // Reclaim finished query memory
     for (std::vector<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {

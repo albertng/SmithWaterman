@@ -34,7 +34,9 @@ class ServerComm {
     void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name);
     
     // Finish off a query group and close the client.
-    void EndQueryGroup();
+    // Sends corresponding message depending on whether or not the query group alignment
+    //   was successful (unsuccessful = bad parse).
+    void EndQueryGroup(bool success);
     
   private:
     enum ParserState {PARAMS, QUERIES};

@@ -5,7 +5,7 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Oct 29 2013     Requires a new client connection per query group
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
-//      Albert Ng   Nov 05 2013     Added error handling to GetQueryGroup()
+//      Albert Ng   Nov 06 2013     Added error handling to GetQueryGroup()
 
 #include <sstream>
 #include <iostream>
@@ -45,11 +45,11 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
   bool query_group_done = false;
   bool query_group_good = true;
   std::string cur_line = "";
-  std::string rcv_buf;
+  std::string rcv_buf = "";
   
   server_.Accept(&client_sock_);
   
-  while (query_group_done == false) {
+  /*while (query_group_done == false) {
     client_sock_.Recv(&rcv_buf);
     
     // Find first newline in buffer
@@ -68,23 +68,14 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
       
       // Invalid line
       if (line_good == false) {
-        client_sock_.Send("1");           // Notify client of invalid line
-        if (query_group_good == false) {  // Line already invalid once, so terminate query group
-          query_group_done == true;
-        } else {                          // First time line is invalid
-          query_group_good = false;       //   Record that invalid line received
-          query_group_done = false;       //   Need client to send again, so can't complete query group
-        }
-      } else {
-        client_sock_.Send("0");           // Notify client of successful line parse
-        query_group_good = true;          // Query group is good so far
+        query_group_done = true;
+        query_group_good = false;
       }
       cur_line = "";
     }
-  }
-  
-  
-  /*while (query_group_done == false) {   
+  }*/
+
+  while (query_group_done == false) {   
     // Nothing left in buffer, receive from client
     if (rcv_buf.length() == 0) {
       client_sock_.Recv(&rcv_buf);
@@ -107,10 +98,18 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
       }
       
       // Parse the line
-      query_group_done = Action(cur_line, &new_jobs, ref_seq_manager, &query_ids, &query_names, &query_seqs, &line_good);
+      bool line_good;
+      query_group_done = Action(cur_line, &new_jobs, ref_seq_manager, &query_names, &query_seqs, &line_good);
+      
+      // Invalid line check
+      if (line_good == false) {
+        query_group_done = true;
+        query_group_good = false;
+      }
+      
       cur_line = "";
     }
-  }*/
+  }
   client_sock_.ShutdownRecv();
   
   if (query_group_good == true) {
@@ -175,6 +174,25 @@ bool ServerComm::Action(std::string line,
           iss >> ref_end;
           iss >> threshold;
           
+          // Some syntax checks
+          bool syntax_good = true;
+          for (int i = 0; i < query_seq.length(); i++) {          // Check for invalid nucleotides
+            if (query_seq[i] != 'n' && query_seq[i] != 'N' &&
+                query_seq[i] != 'a' && query_seq[i] != 'A' &&
+                query_seq[i] != 'g' && query_seq[i] != 'G' &&
+                query_seq[i] != 'c' && query_seq[i] != 'C' &&
+                query_seq[i] != 't' && query_seq[i] != 'T') {
+              syntax_good = false;
+              break;
+            }
+          }
+          if (ref_start >= ref_end) {                             // Check for invalid start/end coordinates
+            syntax_good = false;
+          }
+          if (ref_seq_manager->GetRefID(ref_name) == -1) {        // Check for invalid ref seq name
+            syntax_good = false;
+          }
+          
           //int query_id = query_seq_manager->AddQuery(query_name, query_seq);
           //query_ids->push_back(query_id);
           query_names->push_back(query_name);
@@ -190,12 +208,18 @@ bool ServerComm::Action(std::string line,
           //alignment_job_queue->Push(job);
           new_jobs->push_back(job);
           
-          *line_good = true;
-          state_ = QUERIES;
+          if (syntax_good) {
+            *line_good = true;
+            state_ = QUERIES;
+          } else {
+            *line_good = false;
+            query_group_done = true;
+            state_ = PARAMS;
+          }
         } catch (std::ios_base::failure &e) {
           *line_good = false;
-          state_ = QUERIES;
-          break;
+          query_group_done = true;
+          state_ = PARAMS;
         }
       } else {                                // Done with the query group
         query_group_done = true;
@@ -225,8 +249,12 @@ void ServerComm::SendAlignment(AlignmentResult res, std::string query_name, std:
   client_sock_.Send(ss.str());
 }
 
-void ServerComm::EndQueryGroup() {
-  client_sock_.Send(END_OF_QUERY_GROUP);
+void ServerComm::EndQueryGroup(bool success) {
+  if (success) {
+    client_sock_.Send(QUERY_GROUP_SUCCESS);
+  } else {
+    client_sock_.Send(QUERY_GROUP_FAIL);
+  }
   client_sock_.Send("\n");
   client_sock_.Close();
 }

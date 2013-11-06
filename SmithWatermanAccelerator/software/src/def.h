@@ -35,6 +35,8 @@
 
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"
+#define QUERY_GROUP_SUCCESS "SUCCESS"
+#define QUERY_GROUP_FAIL "FAIL"
 
 // FPGA protocol definitions
 #define END_OF_ENGINE_ALIGNMENT 0xFFFFFFFF  // High score block value indicating the end 

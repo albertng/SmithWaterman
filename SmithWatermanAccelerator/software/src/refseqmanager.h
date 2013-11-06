@@ -43,6 +43,7 @@ class RefSeqManager {
     long long int GetRefLength(int ref_id);
     
     // Get the ref ID number from a reference sequence name.
+    // Return -1 if invalid ref name.
     int GetRefID(std::string ref_name);
 
     // Get the ref seq name from the ref ID
