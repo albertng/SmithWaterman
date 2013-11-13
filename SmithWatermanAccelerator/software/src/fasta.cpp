@@ -15,7 +15,7 @@ static std::vector<std::string> SplitFields(std::string descrip_line) {
   std::vector<std::string> fields;
   std::string cur_str = "";
   for (int i = 1; i < descrip_line.length(); i++) {
-    if (!isalpha(descrip_line[i]) && !isdigit(descrip_line[i])) {
+    if (!isalpha(descrip_line[i]) && !isdigit(descrip_line[i]) && (descrip_line[i] != '_')) {
       fields.push_back(cur_str);
       cur_str = "";
     } else {

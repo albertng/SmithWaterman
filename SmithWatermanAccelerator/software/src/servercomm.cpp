@@ -36,16 +36,17 @@ ServerComm::~ServerComm() {
 //   jobs that contain any actual line errors.
 std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                          QuerySeqManager* query_seq_manager,
-                                         RefSeqManager* ref_seq_manager) {
+                                         RefSeqManager* ref_seq_manager,
+                                         unsigned int* errors) {
   std::vector<AlignmentJob> new_jobs;                                    
   std::vector<std::string> query_names;
   std::vector<std::string> query_seqs;
   std::vector<int> query_ids;
   
   bool query_group_done = false;
-  bool query_group_good = true;
   std::string cur_line = "";
   std::string rcv_buf = "";
+  *errors = 0;
   
   server_.Accept(&client_sock_);
   
@@ -98,13 +99,13 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
       }
       
       // Parse the line
-      bool line_good;
-      query_group_done = Action(cur_line, &new_jobs, ref_seq_manager, &query_names, &query_seqs, &line_good);
+      unsigned int line_errors = 0;
+      query_group_done = Action(cur_line, &new_jobs, ref_seq_manager, &query_names, &query_seqs, &line_errors);
+      *errors |= line_errors;
       
       // Invalid line check
-      if (line_good == false) {
+      if (line_errors != 0) {
         query_group_done = true;
-        query_group_good = false;
       }
       
       cur_line = "";
@@ -112,7 +113,7 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
   }
   client_sock_.ShutdownRecv();
   
-  if (query_group_good == true) {
+  if (*errors == 0) {
     for (int i = 0; i < new_jobs.size(); i++) {
       if (i != 0) {
         int query_id = query_seq_manager->AddQuery(query_names[i-1], query_seqs[i-1]);
@@ -131,8 +132,9 @@ bool ServerComm::Action(std::string line,
                         RefSeqManager* ref_seq_manager,
                         std::vector<std::string>* query_names,
                         std::vector<std::string>* query_seqs,
-                        bool* line_good) {
+                        unsigned int* errors) {
   bool query_group_done = false;
+  *errors = 0;
   //std::cout<<line<<std::endl;
   switch (state_) {
     case PARAMS : {                           // Store the scoring params
@@ -146,10 +148,9 @@ bool ServerComm::Action(std::string line,
         //std::cout<<"Alignment params job: "<<params_job.query_id<< " "<<params_job.ref_id<<" "<<params_job.ref_offset<<" "<<params_job.ref_len<<" "<<params_job.threshold<<" "<<params_job.params.ToString()<<std::endl;
         params_ = params;
         state_ = QUERIES;
-        *line_good = true;
         break;
       } catch (std::ios_base::failure &e) {
-        *line_good = false;
+        *errors |= SYNTAX_ERROR_PARAMS;
         state_ = PARAMS;
         break;
       }
@@ -174,23 +175,31 @@ bool ServerComm::Action(std::string line,
           iss >> ref_end;
           iss >> threshold;
           
+          int ref_id = (ref_seq_manager->GetRefID(ref_name));
+          
           // Some syntax checks
-          bool syntax_good = true;
+          unsigned int syntax_errors = 0;
           for (int i = 0; i < query_seq.length(); i++) {          // Check for invalid nucleotides
             if (query_seq[i] != 'n' && query_seq[i] != 'N' &&
                 query_seq[i] != 'a' && query_seq[i] != 'A' &&
                 query_seq[i] != 'g' && query_seq[i] != 'G' &&
                 query_seq[i] != 'c' && query_seq[i] != 'C' &&
                 query_seq[i] != 't' && query_seq[i] != 'T') {
-              syntax_good = false;
+              *errors |= SYNTAX_ERROR_QUERYSEQ;
               break;
             }
           }
-          if (ref_start >= ref_end) {                             // Check for invalid start/end coordinates
-            syntax_good = false;
+          if (ref_id == -1) {                                     // Check for invalid ref seq
+            *errors |= SYNTAX_ERROR_REFNAME;
           }
-          if (ref_seq_manager->GetRefID(ref_name) == -1) {        // Check for invalid ref seq name
-            syntax_good = false;
+          if (ref_id != -1 && ref_start >= ref_end - 1) {                         // Check for invalid start/end coordinates
+            *errors |= SYNTAX_ERROR_REFSTARTEND;
+          }
+          if (ref_id != -1 && ref_start >= ref_seq_manager->GetRefLength(ref_id)) {
+            *errors |= SYNTAX_ERROR_REFSTART;
+          }
+          if (ref_id != -1 && ref_end - 1 > ref_seq_manager->GetRefLength(ref_id)) {
+            *errors |= SYNTAX_ERROR_REFEND;
           }
           
           //int query_id = query_seq_manager->AddQuery(query_name, query_seq);
@@ -208,22 +217,19 @@ bool ServerComm::Action(std::string line,
           //alignment_job_queue->Push(job);
           new_jobs->push_back(job);
           
-          if (syntax_good) {
-            *line_good = true;
+          if (*errors == 0) {
             state_ = QUERIES;
           } else {
-            *line_good = false;
             query_group_done = true;
             state_ = PARAMS;
           }
         } catch (std::ios_base::failure &e) {
-          *line_good = false;
+          *errors |= SYNTAX_ERROR_QUERYDESCRIP;
           query_group_done = true;
           state_ = PARAMS;
         }
       } else {                                // Done with the query group
         query_group_done = true;
-        *line_good = true;
         state_ = PARAMS;
       }
       break;
@@ -249,8 +255,29 @@ void ServerComm::SendAlignment(AlignmentResult res, std::string query_name, std:
   client_sock_.Send(ss.str());
 }
 
-void ServerComm::EndQueryGroup(bool success) {
-  if (success) {
+void ServerComm::EndQueryGroup(unsigned int errors) {
+  if (errors & SYNTAX_ERROR_QUERYSEQ) {
+    client_sock_.Send(SYNTAX_ERROR_QUERYSEQ_STR);
+  }
+  if (errors & SYNTAX_ERROR_REFNAME) {
+    client_sock_.Send(SYNTAX_ERROR_REFNAME_STR);
+  }
+  if (errors & SYNTAX_ERROR_REFSTART) {
+    client_sock_.Send(SYNTAX_ERROR_REFSTART_STR);
+  }
+  if (errors & SYNTAX_ERROR_REFEND) {
+    client_sock_.Send(SYNTAX_ERROR_REFEND_STR);
+  }
+  if (errors & SYNTAX_ERROR_REFSTARTEND) {
+    client_sock_.Send(SYNTAX_ERROR_REFSTARTEND_STR);
+  }
+  if (errors & SYNTAX_ERROR_QUERYDESCRIP) {
+    client_sock_.Send(SYNTAX_ERROR_QUERYDESCRIP_STR);
+  }
+  if (errors & SYNTAX_ERROR_PARAMS) {
+    client_sock_.Send(SYNTAX_ERROR_PARAMS_STR);
+  }
+  if (errors == 0) {
     client_sock_.Send(QUERY_GROUP_SUCCESS);
   } else {
     client_sock_.Send(QUERY_GROUP_FAIL);

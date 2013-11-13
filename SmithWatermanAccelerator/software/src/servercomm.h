@@ -17,6 +17,21 @@
 #include "refseqmanager.h"
 #include "alignment.h"
 
+#define SYNTAX_ERROR_QUERYSEQ 0x1
+#define SYNTAX_ERROR_REFNAME 0x2
+#define SYNTAX_ERROR_REFSTART 0x4
+#define SYNTAX_ERROR_REFEND 0x8
+#define SYNTAX_ERROR_REFSTARTEND 0x10
+#define SYNTAX_ERROR_QUERYDESCRIP 0x20
+#define SYNTAX_ERROR_PARAMS 0x40
+#define SYNTAX_ERROR_QUERYSEQ_STR "Error in query sequence.\n"
+#define SYNTAX_ERROR_REFNAME_STR "Error in ref seq name.\n"
+#define SYNTAX_ERROR_REFSTART_STR "Error in ref seq start index.\n"
+#define SYNTAX_ERROR_REFEND_STR "Error in ref seq end index.\n"
+#define SYNTAX_ERROR_REFSTARTEND_STR "Error in ref seq indices.\n"
+#define SYNTAX_ERROR_QUERYDESCRIP_STR "Error in query description line.\n"
+#define SYNTAX_ERROR_PARAMS_STR "Error in scoring parameters.\n"
+
 class ServerComm {
   public:
     ServerComm(int port);
@@ -28,7 +43,8 @@ class ServerComm {
     // Returns the list of query IDs in this group.
     std::vector<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                    QuerySeqManager* query_seq_manager,
-                                   RefSeqManager* ref_seq_manager);
+                                   RefSeqManager* ref_seq_manager,
+                                   unsigned int* errors);
     
     // Send the alignment result to the client.
     void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name);
@@ -36,7 +52,7 @@ class ServerComm {
     // Finish off a query group and close the client.
     // Sends corresponding message depending on whether or not the query group alignment
     //   was successful (unsuccessful = bad parse).
-    void EndQueryGroup(bool success);
+    void EndQueryGroup(unsigned int errors);
     
   private:
     enum ParserState {PARAMS, QUERIES};
@@ -49,7 +65,7 @@ class ServerComm {
                 RefSeqManager* ref_seq_manager,
                 std::vector<std::string>* query_names,
                 std::vector<std::string>* query_seqs,
-                bool* line_good);
+                unsigned int* errors);
     
     ServerSocket server_;
     ServerSocket client_sock_;

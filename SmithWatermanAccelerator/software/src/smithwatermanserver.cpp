@@ -4,10 +4,12 @@
 //  Revision History :
 //      Albert Ng   Oct 28 2013     Initial Revision
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
+//      Albert Ng   Nov 13 2013     Uses REFPATH env var, takes in ref seq names
 
 #include <iostream>
 #include <dirent.h>
 #include <errno.h>
+#include <stdlib.h>
 #include "def.h"
 #include "servercomm.h"
 #include "threadqueue.h"
@@ -30,7 +32,7 @@ int GetFastaFiles(std::string dir, std::vector<std::string>* files) {
   DIR *dp;
   struct dirent *dirp;
   if ((dp = opendir(dir.c_str())) == NULL) {
-    std::cout << "Error(" << errno << ") opening " << dir << std::endl;
+    std::cerr << "Invalid ref seq directory: " << dir << std::endl;
     return errno;
   }
   
@@ -67,7 +69,7 @@ int main(int argc, char *argv[]) {
 
   // Check program args
   if (argc < 3) {
-    std::cerr << "Usage: ./serverqueryparser_test <BIT FILE> <REF SEQ FASTA DIR>" << std::endl;;
+    std::cerr << "Usage: ./serverqueryparser_test <BIT FILE> <REF SEQ 1> [<REF SEQ 2> ...]" << std::endl;;
     return 1;
   }
   
@@ -97,12 +99,27 @@ int main(int argc, char *argv[]) {
   }
   
   // Set up ref seq manager
-  std::string dir(argv[2]);
-  std::vector<std::string> ref_files;
-  GetFastaFiles(dir, &ref_files);
   ref_seq_manager.Init(pico_drivers);
-  for (int i = 0; i < ref_files.size(); i++) {
-    ref_seq_manager.AddRef(ref_files[i]);
+  char* ref_parentdir = getenv("REFPATH");
+  if (ref_parentdir == NULL) {
+    std::cerr << "$REFPATH environment variable not set!" << std::endl;
+    return 1;
+  }
+  //std::string dir(argv[2]);
+  //std::vector<std::string> ref_files;
+  //GetFastaFiles(dir, &ref_files);
+  //for (int i = 0; i < ref_files.size(); i++) {
+  for (int i = 2; i < argc; i++) {
+    std::string ref_dir(ref_parentdir);
+    ref_dir += "/";
+    ref_dir += argv[i];
+    std::vector<std::string> ref_files;
+    if (GetFastaFiles(ref_dir, &ref_files) != 0) {
+      return 1;
+    }
+    for (int i = 0; i < ref_files.size(); i++) {
+      ref_seq_manager.AddRef(ref_files[i]);
+    }
   }
   
   // Set up engine job queues
@@ -131,9 +148,11 @@ int main(int argc, char *argv[]) {
   // Continuously accept and run alignments
   while (true) {
     // Parse the query group and initiate alignment
+    unsigned int errors;
     std::vector<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
                                                            &query_seq_manager,
-                                                           &ref_seq_manager);
+                                                           &ref_seq_manager,
+                                                           &errors);
 
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
@@ -154,12 +173,7 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-    
-    if (query_ids.size() > 0) {
-      server_comm.EndQueryGroup(true);    // Successfully parsed and aligned
-    } else {
-      server_comm.EndQueryGroup(false);   // Unsuccessful parsing
-    }
+    server_comm.EndQueryGroup(errors);
     
     // Reclaim finished query memory
     for (std::vector<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
