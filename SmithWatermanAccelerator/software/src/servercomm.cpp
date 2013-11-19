@@ -6,6 +6,7 @@
 //      Albert Ng   Oct 29 2013     Requires a new client connection per query group
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
 //      Albert Ng   Nov 06 2013     Added error handling to GetQueryGroup()
+//      Albert Ng   Nov 19 2013     Added chromosomes
 
 #include <sstream>
 #include <iostream>
@@ -160,6 +161,7 @@ bool ServerComm::Action(std::string line,
       if (line != END_OF_QUERY_GROUP) {  // Store a query sequence
         std::string query_name;
         std::string ref_name;
+        std::string chr_name;
         long long int ref_start;
         long long int ref_end;
         int threshold;
@@ -171,11 +173,13 @@ bool ServerComm::Action(std::string line,
           iss >> query_name;
           iss >> query_seq; 
           iss >> ref_name;
+          iss >> chr_name;
           iss >> ref_start;
           iss >> ref_end;
           iss >> threshold;
           
-          int ref_id = (ref_seq_manager->GetRefID(ref_name));
+          int ref_id = ref_seq_manager->GetRefID(ref_name);
+          int chr_id = ref_seq_manager->GetChrID(ref_id, chr_name);
           
           // Some syntax checks
           unsigned int syntax_errors = 0;
@@ -191,14 +195,16 @@ bool ServerComm::Action(std::string line,
           }
           if (ref_id == -1) {                                     // Check for invalid ref seq
             *errors |= SYNTAX_ERROR_REFNAME;
+          } else if (chr_id == -1) {
+            *errors |= SYNTAX_ERROR_CHRNAME;
           }
-          if (ref_id != -1 && ref_start >= ref_end - 1) {                         // Check for invalid start/end coordinates
+          if (ref_id != -1 && chr_id != -1 && ref_start >= ref_end - 1) {                         // Check for invalid start/end coordinates
             *errors |= SYNTAX_ERROR_REFSTARTEND;
           }
-          if (ref_id != -1 && ref_start >= ref_seq_manager->GetRefLength(ref_id)) {
+          if (ref_id != -1 && chr_id != -1 && ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
             *errors |= SYNTAX_ERROR_REFSTART;
           }
-          if (ref_id != -1 && ref_end - 1 > ref_seq_manager->GetRefLength(ref_id)) {
+          if (ref_id != -1 && chr_id != -1 && ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
             *errors |= SYNTAX_ERROR_REFEND;
           }
           
@@ -208,7 +214,8 @@ bool ServerComm::Action(std::string line,
           query_seqs->push_back(query_seq);
           
           AlignmentJob job;
-          job.ref_id = ref_seq_manager->GetRefID(ref_name);
+          job.ref_id = ref_id;
+          job.chr_id = chr_id;
           job.ref_offset = ref_start - 1;
           job.ref_len = ref_end - ref_start;
           job.threshold = threshold;
@@ -244,10 +251,11 @@ bool ServerComm::Action(std::string line,
   return query_group_done;
 }
 
-void ServerComm::SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name) {
+void ServerComm::SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name, std::string chr_name) {
   std::stringstream ss;
   
   ss << "Ref: " << ref_name << "\n"
+     << "Chr: " << chr_name << "\n"
      << "Query: " << query_name << "\n"
      << "Score: " << res.score << "\n"
      << res.alignment.ToString() << "\n";
@@ -261,6 +269,9 @@ void ServerComm::EndQueryGroup(unsigned int errors) {
   }
   if (errors & SYNTAX_ERROR_REFNAME) {
     client_sock_.Send(SYNTAX_ERROR_REFNAME_STR);
+  }
+  if (errors & SYNTAX_ERROR_CHRNAME) {
+    client_sock_.Send(SYNTAX_ERROR_CHRNAME_STR);
   }
   if (errors & SYNTAX_ERROR_REFSTART) {
     client_sock_.Send(SYNTAX_ERROR_REFSTART_STR);

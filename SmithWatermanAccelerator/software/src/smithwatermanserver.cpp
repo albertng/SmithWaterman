@@ -5,6 +5,7 @@
 //      Albert Ng   Oct 28 2013     Initial Revision
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
 //      Albert Ng   Nov 13 2013     Uses REFPATH env var, takes in ref seq names
+//      Albert Ng   Nov 19 2013     Added chromosomes
 
 #include <iostream>
 #include <dirent.h>
@@ -117,8 +118,8 @@ int main(int argc, char *argv[]) {
     if (GetFastaFiles(ref_dir, &ref_files) != 0) {
       return 1;
     }
-    for (int i = 0; i < ref_files.size(); i++) {
-      ref_seq_manager.AddRef(ref_files[i]);
+    for (int j = 0; j < ref_files.size(); j++) {
+      ref_seq_manager.AddRef(ref_files[j], std::string(argv[i]));
     }
   }
   
@@ -162,8 +163,9 @@ int main(int argc, char *argv[]) {
         AlignmentResult aln_res = result_queue.Pop();
         std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
         std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
+        std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
         //std::cout<<"Query name "<<query_name<<std::endl;
-        server_comm.SendAlignment(aln_res, query_name, ref_name);
+        server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
       }
       
       group_done = true;

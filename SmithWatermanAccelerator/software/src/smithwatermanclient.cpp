@@ -8,6 +8,7 @@
 //      Albert Ng   Oct 28 2913     Completed initial revision
 //      Albert Ng   Nov 05 2013     Added handshaking
 //      Albert Ng   Nov 06 2013     Removed handshaking
+//      Albert Ng   Nov 19 2013     Send chromosome name
 
 #include <iostream>
 #include <stdio.h>
@@ -23,9 +24,10 @@
 
 static const int QUERY_NAME_FIELD = 0;
 static const int REF_NAME_FIELD = 1;
-static const int REF_START_FIELD = 2;
-static const int REF_END_FIELD = 3;
-static const int THRESHOLD_FIELD = 4;
+static const int CHR_NAME_FIELD = 2;
+static const int REF_START_FIELD = 3;
+static const int REF_END_FIELD = 4;
+static const int THRESHOLD_FIELD = 5;
 
 bool TrySend(ClientSocket* client_socket, std::string msg) {
   if (!client_socket->Send(msg)) {
@@ -44,6 +46,7 @@ bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, ch
   ss << descrip[QUERY_NAME_FIELD] << " " 
      << seq_str << " " 
      << descrip[REF_NAME_FIELD] << " " 
+     << descrip[CHR_NAME_FIELD] << " "
      << descrip[REF_START_FIELD] << " " 
      << descrip[REF_END_FIELD] << " "
      << descrip[THRESHOLD_FIELD];
@@ -89,8 +92,8 @@ bool CheckQueryFileParse(std::string filename, std::vector<std::string> descrips
   int threshold;
   
   // Check number of description fields
-  if (descrips.size() != 5) {
-    std::cerr << descrips[QUERY_NAME_FIELD] << ": Expected 5 fields in sequence description, got " << descrips.size() << std::endl;
+  if (descrips.size() != 6) {
+    std::cerr << descrips[QUERY_NAME_FIELD] << ": Expected 6 fields in sequence description, got " << descrips.size() << std::endl;
     return false;
   }
   

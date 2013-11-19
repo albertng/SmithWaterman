@@ -58,6 +58,7 @@ typedef int NtInt;
 struct AlignmentJob {
   int query_id;
   int ref_id;
+  int chr_id;
   long long int ref_offset;
   long long int ref_len;
   int threshold;
@@ -73,6 +74,7 @@ struct EngineJob {
   int query_id;
   int query_len;
   int ref_id;
+  int chr_id;
   long long int ref_offset;
   long long int ref_len;
   long long int overlap_offset;
@@ -85,6 +87,7 @@ struct EngineJob {
 struct HighScoreRegion {
   int query_id;
   int ref_id;
+  int chr_id;
   long long int len;
   long long int offset;
   long long int overlap_offset;

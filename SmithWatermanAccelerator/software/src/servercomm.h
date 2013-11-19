@@ -4,6 +4,7 @@
 //  Revision History :
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
+//      Albert Ng   Nov 19 2013     Added chromosomes
 
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
@@ -19,13 +20,15 @@
 
 #define SYNTAX_ERROR_QUERYSEQ 0x1
 #define SYNTAX_ERROR_REFNAME 0x2
-#define SYNTAX_ERROR_REFSTART 0x4
-#define SYNTAX_ERROR_REFEND 0x8
-#define SYNTAX_ERROR_REFSTARTEND 0x10
-#define SYNTAX_ERROR_QUERYDESCRIP 0x20
-#define SYNTAX_ERROR_PARAMS 0x40
+#define SYNTAX_ERROR_CHRNAME 0x4
+#define SYNTAX_ERROR_REFSTART 0x8
+#define SYNTAX_ERROR_REFEND 0x10
+#define SYNTAX_ERROR_REFSTARTEND 0x20
+#define SYNTAX_ERROR_QUERYDESCRIP 0x40
+#define SYNTAX_ERROR_PARAMS 0x80
 #define SYNTAX_ERROR_QUERYSEQ_STR "Error in query sequence.\n"
 #define SYNTAX_ERROR_REFNAME_STR "Error in ref seq name.\n"
+#define SYNTAX_ERROR_CHRNAME_STR "Error in chr seq name.\n"
 #define SYNTAX_ERROR_REFSTART_STR "Error in ref seq start index.\n"
 #define SYNTAX_ERROR_REFEND_STR "Error in ref seq end index.\n"
 #define SYNTAX_ERROR_REFSTARTEND_STR "Error in ref seq indices.\n"
@@ -47,7 +50,7 @@ class ServerComm {
                                    unsigned int* errors);
     
     // Send the alignment result to the client.
-    void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name);
+    void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name, std::string chr_name);
     
     // Finish off a query group and close the client.
     // Sends corresponding message depending on whether or not the query group alignment

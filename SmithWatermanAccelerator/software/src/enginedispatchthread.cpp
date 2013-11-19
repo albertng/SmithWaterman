@@ -7,6 +7,7 @@
 //      Albert Ng   Oct 16 2013     Debugged initial version
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and EngineJob
 //                                  Set scoring params between query groups
+//      Albert Ng   Nov 19 2013     Added chromosomes
 
 #include <pthread.h>
 #include <stdlib.h>
@@ -85,6 +86,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
     } else {
       char* query_seq = query_seq_manager->GetQuerySeq(query_id, &query_len);
       int ref_id = aln_job.ref_id;
+      int chr_id = aln_job.chr_id;
       long long int ref_offset = aln_job.ref_offset;
       long long int ref_len = aln_job.ref_len;
       int threshold = aln_job.threshold;
@@ -94,7 +96,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
                   << std::endl;
       } else {
         // Compute first block index and total number of blocks spanned by reference sequence
-        int ref_addr = ref_seq_manager->GetRefAddr(ref_id);
+        int ref_addr = ref_seq_manager->GetRefAddr(ref_id, chr_id);
         int first_ref_block = ref_addr + (ref_offset / REF_BLOCK_LEN);
         int last_ref_block = ref_addr + ((ref_offset + ref_len - 1) / REF_BLOCK_LEN);
         int total_num_ref_blocks = last_ref_block - first_ref_block + 1;
@@ -186,7 +188,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
                       threshold);
           RecordEngineJob(&(engine_job_queues[cur_fpga][cur_engine]),
                           query_id, query_len,
-                          ref_id, job_length[i], job_offset[i],
+                          ref_id, chr_id, job_length[i], job_offset[i],
                           job_overlap_offset[i],
                           threshold, params);
 
@@ -248,13 +250,14 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
 
 void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue,
                                            int query_id, int query_len,
-                                           int ref_id, int ref_len, int ref_offset,
+                                           int ref_id, int chr_id, int ref_len, int ref_offset,
                                            int overlap_offset,
                                            int threshold, SwAffineGapParams params) {
   EngineJob job;
   job.query_id = query_id;
   job.query_len = query_len;
   job.ref_id = ref_id;
+  job.chr_id = chr_id;
   job.ref_offset = ref_offset;
   job.ref_len = ref_len;
   job.overlap_offset = overlap_offset;
