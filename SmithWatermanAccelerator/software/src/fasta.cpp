@@ -52,14 +52,15 @@ void ParseFastaFile(std::string filename,
         lengths->push_back(cur_length);
         cur_length = 0;
       }
-      descrips->push_back(SplitFields(line));
+      std::vector<std::string> fields = SplitFields(line);
+      descrips->push_back(fields);
     } else {
       cur_length += line.length();
     }
     first_seq = false;
   }
   lengths->push_back(cur_length);
-  
+
   // Allocate char array memory
   for (int i = 0; i < lengths->size() - start_size; i++) {
     char* seq = new char[lengths->at(i + start_size)];

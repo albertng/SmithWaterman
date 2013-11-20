@@ -50,6 +50,9 @@ class RefSeqManager {
 
     // Get the chr ID number from a chromosome name for a given ref seq.
     int GetChrID(int ref_id, std::string chr_name);
+    
+    // Get all chromosome ID numbers for a given ref seq.
+    std::vector<int> GetChrIDs(int ref_id);
 
     // Get the ref seq name from the ref ID
     std::string GetRefName(int ref_id);

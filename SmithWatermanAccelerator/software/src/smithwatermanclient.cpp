@@ -173,12 +173,7 @@ int main(int argc, char *argv[]) {
     std::string filename(argv[i]);
     ParseFastaFile(filename, &descrips, &seqs, &lengths);
     
-    /*for (int j = 0; j < descrips[i].size(); j++) {
-      std::cout << descrips[i][j] << " ";
-    }
-    std::cout << std::endl;*/
-    
-    if (!CheckQueryFileParse(filename, descrips[i], seqs[i], lengths[i])) {
+    if (!CheckQueryFileParse(filename, descrips[i-1], seqs[i-1], lengths[i-1])) {
       parse_good = false;
     }
   }

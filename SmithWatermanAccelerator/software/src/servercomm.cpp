@@ -141,12 +141,12 @@ bool ServerComm::Action(std::string line,
     case PARAMS : {                           // Store the scoring params
       try {
         SwAffineGapParams params(line);
+        
         AlignmentJob params_job;
         params_job.query_id = PARAMS_JOB;
         params_job.params = params;
-        //alignment_job_queue->Push(params_job);
         new_jobs->push_back(params_job);
-        //std::cout<<"Alignment params job: "<<params_job.query_id<< " "<<params_job.ref_id<<" "<<params_job.ref_offset<<" "<<params_job.ref_len<<" "<<params_job.threshold<<" "<<params_job.params.ToString()<<std::endl;
+        
         params_ = params;
         state_ = QUERIES;
         break;
@@ -180,10 +180,16 @@ bool ServerComm::Action(std::string line,
           
           int ref_id = ref_seq_manager->GetRefID(ref_name);
           int chr_id = ref_seq_manager->GetChrID(ref_id, chr_name);
+          std::vector<int> chr_ids;
+          if (chr_name == ALL_CHROM) {
+            chr_ids = ref_seq_manager->GetChrIDs(ref_id); 
+          } else {
+            chr_ids.push_back(chr_id);
+          }
           
           // Some syntax checks
           unsigned int syntax_errors = 0;
-          for (int i = 0; i < query_seq.length(); i++) {          // Check for invalid nucleotides
+          for (int i = 0; i < query_seq.length(); i++) {                      // Check for invalid nucleotides
             if (query_seq[i] != 'n' && query_seq[i] != 'N' &&
                 query_seq[i] != 'a' && query_seq[i] != 'A' &&
                 query_seq[i] != 'g' && query_seq[i] != 'G' &&
@@ -193,36 +199,42 @@ bool ServerComm::Action(std::string line,
               break;
             }
           }
-          if (ref_id == -1) {                                     // Check for invalid ref seq
+          if (ref_id == -1) {                                                 // Check for invalid ref seq
             *errors |= SYNTAX_ERROR_REFNAME;
-          } else if (chr_id == -1) {
+          } else if (chr_id == -1 && chr_name != ALL_CHROM) {                 // Check for invalid chromosome
             *errors |= SYNTAX_ERROR_CHRNAME;
           }
-          if (ref_id != -1 && chr_id != -1 && ref_start >= ref_end - 1) {                         // Check for invalid start/end coordinates
+          if (ref_id != -1 && chr_id != -1 && chr_name != ALL_CHROM &&        // Check for start past end
+              ref_start >= ref_end - 1) {                         
             *errors |= SYNTAX_ERROR_REFSTARTEND;
           }
-          if (ref_id != -1 && chr_id != -1 && ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+          if (ref_id != -1 && chr_id != -1 && chr_name != ALL_CHROM &&        // Check for invalid start coordinates
+              ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
             *errors |= SYNTAX_ERROR_REFSTART;
           }
-          if (ref_id != -1 && chr_id != -1 && ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+          if (ref_id != -1 && chr_id != -1 && chr_name != ALL_CHROM &&        // Check for invalid end coordinates
+              ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
             *errors |= SYNTAX_ERROR_REFEND;
           }
           
-          //int query_id = query_seq_manager->AddQuery(query_name, query_seq);
-          //query_ids->push_back(query_id);
-          query_names->push_back(query_name);
-          query_seqs->push_back(query_seq);
-          
-          AlignmentJob job;
-          job.ref_id = ref_id;
-          job.chr_id = chr_id;
-          job.ref_offset = ref_start - 1;
-          job.ref_len = ref_end - ref_start;
-          job.threshold = threshold;
-          job.params = params_;
-          //std::cout<<"Alignment job: "<<job.query_id<< " "<<job.ref_id<<" "<<job.ref_offset<<" "<<job.ref_len<<" "<<job.threshold<<" "<<job.params.ToString()<<std::endl;
-          //alignment_job_queue->Push(job);
-          new_jobs->push_back(job);
+          for (int i = 0; i < chr_ids.size(); i++) {
+            query_names->push_back(query_name);
+            query_seqs->push_back(query_seq);
+            
+            AlignmentJob job;
+            job.ref_id = ref_id;
+            job.chr_id = chr_ids[i];
+            if (chr_name == ALL_CHROM) {
+              job.ref_offset = 0;
+              job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
+            } else {
+              job.ref_offset = ref_start - 1;
+              job.ref_len = ref_end - ref_start;
+            }
+            job.threshold = threshold;
+            job.params = params_;
+            new_jobs->push_back(job);
+          }
           
           if (*errors == 0) {
             state_ = QUERIES;

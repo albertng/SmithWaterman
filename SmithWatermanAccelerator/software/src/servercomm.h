@@ -35,6 +35,8 @@
 #define SYNTAX_ERROR_QUERYDESCRIP_STR "Error in query description line.\n"
 #define SYNTAX_ERROR_PARAMS_STR "Error in scoring parameters.\n"
 
+#define ALL_CHROM "ALLCHR"
+
 class ServerComm {
   public:
     ServerComm(int port);

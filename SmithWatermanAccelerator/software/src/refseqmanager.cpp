@@ -79,6 +79,16 @@ int RefSeqManager::GetChrID(int ref_id, std::string chr_name) {
   return chr_id_[ref_id][chr_name];
 }
 
+std::vector<int> RefSeqManager::GetChrIDs(int ref_id) {
+  std::vector<int> chr_ids;
+  if (ref_id < chr_name_.size()) {
+    for (int i = 0; i < chr_name_[ref_id].size(); i++) {
+      chr_ids.push_back(i);
+    }
+  }
+  return chr_ids;
+}
+
 std::string RefSeqManager::GetRefName(int ref_id) {
   assert(ref_id < ref_name_.size());
   return ref_name_[ref_id];
