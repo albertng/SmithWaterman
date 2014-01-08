@@ -29,7 +29,8 @@ inline NtInt NtChar2Int (char nt) {
     case 'G': return G_NT;
     case 'n':
     case 'N': return N_NT;
-    default: assert(false);
+    default:  std::cout<<"Bad Nt char: "<<nt<<" "<<(int)nt<<std::endl;
+              assert(false);
   }
 }
 
@@ -41,7 +42,8 @@ inline char NtInt2Char (NtInt nt) {
     case A_NT: return 'A';
     case G_NT: return 'G';
     case N_NT: return 'N';
-    default  : assert(false);
+    default  : std::cout<<"Bad NtInt: "<<nt<<std::endl;
+               assert(false);
   }
 }
 

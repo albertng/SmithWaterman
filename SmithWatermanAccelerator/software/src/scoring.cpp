@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <assert.h>
 #include "def.h"
 #include "scoring.h"
 
@@ -24,14 +25,13 @@ SwAffineGapParams::SwAffineGapParams(int sub_mat[][4], int gap_open, int gap_ext
   gap_open_ = gap_open;
   gap_extend_ = gap_extend;
   
-  if (!IsValid()) {
-    std::cerr << "Warning: Nonsymmetric SW Affine Gap Params substitution matrix!" << std::endl;
-  }
+  assert(IsValid());
 }
 
-// Note: No error checking, assumes string is in the right format
+// Throws std::ios_base::failure exception
 SwAffineGapParams::SwAffineGapParams(std::string s) {
   std::istringstream iss(s);
+  iss.exceptions(std::ios::failbit);
   iss >> sub_mat_[A_NT][A_NT];
   iss >> sub_mat_[A_NT][C_NT];
   iss >> sub_mat_[A_NT][G_NT];

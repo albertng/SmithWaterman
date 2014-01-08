@@ -35,6 +35,8 @@
 
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"
+#define QUERY_GROUP_SUCCESS "SUCCESS"
+#define QUERY_GROUP_FAIL "FAIL"
 
 // FPGA protocol definitions
 #define END_OF_ENGINE_ALIGNMENT 0xFFFFFFFF  // High score block value indicating the end 
@@ -56,6 +58,7 @@ typedef int NtInt;
 struct AlignmentJob {
   int query_id;
   int ref_id;
+  int chr_id;
   long long int ref_offset;
   long long int ref_len;
   int threshold;
@@ -71,6 +74,7 @@ struct EngineJob {
   int query_id;
   int query_len;
   int ref_id;
+  int chr_id;
   long long int ref_offset;
   long long int ref_len;
   long long int overlap_offset;
@@ -83,6 +87,7 @@ struct EngineJob {
 struct HighScoreRegion {
   int query_id;
   int ref_id;
+  int chr_id;
   long long int len;
   long long int offset;
   long long int overlap_offset;

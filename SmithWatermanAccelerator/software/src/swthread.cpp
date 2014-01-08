@@ -14,6 +14,7 @@
 //                                  Removed params and params_mutex member variables
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 //      Albert Ng   Oct 31 2013     Now reports all alignments above threshold
+//      Albert Ng   Nov 19 2013     Added chromosomes
 
 #include <list>
 #include <set>
@@ -79,7 +80,7 @@ void* SWThread::Align(void* args) {
     int ref_len = hsr.len;
     int query_len;
     //std::cout<<"Getting RefSeq "<<hsr.ref_id<<" " <<hsr.offset<<" " <<ref_len<<std::endl;
-    char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.offset, ref_len);
+    char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.chr_id, hsr.offset, ref_len);
     char* query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
     
     /*std::cout<<"Ref len: "<<ref_len<<" Ref seq: ";

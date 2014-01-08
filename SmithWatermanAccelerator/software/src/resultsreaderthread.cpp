@@ -11,6 +11,7 @@
 //      Albert Ng   Oct 17 2013     Added NOT_IN_HSR state
 //      Albert Ng   Oct 18 2013     Fixed engine job queue empty bug
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to HighScoreRegion
+//      Albert Ng   Nov 19 2013     Added chromosomes
 
 #include <pthread.h>
 #include <stdint.h>
@@ -171,6 +172,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
   HighScoreRegion hsr;
   hsr.query_id = job.query_id;
   hsr.ref_id = job.ref_id;
+  hsr.chr_id = job.chr_id;
   hsr.overlap_offset = job.overlap_offset;
   hsr.threshold = job.threshold;
   hsr.params = job.params;
