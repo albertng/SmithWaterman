@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 
   // Check program args
   if (argc < 3) {
-    std::cerr << "Usage: ./serverqueryparser_test <BIT FILE> <REF SEQ 1> [<REF SEQ 2> ...]" << std::endl;;
+    std::cerr << "Usage: ./smithwatermanserver <BIT FILE> <REF SEQ 1> [<REF SEQ 2> ...]" << std::endl;;
     return 1;
   }
   

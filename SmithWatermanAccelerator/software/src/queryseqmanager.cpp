@@ -24,6 +24,8 @@ QuerySeqManager::QuerySeqManager() {
 
 // Initialize a new dummy job count for the query
 int QuerySeqManager::AddQuery(std::string query_name, std::string query_string) {
+  assert(query_string.length() <= MAX_QUERY_LEN);
+
   char* query_seq = new char[query_string.length()];
   memcpy(query_seq, query_string.c_str(), query_string.length());
 

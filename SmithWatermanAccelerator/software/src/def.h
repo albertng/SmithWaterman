@@ -15,6 +15,7 @@
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 //      Albert Ng   Oct 30 2013     Added END_OF_ENGINE_ALIGNMENT
 //      Albert Ng   Oct 31 2013     Added AlignmentResultComp
+//      Albert Ng   Jan 14 2013     Added fpga_id and engine_id to EngineJob
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -71,8 +72,9 @@ struct AlignmentJob {
 //   high scoring regions must not begin past this offset, so there
 //   are no duplicated regions.
 struct EngineJob {
+  int fpga_id;
+  int engine_id;
   int query_id;
-  int query_len;
   int ref_id;
   int chr_id;
   long long int ref_offset;

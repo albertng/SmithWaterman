@@ -8,9 +8,11 @@
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and EngineJob
 //                                  Set scoring params between query groups
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 14 2013     Added ref seq banking
 
 #include <pthread.h>
 #include <stdlib.h>
+#include <math.h>
 #include "def.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
@@ -72,9 +74,14 @@ void* EngineDispatchThread::Dispatch(void* args) {
   
   while (true) {
     AlignmentJob aln_job = alignment_job_queue->Pop();
-    //std::cout<<"Engine Dispatch Thread job: "<<aln_job.query_id<< " "<<aln_job.ref_id<<" "<<aln_job.ref_offset<<" "<<aln_job.ref_len<<" "<<aln_job.threshold<<" "<<aln_job.params.ToString()<<std::endl;
+    //std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
+    //          << " " << aln_job.ref_id
+    //          << " " << aln_job.ref_offset 
+    //          << " " << aln_job.ref_len 
+    //          << " " << aln_job.threshold
+    //          << " " << aln_job.params.ToString()
+    //          << std::endl;
     int query_id = aln_job.query_id;
-    int query_len;
     
     if (query_id == PARAMS_JOB) {     // Set scoring params between query groups
       params = aln_job.params;
@@ -84,6 +91,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
         pico_drivers[i]->WriteDeviceAbsolute(0, (uint32_t*) params_buf, params_buf_len);
       }
     } else {
+      int query_len;
       char* query_seq = query_seq_manager->GetQuerySeq(query_id, &query_len);
       int ref_id = aln_job.ref_id;
       int chr_id = aln_job.chr_id;
@@ -91,11 +99,89 @@ void* EngineDispatchThread::Dispatch(void* args) {
       long long int ref_len = aln_job.ref_len;
       int threshold = aln_job.threshold;
 
-      if (query_len > MAX_QUERY_LEN) {
-        std::cerr << "Error: Query length " << query_len << " exceeds max query length of " << MAX_QUERY_LEN 
-                  << std::endl;
-      } else {
-        // Compute first block index and total number of blocks spanned by reference sequence
+      // Get ref seq banks that contain the requested region for this alignment
+      std::vector<RefSeqManager::RefSeqBank> locs = ref_seq_manager->GetRefSeqBanks(ref_id, chr_id, ref_offset, ref_offset + ref_len);
+
+      // Partition the banks into engine jobs
+      std::list<EngineJob> jobs;
+      for (std::vector<RefSeqManager::RefSeqBank>::iterator it = locs.begin(); it != locs.end(); ++it) {
+        RefSeqManager::RefSeqBank loc = *it;
+          
+        // Compute length of ref seq bank
+        long long int ref_len = (loc.end_coord - loc.start_coord) + overlap_len;
+
+        // Compute minimum job size allowable
+        int min_job_len = query_len > REF_BLOCK_LEN ? 2*query_len : 2*REF_BLOCK_LEN;
+
+        // Compute number of engine jobs to allocate for the alignment
+        int num_jobs = ref_len / min_job_len;
+        num_jobs = num_jobs == 0 ? 1 : num_jobs;
+        num_jobs = num_jobs > NUM_ENGINES_PER_FPGA ? NUM_ENGINES_PER_FPGA : num_jobs;
+
+        long long int cur_offset = loc.start_coord;
+        for (int i = 0; i < num_jobs; i++) {
+          EngineJob job;
+          job.fpga_id    = loc.fpga;
+          job.engine_id  = i;
+          job.query_id   = query_id;
+          job.ref_id     = ref_id;
+          job.chr_id     = chr_id;
+          job.threshold  = threshold;
+          job.params     = params;
+          job.ref_offset = cur_offset;
+
+          // Compute job length
+          job.ref_len = (i < ref_len % num_jobs) ?                      // Distribute jobs evenly
+                        (ref_len / num_jobs + 1) : (ref_len / num_jobs);
+          cur_offset += job.ref_len;
+          if (i != num_jobs - 1) {                                      // Add overlap for all jobs except last one
+            job.ref_len += 2 * query_len;
+          }
+
+          // Compute offset of the overlap region
+          job.overlap_offset = job.ref_offset + job.ref_len;
+          if (i != num_jobs - 1) {
+            job.overlap_offset -= 2 * query_len;
+          }
+          job.overlap_offset = (job.overlap_offset > loc.end_coord) ?   // Make sure overlap offset doesn't go beyond
+                               loc.end_coord : job.overlap_offset;      //   the end of the ref seq bank
+          assert(job.ref_offset + job.ref_len <= loc.end_coord + loc.overlap_len);
+        }
+
+        jobs.push_back(job);
+      }
+
+      // Dispatch jobs to FPGA engines and record the jobs for the results reader thread
+      query_seq_manager->SetQueryNumJobs(query_id, jobs.size());
+      for (std::list<EngineJob>::iterator it = jobs.begin(); it != jobs.end(); ++it) {
+        EngineJob job = *it;
+
+        // Compute ref block DRAM address and number of ref blocks to align
+        std::vector<RefSeqBank> loc = ref_seq_manager->GetRefSeqBanks(job.ref_id, job.chr_id, job.ref_offset, job.ref_offset + job.ref_len);
+        assert(loc.size() == 1);
+        long long int ref_addr = loc[0].addr;
+        long long int start_block_coord = (loc[0].start_coord / REF_BLOCK_LEN) * REF_BLOCK_LEN;
+        long long int first_ref_block = ((job.ref_offset - start_block_coord) / REF_BLOCK_LEN) + ref_addr;
+        long long int last_ref_block = ((job.ref_offset + job.ref_len - 1 - start_block_coord) / REF_BLOCK_LEN) + ref_addr;
+        long long int num_ref_blocks = first_ref_block - last_ref_block + 1;
+
+        DispatchJob(pico_drivers[job.fpga_id][job.engine_id], 
+                    streams[job.fpga_id], 
+                    query_id,
+                    query_seq,
+                    query_len,
+                    num_ref_blocks,
+                    first_ref_block,
+                    threshold);
+        engine_job_queue[job.fpga_id][job.engine_id].Push(job);
+      }
+    }
+  }
+}
+
+
+
+     /*   // Compute first block index and total number of blocks spanned by reference sequence
         int ref_addr = ref_seq_manager->GetRefAddr(ref_id, chr_id);
         int first_ref_block = ref_addr + (ref_offset / REF_BLOCK_LEN);
         int last_ref_block = ref_addr + ((ref_offset + ref_len - 1) / REF_BLOCK_LEN);
@@ -204,7 +290,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
       }
     }
   }
-}
+}*/
 
 void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
                                        int query_id, char* query_seq, int query_len,
@@ -248,7 +334,7 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
   pico_driver->WriteStream(stream, out_buf, (num_query_blocks+1)*16);
 }
 
-void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue,
+/*void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue,
                                            int query_id, int query_len,
                                            int ref_id, int chr_id, int ref_len, int ref_offset,
                                            int overlap_offset,
@@ -267,4 +353,4 @@ void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_qu
   //std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
 
   engine_job_queue->Push(job);
-}
+}*/

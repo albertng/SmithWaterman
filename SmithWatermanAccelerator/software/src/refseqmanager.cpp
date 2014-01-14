@@ -7,6 +7,7 @@
 //      Albert Ng   Oct 29 2013     Uses fasta.h to parse FASTA files
 //      Albert Ng   Nov 01 2013     Added GetRefName()
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 14 2013     Added ref seq banking
 
 #include "def.h"
 #include <stdlib.h>
@@ -16,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <assert.h>
+#include <math.h>
 #include "refseqmanager.h"
 #include "utils.h"
 #include "fasta.h"
@@ -29,8 +31,10 @@
 static const int CHR_NAME_FIELD = 0;
 
 RefSeqManager::RefSeqManager() {
-//  cur_ref_id_ = 0;
-  cur_block_ = 0;
+  //cur_block_ = 0;
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    cur_block_[i] = 0;
+  }
   srand(time(NULL));
 }
 
@@ -39,16 +43,16 @@ RefSeqManager::RefSeqManager(PicoDrv** pico_drivers) {
 }
 
 void RefSeqManager::Init(PicoDrv** pico_drivers) {
-//  cur_ref_id_ = 0;
-  cur_block_ = 0;
+  //cur_block_ = 0;
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    cur_block_[i] = 0;
+  }
   pico_drivers_ = pico_drivers;
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len) {
-  //assert(ref_seq_.count(ref_id) > 0);
   assert(ref_id < ref_seq_.size());
   assert(ref_offset + ref_len <= ref_length_[ref_id][chr_id]);
-  //std::cout<<"GetRefSeq: "<<ref_id <<" "<<ref_offset<<" " <<ref_len<<std::endl;
   char* ref_seq = ref_seq_[ref_id][chr_id];
   return &(ref_seq[ref_offset]);
 }
@@ -100,7 +104,7 @@ std::string RefSeqManager::GetChrName(int ref_id, int chr_id) {
   return chr_name_[ref_id][chr_id];
 }
 
-void RefSeqManager::AddRef(std::string filename, std::string ref_name) {
+/*void RefSeqManager::AddRef(std::string filename, std::string ref_name) {
   std::vector<std::vector<std::string> > descrips;
   std::vector<char*> seqs;
   std::vector<int> lengths;
@@ -137,11 +141,6 @@ void RefSeqManager::AddRef(std::string filename, std::string ref_name) {
     StreamRefSeq(seqs[i], ((long long int) cur_block_) * (REF_BLOCK_LEN/4), lengths[i]);
     
     // Record ref seq information
-    /*ref_id_[descrips[i][REF_NAME_FIELD]] = cur_ref_id_;
-    ref_name_[cur_ref_id_] = descrips[i][REF_NAME_FIELD];
-    ref_seq_[cur_ref_id_] = seqs[i];
-    ref_addr_[cur_ref_id_] = cur_block_;
-    ref_length_[cur_ref_id_] = lengths[i];*/
     int chr_id = chr_name_[ref_id].size();
     chr_id_[ref_id][descrips[i][CHR_NAME_FIELD]] = chr_id;
     chr_name_[ref_id].push_back(descrips[i][CHR_NAME_FIELD]);
@@ -155,32 +154,126 @@ void RefSeqManager::AddRef(std::string filename, std::string ref_name) {
               << std::endl;
 
     //std::cout<<"Ref ID: "<<cur_ref_id_<<"\tName: "<<ref_name_[cur_ref_id_]<<"\tRef Len: "<<ref_length_[cur_ref_id_]<<"\tRef Addr: "<<ref_addr_[cur_ref_id_]<<std::endl;
-    /*for (int j = 0; j < ref_length_[cur_ref_id_]; j++) {
-      std::cout<<seqs[i][j];
-    }
-    std::cout << '\n' << std::endl;*/
+    //for (int j = 0; j < ref_length_[cur_ref_id_]; j++) {
+    //  std::cout<<seqs[i][j];
+    //}
+    //std::cout << '\n' << std::endl;
 
     // Move to next ref seq
-    //cur_ref_id_++;
     if (lengths[i] % REF_BLOCK_LEN == 0) {
       cur_block_ += (lengths[i] / REF_BLOCK_LEN);
     } else {
       cur_block_ += ((lengths[i] / REF_BLOCK_LEN) + 1);
     }
   }
+}*/
+
+void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_name) {
+  std::vector<std::vector<std::string> > descrips;
+  std::vector<char*> seqs;
+  std::vector<int> lengths;
+
+  // Parse FASTA files
+  for (int i = 0; i < ref_files.size(); i++) {
+    ParseFastaFile(filename, &descrips, &seqs, &lengths);
+  }
+
+  // Compute ref seq bank lengths
+  long long int total_num_blocks = 0;
+  for (int i = 0; i < lengths.size(); i++) {
+    total_num_blocks += (long long int) ceil(((float) lengths[i]) / REF_BLOCK_LEN);
+  }
+  long long int bank_num_blocks[NUM_FPGAS];
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    bank_num_blocks[i] = total_num_blocks / NUM_FPGAS;
+    if (i < total_num_blocks % NUM_FPGAS) {
+      bank_num_blocks[i]++;
+    }
+  }
+
+  // Store ref seq data
+  int ref_id = ref_name_.size();
+  std::map<std::string, int> chr_ids;
+  std::vector<std::string> chr_names;
+  std::vector<char*> chr_seqs;
+  std::vector<long long int> chr_lengths;
+  std::vector<std::vector<RefSeqBank> > ref_seq_bank_infos;
+  int cur_fpga = 0;
+  int num_blocks_stored = 0;
+  for (int i = 0; i < seqs.size(); i++) {
+    // Record sequence information
+    int chr_id = chr_names.size();
+    chr_ids[descrips[i][CHR_NAME_FIELD]] = chr_id;
+    chr_names.push_back(descrips[i][CHR_NAME_FIELD]);
+    chr_seqs.push_back(seqs[i]); // TODO: Probably change this
+    chr_lengths.push_back(lengths[i]);
+    
+    long long int cur_offset = 0;
+    std::vector<RefSeqBank> chr_seq_region_infos;
+    while (cur_offset < lengths[i]) {
+      // Compute sequence length to stream this iteration
+      long long int seq_length = lengths[i] - cur_offset;
+      long long int seq_num_blocks = (long long int) ceil(((float) seq_length) / REF_BLOCK_LEN);
+      int overlap_length = 0;
+      if (num_blocks_stored + seq_num_blocks > bank_num_blocks[cur_fpga]) {
+        seq_length = (bank_num_blocks[cur_fpga] - num_blocks_stored) * (REF_BLOCK_LEN / 4);
+        overlap_length = kOverlapLength;
+        if (cur_offset + seq_length + overlap_length > lengths[i]) {
+          overlap_length = lengths[i] - (cur_offset + seq_length);
+        }
+      }
+      long long int num_blocks_to_store = (long long int) ceil(((float) (seq_length + overlap_length)) / REF_BLOCK_LEN)
+
+      // Stream the sequence
+      StreamRefSeq(cur_fpga, &(seqs[i][cur_offset]), cur_block_[cur_fpga] * (REF_BLOCK_LEN / 4), seq_length + overlap_length);
+      std::cout << "Ref ID: "           << ref_id 
+                << "\tRef Name: "       << ref_name 
+                << "\tChr ID: "         << chr_id 
+                << "\tChr Name: "       << descrips[i][CHR_NAME_FIELD] 
+                << "\tChr Offset: "     << cur_offset
+                << "\tSeq Length: "     << seq_length
+                << "\tOverlap Length: " << overlap_length
+                << "\tFPGA: "           << cur_fpga
+                << "\tAddress: "        << cur_block_[cur_fpga]
+                << std::endl;
+      RefSeqBank loc;
+      loc.fpga = cur_fpga;
+      loc.start_coord = cur_offset;
+      loc.end_coord = cur_offset + seq_length;
+      loc.overlap_len = overlap_length;
+      loc.addr = cur_block_[cur_fpga];
+      chr_seq_region_infos.push_back(loc);
+
+      // Update counters
+      cur_offset += seq_length;
+      cur_block_[cur_fpga] += num_blocks_to_store;
+      num_blocks_stored += num_blocks_to_store;
+      if (num_blocks_stored >= bank_num_blocks[cur_fpga]) {
+        num_blocks_stored = 0;
+        cur_fpga++;
+      }
+    }
+    
+    ref_seq_bank_infos.push_back(chr_seq_region_infos);
+  }
+
+  // Record reference sequence metadata
+  ref_name_.push_back(ref_name);
+  ref_id_[ref_name] = ref_id;
+  chr_id_.push_back(chr_ids);
+  chr_name_.push_back(chr_names);
+  ref_seq_.push_back(chr_seqs);
+  ref_length_.push_back(chr_lengths);
+  ref_seq_bank_info_.push_back(ref_seq_bank_infos);
 }
 
 // Note: ref_addr is the BYTE address in the FPGA DRAM to stream to
-void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long long int ref_length) {
+void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr, long long int ref_length) {
   assert(REF_BLOCK_LEN % 4 == 0);
 
   // Compute length of 2-bit formatted ref seq buffer
-  // Pad ref seq buffer hold a multiple of REF_BLOCK_LEN nucleotides
-  int twobit_buf_length = ref_length / REF_BLOCK_LEN;
-  if (ref_length % REF_BLOCK_LEN != 0) {
-    twobit_buf_length++;
-  }
-  twobit_buf_length *= (REF_BLOCK_LEN / 4);
+  // Pad ref seq buffer to hold a multiple of REF_BLOCK_LEN nucleotides
+  long long int twobit_buf_length = ((long long int) ceil(((float) ref_length) / REF_BLOCK_LEN)) * (REF_BLOCK_LEN / 4);
 
   // Build 2-bit formatted ref seq buffer
   // Replace N's with random nucleotide
@@ -200,17 +293,58 @@ void RefSeqManager::StreamRefSeq(char* ref_seq, long long int ref_addr, long lon
     twobit_buf[i] = val;
   }
 
-  // Write the ref seq to the FPGA DRAMS
+  // Write the ref seq to the FPGA DRAM
   int err;
   char ibuf[1024];
-  for (int i = 0; i < NUM_FPGAS; i++) {
-    err = pico_drivers_[i]->WriteRam(ref_addr, (void*) twobit_buf, twobit_buf_length);
-    if (err < 0) {
-      fprintf(stderr, "Failed to write ref seq to FPGA %d, error: %s\n", i, 
-              PicoErrors_FullError(err, ibuf, sizeof(ibuf)));
-    }
+  err = pico_drivers_[fpga]->WriteRam(ref_addr, (void*) twobit_buf, twobit_buf_length);
+  if (err < 0) {
+    fprintf(stderr, "Failed to write ref seq to FPGA %d, error: %s\n", fpga, 
+            PicoErrors_FullError(err, ibuf, sizeof(ibuf)));
   }
 
   delete[] twobit_buf;
+}
+
+std::vector<RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id, int chr_id, 
+                                                      long long int start_coord, long long int end_coord) {
+  std::vector<RefSeqBank> locs;
+  for (std::vector<RefSeqBank>::iterator it = ref_seq_bank_info_[ref_id][chr_id].begin();
+       it != ref_seq_bank_info_[ref_id][chr_id].end();
+       ++it) {
+    RefSeqBank bank = *it;
+    RefSeqBank loc;
+
+    loc.fpga = bank.fpga;
+
+    // Record new location if the bank overlaps with the requested region
+    if (bank.start_coord < end_coord && bank.end_coord > start_coord) {
+      // Adjust start coord if requested region starts after the bank start
+      if (bank.start_coord < start_coord) {
+        loc.start_coord = start_coord;
+      } else {
+        loc.start_coord = bank.start_coord;
+      }
+      loc.addr = bank.addr + ((loc.start_coord - bank.start_coord) / REF_BLOCK_LEN);
+
+      // Adjust end coord if requested region ends before the bank end
+      if (end_coord < bank.end_coord) {
+        loc.end_coord = end_coord;
+      } else {
+        loc.end_coord = bank.end_coord;
+      }
+      
+      // Adjust overlap length
+      if (end_coord - bank.end_coord < bank.overlap_len) {
+        loc.overlap_len = end_coord - bank.end_coord;
+        loc.overlap_len = loc.overlap_len < 0 ? 0 : loc.overlap_len;
+      } else {
+        loc.overlap_len = bank.overlap_len;
+      }
+    }
+  
+    locs.push_back(loc);
+  }
+  
+  return locs;
 }
 

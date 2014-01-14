@@ -5,6 +5,7 @@
 //      Albert Ng   Oct 15 2013     Initial Revision 
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and EngineJob
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 14 2013     Added ref seq banking
 
 #ifndef ENGINEDISPATCHTHREAD_H_
 #define ENGINEDISPATCHTHREAD_H_
@@ -80,9 +81,9 @@ class EngineDispatchThread{
     static void DispatchJob(PicoDrv* pico_driver, int stream, int query_id, char* query_seq, 
                             int query_len, int num_ref_blocks, int first_ref_block, int threshold);
 
-    static void RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue, int query_id, int query_len, 
+    /*static void RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue, int query_id, int query_len, 
                                 int ref_id, int chr_id, int ref_len, int ref_offset, int overlap_offset, 
-                                int threshold, SwAffineGapParams params);
+                                int threshold, SwAffineGapParams params);*/
 
     // Actual pthread instance
     pthread_t thread_;
