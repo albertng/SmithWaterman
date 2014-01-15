@@ -178,7 +178,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
   hsr.params = job.params;
 
   int query_len;
-  query_seq_manager->GetQuerySeq(job.query_id, &query_len);
+  query_seq_manager->GetQuerySeq(&job.query_id, &query_len);
 
   hsr.offset = (job.ref_offset/REF_BLOCK_LEN)*REF_BLOCK_LEN + chsb.block_offset * REF_BLOCK_LEN - 2*query_len;
   hsr.len = chsb.num_blocks * REF_BLOCK_LEN + 2*query_len;

@@ -120,7 +120,7 @@ bool ServerComm::Action(std::string line,
   bool query_group_done = false;
   *errors = 0;
   
-  std::cout<<line<<std::endl;
+  //std::cout<<line<<std::endl;
   
   switch (state_) {
     case PARAMS : {                           // Store the scoring params

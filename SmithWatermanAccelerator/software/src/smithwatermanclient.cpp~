@@ -48,7 +48,9 @@ bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, ch
      << descrip[REF_NAME_FIELD] << " " 
      << descrip[CHR_NAME_FIELD] << " ";
   if (descrip.size() == 4) {
-    ss << descrip[THRESHOLD_FIELD - 2];
+    ss << "1" << " "
+       << "2" << " "
+       << descrip[THRESHOLD_FIELD - 2];
   } else {
     ss << descrip[REF_START_FIELD] << " " 
        << descrip[REF_END_FIELD] << " "

@@ -81,8 +81,6 @@ struct EngineJob {
   long long int ref_offset;
   long long int ref_len;
   long long int overlap_offset;
-  long long int fpga_addr;
-  long long int fpga_len;
   int threshold;
   SwAffineGapParams params;
 };

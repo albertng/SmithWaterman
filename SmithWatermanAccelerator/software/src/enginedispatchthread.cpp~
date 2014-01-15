@@ -74,13 +74,13 @@ void* EngineDispatchThread::Dispatch(void* args) {
   
   while (true) {
     AlignmentJob aln_job = alignment_job_queue->Pop();
-    /*std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
-              << " " << aln_job.ref_id
-              << " " << aln_job.ref_offset 
-              << " " << aln_job.ref_len 
-              << " " << aln_job.threshold
-              << " " << aln_job.params.ToString()
-              << std::endl;*/
+    //std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
+    //          << " " << aln_job.ref_id
+    //          << " " << aln_job.ref_offset 
+    //          << " " << aln_job.ref_len 
+    //          << " " << aln_job.threshold
+    //          << " " << aln_job.params.ToString()
+    //          << std::endl;
     int query_id = aln_job.query_id;
     
     if (query_id == PARAMS_JOB) {     // Set scoring params between query groups
@@ -105,7 +105,17 @@ void* EngineDispatchThread::Dispatch(void* args) {
       // Partition the banks into engine jobs
       std::list<EngineJob> jobs;
       for (std::vector<RefSeqManager::RefSeqBank>::iterator it = locs.begin(); it != locs.end(); ++it) {
-        RefSeqManager::RefSeqBank loc = *it;          
+        RefSeqManager::RefSeqBank loc = *it;
+          
+        if (locs.size() != 1) {
+          std::cout << "FPGA: " << loc.fpga
+                    << "\tstart_coord: " << loc.start_coord
+                    << "\tend_coord: " << loc.end_coord
+                    << "\toverlap_len: " << loc.overlap_len
+                    << "\taddr: " << loc.addr
+                    << std::endl;
+        }
+          
           
         // Compute length of ref seq bank
         long long int ref_len = (loc.end_coord - loc.start_coord) + loc.overlap_len;
@@ -117,6 +127,8 @@ void* EngineDispatchThread::Dispatch(void* args) {
         int num_jobs = ref_len / min_job_len;
         num_jobs = num_jobs == 0 ? 1 : num_jobs;
         num_jobs = num_jobs > NUM_ENGINES_PER_FPGA ? NUM_ENGINES_PER_FPGA : num_jobs;
+
+        std::cout << "Bank num jobs: " << num_jobs << std::endl;
 
         long long int cur_offset = loc.start_coord;
         for (int i = 0; i < num_jobs; i++) {
@@ -161,11 +173,11 @@ void* EngineDispatchThread::Dispatch(void* args) {
       }
 
       // Dispatch jobs to FPGA engines and record the jobs for the results reader thread
-      //std::cout << "Total num jobs: " << jobs.size() << std::endl;
+      std::cout << "Total num jobs: " << jobs.size() << std::endl;
       query_seq_manager->SetQueryNumJobs(query_id, jobs.size());
       for (std::list<EngineJob>::iterator it = jobs.begin(); it != jobs.end(); ++it) {
         EngineJob job = *it;
-        //std::cout << "Dispatching job for FPGA " << job.fpga_id << " Engine " << job.engine_id << std::endl;
+        std::cout << "Dispatching job for FPGA " << job.fpga_id << " Engine " << job.engine_id << std::endl;
         DispatchJob(pico_drivers[job.fpga_id], 
                     streams[job.fpga_id][job.engine_id], 
                     query_id,
@@ -179,6 +191,119 @@ void* EngineDispatchThread::Dispatch(void* args) {
     }
   }
 }
+
+
+
+     /*   // Compute first block index and total number of blocks spanned by reference sequence
+        int ref_addr = ref_seq_manager->GetRefAddr(ref_id, chr_id);
+        int first_ref_block = ref_addr + (ref_offset / REF_BLOCK_LEN);
+        int last_ref_block = ref_addr + ((ref_offset + ref_len - 1) / REF_BLOCK_LEN);
+        int total_num_ref_blocks = last_ref_block - first_ref_block + 1;
+
+        // Compute minimum job size allowable
+        // Jobs must be at least 2*REF_BLOCK_LEN or 2*query_len long, whichever is larger
+        int min_job_len = query_len > REF_BLOCK_LEN ? 2*query_len : 2*REF_BLOCK_LEN;
+        int min_job_num_blocks = 1 + min_job_len / REF_BLOCK_LEN;
+        if (min_job_len % REF_BLOCK_LEN == 0) {
+          min_job_num_blocks--;
+        }
+
+        // Compute number of blocks to overlap by for each job
+        int num_overlap_blocks = 1 + (2*query_len / REF_BLOCK_LEN);
+        if ((2*query_len) % REF_BLOCK_LEN == 0) {
+          num_overlap_blocks--;
+        }
+        
+        // Compute number of engine jobs to allocate for the alignment and the number of ref seq
+        //   blocks each job spans
+        int num_jobs;
+        if ((total_num_ref_blocks / (NUM_FPGAS * NUM_ENGINES_PER_FPGA)) < min_job_num_blocks) {
+          num_jobs = total_num_ref_blocks / min_job_num_blocks;
+          num_jobs = (num_jobs == 0) ? 1 : num_jobs;
+        } else {
+          num_jobs = NUM_FPGAS * NUM_ENGINES_PER_FPGA;
+        }
+        query_seq_manager->SetQueryNumJobs(query_id, num_jobs);
+        //std::cout<<"Num FPGAS: "<<NUM_FPGAS<<" Num Engines per FPGA: "<< NUM_ENGINES_PER_FPGA<< " Min Job Num Blocks: " << min_job_num_blocks<<" Total Num Ref Blocks " << total_num_ref_blocks<< " Num jobs: "<<num_jobs<<std::endl;
+        // Compute the nucleotide length and number of ref seq blocks each job spans
+        int job_num_blocks[num_jobs];
+        long long int job_length[num_jobs];
+        for (int i = 0; i < num_jobs; i++) {
+          job_num_blocks[i] = total_num_ref_blocks / num_jobs;  // Evenly distribute over all jobs
+          if (i < total_num_ref_blocks % num_jobs) {  
+            job_num_blocks[i]++;
+          }
+          if (i != num_jobs-1) {                                // Add overlap for all jobs except last one
+            job_num_blocks[i] += num_overlap_blocks;
+          }
+          job_num_blocks[i] = job_num_blocks[i] < min_job_num_blocks ? min_job_num_blocks : job_num_blocks[i];
+          
+          job_length[i] = job_num_blocks[i] * REF_BLOCK_LEN;
+          if (i == 0) {               // Trim left end
+            job_length[i] -= (ref_offset % REF_BLOCK_LEN);
+          } 
+          if (i == num_jobs - 1) {    // Trim right end
+            if ((ref_offset + ref_len) % REF_BLOCK_LEN != 0) {
+              job_length[i] -= (REF_BLOCK_LEN - ((ref_offset + ref_len) % REF_BLOCK_LEN));
+            }
+            if (total_num_ref_blocks < min_job_num_blocks) {
+              job_length[i] -= ((min_job_num_blocks - total_num_ref_blocks) * REF_BLOCK_LEN);
+            }
+          }
+        }
+        
+        // Compute the nucleotide offset and ref seq block offset of each job
+        long long int job_offset[num_jobs];
+        int job_block_offset[num_jobs];
+        int cur_block = first_ref_block;
+        for (int i = 0; i < num_jobs; i++) {
+          job_block_offset[i] = cur_block;
+          
+          if (i == 0) {
+            job_offset[i] = ref_offset;
+          } else {
+            job_offset[i] = ((long long int) cur_block - first_ref_block) * REF_BLOCK_LEN;
+          }
+          
+          cur_block += (job_num_blocks[i] - num_overlap_blocks);
+        }
+        
+        // Compute the nucleotide offset of the overlap regions of each job
+        long long int job_overlap_offset[num_jobs];
+        for (int i = 0; i < num_jobs-1; i++) {
+          job_overlap_offset[i] = job_offset[i+1];
+        }
+        job_overlap_offset[num_jobs-1] = job_offset[num_jobs-1] + job_length[num_jobs-1];
+
+        // Dispatch and record the jobs
+        int cur_fpga = 0;
+        int cur_engine = 0;
+        //std::cout<<"Dispatching "<<num_jobs<<" jobs"<<std::endl;
+        for (int i = 0; i < num_jobs; i++) {
+          //std::cout<<"Cur FPGA: "<<cur_fpga<<" Cur engine: "<<cur_engine<<std::endl;
+          DispatchJob(pico_drivers[cur_fpga], streams[cur_fpga][cur_engine],
+                      query_id, query_seq, query_len,
+                      job_num_blocks[i], job_block_offset[i],
+                      threshold);
+          RecordEngineJob(&(engine_job_queues[cur_fpga][cur_engine]),
+                          query_id, query_len,
+                          ref_id, chr_id, job_length[i], job_offset[i],
+                          job_overlap_offset[i],
+                          threshold, params);
+
+          cur_fpga++;
+          if (cur_fpga == NUM_FPGAS) {
+            cur_fpga = 0;
+            cur_engine++;
+            if (cur_engine == NUM_ENGINES_PER_FPGA) {
+              cur_engine = 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}*/
 
 void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
                                        int query_id, char* query_seq, int query_len,
@@ -207,7 +332,7 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
     }
   }
   
-  /*std::cout << "Engine job for stream " << stream
+  std::cout << "Engine job for stream " << stream
             <<"\tNum Ref Blocks: " << out_buf[0]
             << "\tRef Block Offset: " << out_buf[1]
             << "\tQuery ID: " << (out_buf[2] >> 16)
@@ -217,8 +342,28 @@ void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
   for (int i = 0; i < ((num_query_blocks+1)*16 / 4) - 4; i++) {
     std::cout << out_buf[i + 4] << ' ';
   }
-  std::cout << std::endl;*/
+  std::cout << std::endl;
   
   pico_driver->WriteStream(stream, out_buf, (num_query_blocks+1)*16);
 }
 
+/*void EngineDispatchThread::RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue,
+                                           int query_id, int query_len,
+                                           int ref_id, int chr_id, int ref_len, int ref_offset,
+                                           int overlap_offset,
+                                           int threshold, SwAffineGapParams params) {
+  EngineJob job;
+  job.query_id = query_id;
+  job.query_len = query_len;
+  job.ref_id = ref_id;
+  job.chr_id = chr_id;
+  job.ref_offset = ref_offset;
+  job.ref_len = ref_len;
+  job.overlap_offset = overlap_offset;
+  job.threshold = threshold;
+  job.params = params;
+
+  //std::cout<<"Recorded Job:\tQuery ID:"<<job.query_id<<" Query Len: "<<job.query_len<<" Ref ID: "<<job.ref_id<<" Ref Offset: "<<job.ref_offset<<" Ref Len: "<<job.ref_len<<" Overlap Offset: "<<job.overlap_offset<<" Threshold: "<<job.threshold<<std::endl;
+
+  engine_job_queue->Push(job);
+}*/

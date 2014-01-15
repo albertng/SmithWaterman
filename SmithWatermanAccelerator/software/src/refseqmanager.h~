@@ -40,7 +40,7 @@ class RefSeqManager {
 
     // Get the index of the starting block of the reference sequence in the FPGA
     // DRAM.
-    //long long int GetRefAddr(int ref_id, int chr_id);
+    long long int GetRefAddr(int ref_id, int chr_id);
 
     // Get the nucleotide length of the reference sequence.
     long long int GetRefLength(int ref_id, int chr_id);

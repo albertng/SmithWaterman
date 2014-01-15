@@ -14,7 +14,6 @@
 #include <iostream> 
 #include <string>
 #include <cstring>
-#include <assert.h>
 #include "queryseqmanager.h"
 #include "def.h"
 

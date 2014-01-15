@@ -115,7 +115,6 @@ int main(int argc, char *argv[]) {
       return 1;
     }
     
-    std::cout << "Loading reference " << argv[i] << "..." << std::endl;
     ref_seq_manager.AddRef(ref_files, std::string(argv[i]));
   }
   

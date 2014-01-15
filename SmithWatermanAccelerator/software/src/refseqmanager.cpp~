@@ -272,9 +272,9 @@ void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_n
   ref_length_.push_back(chr_lengths);
   ref_seq_bank_info_.push_back(ref_seq_bank_infos);
   
-  /*for (int i = 0; i < NUM_FPGAS; i++) {
+  for (int i = 0; i < NUM_FPGAS; i++) {
     std::cout << "cur_block_[i] " << cur_block_[i] << std::endl;
-  }*/
+  }
 }
 
 void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr, long long int ref_length) {
