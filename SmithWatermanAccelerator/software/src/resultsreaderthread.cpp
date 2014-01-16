@@ -92,6 +92,8 @@ void* ResultsReaderThread::ReadResults(void* args) {
     jobs[i] = new EngineJob[NUM_ENGINES_PER_FPGA];
   }
 
+  int num_HSRs = 0;
+
   while(true) {
     for (int i = 0; i < NUM_FPGAS; i++) {
       for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
@@ -113,6 +115,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
             switch(states[i][j]) {
               case INIT:
                   jobs[i][j] = engine_job_queues[i][j].Pop();
+                  
                   //std::cout<<"Engine Job:\tQuery ID:"<<jobs[i][j].query_id<<" Query Len: "<<jobs[i][j].query_len<<" Ref ID: "<<jobs[i][j].ref_id<<" Ref Offset: "<<jobs[i][j].ref_offset<<" Ref Len: "<<jobs[i][j].ref_len<<" Overlap Offset: "<<jobs[i][j].overlap_offset<<" Threshold: "<<jobs[i][j].threshold<<std::endl;
                   if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                     query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
@@ -129,6 +132,10 @@ void* ResultsReaderThread::ReadResults(void* args) {
               case IN_HSR:
                 if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  num_HSRs++;
+                  /*if (num_HSRs % 1000 == 0) {
+                    std::cout << "HSRS: " << num_HSRs << std::endl;
+                  }*/
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                   //std::cout<<"Query " <<jobs[i][j].query_id<<" Decrement HSR count"<<std::endl;
                   states[i][j] = INIT;
@@ -137,10 +144,18 @@ void* ResultsReaderThread::ReadResults(void* args) {
                   states[i][j] = IN_HSR;
                 } else if (IsValidBlock(jobs[i][j], high_score_block)) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  num_HSRs++;
+                  /*if (num_HSRs % 1000 == 0) {
+                    std::cout << "HSRS: " << num_HSRs << std::endl;
+                  }*/
                   chsbs[i][j] = StartCHSB(high_score_block);
                   states[i][j] = IN_HSR;
                 } else {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  num_HSRs++;
+                  /*if (num_HSRs % 1000 == 0) {
+                    std::cout << "HSRS: " << num_HSRs << std::endl;
+                  }*/
                   states[i][j] = INIT;
                 }
                 break;
@@ -193,8 +208,6 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
   if ((hsr.offset + hsr.len) > (job.ref_offset + job.ref_len)) {
     hsr.len -= ((hsr.offset + hsr.len) - (job.ref_offset + job.ref_len));
   } 
-  
-  //std::cout<<"HSR Stored:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
   
   hsr_queue->Push(hsr);
   query_seq_manager->IncHighScoreRegionCount(hsr.query_id);

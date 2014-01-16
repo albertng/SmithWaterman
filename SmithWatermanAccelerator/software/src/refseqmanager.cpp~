@@ -51,6 +51,9 @@ void RefSeqManager::Init(PicoDrv** pico_drivers) {
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len) {
+  if (ref_id >= ref_seq_.size()) {
+    std::cout<<"Ref ID " << ref_id << "ref_seq_.size() " << ref_seq_.size() << std::endl;
+  }
   assert(ref_id < ref_seq_.size());
   assert(ref_offset + ref_len <= ref_length_[ref_id][chr_id]);
   char* ref_seq = ref_seq_[ref_id][chr_id];
@@ -272,9 +275,9 @@ void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_n
   ref_length_.push_back(chr_lengths);
   ref_seq_bank_info_.push_back(ref_seq_bank_infos);
   
-  for (int i = 0; i < NUM_FPGAS; i++) {
+  /*for (int i = 0; i < NUM_FPGAS; i++) {
     std::cout << "cur_block_[i] " << cur_block_[i] << std::endl;
-  }
+  }*/
 }
 
 void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr, long long int ref_length) {

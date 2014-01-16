@@ -15,10 +15,12 @@
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 //      Albert Ng   Oct 31 2013     Now reports all alignments above threshold
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 15 2013     Added job count
 
 #include <list>
 #include <set>
 #include <assert.h>
+#include <time.h>
 #include "swthread.h"
 #include "def.h"
 #include "threadqueue.h"
@@ -27,6 +29,7 @@
 #include "utils.h"
 #include "scoring.h"
 
+#define SWTIMING
 
 SWThread::SWThread() {
 }
@@ -38,12 +41,18 @@ SWThread::SWThread(ThreadQueue<HighScoreRegion>* hsr_queue,
 }
 
 void SWThread::Init(ThreadQueue<HighScoreRegion>* hsr_queue,
-          ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager,
-          QuerySeqManager* query_seq_manager) {
+                    ThreadQueue<AlignmentResult>* result_queue, RefSeqManager* ref_seq_manager,
+                    QuerySeqManager* query_seq_manager) {
   args_.hsr_queue = hsr_queue;
   args_.result_queue = result_queue;
   args_.ref_seq_manager = ref_seq_manager;
   args_.query_seq_manager = query_seq_manager;
+  args_.stats = &stats_;
+  
+  stats_.job_count = 0;
+  stats_.init_time = 0;
+  stats_.compute_time = 0;
+  stats_.backtrace_time = 0;
 }
 
 void SWThread::Run() {
@@ -52,6 +61,17 @@ void SWThread::Run() {
 
 void SWThread::Join() {
   pthread_join(thread_, NULL);
+}
+
+SWThread::SWThreadStats SWThread::GetStats() {
+  return stats_;
+}
+
+void SWThread::ResetStats() {
+  stats_.job_count = 0;
+  stats_.init_time = 0;
+  stats_.compute_time = 0;
+  stats_.backtrace_time = 0;
 }
 
 // Checks for terminating packets, indicated by ref_len = 0 for the high
@@ -65,47 +85,36 @@ void* SWThread::Align(void* args) {
   ThreadQueue<AlignmentResult>* result_queue = ((SWThreadArgs*)args)->result_queue;
   RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
   QuerySeqManager* query_seq_manager = ((SWThreadArgs*)args)->query_seq_manager;
-
+  SWThreadStats* stats = ((SWThreadArgs*)args)->stats;
+  
   int** sub_mat = new int*[4];
   for (int i = 0; i < 4; i++) {
     sub_mat[i] = new int[4];
   }
   int gap_open;
   int gap_extend;
-
+  
+  struct timespec start, finish;
+  double elapsed;
+  
   while(true) {
     // Grab available high scoring region
     HighScoreRegion hsr = hsr_queue->Pop();
-    //std::cout<<"HSR Popped:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<" Params: "<<hsr.params.ToString()<<std::endl;
+    stats->job_count++;
+    
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif    
+    
     int ref_len = hsr.len;
     int query_len;
-    //std::cout<<"Getting RefSeq "<<hsr.ref_id<<" " <<hsr.offset<<" " <<ref_len<<std::endl;
     char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.chr_id, hsr.offset, ref_len);
     char* query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
-    
-    /*std::cout<<"Ref len: "<<ref_len<<" Ref seq: ";
-    for (int i = 0; i < ref_len; i++) {
-      std::cout<<ref_seq[i];
-    }
-    
-    std::cout<<"\nQuery len: "<<query_len<<" Query seq: ";
-    for (int i = 0; i < query_len; i++) {
-      std::cout<<query_seq[i];
-    }
-    std::cout<<std::endl;*/
     
     // Get the scoring parameters
     hsr.params.GetSubMat(sub_mat);
     gap_open = hsr.params.GetGapOpen();
     gap_extend = hsr.params.GetGapExtend();
-    
-    /*std::cout<<"Sub mat: ";
-    for (int i =0 ; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        std::cout<<sub_mat[i][j]<<" ";
-      }
-    }
-    std::cout<<std::endl;*/
     
     // Initialize new score matrices
     int** v_matrix = new int*[ref_len + 1];       // Score matrix
@@ -117,13 +126,30 @@ void* SWThread::Align(void* args) {
       e_matrix[i] = new int[query_len + 1];
       f_matrix[i] = new int[query_len + 1];
       dir_matrix[i] = new AlnOp[query_len + 1];
-      for (int j = 0; j < query_len + 1; j++) {
-        v_matrix[i][j] = 0;
-        e_matrix[i][j] = 0;
-        f_matrix[i][j] = 0;
-        dir_matrix[i][j] = ZERO_OP;
-      }
     }
+    for (int i = 0; i < ref_len + 1; i++) {
+      v_matrix[i][0] = 0;
+      e_matrix[i][0] = 0;
+      f_matrix[i][0] = 0;
+      dir_matrix[i][0] = ZERO_OP;
+    }
+    for (int j = 0; j < query_len + 1; j++) {
+      v_matrix[0][j] = 0;
+      e_matrix[0][j] = 0;
+      f_matrix[0][j] = 0;
+      dir_matrix[0][j] = ZERO_OP;
+    }
+
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    stats->init_time += elapsed;
+#endif 
+
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif  
 
     // Compute dynamic programming matrices
     std::set<Cell, CellComp> highscore_cells;
@@ -132,7 +158,6 @@ void* SWThread::Align(void* args) {
         NtInt ref_nt = NtChar2Int(ref_seq[i-1]);
         NtInt query_nt = NtChar2Int(query_seq[j-1]);
       
-        // Compute possible choices
         int match;
         if (ref_nt == N_NT || query_nt == N_NT) {
           match = -2147483648; // Force N's to align with gaps
@@ -144,8 +169,6 @@ void* SWThread::Align(void* args) {
         int del_open   = v_matrix[i][j-1] + gap_open;
         int del_extend = f_matrix[i][j-1] + gap_extend;
 
-        // Pick choice with highest score
-        // Record decision in dir_matrix
         e_matrix[i][j] = (ins_open > ins_extend) ? ins_open : ins_extend;
         f_matrix[i][j] = (del_open > del_extend) ? del_open : del_extend;
         
@@ -177,9 +200,19 @@ void* SWThread::Align(void* args) {
           hsc.score = v_matrix[i][j];
           highscore_cells.insert(hsc);
         }
-        
       }
     }
+
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    stats->compute_time += elapsed;
+#endif 
+
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif  
 
     // Backtrace to obtain alignments
     std::set<AlignmentResult, AlignmentResultComp> hsr_alignments;
@@ -217,7 +250,7 @@ void* SWThread::Align(void* args) {
           case DELETE_OP: aln.Prepend(GAP, query_seq[query_index-1]);
                           query_index--;
                           break;
-         default:         assert(false);
+          default:        assert(false);
         }
       }
       AlignmentResult aln_res;
@@ -239,13 +272,18 @@ void* SWThread::Align(void* args) {
         hsr_alignments.insert(aln_res);
       }
     }
+
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    stats->backtrace_time += elapsed;
+#endif 
     
     // Store alignment results list onto results queue
     for (std::set<AlignmentResult, AlignmentResultComp>::iterator it = hsr_alignments.begin(); it != hsr_alignments.end(); ++it) {
-      //std::cout<<"Storing alignment result "<<std::endl;
       result_queue->Push(*it);
     }
-    //std::cout<<"Aligned HSR:\tQuery ID: "<<hsr.query_id<<" Ref ID: "<<hsr.ref_id<<" Offset: "<<hsr.offset<<" Length: "<<hsr.len<<" Overlap Offset: "<<hsr.overlap_offset<<" Threshold: "<<hsr.threshold<<std::endl;
 
     // Memory cleanup
     for (int i = 0; i < ref_len + 1; i++) {
@@ -261,7 +299,6 @@ void* SWThread::Align(void* args) {
  
     // Decrement outstanding high scoring region count 
     query_seq_manager->DecHighScoreRegionCount(hsr.query_id);
-    //std::cout<<"Query "<<hsr.query_id<<" Decrement HSR Count after done with HSR"<<std::endl;
   } 
 }
 

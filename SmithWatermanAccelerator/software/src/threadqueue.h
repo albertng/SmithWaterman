@@ -11,7 +11,8 @@
 //      Albert Ng   Oct 03 2013     Initial Revision 
 //      Albert Ng   Oct 07 2013     Added ThreadQueue::Size()
 //      Albert Ng   Oct 10 2013     Added ThreadQueue::Empty()
-//
+//      Albert Ng   Jan 15 2013     Changed pthread_cond_signal() to
+//                                    pthread_cond_broadcast()
 
 #ifndef THREADQUEUE_H_
 #define THREADQUEUE_H_
@@ -61,14 +62,14 @@ template <typename T>
 void ThreadQueue<T>::Push(T data) {
   pthread_mutex_lock(&mutex_);
   
-  if (queue_.size() == MAX_Q_SIZE) {
+  while(queue_.size() == MAX_Q_SIZE) {
     pthread_cond_wait(&nonfull_cond_, &mutex_);
   }
 
   queue_.push(data);
   
   if (queue_.size() == 1) {
-    pthread_cond_signal(&nonempty_cond_);
+    pthread_cond_broadcast(&nonempty_cond_);
   }
   
   pthread_mutex_unlock(&mutex_);
@@ -79,7 +80,7 @@ template <typename T>
 T ThreadQueue<T>::Pop() {
   pthread_mutex_lock(&mutex_);
   
-  if (queue_.empty()) {
+  while(queue_.empty()) {
     pthread_cond_wait(&nonempty_cond_, &mutex_);
   }
 
@@ -87,7 +88,7 @@ T ThreadQueue<T>::Pop() {
   queue_.pop();
   
   if (queue_.size() == MAX_Q_SIZE-1) {
-    pthread_cond_signal(&nonfull_cond_);
+    pthread_cond_broadcast(&nonfull_cond_);
   }
   
   pthread_mutex_unlock(&mutex_);

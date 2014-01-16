@@ -51,7 +51,10 @@ void RefSeqManager::Init(PicoDrv** pico_drivers) {
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len) {
-  assert(ref_id < ref_seq_.size());
+  if (ref_id >= ref_seq_.size() || ref_id < 0) {
+    std::cout<<"Ref ID " << ref_id << " ref_seq_.size() " << ref_seq_.size() << std::endl;
+  }
+  assert(ref_id < ref_seq_.size() && ref_id >= 0);
   assert(ref_offset + ref_len <= ref_length_[ref_id][chr_id]);
   char* ref_seq = ref_seq_[ref_id][chr_id];
   return &(ref_seq[ref_offset]);

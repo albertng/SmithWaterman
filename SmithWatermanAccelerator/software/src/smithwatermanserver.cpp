@@ -11,6 +11,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <time.h>
 #include "def.h"
 #include "servercomm.h"
 #include "threadqueue.h"
@@ -27,7 +28,7 @@
   #include <pico_errors.h>
 #endif
 
-#define NUM_THREADS 1
+#define SWSERVERTIMING
 
 int GetFastaFiles(std::string dir, std::vector<std::string>* files) {
   DIR *dp;
@@ -66,7 +67,7 @@ int main(int argc, char *argv[]) {
   // Threads
   EngineDispatchThread edthread;
   ResultsReaderThread rrthread;
-  SWThread swthreads[NUM_THREADS];
+  SWThread swthreads[NUM_SW_THREADS];
 
   // Check program args
   if (argc < 3) {
@@ -132,7 +133,7 @@ int main(int argc, char *argv[]) {
   rrthread.Init(pico_drivers, streams, &hsr_queue, &query_seq_manager,
                 engine_job_queues);
   rrthread.Run();
-  for (int i = 0; i < NUM_THREADS; i++) {
+  for (int i = 0; i < NUM_SW_THREADS; i++) {
     swthreads[i].Init(&hsr_queue, &result_queue, 
                       &ref_seq_manager, &query_seq_manager);
     swthreads[i].Run();
@@ -143,6 +144,9 @@ int main(int argc, char *argv[]) {
   ServerComm server_comm(30000);
   
   // Continuously accept and run alignments
+  long long int num_hits;
+  struct timespec start, finish;
+  double elapsed;
   while (true) {
     // Parse the query group and initiate alignment
     unsigned int errors;
@@ -150,7 +154,15 @@ int main(int argc, char *argv[]) {
                                                            &query_seq_manager,
                                                            &ref_seq_manager,
                                                            &errors);
-
+    for (int i = 0; i < NUM_SW_THREADS; i++) {
+      swthreads[i].ResetStats();
+    }
+    num_hits = 0;
+    
+#ifdef SWSERVERTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif
+    
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
     bool group_done = false;
@@ -160,8 +172,9 @@ int main(int argc, char *argv[]) {
         std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
         std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
         std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
-        //std::cout<<"Query name "<<query_name<<std::endl;
         server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
+        
+        num_hits++;
       }
       
       group_done = true;
@@ -177,6 +190,28 @@ int main(int argc, char *argv[]) {
     for (std::vector<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
       query_seq_manager.RemoveQuery(*it);
     }
+
+#ifdef SWSERVERTIMING
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    std::cout << num_hits <<  " hits found in " << elapsed << " seconds" << std::endl;
+
+    double total_init_time = 0;
+    double total_compute_time = 0;
+    double total_backtrace_time = 0;
+    for (int i = 0; i < NUM_SW_THREADS; i++) {
+      SWThread::SWThreadStats stats = swthreads[i].GetStats();
+      total_init_time += stats.init_time;
+      total_compute_time += stats.compute_time;
+      total_backtrace_time += stats.backtrace_time;
+    }
+    double total_time = total_init_time + total_compute_time + total_backtrace_time;
+    std::cout << total_init_time / total_time << "% init, " 
+              << total_compute_time / total_time << "% compute, "
+              << total_backtrace_time / total_time << "%backtrace"
+              << std::endl;
+#endif
   }
 }
 

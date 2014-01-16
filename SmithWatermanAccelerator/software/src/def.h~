@@ -27,6 +27,9 @@
 
 #undef SIM_PICO
 
+// Server configuration definitions
+#define NUM_SW_THREADS 3
+
 // Hardware Parameter definitions
 #define NUM_FPGAS 6
 #define NUM_ENGINES_PER_FPGA 5
@@ -81,6 +84,8 @@ struct EngineJob {
   long long int ref_offset;
   long long int ref_len;
   long long int overlap_offset;
+  long long int fpga_addr;
+  long long int fpga_len;
   int threshold;
   SwAffineGapParams params;
 };

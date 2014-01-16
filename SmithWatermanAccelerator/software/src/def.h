@@ -27,6 +27,9 @@
 
 #undef SIM_PICO
 
+// Server configuration definitions
+#define NUM_SW_THREADS 12
+
 // Hardware Parameter definitions
 #define NUM_FPGAS 6
 #define NUM_ENGINES_PER_FPGA 5

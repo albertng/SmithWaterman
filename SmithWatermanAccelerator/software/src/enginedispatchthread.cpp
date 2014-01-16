@@ -173,7 +173,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
                     query_len,
                     job.fpga_len,
                     job.fpga_addr,
-                    threshold);
+                    threshold);                    
         engine_job_queues[job.fpga_id][job.engine_id].Push(job);
       }
     }

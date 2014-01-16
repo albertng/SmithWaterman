@@ -25,6 +25,7 @@
 //      Albert Ng   Oct 07 2013     Added SWThread::Join()
 //      Albert Ng   Oct 09 2013     Added query seq manager
 //      Albert Ng   Oct 22 2013     Removed params and params_mutex member variables
+//      Albert Ng   Jan 15 2013     Added SWThreadStats
 
 #ifndef SWTHREAD_H_
 #define SWTHREAD_H_
@@ -57,7 +58,17 @@ class SWThread {
 
     // Join the thread
     // Can't be used for now, since the thread infinite loops and never terminates
-    void Join(); 
+    void Join();
+
+    struct SWThreadStats {
+      long long int job_count;
+      double init_time;
+      double compute_time;
+      double backtrace_time;
+    };
+
+    SWThreadStats GetStats();
+    void ResetStats();
 
   private:
     // Enumeration of possible alignment operations
@@ -76,6 +87,9 @@ class SWThread {
 
       // Pointer to shared query sequence manager
       QuerySeqManager* query_seq_manager;
+      
+      // Statistics
+      SWThreadStats* stats;
     };
 
     // Data structure representing an individual DP matrix cell
@@ -113,6 +127,9 @@ class SWThread {
     
     // Thread arguments
     SWThreadArgs args_;
+    
+    // Statistics
+    SWThreadStats stats_;
 };
 
 #endif // SWTHREAD_H_
