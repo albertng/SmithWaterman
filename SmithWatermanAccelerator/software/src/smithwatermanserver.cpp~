@@ -196,6 +196,21 @@ int main(int argc, char *argv[]) {
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     std::cout << num_hits <<  " hits found in " << elapsed << " seconds" << std::endl;
+
+    double total_init_time = 0;
+    double total_compute_time = 0;
+    double total_backtrace_time = 0;
+    for (int i = 0; i < NUM_SW_THREADS; i++) {
+      SWThread::SWThreadStats stats = swthreads[i].GetStats();
+      total_init_time += stats.init_time;
+      total_compute_time += stats.compute_time;
+      total_backtrace_time += stats.backtrace_time;
+    }
+    double total_time = total_init_time + total_compute_time + total_backtrace_time;
+    std::cout << total_init_time / total_time << "% init, " 
+              << total_compute_time / total_time << "% compute, "
+              << total_backtrace_time / total_time << "%backtrace"
+              << std::endl;
 #endif
   }
 }

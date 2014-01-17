@@ -16,6 +16,7 @@
 //      Albert Ng   Oct 31 2013     Now reports all alignments above threshold
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 15 2013     Added job count
+//      Albert Ng   Jan 16 2013     Added max gap length
 
 #include <list>
 #include <set>
@@ -29,7 +30,7 @@
 #include "utils.h"
 #include "scoring.h"
 
-#undef SWTIMING
+#define SWTIMING
 
 SWThread::SWThread() {
 }
@@ -100,11 +101,7 @@ void* SWThread::Align(void* args) {
   while(true) {
     // Grab available high scoring region
     HighScoreRegion hsr = hsr_queue->Pop();
-    stats->job_count++;
-    
-#ifdef SWTIMING
-    clock_gettime(CLOCK_MONOTONIC, &start);
-#endif    
+    stats->job_count++;   
     
     int ref_len = hsr.len;
     int query_len;
@@ -115,6 +112,10 @@ void* SWThread::Align(void* args) {
     hsr.params.GetSubMat(sub_mat);
     gap_open = hsr.params.GetGapOpen();
     gap_extend = hsr.params.GetGapExtend();
+    
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif
     
     // Initialize new score matrices
     int** v_matrix = new int*[ref_len + 1];       // Score matrix
@@ -220,9 +221,11 @@ void* SWThread::Align(void* args) {
       int query_index = (*it).query_index;
       int ref_index = (*it).ref_index;
       int score = (*it).score;
+      int max_gap_length = 0;
       
       // Build the alignment
       Alignment aln(hsr.offset + ref_index, query_index);
+      int cur_gap_length = 0;
       while (dir_matrix[ref_index][query_index] != ZERO_OP) {
         // Keep alignments ending with the right-most max score cell
         if (v_matrix[ref_index][query_index] > score) {
@@ -243,12 +246,17 @@ void* SWThread::Align(void* args) {
           case MATCH_OP:  aln.Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
                           query_index--;
                           ref_index--;
+                          cur_gap_length = 0;
                           break;
           case INSERT_OP: aln.Prepend(ref_seq[ref_index-1], GAP);
                           ref_index--;
+                          cur_gap_length++;
+                          max_gap_length = max_gap_length < cur_gap_length ? cur_gap_length : max_gap_length;
                           break;
           case DELETE_OP: aln.Prepend(GAP, query_seq[query_index-1]);
                           query_index--;
+                          cur_gap_length++;
+                          max_gap_length = max_gap_length < cur_gap_length ? cur_gap_length : max_gap_length;
                           break;
           default:        assert(false);
         }
@@ -259,17 +267,19 @@ void* SWThread::Align(void* args) {
       aln_res.score = score;
 
       std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = hsr_alignments.find(aln_res);
-      if (aln_it != hsr_alignments.end()) {
-        // Filter out duplicate alignments, pick the highest scoring, longest duplicated alignment
-        if (((*aln_it).score < aln_res.score) || 
-            ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
-          hsr_alignments.erase(aln_it);
+      if (max_gap_length <= hsr.max_gap_length) {
+        if (aln_it != hsr_alignments.end()) {
+          // Filter out duplicate alignments, pick the highest scoring, longest duplicated alignment
+          if (((*aln_it).score < aln_res.score) || 
+              ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
+            hsr_alignments.erase(aln_it);
+            hsr_alignments.insert(aln_res);
+          }
+        } else if (aln_res.alignment.get_ref_offset() < hsr.overlap_offset) {
+          // Ignore alignments starting in the overlap region to prevent reporting duplicated
+          //   alignments across job borders
           hsr_alignments.insert(aln_res);
         }
-      } else if (aln_res.alignment.get_ref_offset() < hsr.overlap_offset) {
-        // Ignore alignments starting in the overlap region to prevent reporting duplicated
-        //   alignments across job borders
-        hsr_alignments.insert(aln_res);
       }
     }
 

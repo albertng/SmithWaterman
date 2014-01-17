@@ -185,12 +185,12 @@ void* ResultsReaderThread::ReadResults(void* args) {
 //   length extension at the front (bounded by the job boundaries).
 void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
   HighScoreRegion hsr;
-  hsr.query_id = job.query_id;
-  hsr.ref_id = job.ref_id;
-  hsr.chr_id = job.chr_id;
+  hsr.query_id       = job.query_id;
+  hsr.ref_id         = job.ref_id;
+  hsr.chr_id         = job.chr_id;
   hsr.overlap_offset = job.overlap_offset;
-  hsr.threshold = job.threshold;
-  hsr.params = job.params;
+  hsr.threshold      = job.threshold;
+  hsr.params         = job.params;
 
   int query_len;
   query_seq_manager->GetQuerySeq(job.query_id, &query_len);

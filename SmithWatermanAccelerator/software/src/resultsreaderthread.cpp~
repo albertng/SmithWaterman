@@ -133,9 +133,9 @@ void* ResultsReaderThread::ReadResults(void* args) {
                 if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   num_HSRs++;
-                  if (num_HSRs % 1000 == 0) {
+                  /*if (num_HSRs % 1000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
-                  }
+                  }*/
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                   //std::cout<<"Query " <<jobs[i][j].query_id<<" Decrement HSR count"<<std::endl;
                   states[i][j] = INIT;
@@ -145,17 +145,17 @@ void* ResultsReaderThread::ReadResults(void* args) {
                 } else if (IsValidBlock(jobs[i][j], high_score_block)) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   num_HSRs++;
-                  if (num_HSRs % 1000 == 0) {
+                  /*if (num_HSRs % 1000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
-                  }
+                  }*/
                   chsbs[i][j] = StartCHSB(high_score_block);
                   states[i][j] = IN_HSR;
                 } else {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   num_HSRs++;
-                  if (num_HSRs % 1000 == 0) {
+                  /*if (num_HSRs % 1000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
-                  }
+                  }*/
                   states[i][j] = INIT;
                 }
                 break;
@@ -185,18 +185,19 @@ void* ResultsReaderThread::ReadResults(void* args) {
 //   length extension at the front (bounded by the job boundaries).
 void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
   HighScoreRegion hsr;
-  hsr.query_id = job.query_id;
-  hsr.ref_id = job.ref_id;
-  hsr.chr_id = job.chr_id;
+  hsr.query_id       = job.query_id;
+  hsr.ref_id         = job.ref_id;
+  hsr.chr_id         = job.chr_id;
   hsr.overlap_offset = job.overlap_offset;
-  hsr.threshold = job.threshold;
-  hsr.params = job.params;
+  hsr.threshold      = job.threshold;
+  hsr.params         = job.params;
+  hsr.max_gap_length = job.max_gap_length;
 
   int query_len;
   query_seq_manager->GetQuerySeq(job.query_id, &query_len);
 
-  hsr.offset = (job.ref_offset/REF_BLOCK_LEN)*REF_BLOCK_LEN + chsb.block_offset * REF_BLOCK_LEN - 2*query_len;
-  hsr.len = chsb.num_blocks * REF_BLOCK_LEN + 2*query_len;
+  hsr.offset = (job.ref_offset/REF_BLOCK_LEN)*REF_BLOCK_LEN + chsb.block_offset * REF_BLOCK_LEN - query_len - job.max_gap_length;
+  hsr.len = chsb.num_blocks * REF_BLOCK_LEN + query_len + job.max_gap_length;
   
   // Left boundary check
   if (hsr.offset < job.ref_offset) {

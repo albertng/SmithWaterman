@@ -16,6 +16,7 @@
 //      Albert Ng   Oct 30 2013     Added END_OF_ENGINE_ALIGNMENT
 //      Albert Ng   Oct 31 2013     Added AlignmentResultComp
 //      Albert Ng   Jan 14 2013     Added fpga_id and engine_id to EngineJob
+//      Albert Ng   Jan 16 2013     Added max_gap_length
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -28,7 +29,7 @@
 #undef SIM_PICO
 
 // Server configuration definitions
-#define NUM_SW_THREADS 3
+#define NUM_SW_THREADS 12
 
 // Hardware Parameter definitions
 #define NUM_FPGAS 6
@@ -68,6 +69,7 @@ struct AlignmentJob {
   long long int ref_len;
   int threshold;
   SwAffineGapParams params; // Unused when query_id != PARAMS_JOB
+  int max_gap_length;
 };
 
 // Data structure holding an alignment job scheduled to an engine.
@@ -88,6 +90,7 @@ struct EngineJob {
   long long int fpga_len;
   int threshold;
   SwAffineGapParams params;
+  int max_gap_length;
 };
 
 // Data structure holding a potential high scoring alignment region
@@ -101,6 +104,7 @@ struct HighScoreRegion {
   long long int overlap_offset;
   int threshold;
   SwAffineGapParams params;
+  int max_gap_length;
 };
 
 // Data structure holding the traceback result of a high scoring alignment

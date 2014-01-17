@@ -100,11 +100,7 @@ void* SWThread::Align(void* args) {
   while(true) {
     // Grab available high scoring region
     HighScoreRegion hsr = hsr_queue->Pop();
-    stats->job_count++;
-    
-#ifdef SWTIMING
-    clock_gettime(CLOCK_MONOTONIC, &start);
-#endif    
+    stats->job_count++;   
     
     int ref_len = hsr.len;
     int query_len;
@@ -115,6 +111,10 @@ void* SWThread::Align(void* args) {
     hsr.params.GetSubMat(sub_mat);
     gap_open = hsr.params.GetGapOpen();
     gap_extend = hsr.params.GetGapExtend();
+    
+#ifdef SWTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif
     
     // Initialize new score matrices
     int** v_matrix = new int*[ref_len + 1];       // Score matrix

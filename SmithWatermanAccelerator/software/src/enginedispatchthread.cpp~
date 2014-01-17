@@ -9,6 +9,7 @@
 //                                  Set scoring params between query groups
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 14 2013     Added ref seq banking
+//      Albert Ng   Jan 16 2013     Added max gap length
 
 #include <pthread.h>
 #include <stdlib.h>
@@ -80,6 +81,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
               << " " << aln_job.ref_len 
               << " " << aln_job.threshold
               << " " << aln_job.params.ToString()
+              << " " << aln_job.max_gap_length
               << std::endl;*/
     int query_id = aln_job.query_id;
     
@@ -98,6 +100,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
       long long int ref_offset = aln_job.ref_offset;
       long long int ref_len = aln_job.ref_len;
       int threshold = aln_job.threshold;
+      int max_gap_length = aln_job.max_gap_length;
 
       // Get ref seq banks that contain the requested region for this alignment
       std::vector<RefSeqManager::RefSeqBank> locs = ref_seq_manager->GetRefSeqBanks(ref_id, chr_id, ref_offset, ref_offset + ref_len);
@@ -121,14 +124,15 @@ void* EngineDispatchThread::Dispatch(void* args) {
         long long int cur_offset = loc.start_coord;
         for (int i = 0; i < num_jobs; i++) {
           EngineJob job;
-          job.fpga_id    = loc.fpga;
-          job.engine_id  = i;
-          job.query_id   = query_id;
-          job.ref_id     = ref_id;
-          job.chr_id     = chr_id;
-          job.threshold  = threshold;
-          job.params     = params;
-          job.ref_offset = cur_offset;
+          job.fpga_id        = loc.fpga;
+          job.engine_id      = i;
+          job.query_id       = query_id;
+          job.ref_id         = ref_id;
+          job.chr_id         = chr_id;
+          job.threshold      = threshold;
+          job.params         = params;
+          job.max_gap_length = max_gap_length;
+          job.ref_offset     = cur_offset;
 
           // Compute job length
           job.ref_len = (i < ref_len % num_jobs) ?                      // Distribute jobs evenly
@@ -173,11 +177,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
                     query_len,
                     job.fpga_len,
                     job.fpga_addr,
-                    threshold);
-                    
-        // TEST
-        assert(job.ref_id < 1);
-                    
+                    threshold);                    
         engine_job_queues[job.fpga_id][job.engine_id].Push(job);
       }
     }

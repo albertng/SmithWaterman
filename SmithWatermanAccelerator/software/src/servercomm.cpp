@@ -150,6 +150,7 @@ bool ServerComm::Action(std::string line,
         long long int ref_start;
         long long int ref_end;
         int threshold;
+        int max_gap_length;
         std::string query_seq;
         
         std::istringstream iss(line);

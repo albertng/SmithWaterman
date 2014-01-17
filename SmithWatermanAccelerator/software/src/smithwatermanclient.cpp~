@@ -9,6 +9,8 @@
 //      Albert Ng   Nov 05 2013     Added handshaking
 //      Albert Ng   Nov 06 2013     Removed handshaking
 //      Albert Ng   Nov 19 2013     Send chromosome name
+//      Albert Ng   Jan 16 2013     Added HOXD55, HOXD70
+//                                  Added max gap length
 
 #include <iostream>
 #include <stdio.h>
@@ -28,6 +30,7 @@ static const int CHR_NAME_FIELD = 2;
 static const int REF_START_FIELD = 3;
 static const int REF_END_FIELD = 4;
 static const int THRESHOLD_FIELD = 5;
+static const int MAX_GAP_LENGTH_FIELD = 6;
 
 bool TrySend(ClientSocket* client_socket, std::string msg) {
   if (!client_socket->Send(msg)) {
@@ -47,14 +50,14 @@ bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, ch
      << seq_str << " " 
      << descrip[REF_NAME_FIELD] << " " 
      << descrip[CHR_NAME_FIELD] << " ";
-  if (descrip.size() == 4) {
-    ss << "1" << " "
-       << "2" << " "
-       << descrip[THRESHOLD_FIELD - 2];
+  if (descrip.size() == 5) {
+    ss << descrip[THRESHOLD_FIELD - 2] << " ";
+    ss << descrip[MAX_GAP_LENGTH_FIELD - 2];
   } else {
     ss << descrip[REF_START_FIELD] << " " 
        << descrip[REF_END_FIELD] << " "
-       << descrip[THRESHOLD_FIELD];
+       << descrip[THRESHOLD_FIELD] << " "
+       << descrip[MAX_GAP_LENGTH_FIELD];
   }
 
   return TrySend(client_socket, ss.str());
@@ -66,8 +69,14 @@ bool SendEndOfQueryGroup(ClientSocket* client_socket) {
   
 void PrintQuery(std::vector<std::string> descrip, char* seq, int length) {
   std::string seq_str(seq, length);
-  std::cout<<descrip[QUERY_NAME_FIELD]<<" "<<seq_str<<" "<<descrip[REF_NAME_FIELD]<<" "
-          <<descrip[REF_START_FIELD]<<" "<<descrip[REF_END_FIELD]<<" "<<descrip[THRESHOLD_FIELD]<<std::endl;
+  std::cout << descrip[QUERY_NAME_FIELD] << " "
+            << seq_str << " " 
+            << descrip[REF_NAME_FIELD] << " "
+            << descrip[REF_START_FIELD] << " "
+            << descrip[REF_END_FIELD] << " "
+            << descrip[THRESHOLD_FIELD] << " "
+            << descrip[MAX_GAP_LENGTH_FIELD]
+            << std::endl;
 }
 
 bool SendQueryGroup(ClientSocket* client_socket,
@@ -96,14 +105,15 @@ bool CheckQueryFileParse(std::string filename, std::vector<std::string> descrips
   int start;
   int end;
   int threshold;
+  int max_gap_length;
   
   // Check number of description fields
-  if (descrips.size() != 6 && (descrips.size() != 4 || descrips[CHR_NAME_FIELD] != ALL_CHROM)) {
+  if (descrips.size() != 7 && (descrips.size() != 5 || descrips[CHR_NAME_FIELD] != ALL_CHROM)) {
     std::cerr << descrips[QUERY_NAME_FIELD] << ": Unexpected number of fields in sequence description" << std::endl;
     return false;
   }
   
-  if (descrips.size() == 4) {
+  if (descrips.size() == 5) {
     if (descrips[CHR_NAME_FIELD] != ALL_CHROM) {
       std::cerr << descrips[QUERY_NAME_FIELD] << ": Expected " << ALL_CHROM << "in field " << CHR_NAME_FIELD+1 << " in sequence description" << std::endl;
       return false;
@@ -118,7 +128,7 @@ bool CheckQueryFileParse(std::string filename, std::vector<std::string> descrips
   }
   
   // Check start coordinate
-  if (descrips.size() == 6) {
+  if (descrips.size() == 7) {
     std::istringstream iss1(descrips[REF_START_FIELD]);
     iss1.exceptions(std::ios::failbit);
     try {
@@ -164,6 +174,21 @@ bool CheckQueryFileParse(std::string filename, std::vector<std::string> descrips
     return false;
   }
   
+  // Check max gap length
+  std::istringstream iss4(descrips[MAX_GAP_LENGTH_FIELD]);
+  iss4.exceptions(std::ios::failbit);
+  try {
+    iss4 >> max_gap_length;
+    //std::cout<<max_gap_length<<std::endl;
+    if (max_gap_length < 0) {
+      std::cerr << descrips[QUERY_NAME_FIELD] << ": Invalid max gap length " << descrips[MAX_GAP_LENGTH_FIELD] << std::endl;
+      return false;
+    }
+  } catch (std::ios_base::failure &e) {
+    std::cerr << descrips[QUERY_NAME_FIELD] << ": Invalid max gap length " << descrips[MAX_GAP_LENGTH_FIELD] << std::endl;
+    return false;
+  }
+  
   // Check query sequence characters
   for (int i = 0; i < length; i++) {
     if (seq[i] != 'n' && seq[i] != 'N' &&
@@ -205,7 +230,9 @@ int main(int argc, char *argv[]) {
     ClientSocket client_socket("localhost", 30000);
     
     // Send query group
-    SwAffineGapParams params("2 -2 -2 -2 2 -2 -2 2 -2 2 -2 -1");
+    //SwAffineGapParams params("2 -2 -2 -2 2 -2 -2 2 -2 2 -2 -1"); // Simple scoring
+    SwAffineGapParams params("91 -90 -25 -100 100 -100 -25 100 -90 91 -400 -30"); // HOXD55
+    //SwAffineGapParams params("91 -114 -31 -123 100 -125 -31 100 -114 91 -400 -30"); // HOXD70
     SendQueryGroup(&client_socket, params, descrips, seqs, lengths);
 
     // Receive and print alignments

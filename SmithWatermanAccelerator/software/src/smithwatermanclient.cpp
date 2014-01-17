@@ -9,6 +9,7 @@
 //      Albert Ng   Nov 05 2013     Added handshaking
 //      Albert Ng   Nov 06 2013     Removed handshaking
 //      Albert Ng   Nov 19 2013     Send chromosome name
+//      Albert Ng   Jan 16 2013     Added HOXD55, HOXD70
 
 #include <iostream>
 #include <stdio.h>
@@ -47,7 +48,7 @@ bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, ch
      << seq_str << " " 
      << descrip[REF_NAME_FIELD] << " " 
      << descrip[CHR_NAME_FIELD] << " ";
-  if (descrip.size() == 4) {
+  if (descrip.size() == 5) {
     ss << descrip[THRESHOLD_FIELD - 2];
   } else {
     ss << descrip[REF_START_FIELD] << " " 
@@ -64,8 +65,12 @@ bool SendEndOfQueryGroup(ClientSocket* client_socket) {
   
 void PrintQuery(std::vector<std::string> descrip, char* seq, int length) {
   std::string seq_str(seq, length);
-  std::cout<<descrip[QUERY_NAME_FIELD]<<" "<<seq_str<<" "<<descrip[REF_NAME_FIELD]<<" "
-          <<descrip[REF_START_FIELD]<<" "<<descrip[REF_END_FIELD]<<" "<<descrip[THRESHOLD_FIELD]<<std::endl;
+  std::cout << descrip[QUERY_NAME_FIELD] << " "
+            << seq_str << " " 
+            << descrip[REF_NAME_FIELD] << " "
+            << descrip[REF_START_FIELD] << " "
+            << descrip[REF_END_FIELD] << " "
+            << descrip[THRESHOLD_FIELD]<<std::endl;
 }
 
 bool SendQueryGroup(ClientSocket* client_socket,
@@ -203,7 +208,9 @@ int main(int argc, char *argv[]) {
     ClientSocket client_socket("localhost", 30000);
     
     // Send query group
-    SwAffineGapParams params("2 -2 -2 -2 2 -2 -2 2 -2 2 -2 -1");
+    //SwAffineGapParams params("2 -2 -2 -2 2 -2 -2 2 -2 2 -2 -1"); // Simple scoring
+    SwAffineGapParams params("91 -90 -25 -100 100 -100 -25 100 -90 91 -400 -30"); // HOXD55
+    //SwAffineGapParams params("91 -114 -31 -123 100 -125 -31 100 -114 91 -400 -30"); // HOXD70
     SendQueryGroup(&client_socket, params, descrips, seqs, lengths);
 
     // Receive and print alignments

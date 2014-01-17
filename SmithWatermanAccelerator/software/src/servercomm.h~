@@ -5,6 +5,7 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 16 2013     Added max gap length
 
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
@@ -26,6 +27,7 @@
 #define SYNTAX_ERROR_REFSTARTEND 0x20
 #define SYNTAX_ERROR_QUERYDESCRIP 0x40
 #define SYNTAX_ERROR_PARAMS 0x80
+#define SYNTAX_ERROR_MAXGAPLENGTH 0x100
 #define SYNTAX_ERROR_QUERYSEQ_STR "Error in query sequence.\n"
 #define SYNTAX_ERROR_REFNAME_STR "Error in ref seq name.\n"
 #define SYNTAX_ERROR_CHRNAME_STR "Error in chr seq name.\n"
@@ -34,8 +36,7 @@
 #define SYNTAX_ERROR_REFSTARTEND_STR "Error in ref seq indices.\n"
 #define SYNTAX_ERROR_QUERYDESCRIP_STR "Error in query description line.\n"
 #define SYNTAX_ERROR_PARAMS_STR "Error in scoring parameters.\n"
-
-#define ALL_CHROM "ALLCHR"
+#define SYNTAX_ERROR_MAXGAPLENGTH_STR "Error in max gap length.\n"
 
 class ServerComm {
   public:

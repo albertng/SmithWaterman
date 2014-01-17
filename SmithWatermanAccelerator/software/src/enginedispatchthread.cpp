@@ -121,14 +121,14 @@ void* EngineDispatchThread::Dispatch(void* args) {
         long long int cur_offset = loc.start_coord;
         for (int i = 0; i < num_jobs; i++) {
           EngineJob job;
-          job.fpga_id    = loc.fpga;
-          job.engine_id  = i;
-          job.query_id   = query_id;
-          job.ref_id     = ref_id;
-          job.chr_id     = chr_id;
-          job.threshold  = threshold;
-          job.params     = params;
-          job.ref_offset = cur_offset;
+          job.fpga_id        = loc.fpga;
+          job.engine_id      = i;
+          job.query_id       = query_id;
+          job.ref_id         = ref_id;
+          job.chr_id         = chr_id;
+          job.threshold      = threshold;
+          job.params         = params;
+          job.ref_offset     = cur_offset;
 
           // Compute job length
           job.ref_len = (i < ref_len % num_jobs) ?                      // Distribute jobs evenly

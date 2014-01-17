@@ -207,9 +207,9 @@ int main(int argc, char *argv[]) {
       total_backtrace_time += stats.backtrace_time;
     }
     double total_time = total_init_time + total_compute_time + total_backtrace_time;
-    std::cout << total_init_time / total_time << "% init, " 
-              << total_compute_time / total_time << "% compute, "
-              << total_backtrace_time / total_time << "%backtrace"
+    std::cout << (total_init_time / total_time)*100 << "% init, " 
+              << (total_compute_time / total_time)*100 << "% compute, "
+              << (total_backtrace_time / total_time)*100 << "% backtrace"
               << std::endl;
 #endif
   }
