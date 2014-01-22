@@ -59,7 +59,6 @@ std::ifstream* RefSeqManager::GetRefSeqFD(int ref_id) {
   file->open(filename.c_str());
   
   while(file->is_open() == false) {
-    std::cout << "Woops, failed to open " << filename << std::endl;
     file->open(filename.c_str());
   }
   

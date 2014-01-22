@@ -119,7 +119,7 @@ class RefSeqManager {
     long long int cur_block_[NUM_FPGAS];
 
     // Sequence length count
-    long long total_ref_length_;
+    long long total_ref_length;
 
     // Amount of overlap between banks of a ref seq
     static const int kOverlapLength = MAX_QUERY_LEN;
