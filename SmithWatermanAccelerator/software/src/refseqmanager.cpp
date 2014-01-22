@@ -7,7 +7,8 @@
 //      Albert Ng   Oct 29 2013     Uses fasta.h to parse FASTA files
 //      Albert Ng   Nov 01 2013     Added GetRefName()
 //      Albert Ng   Nov 19 2013     Added chromosomes
-//      Albert Ng   Jan 14 2013     Added ref seq banking
+//      Albert Ng   Jan 14 2014     Added ref seq banking
+//      Albert Ng   Jan 21 2014     Changed to ref seq file seeking
 
 #include "def.h"
 #include <stdlib.h>
@@ -50,26 +51,42 @@ void RefSeqManager::Init(PicoDrv** pico_drivers) {
   pico_drivers_ = pico_drivers;
 }
 
-char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len) {
-  if (ref_id >= ref_seq_.size() || ref_id < 0) {
-    std::cout<<"Ref ID " << ref_id << " ref_seq_.size() " << ref_seq_.size() << std::endl;
-  }
-  assert(ref_id < ref_seq_.size() && ref_id >= 0);
-  assert(ref_offset + ref_len <= ref_length_[ref_id][chr_id]);
-  char* ref_seq = ref_seq_[ref_id][chr_id];
-  return &(ref_seq[ref_offset]);
+std::ifstream* RefSeqManager::GetRefSeqFD(int ref_id) {
+  std::string filename = ref_file_[ref_id];
+  std::ifstream* file = new std::ifstream;
+  file->open(filename.c_str());
+  
+  return file;
 }
 
-/*long long int RefSeqManager::GetRefAddr(int ref_id, int chr_id) {
-  assert(ref_id < ref_addr_.size());
-  assert(chr_id < ref_addr_[ref_id].size());
-  return ref_addr_[ref_id][chr_id];
-}*/
+char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len) {
+  assert(ref_id < ref_name_.size() && ref_id >= 0);
+  assert(ref_offset + ref_len <= chr_length_[ref_id][chr_id]);
+  
+  std::ifstream* file = GetRefSeqFD(ref_id);
+  assert(file->is_open());
+  
+  file->seekg(chr_filepos_[ref_id][chr_id] + ref_offset + (ref_offset / SEQLINE_WRAP_LEN));
+  long long int cur_len = 0;
+  std::string line;
+  std::string seqline;
+  while (seqline.size() < ref_len && getline(*file, line)) {
+    seqline += line;
+    if (seqline.size() > ref_len) {
+      seqline.resize(ref_len);
+    }
+  }
+  
+  char* seq = new char[ref_len];
+  seqline.copy(seq, ref_len);
+  
+  return seq;
+}
 
 long long int RefSeqManager::GetRefLength(int ref_id, int chr_id) {
-  assert(ref_id < ref_length_.size());
-  assert(chr_id < ref_length_[ref_id].size());
-  return ref_length_[ref_id][chr_id];
+  assert(ref_id < chr_length_.size());
+  assert(chr_id < chr_length_[ref_id].size());
+  return chr_length_[ref_id][chr_id];
 }
 
 int RefSeqManager::GetRefID(std::string ref_name) {
@@ -107,79 +124,17 @@ std::string RefSeqManager::GetChrName(int ref_id, int chr_id) {
   return chr_name_[ref_id][chr_id];
 }
 
-/*void RefSeqManager::AddRef(std::string filename, std::string ref_name) {
+void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
   std::vector<std::vector<std::string> > descrips;
   std::vector<char*> seqs;
   std::vector<int> lengths;
-  
-  ParseFastaFile(filename, &descrips, &seqs, &lengths);
-
-  int ref_id;
-  if (ref_id_.count(ref_name) == 0) {
-    ref_id = ref_name_.size();
-    ref_id_[ref_name] = ref_id;
-    
-    std::map<std::string, int> chr_id_v;
-    chr_id_.push_back(chr_id_v);
-    
-    ref_name_.push_back(ref_name);
-    
-    std::vector<std::string> chr_name_v;
-    chr_name_.push_back(chr_name_v);
-    
-    std::vector<char*> ref_seq_v;
-    ref_seq_.push_back(ref_seq_v);
-    
-    std::vector<long long int> ref_addr_v;
-    ref_addr_.push_back(ref_addr_v);
-    
-    std::vector<long long int> ref_length_v;
-    ref_length_.push_back(ref_length_v);
-  } else {
-    ref_id = ref_id_[ref_name];
-  }
-    
-  for (int i = 0; i < seqs.size(); i++) {     
-    // Stream ref seq to DRAM
-    StreamRefSeq(seqs[i], ((long long int) cur_block_) * (REF_BLOCK_LEN/4), lengths[i]);
-    
-    // Record ref seq information
-    int chr_id = chr_name_[ref_id].size();
-    chr_id_[ref_id][descrips[i][CHR_NAME_FIELD]] = chr_id;
-    chr_name_[ref_id].push_back(descrips[i][CHR_NAME_FIELD]);
-    ref_seq_[ref_id].push_back(seqs[i]);
-    ref_addr_[ref_id].push_back(cur_block_);
-    ref_length_[ref_id].push_back(lengths[i]);
-
-    std::cout << "Ref ID: " << ref_id << "\tRef Name: " << ref_name_[ref_id] 
-              << "\tChr ID: " << chr_id << "\tChr Name: " << chr_name_[ref_id][chr_id]
-              << "\tRef Len: " << ref_length_[ref_id][chr_id] << "\tRef Addr: " << ref_addr_[ref_id][chr_id]
-              << std::endl;
-
-    //std::cout<<"Ref ID: "<<cur_ref_id_<<"\tName: "<<ref_name_[cur_ref_id_]<<"\tRef Len: "<<ref_length_[cur_ref_id_]<<"\tRef Addr: "<<ref_addr_[cur_ref_id_]<<std::endl;
-    //for (int j = 0; j < ref_length_[cur_ref_id_]; j++) {
-    //  std::cout<<seqs[i][j];
-    //}
-    //std::cout << '\n' << std::endl;
-
-    // Move to next ref seq
-    if (lengths[i] % REF_BLOCK_LEN == 0) {
-      cur_block_ += (lengths[i] / REF_BLOCK_LEN);
-    } else {
-      cur_block_ += ((lengths[i] / REF_BLOCK_LEN) + 1);
-    }
-  }
-}*/
-
-void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_name) {
-  std::vector<std::vector<std::string> > descrips;
-  std::vector<char*> seqs;
-  std::vector<int> lengths;
+  std::vector<long long int> fileposs;
 
   // Parse FASTA files
-  for (int i = 0; i < ref_files.size(); i++) {
-    ParseFastaFile(ref_files[i], &descrips, &seqs, &lengths);
-  }
+  ParseFastaFile(ref_file, &descrips, &seqs, &lengths, &fileposs);
+  assert(descrips.size() == seqs.size());
+  assert(seqs.size() == lengths.size());
+  assert(length.size() == fileposs.size());
   
   // Compute ref seq bank lengths
   long long int total_num_blocks = 0;
@@ -200,8 +155,9 @@ void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_n
   int ref_id = ref_name_.size();
   std::map<std::string, int> chr_ids;
   std::vector<std::string> chr_names;
-  std::vector<char*> chr_seqs;
+  //std::vector<char*> chr_seqs;
   std::vector<long long int> chr_lengths;
+  std::vector<long long int> chr_filepos;
   std::vector<std::vector<RefSeqBank> > ref_seq_bank_infos;
   int cur_fpga = 0;
   int num_blocks_stored = 0;
@@ -211,8 +167,9 @@ void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_n
     int chr_id = chr_names.size();
     chr_ids[descrips[i][CHR_NAME_FIELD]] = chr_id;
     chr_names.push_back(descrips[i][CHR_NAME_FIELD]);
-    chr_seqs.push_back(seqs[i]); // TODO: Probably change this when doing cache management
+    //chr_seqs.push_back(seqs[i]);
     chr_lengths.push_back(lengths[i]);
+    chr_filepos.push_back(fileposs[i]);
     
     long long int cur_offset = 0;
     std::vector<RefSeqBank> chr_seq_region_infos;
@@ -244,6 +201,8 @@ void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_n
                 << "\tFPGA: "           << cur_fpga
                 << "\tAddress: "        << cur_block_[cur_fpga]
                 << std::endl;*/
+                
+      // Store the chromosome bank information
       RefSeqBank loc;
       loc.fpga = cur_fpga;
       loc.start_coord = cur_offset;
@@ -268,16 +227,23 @@ void RefSeqManager::AddRef(std::vector<std::string> ref_files, std::string ref_n
 
   // Record reference sequence metadata
   ref_name_.push_back(ref_name);
+  ref_file_.push_back(ref_file);
   ref_id_[ref_name] = ref_id;
   chr_id_.push_back(chr_ids);
   chr_name_.push_back(chr_names);
-  ref_seq_.push_back(chr_seqs);
-  ref_length_.push_back(chr_lengths);
+  chr_filepos_.push_back(chr_filepos);
+  chr_length_.push_back(chr_lengths);
+  //ref_seq_.push_back(chr_seqs);
   ref_seq_bank_info_.push_back(ref_seq_bank_infos);
   
   /*for (int i = 0; i < NUM_FPGAS; i++) {
     std::cout << "cur_block_[i] " << cur_block_[i] << std::endl;
   }*/
+  
+  // Clean up ref seq memory
+  for (int i = 0; i < seqs.size(); i++) {
+    delete seqs[i];
+  }
 }
 
 void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr, long long int ref_length) {
@@ -285,7 +251,7 @@ void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr
   //std::cout << "Streaming to FPGA " << fpga << "\tRef addr " << ref_addr << "\t Ref len " << ref_length << std::endl;
 
   // Compute length of 2-bit formatted ref seq buffer
-  // Pad ref seq buffer to hold a multiple of REF_BLOCK_LEN nucleotides
+  //   Pad ref seq buffer to hold a multiple of REF_BLOCK_LEN nucleotides
   long long int twobit_buf_length = ((long long int) ceil(((double) ref_length) / REF_BLOCK_LEN)) * (REF_BLOCK_LEN / 4);
 
   // Build 2-bit formatted ref seq buffer

@@ -16,6 +16,7 @@
 //      Albert Ng   Oct 31 2013     Now reports all alignments above threshold
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 15 2013     Added job count
+//      Albert Ng   Jan 24 2013     Free ref seq storage at end of SWThread
 
 #include <list>
 #include <set>
@@ -286,6 +287,7 @@ void* SWThread::Align(void* args) {
     }
 
     // Memory cleanup
+    delete[] ref_seq;
     for (int i = 0; i < ref_len + 1; i++) {
       delete[] v_matrix[i];
       delete[] e_matrix[i];

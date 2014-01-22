@@ -1,7 +1,12 @@
 #include <iostream>
-#include <math.h>
+#include <fstream>
 
-int main(void) {
-  int x = 5;
-  std::cout<<ceil(((float)x)/4)<<std::endl;
+int main(int argc, char* argv[]) {
+	std::ifstream file(argv[1]);
+	std::string line;
+	long long int cur_pos;
+	while (getline(file, line)) {
+		std::cout << file.tellg() << std::endl;
+		std::cout << line << std::endl;;
+	}
 }

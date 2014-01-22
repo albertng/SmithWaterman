@@ -10,6 +10,7 @@
 //      Albert Ng   Nov 06 2013     Removed handshaking
 //      Albert Ng   Nov 19 2013     Send chromosome name
 //      Albert Ng   Jan 16 2013     Added HOXD55, HOXD70
+//      Albert Ng   Jan 21 2014     Added file positions
 
 #include <iostream>
 #include <stdio.h>
@@ -191,12 +192,13 @@ int main(int argc, char *argv[]) {
   std::vector<std::vector<std::string> > descrips;
   std::vector<char*> seqs;
   std::vector<int> lengths;
+  std::vector<long long int> fileposs;
   
   // Parse the files
   bool parse_good = true;
   for (int i = 1; i < argc; i++) {
     std::string filename(argv[i]);
-    ParseFastaFile(filename, &descrips, &seqs, &lengths);
+    ParseFastaFile(filename, &descrips, &seqs, &lengths, &fileposs);
     
     if (!CheckQueryFileParse(filename, descrips[i-1], seqs[i-1], lengths[i-1])) {
       parse_good = false;

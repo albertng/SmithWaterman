@@ -42,7 +42,6 @@ int main (int argc, char *argv[]) {
 
   file.seekg(5);
   file.read(buffer, 100);
-  file.close();
 
 #ifdef __MACH__
   host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
@@ -53,6 +52,8 @@ int main (int argc, char *argv[]) {
 #else
   clock_gettime(CLOCK_MONOTONIC, &finish);
 #endif
+
+  file.close();
 
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;

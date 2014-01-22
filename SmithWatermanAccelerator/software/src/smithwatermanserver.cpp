@@ -108,16 +108,19 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   for (int i = 2; i < argc; i++) {
-    std::string ref_dir(ref_parentdir);
-    ref_dir += "/";
-    ref_dir += argv[i];
-    std::vector<std::string> ref_files;
+    std::string ref_file(ref_parentdir);
+    ref_file += "/";
+    ref_file += argv[i];
+    ref_file += ".fa";
+    /*std::vector<std::string> ref_files;
     if (GetFastaFiles(ref_dir, &ref_files) != 0) {
       return 1;
-    }
+    }*/
+
     
     std::cout << "Loading reference " << argv[i] << "..." << std::endl;
-    ref_seq_manager.AddRef(ref_files, std::string(argv[i]));
+    //ref_seq_manager.AddRef(ref_files, std::string(argv[i]));
+    ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
   }
   
   // Set up engine job queues
