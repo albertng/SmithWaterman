@@ -228,7 +228,7 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    std::cout << out_str << std::flush;
+    std::cout << out_str << std::endl;
   }
 }
   

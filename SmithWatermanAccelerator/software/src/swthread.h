@@ -26,6 +26,7 @@
 //      Albert Ng   Oct 09 2013     Added query seq manager
 //      Albert Ng   Oct 22 2013     Removed params and params_mutex member variables
 //      Albert Ng   Jan 15 2013     Added SWThreadStats
+//      Albert Ng   Jan 22 2014     Changed matrix memory allocation to a managed allocation
 
 #ifndef SWTHREAD_H_
 #define SWTHREAD_H_
@@ -57,18 +58,23 @@ class SWThread {
     void Run();  
 
     // Join the thread
-    // Can't be used for now, since the thread infinite loops and never terminates
+    //   Can't be used for now, since the thread infinite loops and never terminates
     void Join();
 
+    // Performance statistics
     struct SWThreadStats {
       long long int job_count;
+      double ref_seq_time;
+      double alloc_time;
       double init_time;
       double compute_time;
       double backtrace_time;
     };
-
     SWThreadStats GetStats();
     void ResetStats();
+
+    // Reset the memory allocation for the matrices
+    void ResetMatrices();
 
   private:
     // Enumeration of possible alignment operations
@@ -88,8 +94,17 @@ class SWThread {
       // Pointer to shared query sequence manager
       QuerySeqManager* query_seq_manager;
       
-      // Statistics
+      // Pointer to statistics structure
       SWThreadStats* stats;
+      
+      // Pointers to scoring matrices
+      int*** v_matrix;
+      int*** e_matrix;
+      int*** f_matrix;
+      AlnOp*** dir_matrix;
+      int* matrix_rows;
+      int* matrix_cols;
+      pthread_mutex_t* matrices_mutex;
     };
 
     // Data structure representing an individual DP matrix cell
@@ -122,6 +137,9 @@ class SWThread {
     //   and storing results in the result_queue
     static void* Align(void* args);
 
+    // Helper function to resize the matrices to the given dimensions
+    static void ResizeMatrices(int*** v_matrix, int*** e_matrix, int*** f_matrix, AlnOp*** dir_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
+
     // Actual pthread instance
     pthread_t thread_;
     
@@ -130,6 +148,15 @@ class SWThread {
     
     // Statistics
     SWThreadStats stats_;
+    
+    // Scoring matrices 
+    int** v_matrix_;     // Score matrix
+    int** e_matrix_;     // Insertion score matrix
+    int** f_matrix_;     // Deletion score matrix
+    AlnOp** dir_matrix_; // Alignment ops for score matrix
+    int matrix_rows_;    // Current number of rows in matrices
+    int matrix_cols_;    // Current number of cols in matrices
+    pthread_mutex_t matrices_mutex_;
 };
 
 #endif // SWTHREAD_H_

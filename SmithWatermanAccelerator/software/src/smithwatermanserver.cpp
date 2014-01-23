@@ -151,16 +151,18 @@ int main(int argc, char *argv[]) {
   struct timespec start, finish;
   double elapsed;
   while (true) {
+    for (int i = 0; i < NUM_SW_THREADS; i++) {
+      swthreads[i].ResetStats();
+      swthreads[i].ResetMatrices();
+    }
+    num_hits = 0;
+    
     // Parse the query group and initiate alignment
     unsigned int errors;
     std::vector<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
                                                            &query_seq_manager,
                                                            &ref_seq_manager,
                                                            &errors);
-    for (int i = 0; i < NUM_SW_THREADS; i++) {
-      swthreads[i].ResetStats();
-    }
-    num_hits = 0;
     
 #ifdef SWSERVERTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -200,17 +202,23 @@ int main(int argc, char *argv[]) {
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     std::cout << num_hits <<  " hits found in " << elapsed << " seconds" << std::endl;
 
+    double total_ref_seq_time = 0;
+    double total_alloc_time = 0;
     double total_init_time = 0;
     double total_compute_time = 0;
     double total_backtrace_time = 0;
     for (int i = 0; i < NUM_SW_THREADS; i++) {
       SWThread::SWThreadStats stats = swthreads[i].GetStats();
+      total_ref_seq_time += stats.ref_seq_time;
+      total_alloc_time += stats.alloc_time;
       total_init_time += stats.init_time;
       total_compute_time += stats.compute_time;
       total_backtrace_time += stats.backtrace_time;
     }
-    double total_time = total_init_time + total_compute_time + total_backtrace_time;
-    std::cout << (total_init_time / total_time)*100 << "% init, " 
+    double total_time = total_ref_seq_time + total_alloc_time + total_init_time + total_compute_time + total_backtrace_time;
+    std::cout << (total_ref_seq_time / total_time)*100 << "% ref seq, "
+              << (total_alloc_time / total_time)*100 << "% alloc, "
+              << (total_init_time / total_time)*100 << "% init, " 
               << (total_compute_time / total_time)*100 << "% compute, "
               << (total_backtrace_time / total_time)*100 << "% backtrace"
               << std::endl;

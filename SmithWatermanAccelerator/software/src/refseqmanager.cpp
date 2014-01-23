@@ -87,7 +87,7 @@ char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset,
   char* seq = new char[ref_len];
   seqline.copy(seq, ref_len);
   
-  // TEST
+  // TEST - REMOVE WHEN DOING CACHE
   file->close();
   delete file;
   
