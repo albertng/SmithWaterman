@@ -112,16 +112,11 @@ int main(int argc, char *argv[]) {
     ref_file += "/";
     ref_file += argv[i];
     ref_file += ".fa";
-    /*std::vector<std::string> ref_files;
-    if (GetFastaFiles(ref_dir, &ref_files) != 0) {
-      return 1;
-    }*/
-
     
     std::cout << "Loading reference " << argv[i] << "..." << std::endl;
-    //ref_seq_manager.AddRef(ref_files, std::string(argv[i]));
     ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
   }
+  std::cout << "Loaded " << ref_seq_manager.GetTotalRefLength() << " nucleotides total." << std::endl;
   
   // Set up engine job queues
   engine_job_queues = new ThreadQueue<EngineJob>*[NUM_FPGAS];
@@ -167,7 +162,6 @@ int main(int argc, char *argv[]) {
 #ifdef SWSERVERTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
-    
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
     bool group_done = false;

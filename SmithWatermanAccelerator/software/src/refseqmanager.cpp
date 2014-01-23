@@ -9,8 +9,10 @@
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 14 2014     Added ref seq banking
 //      Albert Ng   Jan 21 2014     Changed to ref seq file seeking
+//      Albert Ng   Jan 22 2014     Added ref seq file descriptor LRU management
 
 #include "def.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
@@ -32,11 +34,6 @@
 static const int CHR_NAME_FIELD = 0;
 
 RefSeqManager::RefSeqManager() {
-  //cur_block_ = 0;
-  for (int i = 0; i < NUM_FPGAS; i++) {
-    cur_block_[i] = 0;
-  }
-  srand(time(NULL));
 }
 
 RefSeqManager::RefSeqManager(PicoDrv** pico_drivers) {
@@ -44,31 +41,96 @@ RefSeqManager::RefSeqManager(PicoDrv** pico_drivers) {
 }
 
 void RefSeqManager::Init(PicoDrv** pico_drivers) {
-  //cur_block_ = 0;
+  srand(time(NULL));
+  
   for (int i = 0; i < NUM_FPGAS; i++) {
     cur_block_[i] = 0;
   }
   pico_drivers_ = pico_drivers;
-  
   total_ref_length_ = 0;
+  
+  pthread_mutex_init(&ref_fd_listmap_mutex_, NULL);
 }
 
+// Maintains a LRU "cache" of ref seq file descriptors.
+//   The cache is implemented using a doubly linked list of
+//   recent use history, and a map between ref seq ID and the 
+//   linked list node pointer (iterator). When accessing a 
+//   ref seq file, there are three cases:
+// Case 1: File already open
+//   Look up the linked list node of the ref seq from the map.
+//   Move node to the head of the list.
+//   Update linked list node pointer in map.
+// Case 2: File not open, maximum open files not reached
+//   Open the file and add to front of the list.
+//   Update linked list node pointer in map.
+// Case 3: File not open, maximum open files reached
+//   Close and remove LRU file from linked list and map.
+//   Open the file and add to front of the list.
+//   Update linked list node pointer in map.
 std::ifstream* RefSeqManager::GetRefSeqFD(int ref_id) {
-  std::string filename = ref_file_[ref_id];
-  std::ifstream* file = new std::ifstream;
-  file->open(filename.c_str());
-  
-  while(file->is_open() == false) {
-    std::cout << "Woops, failed to open " << filename << std::endl;
-    file->open(filename.c_str());
+  pthread_mutex_lock(&ref_fd_listmap_mutex_);
+
+  if (ref_fd_map_.count(ref_id) != 0) {               // Case 1
+    ref_fd_list_.push_front(*(ref_fd_map_[ref_id]));
+    ref_fd_list_.erase(ref_fd_map_[ref_id]);
+    ref_fd_map_[ref_id] = ref_fd_list_.begin();
+  } else if (ref_fd_list_.size() < kMaxNumFiles) {    // Case 2
+    std::ifstream* file = new std::ifstream;
+    while(file->is_open() == false) {
+      file->open(ref_file_[ref_id].c_str());
+    }
+    ref_fd_list_.push_front(file);
+    ref_fd_map_[ref_id] = ref_fd_list_.begin();
+  } else {                                            // Case 3
+    // Find the LRU file
+    std::list<std::ifstream*>::iterator lru_file_it = --ref_fd_list_.end();
+    int lru_ref_id;
+    for (std::map<int, std::list<std::ifstream*>::iterator>::iterator it = ref_fd_map_.begin();
+         it != ref_fd_map_.end(); ++it) {
+      if (lru_file_it == it->second) {
+        lru_ref_id = it->first;
+        break;
+      }
+    }
+    
+    // Close the LRU file
+    pthread_mutex_lock(&(ref_fd_mutex_[lru_ref_id]));
+    (*lru_file_it)->close();
+    delete *lru_file_it;
+    pthread_mutex_unlock(&(ref_fd_mutex_[lru_ref_id]));
+    
+    // Remove the LRU file from the map and linked list
+    for (std::map<int, std::list<std::ifstream*>::iterator>::iterator it = ref_fd_map_.begin();
+         it != ref_fd_map_.end(); ++it) {
+      if (lru_file_it == it->second) {
+        ref_fd_map_.erase(it);
+        break;
+      }
+    }
+    ref_fd_list_.pop_back();
+    
+    // Open new file and add to front of list
+    std::ifstream* file = new std::ifstream;
+    while(file->is_open() == false) {
+      file->open(ref_file_[ref_id].c_str());
+    }
+    ref_fd_list_.push_front(file);
+    ref_fd_map_[ref_id] = ref_fd_list_.begin();
   }
   
+  std::ifstream* file = *(ref_fd_map_[ref_id]);
+  
+  pthread_mutex_unlock(&ref_fd_listmap_mutex_);
+
   return file;
 }
 
 char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len) {
   assert(ref_id < ref_name_.size() && ref_id >= 0);
   assert(ref_offset + ref_len <= chr_length_[ref_id][chr_id]);
+  
+  pthread_mutex_lock(&(ref_fd_mutex_[ref_id]));
   
   std::ifstream* file = GetRefSeqFD(ref_id);
   assert(file->is_open());
@@ -84,12 +146,10 @@ char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset,
     }
   }
   
+  pthread_mutex_unlock(&(ref_fd_mutex_[ref_id]));  
+  
   char* seq = new char[ref_len];
   seqline.copy(seq, ref_len);
-  
-  // TEST - REMOVE WHEN DOING CACHE
-  file->close();
-  delete file;
   
   return seq;
 }
@@ -138,7 +198,7 @@ std::string RefSeqManager::GetChrName(int ref_id, int chr_id) {
 void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
   std::vector<std::vector<std::string> > descrips;
   std::vector<char*> seqs;
-  std::vector<int> lengths;
+  std::vector<long long int> lengths;
   std::vector<long long int> fileposs;
 
   // Parse FASTA files
@@ -166,7 +226,6 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
   int ref_id = ref_name_.size();
   std::map<std::string, int> chr_ids;
   std::vector<std::string> chr_names;
-  //std::vector<char*> chr_seqs;
   std::vector<long long int> chr_lengths;
   std::vector<long long int> chr_filepos;
   std::vector<std::vector<RefSeqBank> > ref_seq_bank_infos;
@@ -178,7 +237,6 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
     int chr_id = chr_names.size();
     chr_ids[descrips[i][CHR_NAME_FIELD]] = chr_id;
     chr_names.push_back(descrips[i][CHR_NAME_FIELD]);
-    //chr_seqs.push_back(seqs[i]);
     chr_lengths.push_back(lengths[i]);
     chr_filepos.push_back(fileposs[i]);
     total_ref_length_ += lengths[i];
@@ -245,12 +303,12 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
   chr_name_.push_back(chr_names);
   chr_filepos_.push_back(chr_filepos);
   chr_length_.push_back(chr_lengths);
-  //ref_seq_.push_back(chr_seqs);
   ref_seq_bank_info_.push_back(ref_seq_bank_infos);
   
-  /*for (int i = 0; i < NUM_FPGAS; i++) {
-    std::cout << "cur_block_[i] " << cur_block_[i] << std::endl;
-  }*/
+  // Initialize and add a mutex for ref seq file
+  pthread_mutex_t ref_mutex;
+  pthread_mutex_init(&ref_mutex, NULL);
+  ref_fd_mutex_.push_back(ref_mutex);
   
   // Clean up ref seq memory
   for (int i = 0; i < seqs.size(); i++) {
@@ -339,3 +397,6 @@ std::vector<RefSeqManager::RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id,
   return locs;
 }
 
+long long int RefSeqManager::GetTotalRefLength() {
+  return total_ref_length_;
+}
