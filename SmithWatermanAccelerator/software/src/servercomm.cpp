@@ -88,6 +88,7 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
   }
   client_sock_.ShutdownRecv();
   
+  int num_jobs = 0;
   if (*errors == 0) {
     for (int i = 0; i < new_jobs.size(); i++) {
       if (i != 0) {
@@ -105,6 +106,10 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
                 << std::endl;*/
       
       alignment_job_queue->Push(new_jobs[i]);
+      num_jobs++;
+      if (num_jobs % 10000 == 0) {
+        std::cout << "Jobs enqueued: " << num_jobs << std::endl;
+      }
     }
   }
   
@@ -214,7 +219,7 @@ bool ServerComm::Action(std::string line,
             job.chr_id = chr_ids[i];
             if (chr_name == ALL_CHROM) {
               job.ref_offset = 0;
-              job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
+              job.ref_len = ref_seq_manager->GetRefLength(ref_id, job.chr_id);
             } else {
               job.ref_offset = ref_start - 1;
               job.ref_len = ref_end - ref_start;

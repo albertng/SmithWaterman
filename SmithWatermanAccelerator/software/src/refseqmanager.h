@@ -81,6 +81,9 @@ class RefSeqManager {
                                            
     // Get total reference sequence length
     long long int GetTotalRefLength();
+    
+    // Get each FPGA storage size in number of bytes
+    void GetFPGAStorage(long long int* num_nt);
 
   private:
     // Convert the ref seq to 2bit format and stream to the FPGA DRAM

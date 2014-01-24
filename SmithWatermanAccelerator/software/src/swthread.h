@@ -64,6 +64,7 @@ class SWThread {
     // Performance statistics
     struct SWThreadStats {
       long long int job_count;
+      long long int cell_count;
       double ref_seq_time;
       double alloc_time;
       double init_time;

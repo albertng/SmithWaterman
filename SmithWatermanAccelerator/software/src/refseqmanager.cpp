@@ -10,6 +10,7 @@
 //      Albert Ng   Jan 14 2014     Added ref seq banking
 //      Albert Ng   Jan 21 2014     Changed to ref seq file seeking
 //      Albert Ng   Jan 22 2014     Added ref seq file descriptor LRU management
+//                                  Added GetFPGAStorage()
 
 #include "def.h"
 #include <stdio.h>
@@ -312,7 +313,7 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
   
   // Clean up ref seq memory
   for (int i = 0; i < seqs.size(); i++) {
-    delete seqs[i];
+    delete[] seqs[i];
   }
 }
 
@@ -399,4 +400,10 @@ std::vector<RefSeqManager::RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id,
 
 long long int RefSeqManager::GetTotalRefLength() {
   return total_ref_length_;
+}
+
+void RefSeqManager::GetFPGAStorage(long long int* num_nt) {
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    num_nt[i] = cur_block_[i] * REF_BLOCK_LEN/4;
+  }
 }

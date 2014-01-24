@@ -87,6 +87,7 @@ SWThread::SWThreadStats SWThread::GetStats() {
 
 void SWThread::ResetStats() {
   stats_.job_count = 0;
+  stats_.cell_count = 0;
   stats_.ref_seq_time = 0;
   stats_.alloc_time = 0;
   stats_.init_time = 0;
@@ -225,6 +226,7 @@ void* SWThread::Align(void* args) {
 #endif  
     // Compute dynamic programming matrices
     std::set<Cell, CellComp> highscore_cells;
+    stats->cell_count += (ref_len * query_len);
     for (int i = 1; i < ref_len + 1; i++) {
       for (int j = 1; j < query_len + 1; j++) {
         NtInt ref_nt = NtChar2Int(ref_seq[i-1]);
@@ -358,16 +360,6 @@ void* SWThread::Align(void* args) {
 
     // Memory cleanup
     delete[] ref_seq;
-    /*for (int i = 0; i < ref_len + 1; i++) {
-      delete[] v_matrix[i];
-      delete[] e_matrix[i];
-      delete[] f_matrix[i];
-      delete[] dir_matrix[i];
-    }
-    delete[] v_matrix;
-    delete[] e_matrix;
-    delete[] f_matrix;
-    delete[] dir_matrix;*/
  
     // Decrement outstanding high scoring region count 
     query_seq_manager->DecHighScoreRegionCount(hsr.query_id);

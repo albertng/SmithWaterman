@@ -32,13 +32,12 @@ class Alignment {
     std::string ToString() const;
 
     // Alignments are built backwards, so we prepend to the beginning of
-    // the alignment, rather than extend from the end of the alignment.
+    //   the alignment, rather than extend from the end of the alignment.
     void Prepend(char ref_nt, char query_nt);
     
     // Trim off the end of the alignment STARTING from index (i.e. keep the
     //   first index characters of the alignment)
-    // e.g. "ACG-T" TrimEnd(2) becomes "AC"
-    //      "ACTGT"                    "AC"
+    //   e.g. "ACG-T" TrimEnd(2) becomes "AC"
     void TrimEnd(int index);
     
     // Compute length of the alignment
@@ -51,7 +50,6 @@ class Alignment {
   private :
     std::string ref_str_;
     std::string query_str_;
-    //std::list<std::pair<char, char> >* alignment_;
     long long int ref_offset_;
     long long int query_offset_;
 };

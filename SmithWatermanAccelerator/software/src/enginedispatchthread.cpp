@@ -13,6 +13,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 #include "def.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
@@ -71,6 +72,10 @@ void* EngineDispatchThread::Dispatch(void* args) {
 
   // Current scoring parameters;
   SwAffineGapParams params;
+  
+  int num_jobs = 0;
+  struct timespec start, finish;
+  double elapsed;
   
   while (true) {
     AlignmentJob aln_job = alignment_job_queue->Pop();
@@ -166,6 +171,8 @@ void* EngineDispatchThread::Dispatch(void* args) {
       for (std::list<EngineJob>::iterator it = jobs.begin(); it != jobs.end(); ++it) {
         EngineJob job = *it;
         //std::cout << "Dispatching job for FPGA " << job.fpga_id << " Engine " << job.engine_id << std::endl;
+        
+        clock_gettime(CLOCK_MONOTONIC, &start);
         DispatchJob(pico_drivers[job.fpga_id], 
                     streams[job.fpga_id][job.engine_id], 
                     query_id,
@@ -175,6 +182,15 @@ void* EngineDispatchThread::Dispatch(void* args) {
                     job.fpga_addr,
                     threshold);                    
         engine_job_queues[job.fpga_id][job.engine_id].Push(job);
+        clock_gettime(CLOCK_MONOTONIC, &finish);
+        elapsed += (finish.tv_sec - start.tv_sec);
+        elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    
+        num_jobs++;
+        if (num_jobs % 100000 == 0) {
+          std::cout << "Jobs: " << num_jobs << std::endl;
+          std::cout << "DispatchJob elapsed time: " << elapsed << std::endl;
+        }
       }
     }
   }

@@ -31,7 +31,7 @@ static std::vector<std::string> SplitFields(std::string descrip_line) {
 void ParseFastaFile(std::string filename,
                     std::vector<std::vector<std::string> >* descrips,
                     std::vector<char*>* seqs,
-                    std::vector<int>* lengths,
+                    std::vector<long long int>* lengths,
                     std::vector<long long int>* fileposs) {
   std::ifstream file(filename.c_str());
   if (!file.is_open()) {
@@ -43,9 +43,9 @@ void ParseFastaFile(std::string filename,
   
   // First go through to get sequence descriptions, lengths, and file positions
   std::string line;
-  int cur_length = 0;
+  long long int cur_length = 0;
   bool first_seq = true;
-  int last_length;
+  long long int last_length;
   while (getline(file, line)) {
     if (line.length() == 0) {
       continue;
@@ -92,7 +92,7 @@ void ParseFastaFile(std::string filename,
   file.close();
   file.open(filename.c_str());
   char* seq;
-  int index;
+  long long int index;
   int cur_ref = start_size - 1;
   first_seq = true;
   while (getline(file, line)) {

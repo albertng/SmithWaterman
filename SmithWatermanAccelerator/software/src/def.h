@@ -15,7 +15,8 @@
 //      Albert Ng   Oct 28 2013     Changed AlignmentResult to store Alignment, not Alignment*
 //      Albert Ng   Oct 30 2013     Added END_OF_ENGINE_ALIGNMENT
 //      Albert Ng   Oct 31 2013     Added AlignmentResultComp
-//      Albert Ng   Jan 14 2013     Added fpga_id and engine_id to EngineJob
+//      Albert Ng   Jan 14 2014     Added fpga_id and engine_id to EngineJob
+//      Albert Ng   Jan 22 2014     Added ALL_REF
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -42,6 +43,7 @@
 #define QUERY_GROUP_SUCCESS "SUCCESS"
 #define QUERY_GROUP_FAIL "FAIL"
 #define ALL_CHROM "ALLCHR"
+#define ALL_REF "ALLREF"
 
 // FPGA protocol definitions
 #define END_OF_ENGINE_ALIGNMENT 0xFFFFFFFF  // High score block value indicating the end 

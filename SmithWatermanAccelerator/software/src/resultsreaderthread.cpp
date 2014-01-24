@@ -20,6 +20,7 @@
 #include "resultsreaderthread.h"
 #include "threadqueue.h"
 #include "scoring.h"
+#include "time.h"
 #ifdef SIM_PICO
   #include "picodrv_sim.h"
 #else
@@ -105,7 +106,6 @@ void* ResultsReaderThread::ReadResults(void* args) {
           int num_bytes_to_read = num_bytes_available > 4096 ? 4096 : (num_bytes_available/16)*16;
           pico_drivers[i]->ReadStream(streams[i][j], read_mem_buf[i][j], num_bytes_to_read);
 
-
           for (int k = 0; k < num_bytes_to_read / 16; k++) {
             //std::cout<<"Read stream:\t"<<i<<" "<<j<<"\tHSB:"<< read_mem_buf[i][j][k] << "\tQuery ID:" << read_mem_buf[i][j][k+1] << std::endl;
             uint32_t high_score_block = read_mem_buf[i][j][k*4];
@@ -133,9 +133,9 @@ void* ResultsReaderThread::ReadResults(void* args) {
                 if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   num_HSRs++;
-                  /*if (num_HSRs % 1000 == 0) {
+                  if (num_HSRs % 10000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
-                  }*/
+                  }
                   query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                   //std::cout<<"Query " <<jobs[i][j].query_id<<" Decrement HSR count"<<std::endl;
                   states[i][j] = INIT;
@@ -145,17 +145,17 @@ void* ResultsReaderThread::ReadResults(void* args) {
                 } else if (IsValidBlock(jobs[i][j], high_score_block)) {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   num_HSRs++;
-                  /*if (num_HSRs % 1000 == 0) {
+                  if (num_HSRs % 10000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
-                  }*/
+                  }
                   chsbs[i][j] = StartCHSB(high_score_block);
                   states[i][j] = IN_HSR;
                 } else {
                   StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
                   num_HSRs++;
-                  /*if (num_HSRs % 1000 == 0) {
+                  if (num_HSRs % 10000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
-                  }*/
+                  }
                   states[i][j] = INIT;
                 }
                 break;

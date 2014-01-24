@@ -30,7 +30,7 @@
 
 #define SWSERVERTIMING
 
-int GetFastaFiles(std::string dir, std::vector<std::string>* files) {
+int GetFastaFiles(std::string dir, std::vector<std::string>* files, std::vector<std::string>* ref_names) {
   DIR *dp;
   struct dirent *dirp;
   if ((dp = opendir(dir.c_str())) == NULL) {
@@ -39,14 +39,15 @@ int GetFastaFiles(std::string dir, std::vector<std::string>* files) {
   }
   
   while ((dirp = readdir(dp)) != NULL) {
-    std::string filename = dir + "/" + dirp->d_name;
+    std::string filename(dirp->d_name);
     std::string::size_type idx = filename.rfind('.');
     std::string extension;
     if (idx != std::string::npos) {
       extension = filename.substr(idx+1);
     }
     if (extension == "fa" || extension == "FA") {
-      files->push_back(filename);
+      files->push_back(dir + "/" + filename);
+      ref_names->push_back(filename.substr(0, idx));
     }
   }
   closedir(dp);
@@ -68,6 +69,10 @@ int main(int argc, char *argv[]) {
   EngineDispatchThread edthread;
   ResultsReaderThread rrthread;
   SWThread swthreads[NUM_SW_THREADS];
+
+  // Timing values
+  struct timespec start, finish;
+  double elapsed;
 
   // Check program args
   if (argc < 3) {
@@ -101,22 +106,49 @@ int main(int argc, char *argv[]) {
   }
   
   // Set up ref seq manager
+#ifdef SWSERVERTIMING
+  clock_gettime(CLOCK_MONOTONIC, &start);
+#endif
   ref_seq_manager.Init(pico_drivers);
   char* ref_parentdir = getenv("REFPATH");
   if (ref_parentdir == NULL) {
     std::cerr << "$REFPATH environment variable not set!" << std::endl;
     return 1;
   }
-  for (int i = 2; i < argc; i++) {
-    std::string ref_file(ref_parentdir);
-    ref_file += "/";
-    ref_file += argv[i];
-    ref_file += ".fa";
-    
-    std::cout << "Loading reference " << argv[i] << "..." << std::endl;
-    ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
+  std::string parentdir_str(ref_parentdir);
+  std::string arg2(argv[2]);
+  if (arg2 == ALL_REF) {
+    std::vector<std::string> file_names;
+    std::vector<std::string> ref_names;
+    GetFastaFiles(parentdir_str, &file_names, &ref_names);
+    for (int i = 0; i < file_names.size(); i++) {
+      std::cout << "Loading reference " << ref_names[i] << "..." << std::endl;
+      ref_seq_manager.AddRef(file_names[i], ref_names[i]);
+    }
+  }
+  else {
+    for (int i = 2; i < argc; i++) {
+      std::string ref_file = parentdir_str;
+      ref_file += "/";
+      ref_file += argv[i];
+      ref_file += ".fa";
+      
+      std::cout << "Loading reference " << argv[i] << "..." << std::endl;
+      ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
+    }
   }
   std::cout << "Loaded " << ref_seq_manager.GetTotalRefLength() << " nucleotides total." << std::endl;
+  long long int fpga_storage[NUM_FPGAS];
+  ref_seq_manager.GetFPGAStorage(fpga_storage);
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    std::cout << "FPGA " << i << ": " << fpga_storage[i] << "B" << std::endl;
+  }
+#ifdef SWSERVERTIMING
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+  elapsed = (finish.tv_sec - start.tv_sec);
+  elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+  std::cout << "Ref seq loading completed in " << elapsed << " seconds." << std::endl;
+#endif
   
   // Set up engine job queues
   engine_job_queues = new ThreadQueue<EngineJob>*[NUM_FPGAS];
@@ -143,8 +175,6 @@ int main(int argc, char *argv[]) {
   
   // Continuously accept and run alignments
   long long int num_hits;
-  struct timespec start, finish;
-  double elapsed;
   while (true) {
     for (int i = 0; i < NUM_SW_THREADS; i++) {
       swthreads[i].ResetStats();
@@ -201,6 +231,8 @@ int main(int argc, char *argv[]) {
     double total_init_time = 0;
     double total_compute_time = 0;
     double total_backtrace_time = 0;
+    long long int total_job_count = 0;
+    long long int total_cell_count = 0;
     for (int i = 0; i < NUM_SW_THREADS; i++) {
       SWThread::SWThreadStats stats = swthreads[i].GetStats();
       total_ref_seq_time += stats.ref_seq_time;
@@ -208,14 +240,24 @@ int main(int argc, char *argv[]) {
       total_init_time += stats.init_time;
       total_compute_time += stats.compute_time;
       total_backtrace_time += stats.backtrace_time;
+      total_job_count += stats.job_count;
+      total_cell_count += stats.cell_count;
     }
+    std::cout << total_job_count << " high scoring regions found by FPGAs" << std::endl;
+    std::cout << total_cell_count << " cells computed by software threads" << std::endl;
     double total_time = total_ref_seq_time + total_alloc_time + total_init_time + total_compute_time + total_backtrace_time;
+    std::cout << total_ref_seq_time << "s ref seq, "
+              << total_alloc_time << "s alloc, "
+              << total_init_time << "s init, " 
+              << total_compute_time << "s compute, "
+              << total_backtrace_time << "s backtrace"
+              << std::endl;
     std::cout << (total_ref_seq_time / total_time)*100 << "% ref seq, "
               << (total_alloc_time / total_time)*100 << "% alloc, "
               << (total_init_time / total_time)*100 << "% init, " 
               << (total_compute_time / total_time)*100 << "% compute, "
               << (total_backtrace_time / total_time)*100 << "% backtrace"
-              << std::endl;
+              << std::endl << std::endl;
 #endif
   }
 }

@@ -16,7 +16,7 @@
 void ParseFastaFile(std::string filename, 
                     std::vector<std::vector<std::string> >* descrips,
                     std::vector<char*>* seqs,
-                    std::vector<int>* lengths,
+                    std::vector<long long int>* lengths,
                     std::vector<long long int>* fileposs);
 
 #endif // FASTA_H_

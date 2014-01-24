@@ -19,6 +19,7 @@
 
 #include <queue>
 #include <pthread.h>
+#include <iostream>
 
 // Simple thread-safe queue implementation using mutexes
 //   and conditionals. Supports multiple producers and
@@ -63,6 +64,7 @@ void ThreadQueue<T>::Push(T data) {
   pthread_mutex_lock(&mutex_);
   
   while(queue_.size() == MAX_Q_SIZE) {
+    std::cout << "Full" << std::endl;
     pthread_cond_wait(&nonfull_cond_, &mutex_);
   }
 
