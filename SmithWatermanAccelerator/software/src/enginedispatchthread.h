@@ -6,11 +6,13 @@
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to AlignmentJob and EngineJob
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 14 2013     Added ref seq banking
+//      Albert Ng   Jan 29 2014     Combined multiple engine jobs into larger PCIe streams
 
 #ifndef ENGINEDISPATCHTHREAD_H_
 #define ENGINEDISPATCHTHREAD_H_
 
 #include <pthread.h>
+#include <vector>
 #include "def.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
@@ -30,14 +32,14 @@ class EngineDispatchThread{
 
     // Complete constructor
     EngineDispatchThread(PicoDrv** pico_drivers, int** streams, 
-                         ThreadQueue<AlignmentJob>* alignment_job_queue,
+                         ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue,
                          ThreadQueue<EngineJob>** engine_job_queues,
                          QuerySeqManager* query_seq_manager,
                          RefSeqManager* ref_seq_manager);
 
     // Initialization function (called by constructor)
     void Init(PicoDrv** pico_drivers, int** streams,
-              ThreadQueue<AlignmentJob>* alignment_job_queue,
+              ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue,
               ThreadQueue<EngineJob>** engine_job_queues,
               QuerySeqManager* query_seq_manager,
               RefSeqManager* ref_seq_manager);
@@ -46,7 +48,7 @@ class EngineDispatchThread{
     void Run();
 
     // Join the thread
-    // Can't be used for now, since the thread infinite loops and never terminates
+    //   Can't be used for now, since the thread infinite loops and never terminates
     void Join();
 
   private:
@@ -59,7 +61,7 @@ class EngineDispatchThread{
       int** streams;
       
       // Pointer to shared queue of alignment jobs to be done
-      ThreadQueue<AlignmentJob>* alignment_job_queue;
+      ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue;
 
       // Pointers to shared queues of alignment jobs dispatched to FPGA engines
       ThreadQueue<EngineJob>** engine_job_queues;
@@ -71,25 +73,43 @@ class EngineDispatchThread{
       RefSeqManager* ref_seq_manager;
     };
 
+    // Data structure holding the info for a job to be dispatched to an engine
+    struct DispatchJob {
+      int query_id;
+      char* query_seq;
+      int query_len;
+      int threshold;
+      long long int num_ref_blocks;
+      long long int first_ref_block;
+      EngineJob engine_job;
+    };
+
     // Function for thread to run.
-    // Continuously retrieves alignment jobs from alignment job queue, splits the alignment
+    //   Continuously retrieves alignment jobs from alignment job queue, splits the alignment
     //   jobs into engine sub-jobs, sends the engine sub-jobs to the FPGA engines, and
     //   records the scheduled engine jobs onto the engine job queues.
     static void* Dispatch(void* args);
 
-    // Dispatch an alignment job to an engine
-    static void DispatchJob(PicoDrv* pico_driver, int stream, int query_id, char* query_seq, 
-                            int query_len, int num_ref_blocks, int first_ref_block, int threshold);
+    // Dispatch a group of alignment jobs to an engine
+    /*static void DispatchJob(PicoDrv* pico_driver, int stream, int query_id, char* query_seq, 
+                            int query_len, int num_ref_blocks, int first_ref_block, int threshold);*/
+    static void DispatchJobs(PicoDrv* pico_driver, int stream, ThreadQueue<EngineJob>* engine_job_queue,
+                             std::list<DispatchJob>* jobs, uint32_t* out_buf);
 
-    /*static void RecordEngineJob(ThreadQueue<EngineJob>* engine_job_queue, int query_id, int query_len, 
-                                int ref_id, int chr_id, int ref_len, int ref_offset, int overlap_offset, 
-                                int threshold, SwAffineGapParams params);*/
 
     // Actual pthread instance
     pthread_t thread_;
 
     // Thread arguments
     EngineDispatchThreadArgs args_;
+    
+    static const int kMaxJobsDispatch = 64;
+    
+    struct jobqueue_entry {
+      std::list<EngineDispatchThread::DispatchJob>* joblist;
+      int fpga;
+      int engine;
+    };
 };
 
 #endif // ENGINEDISPATCHTHREAD_H_

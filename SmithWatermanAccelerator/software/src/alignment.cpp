@@ -11,7 +11,8 @@
 //      Albert Ng   Oct 28 2013     Changed Print() to ToString()
 //      Albert Ng   Oct 29 2013     Changed from list<pair> to string based
 //      Albert Ng   Oct 31 2013     Added TrimEnd()
-//      Albert Ng   Jan 24 2013     Added region end coords to ToString()
+//      Albert Ng   Jan 24 2014     Added region end coords to ToString()
+//      Albert Ng   Jan 28 2014     Added GetRefLength() and GetQueryLength()
 
 #include <list>
 #include <sstream>
@@ -38,17 +39,8 @@ Alignment::~Alignment() {
 
 std::string Alignment::ToString() const {
   // Find region lengths
-  int ref_length = 0;
-  int query_length = 0;
-  assert(ref_str_.size() == query_str_.size());
-  for (int i = 0; i < ref_str_.size(); i++) {
-    if (ref_str_[i] != GAP) {
-      ref_length++;
-    }
-    if (query_str_[i] != GAP) {
-      query_length++;
-    }
-  }
+  long long int ref_length = GetRefLength();
+  long long int query_length = GetQueryLength();
     
   std::stringstream ss;
 
@@ -80,6 +72,26 @@ void Alignment::TrimEnd(int index) {
 
 int Alignment::GetLength() const {
   return ref_str_.length();
+}
+
+long long int Alignment::GetRefLength() const {
+  long long int ref_length = 0;
+  for (int i = 0; i < ref_str_.size(); i++) {
+    if (ref_str_[i] != GAP) {
+      ref_length++;
+    }
+  }
+  return ref_length;
+}
+
+long long int Alignment::GetQueryLength() const {
+  long long int query_length = 0;
+  for (int i = 0; i < query_str_.size(); i++) {
+    if (query_str_[i] != GAP) {
+      query_length++;
+    }
+  }
+  return query_length;
 }
 
 long long int Alignment::get_ref_offset() const {

@@ -23,6 +23,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <functional>
 #include "alignment.h"
 #include "scoring.h"
 
@@ -101,6 +102,7 @@ struct HighScoreRegion {
   long long int len;
   long long int offset;
   long long int overlap_offset;
+  long long int job_offset;
   int threshold;
   SwAffineGapParams params;
 };
@@ -110,6 +112,12 @@ struct AlignmentResult {
   HighScoreRegion hsr;
   Alignment alignment;
   int score;
+  bool boundary;
+  
+  bool operator== (const AlignmentResult& a) const {
+    return (hsr.ref_id == a.hsr.ref_id && hsr.chr_id == a.hsr.chr_id && 
+            alignment.get_ref_offset() + alignment.GetRefLength() == a.alignment.get_ref_offset() + a.alignment.GetRefLength());
+  }
 };
 
 // Alignment Result comparison
@@ -118,5 +126,27 @@ struct AlignmentResultComp {
     return lhs.alignment.get_ref_offset() < rhs.alignment.get_ref_offset();
   }
 };
+
+// Hash combiner function
+template <class T>
+inline void hash_combine(std::size_t& seed, const T& v) {
+  std::hash<T> hasher;
+  seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+}
+
+// Hasher for AlignmentResult
+//   Hashes by end-index for checking for same end-index duplicates
+struct AlignmentResultHash {
+  std::size_t operator()(const AlignmentResult& a) const {
+    std::size_t seed = 0;
+    std::hash<long long int> longlongint_hasher;
+    std::hash<int> int_hasher;
+    hash_combine(seed, longlongint_hasher(a.alignment.get_ref_offset() + a.alignment.GetRefLength()));
+    hash_combine(seed, int_hasher(a.hsr.ref_id));
+    hash_combine(seed, int_hasher(a.hsr.chr_id));
+    return seed;
+  }
+};
+  
 
 #endif // DEF_H_

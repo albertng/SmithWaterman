@@ -21,6 +21,7 @@
 
 #include <list>
 #include <set>
+#include <unordered_set>
 #include <assert.h>
 #include <time.h>
 #include "swthread.h"
@@ -329,10 +330,18 @@ void* SWThread::Align(void* args) {
       aln_res.hsr = hsr;
       aln_res.alignment = aln;
       aln_res.score = score;
+      // Indicate whether or not the alignment falls on a boundary for duplicate
+      //   checking in the main thread before reporting. 
+      if ((aln.get_ref_offset() == hsr.job_offset) || 
+          (aln.get_ref_offset() + aln.GetRefLength() >= hsr.overlap_offset)) {
+        aln_res.boundary = true;
+      } else {
+        aln_res.boundary = false;
+      }
 
       std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = hsr_alignments.find(aln_res);
       if (aln_it != hsr_alignments.end()) {
-        // Filter out duplicate alignments, pick the highest scoring, longest duplicated alignment
+        // Filter out same start-index duplicate alignments, pick the highest scoring, longest duplicated alignment
         if (((*aln_it).score < aln_res.score) || 
             ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
           hsr_alignments.erase(aln_it);

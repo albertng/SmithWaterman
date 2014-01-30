@@ -20,41 +20,44 @@
 struct thread_args {
     PicoDrv* pico;
     int      stream;
+    int      packet_size;
 };
 
 void* stream_write_thread(void* args) {
     struct timespec start, finish;
     double elapsed;
     
-    char* buf = new char[1024*1024*1024];
+    char* buf = new char[1024*1024*28];
     PicoDrv *pico = ((thread_args*)args)->pico;
     int stream = ((thread_args*)args)->stream;
+    int packet_size = ((thread_args*)args)->packet_size;
 
     clock_gettime(CLOCK_MONOTONIC, &start);
     // Stream to FPGA
-    for(int i = 0; i < 1024*1024; i++) {
-        pico->WriteStream(stream, buf, 32);
+    for(int i = 0; i < 1024*1024*28/packet_size; i++) {
+        pico->WriteStream(stream, buf, packet_size);
     }
     //pico->WriteStream(stream, buf, 1024*1024*1024);
     
     clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    std::cout << "Stream write completed in " << elapsed << " seconds" << std::endl;
+    std::cout << "28 MB, " << packet_size << "B packets stream write completed in " << elapsed << " seconds" << std::endl;
 }
 
 void* stream_read_thread(void* args) {
     struct timespec start, finish;
     double elapsed;
     
-    char* buf = new char[1024*1024*1024];
+    char* buf = new char[1024*1024*28];
     PicoDrv *pico = ((thread_args*)args)->pico;
     int stream = ((thread_args*)args)->stream;
- 
+    int packet_size = ((thread_args*)args)->packet_size;
+    
     clock_gettime(CLOCK_MONOTONIC, &start);
     // Stream from FPGA
-    for(int i = 0; i < 1024*1024; i++) {
-        pico->ReadStream(stream, buf, 32);
+    for(int i = 0; i < 1024*1024*28/packet_size; i++) {
+        pico->ReadStream(stream, buf, packet_size);
     }
     //pico->ReadStream(stream, buf, 1024*1024*1024);
 
@@ -66,7 +69,7 @@ void* stream_read_thread(void* args) {
 
 int main(int argc, char* argv[])
 {
-    int         err, stream;
+    int         err, stream, packet_size;
     uint32_t    buf[1024];
     char        ibuf[1024];
     PicoDrv     *pico;
@@ -76,12 +79,12 @@ int main(int argc, char* argv[])
     thread_args read_thread_args, write_thread_args;
 
     // specify the .bit file name on the command line
-    if (argc < 2) {
-        fprintf(stderr, "Please specify the .bit file on the command line.\n"
-                        "For example: pbc ../firmware/M501_LX240_StreamLoopback128.bit\n");
+    if (argc < 3) {
+        fprintf(stderr, "Usage: ./StreamBandwidthTest <BITFILE> <PACKET SIZE>\n");
         exit(1);
     }
     bitFileName = argv[1];
+    packet_size = atoi(argv[2]);
     
     // The RunBitFile function will locate a Pico card that can run the given bit file, and is not already
     //   opened in exclusive-access mode by another program. It requests exclusive access to the Pico card
@@ -107,8 +110,10 @@ int main(int argc, char* argv[])
     printf("Starting stream bandwidth test\n");
     read_thread_args.pico = pico;
     read_thread_args.stream = stream;
+    read_thread_args.packet_size = packet_size;
     write_thread_args.pico = pico;
     write_thread_args.stream = stream;
+    write_thread_args.packet_size = packet_size;
     iret1 = pthread_create(&read_thread, NULL, &stream_read_thread, (void*) &read_thread_args);
     iret2 = pthread_create(&write_thread, NULL, &stream_write_thread, (void*) &write_thread_args);
 

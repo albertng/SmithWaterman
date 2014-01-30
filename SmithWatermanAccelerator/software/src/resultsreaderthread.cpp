@@ -116,7 +116,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
               case INIT:
                   jobs[i][j] = engine_job_queues[i][j].Pop();
                   
-                  //std::cout<<"Engine Job:\tQuery ID:"<<jobs[i][j].query_id<<" Query Len: "<<jobs[i][j].query_len<<" Ref ID: "<<jobs[i][j].ref_id<<" Ref Offset: "<<jobs[i][j].ref_offset<<" Ref Len: "<<jobs[i][j].ref_len<<" Overlap Offset: "<<jobs[i][j].overlap_offset<<" Threshold: "<<jobs[i][j].threshold<<std::endl;
+                  //std::cout<<"Engine Job:\tQuery ID:"<<jobs[i][j].query_id<<" Ref ID: "<<jobs[i][j].ref_id<<" Chr ID: " <<jobs[i][j].chr_id<<" Ref Offset: "<<jobs[i][j].ref_offset<<" Ref Len: "<<jobs[i][j].ref_len<<" Overlap Offset: "<<jobs[i][j].overlap_offset<<" Threshold: "<<jobs[i][j].threshold<<std::endl;
                   if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
                     query_seq_manager->DecHighScoreRegionCount(jobs[i][j].query_id);
                     states[i][j] = INIT;
@@ -189,6 +189,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
   hsr.ref_id         = job.ref_id;
   hsr.chr_id         = job.chr_id;
   hsr.overlap_offset = job.overlap_offset;
+  hsr.job_offset     = job.ref_offset;
   hsr.threshold      = job.threshold;
   hsr.params         = job.params;
 

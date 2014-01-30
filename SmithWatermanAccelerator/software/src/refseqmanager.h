@@ -84,6 +84,12 @@ class RefSeqManager {
     
     // Get each FPGA storage size in number of bytes
     void GetFPGAStorage(long long int* num_nt);
+    
+    // Get the time it took to load ref seq data from disk
+    double GetDiskRefSeqLoadTime();
+    
+    // Get the time it took to load ref seq data to FPGAs
+    double GetFPGARefSeqLoadTime();
 
   private:
     // Convert the ref seq to 2bit format and stream to the FPGA DRAM
@@ -145,6 +151,10 @@ class RefSeqManager {
     
     // Max number of files that can be open at a time
     static const int kMaxNumFiles = FOPEN_MAX;
+    
+    double disk_refseqload_time_;
+    
+    double fpga_refseqload_time_;
 };
 
 #endif // REFSEQMANAGER_H_

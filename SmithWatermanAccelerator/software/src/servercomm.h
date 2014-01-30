@@ -5,6 +5,8 @@
 //      Albert Ng   Oct 22 2013     Initial Revision
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 27 2014     Changed to return requests, not changing server state
+//                                  Added JobRequest
 
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
@@ -14,8 +16,8 @@
 #include "def.h"
 #include "serversocket.h"
 #include "threadqueue.h"
-#include "queryseqmanager.h"
-#include "refseqmanager.h"
+//#include "queryseqmanager.h"
+//#include "refseqmanager.h"
 #include "alignment.h"
 
 #define SYNTAX_ERROR_QUERYSEQ 0x1
@@ -40,34 +42,52 @@ class ServerComm {
     ServerComm(int port);
     ~ServerComm();
     
-    // Get a query group from a client.
-    // Add the queries to the query seq manager.
-    // Store the scoring params and queries onto the alignment job queue.
-    // Returns the list of query IDs in this group.
+    // Data structure holding an alignment job request from the client
+    struct JobRequest {
+      bool params_job;          // Indicates if this job is a parameter change request
+      SwAffineGapParams params;
+      std::string query_name;
+      std::string query_seq;
+      std::string ref_name;
+      std::string chr_name;
+      long long int ref_start;
+      long long int ref_end;
+      int threshold;
+    };
+    
+    /*// Get a query group from a client.
+    //   Add the queries to the query seq manager.
+    //   Store the scoring params and queries onto the alignment job queue.
+    //   Returns the list of query IDs in this group.
     std::vector<int> GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                    QuerySeqManager* query_seq_manager,
                                    RefSeqManager* ref_seq_manager,
-                                   unsigned int* errors);
+                                   unsigned int* errors);*/
+    // Get a group of job requests from a client.
+    std::vector<JobRequest> GetQueryGroup(unsigned int* errors);
     
     // Send the alignment result to the client.
     void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name, std::string chr_name);
     
     // Finish off a query group and close the client.
-    // Sends corresponding message depending on whether or not the query group alignment
+    //   Sends corresponding message depending on whether or not the query group alignment
     //   was successful (unsuccessful = bad parse).
     void EndQueryGroup(unsigned int errors);
     
   private:
     enum ParserState {PARAMS, QUERIES};
-    
+     
     // FSM action function, performed on each line
-    // Returns true when a query group is done
-    // Returns whether the line is valid in line_good
-    bool Action(std::string line, 
+    //   Returns true when a query group is done
+    //   Returns whether the line is valid in line_good
+    /*bool Action(std::string line, 
                 std::vector<AlignmentJob>* new_jobs, 
                 RefSeqManager* ref_seq_manager,
                 std::vector<std::string>* query_names,
                 std::vector<std::string>* query_seqs,
+                unsigned int* errors);*/
+    bool Action(std::string line,
+                std::vector<JobRequest>* new_jobs,
                 unsigned int* errors);
     
     ServerSocket server_;

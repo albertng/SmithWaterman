@@ -6,12 +6,14 @@
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
 //      Albert Ng   Nov 13 2013     Uses REFPATH env var, takes in ref seq names
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 27 2014     Added ProcessJob()
 
 #include <iostream>
 #include <dirent.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unordered_set>
 #include "def.h"
 #include "servercomm.h"
 #include "threadqueue.h"
@@ -54,13 +56,91 @@ int GetFastaFiles(std::string dir, std::vector<std::string>* files, std::vector<
   return 0;
 }
 
+std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue, 
+               QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager, unsigned int* errors) {
+  std::vector<AlignmentJob> jobs;
+  std::vector<int> query_ids;
+  
+  if (jobreq.params_job == true) {                  // Request for change of parameters
+    AlignmentJob params_job;
+    params_job.query_id = PARAMS_JOB;
+    params_job.params = jobreq.params;
+    jobs.push_back(params_job);
+  } else {                                          // Request for alignment
+    int ref_id = ref_seq_manager->GetRefID(jobreq.ref_name);
+    int chr_id = ref_seq_manager->GetChrID(ref_id, jobreq.chr_name);
+    std::vector<int> chr_ids;
+    if (jobreq.chr_name == ALL_CHROM) {
+      chr_ids = ref_seq_manager->GetChrIDs(ref_id);
+    } else {
+      chr_ids.push_back(chr_id);
+    }
+    
+    // Some syntax checks
+    for (int i = 0; i < jobreq.query_seq.length(); i++) {                      // Check for invalid nucleotides
+      if (jobreq.query_seq[i] != 'n' && jobreq.query_seq[i] != 'N' &&
+          jobreq.query_seq[i] != 'a' && jobreq.query_seq[i] != 'A' &&
+          jobreq.query_seq[i] != 'g' && jobreq.query_seq[i] != 'G' &&
+          jobreq.query_seq[i] != 'c' && jobreq.query_seq[i] != 'C' &&
+          jobreq.query_seq[i] != 't' && jobreq.query_seq[i] != 'T') {
+        *errors |= SYNTAX_ERROR_QUERYSEQ;
+        break;
+      }
+    }
+    if (ref_id == -1) {                                                        // Check for invalid ref seq
+      *errors |= SYNTAX_ERROR_REFNAME;
+    } else if (chr_id == -1 && jobreq.chr_name != ALL_CHROM) {                 // Check for invalid chromosome
+      *errors |= SYNTAX_ERROR_CHRNAME;
+    }
+    if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for start past end
+        jobreq.ref_start >= jobreq.ref_end - 1) {                         
+      *errors |= SYNTAX_ERROR_REFSTARTEND;
+    }
+    if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for invalid start coordinates
+        jobreq.ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+      *errors |= SYNTAX_ERROR_REFSTART;
+    }
+    if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for invalid end coordinates
+        jobreq.ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+      *errors |= SYNTAX_ERROR_REFEND;
+    }
+    
+    // Set up alignment information
+    if (*errors == 0) {
+      std::cout << chr_ids.size() << " ProcessJob() chromosome jobs" << std::endl;
+      for (int i = 0; i < chr_ids.size(); i++) {
+        int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
+        query_ids.push_back(query_id);
+        
+        AlignmentJob job;
+        job.query_id = query_id;
+        job.ref_id = ref_id;
+        job.chr_id = chr_ids[i];
+        if (jobreq.chr_name == ALL_CHROM) {
+          job.ref_offset = 0;
+          job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
+        } else {
+          job.ref_offset = jobreq.ref_start - 1;
+          job.ref_len = jobreq.ref_end - jobreq.ref_start;
+        }
+        job.threshold = jobreq.threshold;
+        job.params = jobreq.params;
+        jobs.push_back(job);
+      }
+    }
+  }
+  
+  alignment_job_queue->Push(jobs);
+  return query_ids;
+}
+
 int main(int argc, char *argv[]) {
   // Shared structures
   PicoDrv** pico_drivers;
   int** streams;
   QuerySeqManager query_seq_manager;
   RefSeqManager ref_seq_manager;
-  ThreadQueue<AlignmentJob> alignment_job_queue;
+  ThreadQueue<std::vector<AlignmentJob> > alignment_job_queue;
   ThreadQueue<EngineJob>** engine_job_queues;
   ThreadQueue<HighScoreRegion> hsr_queue;
   ThreadQueue<AlignmentResult> result_queue;
@@ -148,6 +228,8 @@ int main(int argc, char *argv[]) {
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
   std::cout << "Ref seq loading completed in " << elapsed << " seconds." << std::endl;
+  std::cout << "Disk loading completed in " << ref_seq_manager.GetDiskRefSeqLoadTime() << " seconds." << std::endl;
+  std::cout << "FPGA DRAM loading completed in " << ref_seq_manager.GetFPGARefSeqLoadTime() << " seconds." << std::endl;
 #endif
   
   // Set up engine job queues
@@ -182,28 +264,45 @@ int main(int argc, char *argv[]) {
     }
     num_hits = 0;
     
-    // Parse the query group and initiate alignment
-    unsigned int errors;
-    std::vector<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
+    // Parse the query group and initiate alignments
+    unsigned int errors = 0;
+    std::vector<int> query_ids;
+    /*std::vector<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
                                                            &query_seq_manager,
                                                            &ref_seq_manager,
-                                                           &errors);
+                                                           &errors);*/
+    std::vector<ServerComm::JobRequest> jobs = server_comm.GetQueryGroup(&errors);
+    //std::cout << jobs.size() << " job requests received!" << std::endl;
+    for (std::vector<ServerComm::JobRequest>::iterator it = jobs.begin(); it != jobs.end(); it++) {
+      std::vector<int> new_query_ids = ProcessJob(*it, &alignment_job_queue, &query_seq_manager, &ref_seq_manager, &errors);
+      for (int i = 0; i < new_query_ids.size(); i++) {
+        query_ids.push_back(new_query_ids[i]);
+      }
+    } 
     
 #ifdef SWSERVERTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
+    std::unordered_set<AlignmentResult, AlignmentResultHash> res_set;
     bool group_done = false;
+    int num_boundary_duplicates = 0;
     while (group_done == false || result_queue.Size() != 0) {
       while (result_queue.Size() != 0) {
         AlignmentResult aln_res = result_queue.Pop();
-        std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
-        std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
-        std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
-        server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
         
-        num_hits++;
+        std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator aln_it = res_set.find(aln_res);
+        if (aln_it == res_set.end()) {
+          res_set.insert(aln_res);
+        } else if (((*aln_it).score < aln_res.score) || 
+                   ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
+          res_set.erase(aln_it);
+          res_set.insert(aln_res);
+          num_boundary_duplicates++;
+        } else {
+          num_boundary_duplicates++;
+        }
       }
       
       group_done = true;
@@ -213,6 +312,19 @@ int main(int argc, char *argv[]) {
         }
       }
     }
+    
+    // Send the boundary results
+    for (std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator it = res_set.begin();
+         it != res_set.end(); it++) {
+      AlignmentResult aln_res = *it;
+      std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
+      std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
+      std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
+      server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
+      num_hits++;
+    }
+    
+    // End the query group
     server_comm.EndQueryGroup(errors);
     
     // Reclaim finished query memory
@@ -225,6 +337,7 @@ int main(int argc, char *argv[]) {
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     std::cout << num_hits <<  " hits found in " << elapsed << " seconds" << std::endl;
+    std::cout << num_boundary_duplicates << " duplicated hits found and removed" << std::endl;
 
     double total_ref_seq_time = 0;
     double total_alloc_time = 0;

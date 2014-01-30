@@ -1,0 +1,6 @@
+TARGET = dram_test
+USER_SOURCES = dram_test.cpp
+
+LDFLAGS += -lrt
+
+include $(PICOBASE)/software/Makefile.common

@@ -11,11 +11,11 @@
 //      Albert Ng   Oct 28 2013     Changed Print() to ToString()
 //      Albert Ng   Oct 29 2013     Changed from list<pair> to string based
 //      Albert Ng   Oct 31 2013     Added TrimEnd()
+//      Albert Ng   Jan 28 2014     Added GetRefLength() and GetQueryLength()
 
 #ifndef ALIGNMENT_H_
 #define ALIGNMENT_H_
 
-#include <utility>    // For std::pair
 #include <list>
 #include <iostream>
 #include <string>
@@ -42,6 +42,8 @@ class Alignment {
     
     // Compute length of the alignment
     int GetLength() const;
+    long long int GetRefLength() const;
+    long long int GetQueryLength() const;
     
     // Accessor functions
     long long int get_ref_offset() const;

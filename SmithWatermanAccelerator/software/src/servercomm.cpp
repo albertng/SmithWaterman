@@ -7,6 +7,7 @@
 //      Albert Ng   Nov 01 2013     Report ref name with each alignment
 //      Albert Ng   Nov 06 2013     Added error handling to GetQueryGroup()
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   Jan 27 2014     Changed to return requests, not changing server state
 
 #include <sstream>
 #include <iostream>
@@ -15,10 +16,10 @@
 #include <vector>
 #include "servercomm.h"
 #include "threadqueue.h"
-#include "scoring.h"
+//#include "scoring.h"
 #include "def.h"
-#include "queryseqmanager.h"
-#include "refseqmanager.h"
+//#include "queryseqmanager.h"
+//#include "refseqmanager.h"
 #include "alignment.h"
 
 ServerComm::ServerComm(int port) {
@@ -29,13 +30,145 @@ ServerComm::ServerComm(int port) {
 ServerComm::~ServerComm() {
 }
 
-// Sends the client an acknowledge after each line transmitted. The acknowledge indicates
-//   whether or not the line was successfully parsed. If the line was not successfully
-//   parsed, the client is excepted to retransmit the line. If the retransmitted line was
-//   invalid again, then the entire query group is terminated.
-// This should allow intermittent transmission errors to be handled, but should skip
-//   jobs that contain any actual line errors.
-std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
+std::vector<ServerComm::JobRequest> ServerComm::GetQueryGroup(unsigned int* errors) {
+  std::vector<ServerComm::JobRequest> new_jobs;
+
+  bool query_group_done = false;
+  std::string cur_line = "";
+  std::string rcv_buf = "";
+  *errors = 0;
+  
+  server_.Accept(&client_sock_);
+  
+  while (query_group_done == false) {
+    // Nothing left in buffer, receive from client
+    if (rcv_buf.length() == 0) {
+      client_sock_.Recv(&rcv_buf);
+    }
+    
+    // Find first newline in buffer
+    int newline_pos = rcv_buf.find('\n');
+    
+    // No newline, append entire buffer to current line and keep going
+    if (newline_pos == std::string::npos) {
+      cur_line += rcv_buf;
+      rcv_buf = "";
+    } else {
+      // Newline found, append buffer up to the newline to current line
+      cur_line += rcv_buf.substr(0, newline_pos);
+      if (newline_pos != rcv_buf.length() - 1) {
+        rcv_buf = rcv_buf.substr(newline_pos + 1);
+      } else {
+        rcv_buf = "";
+      }
+      
+      // Parse the line
+      unsigned int line_errors = 0;
+      query_group_done = Action(cur_line, &new_jobs, &line_errors);
+      *errors |= line_errors;
+      
+      // Invalid line check
+      if (line_errors != 0) {
+        query_group_done = true;
+      }
+
+      cur_line = "";
+    }
+  }
+  client_sock_.ShutdownRecv();
+  
+  return new_jobs;
+}
+
+bool ServerComm::Action(std::string line, 
+                        std::vector<ServerComm::JobRequest>* new_jobs, 
+                        unsigned int* errors) {
+  bool query_group_done = false;
+  ServerComm::JobRequest job;
+  
+  std::cout<<line<<std::endl;
+  
+  switch (state_) {
+    case PARAMS : {                           // Store the scoring params
+      try {
+        SwAffineGapParams params(line);
+        
+        job.params_job = true;
+        job.params = params;
+        new_jobs->push_back(job);
+        
+        params_ = params;
+        state_ = QUERIES;
+      } catch (std::ios_base::failure &e) {
+        *errors |= SYNTAX_ERROR_PARAMS;
+        state_ = PARAMS;
+      }
+      break;
+    }
+      
+    case QUERIES : {
+      if (line != END_OF_QUERY_GROUP) {  // Store a query sequence
+        std::string query_name;
+        std::string query_seq;
+        std::string ref_name;
+        std::string chr_name;
+        long long int ref_start;
+        long long int ref_end;
+        int threshold;
+
+        
+        std::istringstream iss(line);
+        iss.exceptions(std::ios::failbit);
+        try {
+          iss >> query_name;
+          iss >> query_seq; 
+          iss >> ref_name;
+          iss >> chr_name;
+          if (chr_name != ALL_CHROM) {
+            iss >> ref_start;
+            iss >> ref_end;
+          }
+          iss >> threshold;
+          
+          job.params_job = false;
+          job.query_name = query_name;
+          job.query_seq = query_seq;
+          job.ref_name = ref_name;
+          job.chr_name = chr_name;
+          job.ref_start = ref_start;
+          job.ref_end = ref_end;
+          job.threshold = threshold;
+          job.params = params_;
+          new_jobs->push_back(job);
+          
+          if (*errors == 0) {
+            state_ = QUERIES;
+          } else {
+            query_group_done = true;
+            state_ = PARAMS;
+          }
+        } catch (std::ios_base::failure &e) {
+          *errors |= SYNTAX_ERROR_QUERYDESCRIP;
+          query_group_done = true;
+          state_ = PARAMS;
+        }
+      } else {                                // Done with the query group
+        query_group_done = true;
+        state_ = PARAMS;
+      }
+      break;
+    }
+      
+    default : {                               // Should never get here
+      assert(false);
+      break;
+    }
+  }
+  
+  return query_group_done;
+}
+
+/*std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_job_queue, 
                                          QuerySeqManager* query_seq_manager,
                                          RefSeqManager* ref_seq_manager,
                                          unsigned int* errors) {
@@ -97,13 +230,13 @@ std::vector<int> ServerComm::GetQueryGroup(ThreadQueue<AlignmentJob>* alignment_
         new_jobs[i].query_id = query_id;
       }
       
-      /*std::cout << "New job: Query ID " << new_jobs[i].query_id 
-                << "\tRef ID " << new_jobs[i].ref_id
-                << "\tChr ID " << new_jobs[i].chr_id
-                << "\tRef Offset " << new_jobs[i].ref_offset
-                << "\tRef Length " << new_jobs[i].ref_len
-                << "\tThreshold " << new_jobs[i].threshold
-                << std::endl;*/
+      //std::cout << "New job: Query ID " << new_jobs[i].query_id 
+      //          << "\tRef ID " << new_jobs[i].ref_id
+      //          << "\tChr ID " << new_jobs[i].chr_id
+      //          << "\tRef Offset " << new_jobs[i].ref_offset
+      //          << "\tRef Length " << new_jobs[i].ref_len
+      //          << "\tThreshold " << new_jobs[i].threshold
+      //          << std::endl;
       
       alignment_job_queue->Push(new_jobs[i]);
       num_jobs++;
@@ -155,7 +288,6 @@ bool ServerComm::Action(std::string line,
         long long int ref_start;
         long long int ref_end;
         int threshold;
-        int max_gap_length;
         std::string query_seq;
         
         std::istringstream iss(line);
@@ -254,7 +386,7 @@ bool ServerComm::Action(std::string line,
   }
   
   return query_group_done;
-}
+}*/
 
 void ServerComm::SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name, std::string chr_name) {
   std::stringstream ss;

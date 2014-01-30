@@ -22,6 +22,7 @@
 #include <vector>
 #include <assert.h>
 #include <math.h>
+#include <time.h>
 #include "refseqmanager.h"
 #include "utils.h"
 #include "fasta.h"
@@ -49,6 +50,8 @@ void RefSeqManager::Init(PicoDrv** pico_drivers) {
   }
   pico_drivers_ = pico_drivers;
   total_ref_length_ = 0;
+  disk_refseqload_time_ = 0;
+  fpga_refseqload_time_ = 0;
   
   pthread_mutex_init(&ref_fd_listmap_mutex_, NULL);
 }
@@ -202,8 +205,14 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
   std::vector<long long int> lengths;
   std::vector<long long int> fileposs;
 
+  struct timespec start, finish;
+
   // Parse FASTA files
+  clock_gettime(CLOCK_MONOTONIC, &start);
   ParseFastaFile(ref_file, &descrips, &seqs, &lengths, &fileposs);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+  disk_refseqload_time_ += (finish.tv_sec - start.tv_sec);
+  disk_refseqload_time_ += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
   assert(descrips.size() == seqs.size());
   assert(seqs.size() == lengths.size());
   assert(lengths.size() == fileposs.size());
@@ -261,6 +270,7 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
       //std::cout << "Bank length " << seq_length << "\tOverlap length " << overlap_length << "\tNum blocks to store " << num_blocks_to_store<<std::endl;
 
       // Stream the sequence
+      clock_gettime(CLOCK_MONOTONIC, &start);
       StreamRefSeq(cur_fpga, &(seqs[i][cur_offset]), cur_block_[cur_fpga], seq_length + overlap_length);
       /*std::cout << "Ref ID: "           << ref_id 
                 << "\tRef Name: "       << ref_name 
@@ -272,6 +282,9 @@ void RefSeqManager::AddRef(std::string ref_file, std::string ref_name) {
                 << "\tFPGA: "           << cur_fpga
                 << "\tAddress: "        << cur_block_[cur_fpga]
                 << std::endl;*/
+      clock_gettime(CLOCK_MONOTONIC, &finish);
+      fpga_refseqload_time_ += (finish.tv_sec - start.tv_sec);
+      fpga_refseqload_time_ += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
                 
       // Store the chromosome bank information
       RefSeqBank loc;
@@ -326,7 +339,7 @@ void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr
   long long int twobit_buf_length = ((long long int) ceil(((double) ref_length) / REF_BLOCK_LEN)) * (REF_BLOCK_LEN / 4);
 
   // Build 2-bit formatted ref seq buffer
-  // Replace N's with random nucleotide
+  //   Replace N's with random nucleotide
   char* twobit_buf = new char[twobit_buf_length];
   for (int i = 0; i < twobit_buf_length; i++) {
     char val = 0;
@@ -406,4 +419,12 @@ void RefSeqManager::GetFPGAStorage(long long int* num_nt) {
   for (int i = 0; i < NUM_FPGAS; i++) {
     num_nt[i] = cur_block_[i] * REF_BLOCK_LEN/4;
   }
+}
+
+double RefSeqManager::GetDiskRefSeqLoadTime() {
+  return disk_refseqload_time_;
+}
+
+double RefSeqManager::GetFPGARefSeqLoadTime() {
+  return fpga_refseqload_time_;
 }
