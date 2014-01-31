@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unordered_set>
+#include <fstream>
 #include "def.h"
 #include "servercomm.h"
 #include "threadqueue.h"
@@ -32,29 +33,51 @@
 
 #define SWSERVERTIMING
 
-int GetFastaFiles(std::string dir, std::vector<std::string>* files, std::vector<std::string>* ref_names) {
+void GetFilesWithExtension(std::string dir, std::vector<std::string>* files, std::vector<std::string>* ref_names, std::string extension) {
   DIR *dp;
   struct dirent *dirp;
   if ((dp = opendir(dir.c_str())) == NULL) {
-    std::cerr << "Invalid ref seq directory: " << dir << std::endl;
-    return errno;
+    std::cerr << "Invalid directory: " << dir << std::endl;
+    return;
   }
   
   while ((dirp = readdir(dp)) != NULL) {
     std::string filename(dirp->d_name);
     std::string::size_type idx = filename.rfind('.');
-    std::string extension;
+    std::string ext;
     if (idx != std::string::npos) {
-      extension = filename.substr(idx+1);
+      ext = filename.substr(idx+1);
     }
-    if (extension == "fa" || extension == "FA") {
+    if (ext == extension) {
       files->push_back(dir + "/" + filename);
       ref_names->push_back(filename.substr(0, idx));
     }
   }
   closedir(dp);
-  return 0;
 }
+
+void GetFastaFiles(std::string dir, std::vector<std::string>* files, std::vector<std::string>* ref_names) {
+  GetFilesWithExtension(dir, files, ref_names, "fa");
+  GetFilesWithExtension(dir, files, ref_names, "FA");
+}
+
+// Gets all of the reference sequence files from the given directory.
+//   Stores all FASTA (.fa or .FA) filenames in the directory into fafiles.
+//   Stores all ref seq names (filename w/o the extension) into ref_names in the same order as fafiles.
+//   For each ref seq with a corresponding fpga2bit file, stores the fpga2bit filename into fpga2bitfiles.
+//   For each ref seq w/o a corresponding fpga2bit file, stores "" into fpga2bitfiles.
+void GetRefFiles(std::string dir, std::vector<std::string>* fafiles, std::vector<std::string>* fpga2bitfiles, std::vector<std::string>* ref_names) {
+  GetFastaFiles(dir, fafiles, ref_names);
+  for (std::vector<std::string>::iterator it = ref_names->begin(); it != ref_names->end(); it++) {
+    std::string fpga2bit_filename = dir + "/" + (*it) + ".fpga2bit";
+    std::ifstream ifile(fpga2bit_filename);
+    if (ifile) {
+      fpga2bitfiles->push_back(fpga2bit_filename);
+    } else {
+      fpga2bitfiles->push_back("");
+    }
+  }
+}   
 
 std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue, 
                QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager, unsigned int* errors) {
@@ -292,6 +315,7 @@ int main(int argc, char *argv[]) {
       while (result_queue.Size() != 0) {
         AlignmentResult aln_res = result_queue.Pop();
         
+        // Keep a set of unique alignments
         std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator aln_it = res_set.find(aln_res);
         if (aln_it == res_set.end()) {
           res_set.insert(aln_res);
@@ -313,7 +337,7 @@ int main(int argc, char *argv[]) {
       }
     }
     
-    // Send the boundary results
+    // Send the unique set of alignment results
     for (std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator it = res_set.begin();
          it != res_set.end(); it++) {
       AlignmentResult aln_res = *it;
