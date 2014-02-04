@@ -13,6 +13,7 @@
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 14 2013     Added ref seq banking
 //      Albert Ng   Jan 22 2014     Added ref seq file descriptor LRU management
+//      Albert Ng   Feb 03 2014     Added fpga file loading
 
 #ifndef REFSEQMANAGER_H_
 #define REFSEQMANAGER_H_
@@ -73,7 +74,8 @@ class RefSeqManager {
     std::string GetChrName(int ref_id, int chr_id);
 
     // Add a new reference sequence to be managed.
-    void AddRef(std::string ref_file, std::string ref_name);
+    //void AddRef(std::string ref_file, std::string ref_name);
+    void AddRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name);
 
     // Get a list of FPGA DRAM locations of a ref seq region
     std::vector<RefSeqBank> GetRefSeqBanks(int ref_id, int chr_id, long long int start_coord,
@@ -83,13 +85,19 @@ class RefSeqManager {
     long long int GetTotalRefLength();
     
     // Get each FPGA storage size in number of bytes
-    void GetFPGAStorage(long long int* num_nt);
+    void GetFPGAStorage(long long int* num_bytes);
     
     // Get the time it took to load ref seq data from disk
     double GetDiskRefSeqLoadTime();
     
     // Get the time it took to load ref seq data to FPGAs
     double GetFPGARefSeqLoadTime();
+
+    // Build the fpga2bit and metadata files for the ref seq
+    void BuildFpgaFiles(std::string ref_dir, std::string ref_filename, std::string ref_name);
+
+    // Load the fpga2bit files to FPGA DRAM and read the metadata file
+    void LoadRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name);
 
   private:
     // Convert the ref seq to 2bit format and stream to the FPGA DRAM

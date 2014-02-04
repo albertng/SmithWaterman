@@ -38,6 +38,7 @@
 #define REF_BLOCK_LEN 128
 #define QUERY_BLOCK_LEN 64
 #define MAX_QUERY_LEN 65535
+#define NT_PER_BYTE 4
 
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"

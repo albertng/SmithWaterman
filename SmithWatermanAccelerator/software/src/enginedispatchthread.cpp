@@ -133,7 +133,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           long long int ref_len = (loc.end_coord - loc.start_coord) + loc.overlap_len;
 
           // Compute minimum job size allowable
-          int min_job_len = 2*query_len > 2*REF_BLOCK_LEN ? 2*query_len : 2*REF_BLOCK_LEN;
+          int min_job_len = 2*query_len > 50*REF_BLOCK_LEN ? 2*query_len : 50*REF_BLOCK_LEN;
 
           // Compute number of engine jobs to allocate for the alignment
           int num_jobs = ref_len / min_job_len;
@@ -215,7 +215,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           block_cnt += (*it).num_ref_blocks;
           job_cnt++;
         }
-        std::cout << "FPGA " << i << " Engine " << j << " " << job_cnt << " " << block_cnt << std::endl;
+        //std::cout << "FPGA " << i << " Engine " << j << " " << job_cnt << " " << block_cnt << std::endl;
       }
     }
     
@@ -283,7 +283,7 @@ void EngineDispatchThread::DispatchJobs(PicoDrv* pico_driver, int stream, Thread
     cur_index += buf_len_per_job;
   }
   int num_jobs = cur_job;
-   
+  
   // Write dispatch buffer to FPGA
   pico_driver->WriteStream(stream, out_buf, (num_jobs * buf_len_per_job) * 4);
   

@@ -7,6 +7,7 @@
 //      Albert Ng   Nov 13 2013     Uses REFPATH env var, takes in ref seq names
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 27 2014     Added ProcessJob()
+//      Albert Ng   Feb 03 2014     Added fpga file loading
 
 #include <iostream>
 #include <dirent.h>
@@ -49,7 +50,7 @@ void GetFilesWithExtension(std::string dir, std::vector<std::string>* files, std
       ext = filename.substr(idx+1);
     }
     if (ext == extension) {
-      files->push_back(dir + "/" + filename);
+      files->push_back(filename);
       ref_names->push_back(filename.substr(0, idx));
     }
   }
@@ -58,26 +59,7 @@ void GetFilesWithExtension(std::string dir, std::vector<std::string>* files, std
 
 void GetFastaFiles(std::string dir, std::vector<std::string>* files, std::vector<std::string>* ref_names) {
   GetFilesWithExtension(dir, files, ref_names, "fa");
-  GetFilesWithExtension(dir, files, ref_names, "FA");
 }
-
-// Gets all of the reference sequence files from the given directory.
-//   Stores all FASTA (.fa or .FA) filenames in the directory into fafiles.
-//   Stores all ref seq names (filename w/o the extension) into ref_names in the same order as fafiles.
-//   For each ref seq with a corresponding fpga2bit file, stores the fpga2bit filename into fpga2bitfiles.
-//   For each ref seq w/o a corresponding fpga2bit file, stores "" into fpga2bitfiles.
-void GetRefFiles(std::string dir, std::vector<std::string>* fafiles, std::vector<std::string>* fpga2bitfiles, std::vector<std::string>* ref_names) {
-  GetFastaFiles(dir, fafiles, ref_names);
-  for (std::vector<std::string>::iterator it = ref_names->begin(); it != ref_names->end(); it++) {
-    std::string fpga2bit_filename = dir + "/" + (*it) + ".fpga2bit";
-    std::ifstream ifile(fpga2bit_filename);
-    if (ifile) {
-      fpga2bitfiles->push_back(fpga2bit_filename);
-    } else {
-      fpga2bitfiles->push_back("");
-    }
-  }
-}   
 
 std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue, 
                QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager, unsigned int* errors) {
@@ -225,19 +207,13 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> ref_names;
     GetFastaFiles(parentdir_str, &file_names, &ref_names);
     for (int i = 0; i < file_names.size(); i++) {
-      std::cout << "Loading reference " << ref_names[i] << "..." << std::endl;
-      ref_seq_manager.AddRef(file_names[i], ref_names[i]);
+      ref_seq_manager.AddRef(parentdir_str, file_names[i], ref_names[i]);
     }
   }
   else {
     for (int i = 2; i < argc; i++) {
-      std::string ref_file = parentdir_str;
-      ref_file += "/";
-      ref_file += argv[i];
-      ref_file += ".fa";
-      
-      std::cout << "Loading reference " << argv[i] << "..." << std::endl;
-      ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
+      std::string ref_file = std::string(argv[i]) + ".fa";
+      ref_seq_manager.AddRef(parentdir_str, ref_file, std::string(argv[i]));
     }
   }
   std::cout << "Loaded " << ref_seq_manager.GetTotalRefLength() << " nucleotides total." << std::endl;
