@@ -12,6 +12,7 @@
 //      Albert Ng   Jan 22 2014     Added ref seq file descriptor LRU management
 //                                  Added GetFPGAStorage()
 //      Albert Ng   Feb 03 2014     Added fpga file loading
+//      Albert Ng   Feb 04 2014     Added GetNumRefs()
 
 #include "def.h"
 #include <stdio.h>
@@ -53,6 +54,10 @@ void RefSeqManager::Init(PicoDrv** pico_drivers) {
   total_ref_length_ = 0;
   disk_refseqload_time_ = 0;
   fpga_refseqload_time_ = 0;
+  ref_seq_access_count_ = 0;
+  file_read_time_ = 0;
+  seq_copy_time_ = 0;
+  ref_length_read_ = 0;
   
   pthread_mutex_init(&ref_fd_listmap_mutex_, NULL);
 }
@@ -137,6 +142,10 @@ char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset,
   
   pthread_mutex_lock(&(ref_fd_mutex_[ref_id]));
   
+  struct timespec start, finish;
+  double elapsed;
+  
+  clock_gettime(CLOCK_MONOTONIC, &start);
   std::ifstream* file = GetRefSeqFD(ref_id);
   assert(file->is_open());
   
@@ -151,10 +160,23 @@ char* RefSeqManager::GetRefSeq(int ref_id, int chr_id, long long int ref_offset,
     }
   }
   
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+  elapsed = (finish.tv_sec - start.tv_sec);
+  elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+  file_read_time_ += elapsed;
+  
   pthread_mutex_unlock(&(ref_fd_mutex_[ref_id]));  
   
+  clock_gettime(CLOCK_MONOTONIC, &start);
   char* seq = new char[ref_len];
   seqline.copy(seq, ref_len);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+  elapsed = (finish.tv_sec - start.tv_sec);
+  elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+  seq_copy_time_ += elapsed;
+  
+  ref_seq_access_count_++;
+  ref_length_read_ += ref_len;
   
   return seq;
 }
@@ -403,6 +425,10 @@ std::vector<RefSeqManager::RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id,
   return locs;
 }
 
+int RefSeqManager::GetNumRefs() {
+  return ref_name_.size();
+}
+
 long long int RefSeqManager::GetTotalRefLength() {
   return total_ref_length_;
 }
@@ -421,6 +447,29 @@ double RefSeqManager::GetFPGARefSeqLoadTime() {
   return fpga_refseqload_time_;
 }
 
+double RefSeqManager::GetFileReadTime() {
+  return file_read_time_;
+}
+
+double RefSeqManager::GetSeqCopyTime() {
+  return seq_copy_time_;
+}
+
+int RefSeqManager::GetRefSeqAccessCount() {
+  return ref_seq_access_count_;
+}
+
+long long int RefSeqManager::GetRefLengthRead() {
+  return ref_length_read_;
+}
+
+void RefSeqManager::ResetStats() {
+  ref_seq_access_count_ = 0;
+  file_read_time_ = 0;
+  seq_copy_time_ = 0;
+  ref_length_read_ = 0;
+}
+
 void RefSeqManager::AddRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name) {
   std::ifstream file(ref_dir + "/" + ref_fa_filename);
   if (file.is_open() == false) {
@@ -432,7 +481,6 @@ void RefSeqManager::AddRef(std::string ref_dir, std::string ref_fa_filename, std
   
   // Check if fpga files are already built
   bool all_files_present = true;
-  file.close();
   file.open(ref_dir + "/" + ref_name + ".meta");
   all_files_present &= file.is_open();
   file.close();
@@ -522,6 +570,8 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
       }
       long long int num_blocks_to_store = (long long int) ceil(((double) (seq_length + overlap_length)) / REF_BLOCK_LEN);
 
+      std::cout << cur_fpga << " " << descrips[i][CHR_NAME_FIELD] << " " << cur_offset << " " << seq_length << " " << overlap_length << std::endl;
+
       // Compute length of 2-bit formatted ref seq buffer
       //   Pad ref seq buffer to hold a multiple of REF_BLOCK_LEN nucleotides
       long long int twobit_buf_length = num_blocks_to_store * (REF_BLOCK_LEN / 4);
@@ -533,7 +583,7 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
         char val = 0;
         for (int k = j*4+3; k >= j*4; k--) {
           val <<= 2;
-          if (cur_offset + k < seq_length + overlap_length) {
+          if (k < seq_length + overlap_length) {
             if (seqs[i][cur_offset + k] != 'N' && seqs[i][cur_offset + k] != 'n') {
               val += NtChar2Int(seqs[i][cur_offset + k]);
             } else {
@@ -634,9 +684,13 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
 void RefSeqManager::LoadRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name) {
   std::cout << "Loading ref " << ref_name << "..." << std::endl;
 
+  struct timespec start, finish;
+  double elapsed;
+
   // Load fpga2bit files to DRAM and update current block counters
   for (int i = 0; i < NUM_FPGAS; i++) {
     // Get file size
+    clock_gettime(CLOCK_MONOTONIC, &start);
     std::ifstream fpga2bitfile(ref_dir + "/" + ref_name + "." + std::to_string(i) + ".fpga2bit");
     assert(fpga2bitfile.is_open() == true);
     fpga2bitfile.seekg(0, fpga2bitfile.end);
@@ -648,14 +702,24 @@ void RefSeqManager::LoadRef(std::string ref_dir, std::string ref_fa_filename, st
     // Read 2bit file into buffer
     char* buffer = new char[size];
     fpga2bitfile.read(buffer, size);
+    fpga2bitfile.close();
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    disk_refseqload_time_ += elapsed;
     
     // Write the ref seq to the FPGA DRAM
+    clock_gettime(CLOCK_MONOTONIC, &start);
     char ibuf[1024];
     int err = pico_drivers_[i]->WriteRam(cur_block_[i] * (REF_BLOCK_LEN / 4), (void*) buffer, size);
     if (err < 0) {
       fprintf(stderr, "Failed to write ref seq to FPGA %d, error: %s\n", i, 
               PicoErrors_FullError(err, ibuf, sizeof(ibuf)));
     }
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    elapsed = (finish.tv_sec - start.tv_sec);
+    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    fpga_refseqload_time_ += elapsed;
 
     // Update counter
     cur_block_[i] += (size / (REF_BLOCK_LEN / 4));

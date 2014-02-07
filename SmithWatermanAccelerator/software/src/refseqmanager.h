@@ -14,6 +14,7 @@
 //      Albert Ng   Jan 14 2013     Added ref seq banking
 //      Albert Ng   Jan 22 2014     Added ref seq file descriptor LRU management
 //      Albert Ng   Feb 03 2014     Added fpga file loading
+//      Albert Ng   Feb 04 2014     Added GetNumRefs()
 
 #ifndef REFSEQMANAGER_H_
 #define REFSEQMANAGER_H_
@@ -74,8 +75,10 @@ class RefSeqManager {
     std::string GetChrName(int ref_id, int chr_id);
 
     // Add a new reference sequence to be managed.
-    //void AddRef(std::string ref_file, std::string ref_name);
     void AddRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name);
+
+    // Get the number of reference sequences loaded.
+    int GetNumRefs();
 
     // Get a list of FPGA DRAM locations of a ref seq region
     std::vector<RefSeqBank> GetRefSeqBanks(int ref_id, int chr_id, long long int start_coord,
@@ -92,6 +95,16 @@ class RefSeqManager {
     
     // Get the time it took to load ref seq data to FPGAs
     double GetFPGARefSeqLoadTime();
+
+    int GetRefSeqAccessCount();
+    
+    double GetFileReadTime();
+    
+    double GetSeqCopyTime();
+
+    long long int GetRefLengthRead();
+
+    void ResetStats();
 
     // Build the fpga2bit and metadata files for the ref seq
     void BuildFpgaFiles(std::string ref_dir, std::string ref_filename, std::string ref_name);
@@ -163,6 +176,14 @@ class RefSeqManager {
     double disk_refseqload_time_;
     
     double fpga_refseqload_time_;
+    
+    double file_read_time_;
+    
+    double seq_copy_time_;
+    
+    int ref_seq_access_count_;
+    
+    long long int ref_length_read_;
 };
 
 #endif // REFSEQMANAGER_H_

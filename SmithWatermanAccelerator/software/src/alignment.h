@@ -19,6 +19,7 @@
 #include <list>
 #include <iostream>
 #include <string>
+#include "scoring.h"
 
 #define GAP '-'
 
@@ -38,12 +39,13 @@ class Alignment {
     // Trim off the end of the alignment STARTING from index (i.e. keep the
     //   first index characters of the alignment)
     //   e.g. "ACG-T" TrimEnd(2) becomes "AC"
-    void TrimEnd(int index);
+    //void TrimEnd(int index);
+    void TrimEnd(SwAffineGapParams params);
     
-    // Compute length of the alignment
     int GetLength() const;
     long long int GetRefLength() const;
     long long int GetQueryLength() const;
+    int ComputeScore(SwAffineGapParams params) const;
     
     // Accessor functions
     long long int get_ref_offset() const;

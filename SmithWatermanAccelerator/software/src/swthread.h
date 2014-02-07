@@ -112,10 +112,9 @@ class SWThread {
     struct Cell {
       int ref_index;
       int query_index;
-      int score;
       
       bool operator==(const Cell& rhs) {
-        return ref_index == rhs.ref_index && query_index == rhs.query_index && score == rhs.score;
+        return ref_index == rhs.ref_index && query_index == rhs.query_index;
       }
     };
     

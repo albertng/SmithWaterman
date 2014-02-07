@@ -133,7 +133,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           long long int ref_len = (loc.end_coord - loc.start_coord) + loc.overlap_len;
 
           // Compute minimum job size allowable
-          int min_job_len = 2*query_len > 50*REF_BLOCK_LEN ? 2*query_len : 50*REF_BLOCK_LEN;
+          int min_job_len = 2*query_len >  50*REF_BLOCK_LEN ? 2*query_len : 50*REF_BLOCK_LEN;
 
           // Compute number of engine jobs to allocate for the alignment
           int num_jobs = ref_len / min_job_len;
@@ -253,15 +253,29 @@ void EngineDispatchThread::DispatchJobs(PicoDrv* pico_driver, int stream, Thread
   // Compute maximum number of jobs that can be sent without stalling
   int bytes_available = pico_driver->GetBytesAvailable(stream, false);
   int max_num_jobs = bytes_available / (buf_len_per_job * 4);
+
+  // Store engine jobs onto engine job queue
+  int cur_job = 0;
+  for (std::list<EngineDispatchThread::DispatchJob>::iterator it = jobs->begin(); 
+       it != jobs->end() && cur_job < max_num_jobs; it++, cur_job++) {
+    EngineDispatchThread::DispatchJob job = *it;
+    engine_job_queue->Push(job.engine_job);
+  }
   
   // Fill dispatch buffer
   int cur_index = 0;
-  int cur_job = 0;
+  cur_job = 0;
   for (std::list<EngineDispatchThread::DispatchJob>::iterator it = jobs->begin(); 
        it != jobs->end() && cur_job < max_num_jobs; it++, cur_job++) {
     EngineDispatchThread::DispatchJob job = *it;
     assert(job.query_len == query_len);
     assert(job.threshold == threshold);
+  
+    /*std::cout << "Num ref block: " << job.num_ref_blocks << "\t"
+              << "First ref block: " << job.first_ref_block << "\t"
+              << "Query id: " << job.query_id << "\t"
+              << "Query length: " << query_len << "\t"
+              << "Threshold: " << threshold << std::endl;*/
   
     out_buf[cur_index + 0] = (uint32_t) job.num_ref_blocks;
     out_buf[cur_index + 1] = (uint32_t) job.first_ref_block;
@@ -286,14 +300,6 @@ void EngineDispatchThread::DispatchJobs(PicoDrv* pico_driver, int stream, Thread
   
   // Write dispatch buffer to FPGA
   pico_driver->WriteStream(stream, out_buf, (num_jobs * buf_len_per_job) * 4);
-  
-  // Store engine jobs onto engine job queue
-  cur_job = 0;
-  for (std::list<EngineDispatchThread::DispatchJob>::iterator it = jobs->begin(); 
-       it != jobs->end() && cur_job < max_num_jobs; it++, cur_job++) {
-    EngineDispatchThread::DispatchJob job = *it;
-    engine_job_queue->Push(job.engine_job);
-  }
   
   // Remove dispatched jobs from the queue
   for (int i = 0; i < max_num_jobs && jobs->empty() == false; i++) {

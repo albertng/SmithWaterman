@@ -169,6 +169,9 @@ void* SWThread::Align(void* args) {
     clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
     char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.chr_id, hsr.offset, ref_len);
+    if (hsr.offset >= 120338218 && hsr.offset < 120338242) {
+      std::cout << ref_seq_manager->GetRefName(hsr.ref_id) << " " << ref_seq_manager->GetChrName(hsr.ref_id, hsr.chr_id) << " " << hsr.offset << " " << ref_len << std::endl;
+    }
 #ifdef SWTIMING
     clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
@@ -272,7 +275,6 @@ void* SWThread::Align(void* args) {
           Cell hsc;
           hsc.ref_index = i;
           hsc.query_index = j;
-          hsc.score = (*v_matrix)[i][j];
           highscore_cells.insert(hsc);
         }
       }
@@ -292,23 +294,21 @@ void* SWThread::Align(void* args) {
     for (std::set<Cell, CellComp>::iterator it = highscore_cells.begin(); it != highscore_cells.end(); ++it) {
       int query_index = (*it).query_index;
       int ref_index = (*it).ref_index;
-      int score = (*it).score;
       
       // Build the alignment
       Alignment aln(hsr.offset + ref_index, query_index);
       while ((*dir_matrix)[ref_index][query_index] != ZERO_OP) {
         // Keep alignments ending with the right-most max score cell
-        if ((*v_matrix)[ref_index][query_index] > score) {
+        /*if ((*v_matrix)[ref_index][query_index] > score) {
           score = (*v_matrix)[ref_index][query_index];
           aln.TrimEnd(0);
-        }
+        }*/
     
         // Remove visited cells from the high score cell list
         if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
           Cell hsc;
           hsc.query_index = query_index;
           hsc.ref_index = ref_index;
-          hsc.score = score;
           highscore_cells.erase(hsc);
         }
 
@@ -326,10 +326,14 @@ void* SWThread::Align(void* args) {
           default:        assert(false);
         }
       }
+      aln.TrimEnd(hsr.params);
+      int aln_score = aln.ComputeScore(hsr.params);
+      
       AlignmentResult aln_res;
       aln_res.hsr = hsr;
       aln_res.alignment = aln;
-      aln_res.score = score;
+      aln_res.score = aln_score;
+      
       // Indicate whether or not the alignment falls on a boundary for duplicate
       //   checking in the main thread before reporting. 
       if ((aln.get_ref_offset() == hsr.job_offset) || 
@@ -342,8 +346,9 @@ void* SWThread::Align(void* args) {
       std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = hsr_alignments.find(aln_res);
       if (aln_it != hsr_alignments.end()) {
         // Filter out same start-index duplicate alignments, pick the highest scoring, longest duplicated alignment
-        if (((*aln_it).score < aln_res.score) || 
-            ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
+        int aln_it_score = (*aln_it).alignment.ComputeScore(hsr.params);
+        if ((aln_it_score < aln_score) || 
+            (aln_it_score == aln_score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
           hsr_alignments.erase(aln_it);
           hsr_alignments.insert(aln_res);
         }

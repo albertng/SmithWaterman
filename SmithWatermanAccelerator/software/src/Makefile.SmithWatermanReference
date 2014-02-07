@@ -1,17 +1,11 @@
 all: smithwatermanreference
 
-smithwatermanreference: fasta.o alignment.o scoring.o smithwatermanreference.o
-	g++ fasta.o alignment.o scoring.o smithwatermanreference.o -o smithwatermanreference -lrt
+smithwatermanreference: fasta.o smithwatermanreference.o
+	g++ fasta.o smithwatermanreference.o -o smithwatermanreference -lrt
 
 fasta.o: fasta.cpp
 	g++ -c fasta.cpp -g
 	
-scoring.o: scoring.cpp
-	g++ -c scoring.cpp -g
-
-alignment.o: alignment.cpp
-	g++ -c alignment.cpp -g
-
 smithwatermanreference.o: smithwatermanreference.cpp
 	g++ -c smithwatermanreference.cpp -g
 

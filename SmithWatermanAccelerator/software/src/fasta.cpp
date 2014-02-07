@@ -105,5 +105,6 @@ void ParseFastaFile(std::string filename,
       index += line.length();
     }
   }
+  file.close();
 }
       

@@ -71,7 +71,31 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     params_job.query_id = PARAMS_JOB;
     params_job.params = jobreq.params;
     jobs.push_back(params_job);
-  } else {                                          // Request for alignment
+    alignment_job_queue->Push(jobs);
+  } else if (jobreq.ref_name == ALL_REF) {          // Request for alignment to entire database
+    int num_refs = ref_seq_manager->GetNumRefs();
+    for (int ref_id = 0; ref_id < num_refs; ref_id++) {
+      jobs.clear();
+      std::vector<int> chr_ids = ref_seq_manager->GetChrIDs(ref_id);
+      for (int i = 0; i < chr_ids.size(); i++) {
+        int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
+        query_ids.push_back(query_id);
+        
+        AlignmentJob job;
+        job.query_id = query_id;
+        job.ref_id = ref_id;
+        job.chr_id = chr_ids[i];
+        job.ref_offset = 0;
+        job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
+        job.threshold = jobreq.threshold;
+        job.params = jobreq.params;
+        jobs.push_back(job);
+      }
+      
+      alignment_job_queue->Push(jobs);
+      std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
+    }
+  } else {                                          // Request for alignment to single species
     int ref_id = ref_seq_manager->GetRefID(jobreq.ref_name);
     int chr_id = ref_seq_manager->GetChrID(ref_id, jobreq.chr_name);
     std::vector<int> chr_ids;
@@ -112,7 +136,6 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     
     // Set up alignment information
     if (*errors == 0) {
-      std::cout << chr_ids.size() << " ProcessJob() chromosome jobs" << std::endl;
       for (int i = 0; i < chr_ids.size(); i++) {
         int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
         query_ids.push_back(query_id);
@@ -133,9 +156,11 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
         jobs.push_back(job);
       }
     }
+    
+    alignment_job_queue->Push(jobs);
+    std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
   }
   
-  alignment_job_queue->Push(jobs);
   return query_ids;
 }
 
@@ -261,6 +286,7 @@ int main(int argc, char *argv[]) {
       swthreads[i].ResetStats();
       swthreads[i].ResetMatrices();
     }
+    ref_seq_manager.ResetStats();
     num_hits = 0;
     
     // Parse the query group and initiate alignments
@@ -370,8 +396,18 @@ int main(int argc, char *argv[]) {
               << (total_init_time / total_time)*100 << "% init, " 
               << (total_compute_time / total_time)*100 << "% compute, "
               << (total_backtrace_time / total_time)*100 << "% backtrace"
-              << std::endl << std::endl;
+              << std::endl;
+              
+    int ref_seq_access_count = ref_seq_manager.GetRefSeqAccessCount();
+    double file_read_time = ref_seq_manager.GetFileReadTime();
+    double seq_copy_time = ref_seq_manager.GetSeqCopyTime();
+    long long int ref_length_read = ref_seq_manager.GetRefLengthRead();
+    std::cout << "Ref seq accesses: " << ref_seq_access_count << "\n"
+              << "Ref seq file read time: " << file_read_time << "\n"
+              << "Ref seq copy time: " << seq_copy_time << "\n"
+              << "Ref length read: " << ref_length_read << std::endl;
 #endif
+    std::cout << std::endl;
   }
 }
 
