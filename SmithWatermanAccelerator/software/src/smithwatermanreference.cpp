@@ -292,6 +292,7 @@ class Alignment {
           score += sub_mat[NtChar2Int(ref_str_[i])][NtChar2Int(query_str_[i])];
           gap = false;
         }
+        //std::cout << ref_str_[i] << " " << query_str_[i] << " " << score << std::endl;
       }
 
       for (int i = 0; i < 4; i++) {
@@ -317,7 +318,8 @@ class Alignment {
 struct Cell {
   int ref_index;
   int query_index;
-  
+  int score;
+
   bool operator==(const Cell& rhs) {
     return ref_index == rhs.ref_index && query_index == rhs.query_index;
   }
@@ -337,7 +339,8 @@ struct CellComp {
   }
 };
 
-enum AlnOp {ZERO_OP, MATCH_OP, INSERT_OP, DELETE_OP};
+//enum AlnOp {ZERO_OP, MATCH_OP, INSERT_OP, DELETE_OP};
+enum AlnOp {Z, V, E, F};
 
 std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_seq, long long int ref_len,
                           SwAffineGapParams params, int threshold) {
@@ -345,11 +348,24 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
   double elapsed;
                           
   long long int dir_matrix_query_dim = (long long int) ceil(((double) (query_len + 1)) / 4);
-  unsigned char** dir_matrix = new unsigned char*[ref_len + 1];
+  /*unsigned char** dir_matrix = new unsigned char*[ref_len + 1];
   for (int i = 0; i < ref_len + 1; i++) {
     dir_matrix[i] = new unsigned char[dir_matrix_query_dim];
     for (int j = 0; j < dir_matrix_query_dim; j++) {
       dir_matrix[i][j] = 0;
+    }
+  }*/
+  unsigned char** dir_v_matrix = new unsigned char*[ref_len + 1];
+  unsigned char** dir_e_matrix = new unsigned char*[ref_len + 1];
+  unsigned char** dir_f_matrix = new unsigned char*[ref_len + 1];
+  for (int i = 0; i < ref_len + 1; i++) {
+    dir_v_matrix[i] = new unsigned char[dir_matrix_query_dim];
+    dir_e_matrix[i] = new unsigned char[dir_matrix_query_dim];
+    dir_f_matrix[i] = new unsigned char[dir_matrix_query_dim];    
+    for (int j = 0; j < dir_matrix_query_dim; j++) {
+      dir_v_matrix[i][j] = 0;
+      dir_e_matrix[i][j] = 0;
+      dir_f_matrix[i][j] = 0;
     }
   }
   int* v_matrix_wr = new int[query_len + 1];
@@ -378,7 +394,13 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
   
   clock_gettime(CLOCK_MONOTONIC, &start);
   std::set<Cell, CellComp> highscore_cells;
+  std::cout << "\t";
+  for (int i = 0; i < query_len; i++) {
+    std::cout << query_seq[i] << " " << i << "\t";
+  }
+  std::cout << std::endl;
   for (int i = 1; i < ref_len + 1; i++) {
+    std::cout << ref_seq[i-1] << " " << i-1 << "\t";
     int* v_matrix_tmp = v_matrix_wr;
     int* e_matrix_tmp = e_matrix_wr;
     int* f_matrix_tmp = f_matrix_wr;
@@ -393,37 +415,74 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
       NtInt query_nt = NtChar2Int(query_seq[j-1]);
       
       int match;
+      //std::cout << v_matrix_rd[j] << "\t";
       if (ref_nt == N_NT || query_nt == N_NT) {
         match = -2147483648; // Force N's to align with gaps
       } else {
         match = v_matrix_rd[j-1] + sub_mat[query_nt][ref_nt];
+        /*if (v_matrix_rd[j-1] == 452) {
+          std::cout << "v_matrix_rd = 452 from " << "(" << i << ", " << j << ")" << std::endl;
+        }*/
       }
       int ins_open   = v_matrix_rd[j] + gap_open;
       int ins_extend = e_matrix_rd[j] + gap_extend;
       int del_open   = v_matrix_wr[j-1] + gap_open;
       int del_extend = f_matrix_wr[j-1] + gap_extend;
       
-      e_matrix_wr[j] = (ins_open > ins_extend) ? ins_open : ins_extend;
-      f_matrix_wr[j] = (del_open > del_extend) ? del_open : del_extend;
+      unsigned char e_dir;
+      if (ins_open > ins_extend) {
+        e_matrix_wr[j] = ins_open;
+        dir_e_matrix[i][j/4] = (dir_e_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (V << (2 * (j % 4))));
+        e_dir = V;
+      } else {
+        e_matrix_wr[j] = ins_extend;
+        dir_e_matrix[i][j/4] = (dir_e_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (E << (2 * (j % 4))));
+        e_dir = E;
+      }
+      unsigned char f_dir;
+      if (del_open > del_extend) {
+        f_matrix_wr[j] = del_open;
+        dir_f_matrix[i][j/4] = (dir_f_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (V << (2 * (j % 4))));
+        f_dir = V;
+      } else {
+        f_matrix_wr[j] = del_extend;
+        dir_f_matrix[i][j/4] = (dir_f_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (F << (2 * (j % 4))));
+        f_dir = F;
+      }
+      /*e_matrix_wr[j] = (ins_open > ins_extend) ? ins_open : ins_extend;
+      f_matrix_wr[j] = (del_open > del_extend) ? del_open : del_extend;*/
       
       int max1 = e_matrix_wr[j];
-      unsigned char dir1 = INSERT_OP;
+      //unsigned char dir1 = INSERT_OP;
+      unsigned char dir1 = E;
       if (match > max1) {
         max1 = match;
-        dir1 = MATCH_OP;
+        //dir1 = MATCH_OP;
+        dir1 = V;
       }
       int max2 = 0;
-      unsigned char dir2 = ZERO_OP;
+      //unsigned char dir2 = ZERO_OP;
+      unsigned char dir2 = Z;
       if (f_matrix_wr[j] > 0) {
         max2 = f_matrix_wr[j];
-        dir2 = DELETE_OP;
+        //dir2 = DELETE_OP;
+        dir2 = F;
       }
+      
+      unsigned char v_dir;
       if (max1 > max2) {
         v_matrix_wr[j] = max1;
-        dir_matrix[i][j/4] = (dir_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir1 << (2 * (j % 4))));
+        //dir_matrix[i][j/4] = (dir_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir1 << (2 * (j % 4))));
+        dir_v_matrix[i][j/4] = (dir_v_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir1 << (2 * (j % 4))));
+        v_dir = dir1;
+        /*if (v_matrix_wr[j] == 427) {
+          std::cout << "Max1 > Max2 " << (int) v_dir << "(" << i << ", " << j << ")" << std::endl;
+        }*/
       } else {
         v_matrix_wr[j] = max2;
-        dir_matrix[i][j/4] = (dir_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir2 << (2 * (j % 4))));
+        //dir_matrix[i][j/4] = (dir_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir2 << (2 * (j % 4))));
+        dir_v_matrix[i][j/4] = (dir_v_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir2 << (2 * (j % 4))));
+        v_dir = dir2;
       }
       
       // Record high-scoring cells
@@ -431,9 +490,43 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
         Cell hsc;
         hsc.ref_index = i;
         hsc.query_index = j;
+        hsc.score = v_matrix_wr[j];
         highscore_cells.insert(hsc);
       }
+      
+      std::cout << v_matrix_wr[j];
+      /*switch(v_dir) {
+        case ZERO_OP: std::cout << "Z\t"; break;
+        case INSERT_OP: std::cout << "I\t"; break;
+        case DELETE_OP: std::cout << "D\t"; break;
+        case MATCH_OP: std::cout << "M\t"; break;
+        default: assert(false);
+      }*/
+      /*if (v_matrix_wr[j] == 427) {
+        std::cout << (int) v_dir << std::endl;
+      }*/
+      switch(v_dir) {
+        case Z: std::cout << "Z"; break;
+        case V: std::cout << "V"; break;
+        case E: std::cout << "E"; break;
+        case F: std::cout << "F"; break;
+        default: assert(false);
+      }
+      switch(e_dir) {
+        case Z: std::cout << "Z"; break;
+        case V: std::cout << "V"; break;
+        case E: std::cout << "E"; break;
+        default: assert(false);
+      }
+      switch(f_dir) {
+        case Z: std::cout << "Z"; break;
+        case V: std::cout << "V"; break;
+        case F: std::cout << "F"; break;
+        default: assert(false);
+      }
+      std::cout << "\t";
     }
+    std::cout << std::endl;
   }
   clock_gettime(CLOCK_MONOTONIC, &finish);
   elapsed = (finish.tv_sec - start.tv_sec);
@@ -449,7 +542,12 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
    
     // Build the alignment
     Alignment aln(ref_index, query_index);
-    while (((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) != ZERO_OP) {
+    std::cout << (*it).score << std::endl;
+    
+    unsigned char** dir_matrix = dir_v_matrix;
+    int cur_matrix = V;
+    //while (((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) != ZERO_OP) {
+    while (((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) != Z) {
       // Remove visited cells from the high score cell list
       if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
         Cell hsc;
@@ -458,7 +556,7 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
         highscore_cells.erase(hsc);
       }
       
-      switch((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) {
+      /*switch((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) {
         case MATCH_OP:  aln.Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
                         query_index--;
                         ref_index--;
@@ -470,9 +568,59 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
                         query_index--;
                         break;
         default:        assert(false);
+      }*/
+      switch(cur_matrix) {
+        case V:
+          aln.Prepend(ref_seq[ref_index-1], query_seq[query_index-1]);
+          cur_matrix = (dir_v_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3;
+          std::cout << ref_seq[ref_index-1] << " " << query_seq[query_index-1] << " " << cur_matrix << std::endl;
+          switch(cur_matrix) {
+            case V:  dir_matrix = dir_v_matrix;
+                     break;
+            case E:  dir_matrix = dir_e_matrix;
+                     break;
+            case F:  dir_matrix = dir_f_matrix;
+                     break;
+            //default: assert(false);
+          }
+          query_index--;
+          ref_index--;
+          break;
+          
+        case E:
+          aln.Prepend(ref_seq[ref_index-1], GAP);
+          cur_matrix = (dir_e_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3;
+          std::cout << ref_seq[ref_index-1] << " " << GAP << " " << cur_matrix << std::endl;
+          switch(cur_matrix) {
+            case V:  dir_matrix = dir_v_matrix;
+                     break;
+            case E:  dir_matrix = dir_e_matrix;
+                     break;
+            //default: assert(false);
+          }
+          ref_index--;
+          break;
+        
+        case F:
+          aln.Prepend(GAP, query_seq[query_index-1]);
+          cur_matrix = (dir_f_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3;
+          std::cout << GAP << " " << query_seq[query_index-1] << " " << cur_matrix << std::endl;
+          switch(cur_matrix) {
+            case V:  dir_matrix = dir_v_matrix;
+                     break;
+            case F:  dir_matrix = dir_f_matrix;
+                     break;
+            //default: assert(false);
+          }
+          query_index--;
+          break;
+        
+        default: assert(false);
       }
     }
+    //std::cout << "Before Trim: " << aln.ComputeScore(params) << std::endl;
     aln.TrimEnd(params);
+    //std::cout << "After Trim: " << aln.ComputeScore(params) << std::endl;
     
     std::set<Alignment>::iterator aln_it = alignments.find(aln);
     if (aln_it != alignments.end()) {
@@ -495,9 +643,15 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
    
   // Clean up memory  
   for (int i = 0; i < ref_len + 1; i++) {
-    delete[] dir_matrix[i];
+    //delete[] dir_matrix[i];
+    delete[] dir_v_matrix[i];
+    delete[] dir_e_matrix[i];
+    delete[] dir_f_matrix[i];
   }
-  delete[] dir_matrix; 
+  //delete[] dir_matrix; 
+  delete[] dir_v_matrix; 
+  delete[] dir_e_matrix; 
+  delete[] dir_f_matrix; 
   delete[] v_matrix_wr;
   delete[] e_matrix_wr;
   delete[] f_matrix_wr;

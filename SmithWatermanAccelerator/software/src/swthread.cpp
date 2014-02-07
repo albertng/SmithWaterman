@@ -272,6 +272,7 @@ void* SWThread::Align(void* args) {
         
         // Record high-scoring cells
         if ((*v_matrix)[i][j] >= hsr.threshold) {
+          //std::cout<< "Threshold: " << hsr.threshold << std::endl;
           Cell hsc;
           hsc.ref_index = i;
           hsc.query_index = j;
@@ -328,6 +329,11 @@ void* SWThread::Align(void* args) {
       }
       aln.TrimEnd(hsr.params);
       int aln_score = aln.ComputeScore(hsr.params);
+      if ((*v_matrix)[aln.GetRefLength() + aln.get_ref_offset() - hsr.offset][aln.GetQueryLength() + aln.get_query_offset()] != aln_score) {
+        std::cout << (*v_matrix)[aln.GetRefLength() + aln.get_ref_offset() - hsr.offset][aln.GetQueryLength() + aln.get_query_offset()] << " " << aln_score << std::endl;
+        std::cout << aln.ToString() << std::endl;
+      }
+      assert((*v_matrix)[aln.GetRefLength() + aln.get_ref_offset() - hsr.offset][aln.GetQueryLength() + aln.get_query_offset()] == aln_score);
       
       AlignmentResult aln_res;
       aln_res.hsr = hsr;
