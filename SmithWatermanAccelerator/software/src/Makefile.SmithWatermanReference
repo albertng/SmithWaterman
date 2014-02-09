@@ -1,7 +1,7 @@
 all: smithwatermanreference
 
 smithwatermanreference: fasta.o smithwatermanreference.o
-	g++ fasta.o smithwatermanreference.o -o smithwatermanreference -lrt
+	g++ fasta.o smithwatermanreference.o -o smithwatermanreference 
 
 fasta.o: fasta.cpp
 	g++ -c fasta.cpp -g

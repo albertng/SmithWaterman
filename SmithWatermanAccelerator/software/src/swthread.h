@@ -99,10 +99,13 @@ class SWThread {
       SWThreadStats* stats;
       
       // Pointers to scoring matrices
-      int*** v_matrix;
-      int*** e_matrix;
-      int*** f_matrix;
-      AlnOp*** dir_matrix;
+      int*** h_matrix;
+      int*** m_matrix;
+      int*** i_matrix;
+      int*** d_matrix;
+      AlnOp*** dir_m_matrix;
+      AlnOp*** dir_i_matrix;
+      AlnOp*** dir_d_matrix;
       int* matrix_rows;
       int* matrix_cols;
       pthread_mutex_t* matrices_mutex;
@@ -150,10 +153,13 @@ class SWThread {
     SWThreadStats stats_;
     
     // Scoring matrices 
-    int** v_matrix_;     // Score matrix
-    int** e_matrix_;     // Insertion score matrix
-    int** f_matrix_;     // Deletion score matrix
-    AlnOp** dir_matrix_; // Alignment ops for score matrix
+    int** h_matrix_;     // Max score matrix
+    int** m_matrix_;     // Match score matrix
+    int** i_matrix_;     // Insertion score matrix
+    int** d_matrix_;     // Deletion score matrix
+    AlnOp** dir_m_matrix_; // Alignment ops for match score matrix
+    AlnOp** dir_i_matrix_; // Alignment ops for insert score matrix
+    AlnOp** dir_d_matrix_; // Alignment ops for delete score matrix
     int matrix_rows_;    // Current number of rows in matrices
     int matrix_cols_;    // Current number of cols in matrices
     pthread_mutex_t matrices_mutex_;
