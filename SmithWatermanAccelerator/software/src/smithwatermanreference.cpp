@@ -348,14 +348,17 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
   double elapsed;
                           
   long long int dir_matrix_query_dim = (long long int) ceil(((double) (query_len + 1)) / 4);
+  unsigned char** dir_h_matrix = new unsigned char*[ref_len + 1];
   unsigned char** dir_m_matrix = new unsigned char*[ref_len + 1];
   unsigned char** dir_i_matrix = new unsigned char*[ref_len + 1];
   unsigned char** dir_d_matrix = new unsigned char*[ref_len + 1];
   for (int i = 0; i < ref_len + 1; i++) {
+    dir_h_matrix[i] = new unsigned char[dir_matrix_query_dim];
     dir_m_matrix[i] = new unsigned char[dir_matrix_query_dim];
     dir_i_matrix[i] = new unsigned char[dir_matrix_query_dim];
     dir_d_matrix[i] = new unsigned char[dir_matrix_query_dim];    
     for (int j = 0; j < dir_matrix_query_dim; j++) {
+      dir_h_matrix[i][j] = 0;
       dir_m_matrix[i][j] = 0;
       dir_i_matrix[i][j] = 0;
       dir_d_matrix[i][j] = 0;
@@ -380,6 +383,12 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
     d_matrix_wr[i] = 0;
   }
   
+  // TEST
+  /*int** h_matrix = new int*[ref_len + 1];
+  for (int i = 0; i < ref_len + 1; i++) {
+    h_matrix[i] = new int[query_len + 1];
+  }*/
+  
   
   int** sub_mat = new int*[4];
   for (int i = 0; i < 4; i++) {
@@ -391,13 +400,14 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
   
   //clock_gettime(CLOCK_MONOTONIC, &start);
   std::set<Cell, CellComp> highscore_cells;
-  std::cout << "\t";
+  /*std::cout << "\t";
   for (int i = 0; i < query_len; i++) {
     std::cout << query_seq[i] << " " << i << "\t";
   }
-  std::cout << std::endl;
+  std::cout << std::endl;*/
+  int max_score = 0; // TEST
   for (int i = 1; i < ref_len + 1; i++) {
-    std::cout << ref_seq[i-1] << " " << i-1 << "\t";
+    //std::cout << ref_seq[i-1] << " " << i-1 << "\t";
     int* m_matrix_tmp = m_matrix_wr;
     int* h_matrix_tmp = h_matrix_wr;
     int* i_matrix_tmp = i_matrix_wr;
@@ -430,6 +440,10 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
         m_matrix_wr[j] = d_matrix_rd[j-1] + match;
         dir_m_matrix[i][j/4] = (dir_m_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (D << (2 * (j % 4))));
       }
+      if (m_matrix_wr[j] < 0) {
+        m_matrix_wr[j] = 0;
+        dir_m_matrix[i][j/4] = (dir_m_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (Z << (2 * (j % 4))));
+      }
 
       int ins_open   = m_matrix_rd[j] + gap_open;
       int ins_extend = i_matrix_rd[j] + gap_extend;
@@ -443,9 +457,17 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
       unsigned char dir_d = (del_open > del_extend) ? M : D;
       dir_d_matrix[i][j/4] = (dir_d_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir_d << (2 * (j % 4))));
      
-      int max1 = m_matrix_wr[j] > i_matrix_wr[j] ? m_matrix_wr[j] : i_matrix_wr[j]; 
+      int max1 = m_matrix_wr[j] > i_matrix_wr[j] ? m_matrix_wr[j] : i_matrix_wr[j];
+      unsigned char dir1 = m_matrix_wr[j] > i_matrix_wr[j] ? M : I;
       int max2 = d_matrix_wr[j] > 0 ? d_matrix_wr[j] : 0;
-      h_matrix_wr[j] = max1 > max2 ? max1 : max2;     
+      unsigned char dir2 = d_matrix_wr[j] > 0 ? D : Z;
+      h_matrix_wr[j] = max1 > max2 ? max1 : max2; 
+      unsigned char dir_h = max1 > max2 ? dir1 : dir2;
+      dir_h_matrix[i][j/4] = (dir_h_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir_h << (2 * (j % 4))));  
+      
+      // TEST
+      //h_matrix[i][j] = h_matrix_wr[j]; 
+      max_score = h_matrix_wr[j] > max_score ? h_matrix_wr[j] : max_score;
  
       // Record high-scoring cells
       if (h_matrix_wr[j] >= threshold) {
@@ -456,15 +478,16 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
         highscore_cells.insert(hsc);
       }
       
-      std::cout << h_matrix_wr[j];
-      std::cout << "\t";
+      //std::cout << h_matrix_wr[j];
+      //std::cout << "\t";
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
   }
   //clock_gettime(CLOCK_MONOTONIC, &finish);
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
   std::cout << ref_len << " x " << query_len << " DP matrices computed in " << elapsed << " seconds." << std::endl;
+  std::cout << "Max score: " << max_score << std::endl;
   
   // Perform backtraces
   //clock_gettime(CLOCK_MONOTONIC, &start);
@@ -475,11 +498,23 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
    
     // Build the alignment
     Alignment aln(ref_index, query_index);
-    std::cout << (*it).score << std::endl;
+    //std::cout << (*it).score << std::endl;
     
-    unsigned char** dir_matrix = dir_m_matrix;
-    int cur_matrix = M; // TODO: Make a dir_v_matrix indicating which dir matrix to start at
-    while (((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) != Z) {
+    int cur_matrix = (dir_h_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3;
+    unsigned char** dir_matrix;
+    switch(cur_matrix) {
+      case M : dir_matrix = dir_m_matrix;
+               break;
+      case I : dir_matrix = dir_i_matrix;
+               break;
+      case D : dir_matrix = dir_d_matrix;
+               break;
+    }
+    //unsigned char** dir_matrix = dir_m_matrix;
+    //int cur_matrix = M;
+    //while (((dir_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) != Z) {
+    while (((dir_h_matrix[ref_index][query_index / 4] >> (2 * (query_index % 4))) & 0x3) != Z) {
+    //while (h_matrix[ref_index][query_index] != 0) {
       // Remove visited cells from the high score cell list
       if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
         Cell hsc;
@@ -499,7 +534,7 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
                      break;
             case D:  dir_matrix = dir_d_matrix;
                      break;
-            //default: assert(false);
+            default: assert(false);
           }
           query_index--;
           ref_index--;
@@ -513,7 +548,7 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
                      break;
             case I:  dir_matrix = dir_i_matrix;
                      break;
-            //default: assert(false);
+            default: assert(false);
           }
           ref_index--;
           break;
@@ -526,7 +561,7 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
                      break;
             case D:  dir_matrix = dir_d_matrix;
                      break;
-            //default: assert(false);
+            default: assert(false);
           }
           query_index--;
           break;
@@ -536,11 +571,18 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
     }
     aln.TrimEnd(params);
     
+    // TEST
+    int aln_score = aln.ComputeScore(params);
+    /*if (h_matrix[aln.GetRefLength() + aln.GetRefOffset()][aln.GetQueryLength() + aln.GetQueryOffset()] != aln_score) {
+      std::cout << h_matrix[aln.GetRefLength() + aln.GetRefOffset()][aln.GetQueryLength() + aln.GetQueryOffset()] << " " << aln_score << std::endl;
+      std::cout << aln.ToString() << std::endl;
+    }
+    assert(h_matrix[aln.GetRefLength() + aln.GetRefOffset()][aln.GetQueryLength() + aln.GetQueryOffset()] == aln_score);*/
+    
     std::set<Alignment>::iterator aln_it = alignments.find(aln);
     if (aln_it != alignments.end()) {
       // Filter out same start-index duplicate alignments, pick the highest scoring, longest duplicated alignment
       int aln_it_score = (*aln_it).ComputeScore(params);
-      int aln_score = aln.ComputeScore(params);
       if ((aln_it_score < aln_score) || 
           (aln_it_score == aln_score && (*aln_it).GetLength() < aln.GetLength())) {
         alignments.erase(aln_it);

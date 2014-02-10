@@ -103,6 +103,7 @@ class SWThread {
       int*** m_matrix;
       int*** i_matrix;
       int*** d_matrix;
+      AlnOp*** dir_h_matrix;
       AlnOp*** dir_m_matrix;
       AlnOp*** dir_i_matrix;
       AlnOp*** dir_d_matrix;
@@ -141,7 +142,7 @@ class SWThread {
     static void* Align(void* args);
 
     // Helper function to resize the matrices to the given dimensions
-    static void ResizeMatrices(int*** v_matrix, int*** e_matrix, int*** f_matrix, AlnOp*** dir_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
+    static void ResizeMatrices(int*** h_matrix, int*** m_matrix, int*** i_matrix, int*** d_matrix, AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
 
     // Actual pthread instance
     pthread_t thread_;
@@ -157,6 +158,7 @@ class SWThread {
     int** m_matrix_;     // Match score matrix
     int** i_matrix_;     // Insertion score matrix
     int** d_matrix_;     // Deletion score matrix
+    AlnOp** dir_h_matrix_; // Alignment ops for max score matrix
     AlnOp** dir_m_matrix_; // Alignment ops for match score matrix
     AlnOp** dir_i_matrix_; // Alignment ops for insert score matrix
     AlnOp** dir_d_matrix_; // Alignment ops for delete score matrix
