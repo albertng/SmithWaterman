@@ -14,8 +14,9 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <time.h>
-#include <unordered_set>
+#include <set>
 #include <fstream>
+#include <map>
 #include "def.h"
 #include "servercomm.h"
 #include "threadqueue.h"
@@ -164,6 +165,14 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
   return query_ids;
 }
 
+std::set<AlignmentResult, AlignmentResultScoreComp> SortAlignmentResults(std::set<AlignmentResult, AlignmentResultComp> res_set) {
+  std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set;
+  for (std::set<AlignmentResult, AlignmentResultComp>::iterator it = res_set.begin(); it != res_set.end(); it++) {
+    res_sorted_set.insert(*it);
+  }
+  return res_sorted_set;
+}
+
 int main(int argc, char *argv[]) {
   // Shared structures
   PicoDrv** pico_drivers;
@@ -297,20 +306,25 @@ int main(int argc, char *argv[]) {
                                                            &ref_seq_manager,
                                                            &errors);*/
     std::vector<ServerComm::JobRequest> jobs = server_comm.GetQueryGroup(&errors);
+    std::map<int, int> query_job;
     //std::cout << jobs.size() << " job requests received!" << std::endl;
-    for (std::vector<ServerComm::JobRequest>::iterator it = jobs.begin(); it != jobs.end(); it++) {
-      std::vector<int> new_query_ids = ProcessJob(*it, &alignment_job_queue, &query_seq_manager, &ref_seq_manager, &errors);
-      for (int i = 0; i < new_query_ids.size(); i++) {
-        query_ids.push_back(new_query_ids[i]);
+    for (int i = 0; i < jobs.size(); i++) {
+      std::vector<int> new_query_ids = ProcessJob(jobs[i], &alignment_job_queue, &query_seq_manager, &ref_seq_manager, &errors);
+      for (int j = 0; j < new_query_ids.size(); j++) {
+        query_ids.push_back(new_query_ids[j]);
+        assert(query_job.find(new_query_ids[j]) == query_job.end());
+        query_job[new_query_ids[j]] = i;
       }
-    } 
+    }
+    int num_jobs = jobs.size();
     
 #ifdef SWSERVERTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
-    std::unordered_set<AlignmentResult, AlignmentResultHash> res_set;
+    //std::unordered_set<AlignmentResult, AlignmentResultHash> res_set;
+    std::set<AlignmentResult, AlignmentResultComp>* res_set = new std::set<AlignmentResult, AlignmentResultComp>[num_jobs];
     bool group_done = false;
     int num_boundary_duplicates = 0;
     while (group_done == false || result_queue.Size() != 0) {
@@ -318,13 +332,15 @@ int main(int argc, char *argv[]) {
         AlignmentResult aln_res = result_queue.Pop();
         
         // Keep a set of unique alignments
-        std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator aln_it = res_set.find(aln_res);
-        if (aln_it == res_set.end()) {
-          res_set.insert(aln_res);
+        //std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator aln_it = res_set.find(aln_res);
+        int res_set_id = query_job[aln_res.hsr.query_id];
+        std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = res_set[res_set_id].find(aln_res);
+        if (aln_it == res_set[res_set_id].end()) {
+          res_set[res_set_id].insert(aln_res);
         } else if (((*aln_it).score < aln_res.score) || 
                    ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
-          res_set.erase(aln_it);
-          res_set.insert(aln_res);
+          res_set[res_set_id].erase(aln_it);
+          res_set[res_set_id].insert(aln_res);
           num_boundary_duplicates++;
         } else {
           num_boundary_duplicates++;
@@ -340,7 +356,7 @@ int main(int argc, char *argv[]) {
     }
     
     // Send the unique set of alignment results
-    for (std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator it = res_set.begin();
+    /*for (std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator it = res_set.begin();
          it != res_set.end(); it++) {
       AlignmentResult aln_res = *it;
       std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
@@ -348,6 +364,18 @@ int main(int argc, char *argv[]) {
       std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
       server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
       num_hits++;
+    }*/
+    for (int i = 0; i < num_jobs; i++) {
+      std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set = SortAlignmentResults(res_set[i]);
+      for (std::set<AlignmentResult, AlignmentResultScoreComp>::iterator it = res_sorted_set.begin();
+           it != res_sorted_set.end(); it++) {
+        AlignmentResult aln_res = *it;
+        std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
+        std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
+        std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
+        server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
+        num_hits++;
+      }
     }
     
     // End the query group

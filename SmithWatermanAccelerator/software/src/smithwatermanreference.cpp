@@ -383,13 +383,6 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
     d_matrix_wr[i] = 0;
   }
   
-  // TEST
-  /*int** h_matrix = new int*[ref_len + 1];
-  for (int i = 0; i < ref_len + 1; i++) {
-    h_matrix[i] = new int[query_len + 1];
-  }*/
-  
-  
   int** sub_mat = new int*[4];
   for (int i = 0; i < 4; i++) {
     sub_mat[i] = new int[4];
@@ -465,8 +458,6 @@ std::set<Alignment> Align(char* query_seq, long long int query_len, char* ref_se
       unsigned char dir_h = max1 > max2 ? dir1 : dir2;
       dir_h_matrix[i][j/4] = (dir_h_matrix[i][j/4] & ~(0x3 << (2 * (j % 4))) | (dir_h << (2 * (j % 4))));  
       
-      // TEST
-      //h_matrix[i][j] = h_matrix_wr[j]; 
       max_score = h_matrix_wr[j] > max_score ? h_matrix_wr[j] : max_score;
  
       // Record high-scoring cells

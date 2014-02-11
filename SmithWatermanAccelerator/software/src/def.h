@@ -17,6 +17,7 @@
 //      Albert Ng   Oct 31 2013     Added AlignmentResultComp
 //      Albert Ng   Jan 14 2014     Added fpga_id and engine_id to EngineJob
 //      Albert Ng   Jan 22 2014     Added ALL_REF
+//      Albert Ng   Feb 10 2014     Added AlignmentResultScoreComp
 
 #ifndef DEF_H_
 #define DEF_H_
@@ -125,6 +126,13 @@ struct AlignmentResult {
 struct AlignmentResultComp {
   bool operator() (const AlignmentResult& lhs, const AlignmentResult& rhs) const {
     return lhs.alignment.get_ref_offset() < rhs.alignment.get_ref_offset();
+  }
+};
+
+// Alignment Result comparison by score
+struct AlignmentResultScoreComp {
+  bool operator() (const AlignmentResult& lhs, const AlignmentResult& rhs) const {
+    return lhs.score > rhs.score;
   }
 };
 
