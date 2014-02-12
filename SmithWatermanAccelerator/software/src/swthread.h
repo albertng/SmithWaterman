@@ -27,6 +27,7 @@
 //      Albert Ng   Oct 22 2013     Removed params and params_mutex member variables
 //      Albert Ng   Jan 15 2013     Added SWThreadStats
 //      Albert Ng   Jan 22 2014     Changed matrix memory allocation to a managed allocation
+//      Albert Ng   Feb 11 2014     Made AlnOp a typdef-ed unsigned char
 
 #ifndef SWTHREAD_H_
 #define SWTHREAD_H_
@@ -79,7 +80,12 @@ class SWThread {
 
   private:
     // Enumeration of possible alignment operations
-    enum AlnOp {INSERT_OP, DELETE_OP, MATCH_OP, ZERO_OP};
+    //enum AlnOp {INSERT_OP, DELETE_OP, MATCH_OP, ZERO_OP};
+    typedef unsigned char AlnOp;
+    static const AlnOp ZERO_OP   = 0;
+    static const AlnOp INSERT_OP = 1;
+    static const AlnOp DELETE_OP = 2;
+    static const AlnOp MATCH_OP  = 3;
 
     // Smith-Waterman aligner thread arguments struct
     struct SWThreadArgs {    
@@ -99,10 +105,6 @@ class SWThread {
       SWThreadStats* stats;
       
       // Pointers to scoring matrices
-      int*** h_matrix;
-      int*** m_matrix;
-      int*** i_matrix;
-      int*** d_matrix;
       AlnOp*** dir_h_matrix;
       AlnOp*** dir_m_matrix;
       AlnOp*** dir_i_matrix;
@@ -142,7 +144,7 @@ class SWThread {
     static void* Align(void* args);
 
     // Helper function to resize the matrices to the given dimensions
-    static void ResizeMatrices(int*** h_matrix, int*** m_matrix, int*** i_matrix, int*** d_matrix, AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
+    static void ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
 
     // Actual pthread instance
     pthread_t thread_;
@@ -154,10 +156,6 @@ class SWThread {
     SWThreadStats stats_;
     
     // Scoring matrices 
-    int** h_matrix_;     // Max score matrix
-    int** m_matrix_;     // Match score matrix
-    int** i_matrix_;     // Insertion score matrix
-    int** d_matrix_;     // Deletion score matrix
     AlnOp** dir_h_matrix_; // Alignment ops for max score matrix
     AlnOp** dir_m_matrix_; // Alignment ops for match score matrix
     AlnOp** dir_i_matrix_; // Alignment ops for insert score matrix

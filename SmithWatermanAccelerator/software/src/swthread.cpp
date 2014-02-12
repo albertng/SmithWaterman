@@ -18,6 +18,7 @@
 //      Albert Ng   Jan 15 2014     Added job count
 //      Albert Ng   Jan 21 2014     Free ref seq storage at end of SWThread
 //      Albert Ng   Jan 22 2014     Changed matrix memory allocation to a managed allocation
+//      Albert Ng   Feb 11 2014     No longer keeps full scoring matrices in memory
 
 #include <list>
 #include <set>
@@ -51,10 +52,10 @@ void SWThread::Init(ThreadQueue<HighScoreRegion>* hsr_queue,
   args_.ref_seq_manager = ref_seq_manager;
   args_.query_seq_manager = query_seq_manager;
   args_.stats = &stats_;
-  args_.h_matrix = &h_matrix_;
+  /*args_.h_matrix = &h_matrix_;
   args_.m_matrix = &m_matrix_;
   args_.i_matrix = &i_matrix_;
-  args_.d_matrix = &d_matrix_;
+  args_.d_matrix = &d_matrix_;*/
   args_.dir_h_matrix = &dir_h_matrix_;
   args_.dir_m_matrix = &dir_m_matrix_;
   args_.dir_i_matrix = &dir_i_matrix_;
@@ -63,18 +64,18 @@ void SWThread::Init(ThreadQueue<HighScoreRegion>* hsr_queue,
   args_.matrix_cols = &matrix_cols_;
   args_.matrices_mutex = &matrices_mutex_;
 
-  h_matrix_ = new int*[1];
+  /*h_matrix_ = new int*[1];
   m_matrix_ = new int*[1];
   i_matrix_ = new int*[1];
-  d_matrix_ = new int*[1];
+  d_matrix_ = new int*[1];*/
   dir_h_matrix_ = new AlnOp*[1];
   dir_m_matrix_ = new AlnOp*[1];
   dir_i_matrix_ = new AlnOp*[1];
   dir_d_matrix_ = new AlnOp*[1];
-  h_matrix_[0] = new int[1];
+  /*h_matrix_[0] = new int[1];
   m_matrix_[0] = new int[1];
   i_matrix_[0] = new int[1];
-  d_matrix_[0] = new int[1];
+  d_matrix_[0] = new int[1];*/
   dir_h_matrix_[0] = new AlnOp[1];
   dir_m_matrix_[0] = new AlnOp[1];
   dir_i_matrix_[0] = new AlnOp[1];
@@ -110,45 +111,29 @@ void SWThread::ResetStats() {
 
 void SWThread::ResetMatrices() {
   pthread_mutex_lock(&matrices_mutex_);
-  SWThread::ResizeMatrices(&h_matrix_, &m_matrix_, &i_matrix_, &d_matrix_, &dir_h_matrix_, &dir_m_matrix_, &dir_i_matrix_, &dir_d_matrix_, matrix_rows_, matrix_cols_, 1, 1);
+  SWThread::ResizeMatrices(&dir_h_matrix_, &dir_m_matrix_, &dir_i_matrix_, &dir_d_matrix_, matrix_rows_, matrix_cols_, 1, 1);
   matrix_rows_ = 1;
   matrix_cols_ = 1;
   pthread_mutex_unlock(&matrices_mutex_);
 }
 
-void SWThread::ResizeMatrices(int*** h_matrix, int*** m_matrix, int*** i_matrix, int*** d_matrix, AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols) {
+void SWThread::ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols) {
   for (int i = 0; i < old_rows; i++) {
-    delete[] (*h_matrix)[i];
-    delete[] (*m_matrix)[i];
-    delete[] (*i_matrix)[i];
-    delete[] (*d_matrix)[i];
     delete[] (*dir_h_matrix)[i];
     delete[] (*dir_m_matrix)[i];
     delete[] (*dir_i_matrix)[i];
     delete[] (*dir_d_matrix)[i];
   }
-  delete[] (*h_matrix);
-  delete[] (*m_matrix);
-  delete[] (*i_matrix);
-  delete[] (*d_matrix);
   delete[] (*dir_h_matrix);
   delete[] (*dir_m_matrix);
   delete[] (*dir_i_matrix);
   delete[] (*dir_d_matrix);
 
-  (*h_matrix) = new int*[new_rows];
-  (*m_matrix) = new int*[new_rows];
-  (*i_matrix) = new int*[new_rows];
-  (*d_matrix) = new int*[new_rows];
   (*dir_h_matrix) = new AlnOp*[new_rows];
   (*dir_m_matrix) = new AlnOp*[new_rows];
   (*dir_i_matrix) = new AlnOp*[new_rows];
   (*dir_d_matrix) = new AlnOp*[new_rows];
   for (int i = 0; i < new_rows; i++) {
-    (*h_matrix)[i] = new int[new_cols];
-    (*m_matrix)[i] = new int[new_cols];
-    (*i_matrix)[i] = new int[new_cols];
-    (*d_matrix)[i] = new int[new_cols];
     (*dir_h_matrix)[i] = new AlnOp[new_cols];
     (*dir_m_matrix)[i] = new AlnOp[new_cols];
     (*dir_i_matrix)[i] = new AlnOp[new_cols];
@@ -168,10 +153,6 @@ void* SWThread::Align(void* args) {
   RefSeqManager* ref_seq_manager = ((SWThreadArgs*)args)->ref_seq_manager;
   QuerySeqManager* query_seq_manager = ((SWThreadArgs*)args)->query_seq_manager;
   SWThreadStats* stats = ((SWThreadArgs*)args)->stats;
-  int*** h_matrix = ((SWThreadArgs*)args)->h_matrix;
-  int*** m_matrix = ((SWThreadArgs*)args)->m_matrix;
-  int*** i_matrix = ((SWThreadArgs*)args)->i_matrix;
-  int*** d_matrix = ((SWThreadArgs*)args)->d_matrix;
   AlnOp*** dir_h_matrix = ((SWThreadArgs*)args)->dir_h_matrix;
   AlnOp*** dir_m_matrix = ((SWThreadArgs*)args)->dir_m_matrix;
   AlnOp*** dir_i_matrix = ((SWThreadArgs*)args)->dir_i_matrix;
@@ -221,7 +202,7 @@ void* SWThread::Align(void* args) {
     // Reallocate matrix memory if more memory needed
     pthread_mutex_lock(matrices_mutex);   // Using matrices, shared resource
     if ((ref_len + 1 > *matrix_rows) || (query_len + 1 > *matrix_cols)) {
-      SWThread::ResizeMatrices(h_matrix, m_matrix, i_matrix, d_matrix, dir_h_matrix, dir_m_matrix, dir_i_matrix, dir_d_matrix, *matrix_rows, *matrix_cols, ref_len + 1, query_len + 1);
+      SWThread::ResizeMatrices(dir_h_matrix, dir_m_matrix, dir_i_matrix, dir_d_matrix, *matrix_rows, *matrix_cols, ref_len + 1, query_len + 1);
       *matrix_rows = ref_len + 1;
       *matrix_cols = query_len + 1;
     }
@@ -235,26 +216,38 @@ void* SWThread::Align(void* args) {
 #ifdef SWTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
-    // Initialize scoring matrices
+    // Initialize direction matrices
     for (int i = 0; i < ref_len + 1; i++) {
-      (*h_matrix)[i][0] = 0;
-      (*m_matrix)[i][0] = 0;
-      (*i_matrix)[i][0] = 0;
-      (*d_matrix)[i][0] = 0;
       (*dir_h_matrix)[i][0] = ZERO_OP;
       (*dir_m_matrix)[i][0] = ZERO_OP;
       (*dir_i_matrix)[i][0] = ZERO_OP;
       (*dir_d_matrix)[i][0] = ZERO_OP;
     }
     for (int j = 0; j < query_len + 1; j++) {
-      (*h_matrix)[0][j] = 0;
-      (*m_matrix)[0][j] = 0;
-      (*i_matrix)[0][j] = 0;
-      (*d_matrix)[0][j] = 0;
       (*dir_h_matrix)[0][j] = ZERO_OP;
       (*dir_m_matrix)[0][j] = ZERO_OP;
       (*dir_i_matrix)[0][j] = ZERO_OP;
       (*dir_d_matrix)[0][j] = ZERO_OP;
+    }
+    
+    // Initialize scoring matrix row buffers
+    int* h_matrix_wr = new int[query_len + 1];
+    int* m_matrix_wr = new int[query_len + 1];
+    int* i_matrix_wr = new int[query_len + 1];
+    int* d_matrix_wr = new int[query_len + 1];
+    int* h_matrix_rd = new int[query_len + 1];
+    int* m_matrix_rd = new int[query_len + 1];
+    int* i_matrix_rd = new int[query_len + 1];
+    int* d_matrix_rd = new int[query_len + 1];
+    for (int i = 0; i < query_len + 1; i++) {
+      h_matrix_rd[i] = 0;
+      m_matrix_rd[i] = 0;
+      i_matrix_rd[i] = 0;
+      d_matrix_rd[i] = 0;
+      h_matrix_wr[i] = 0;
+      m_matrix_wr[i] = 0;
+      i_matrix_wr[i] = 0;
+      d_matrix_wr[i] = 0;
     }
    
 #ifdef SWTIMING
@@ -271,46 +264,57 @@ void* SWThread::Align(void* args) {
     std::set<Cell, CellComp> highscore_cells;
     stats->cell_count += (ref_len * query_len);
     for (int i = 1; i < ref_len + 1; i++) {
+      int* m_matrix_tmp = m_matrix_wr;
+      int* h_matrix_tmp = h_matrix_wr;
+      int* i_matrix_tmp = i_matrix_wr;
+      int* d_matrix_tmp = d_matrix_wr;
+      m_matrix_wr = m_matrix_rd;
+      h_matrix_wr = h_matrix_rd;
+      i_matrix_wr = i_matrix_rd;
+      d_matrix_wr = d_matrix_rd;
+      m_matrix_rd = m_matrix_tmp;
+      h_matrix_rd = h_matrix_tmp;
+      i_matrix_rd = i_matrix_tmp;
+      d_matrix_rd = d_matrix_tmp;
       for (int j = 1; j < query_len + 1; j++) {
         NtInt ref_nt = NtChar2Int(ref_seq[i-1]);
         NtInt query_nt = NtChar2Int(query_seq[j-1]);
       
         int match = (ref_nt == N_NT || query_nt == N_NT) ? -2147483648 : sub_mat[query_nt][ref_nt];
-        if ((*m_matrix)[i-1][j-1] > (*i_matrix)[i-1][j-1] && (*m_matrix)[i-1][j-1] > (*d_matrix)[i-1][j-1]) {
-          (*m_matrix)[i][j] = (*m_matrix)[i-1][j-1] + match;
+        if (m_matrix_rd[j-1] > i_matrix_rd[j-1] && m_matrix_rd[j-1] > d_matrix_rd[j-1]) {
+          m_matrix_wr[j] = m_matrix_rd[j-1] + match;
           (*dir_m_matrix)[i][j] = MATCH_OP;
-        } else if ((*i_matrix)[i-1][j-1] > (*d_matrix)[i-1][j-1]) {
-          (*m_matrix)[i][j] = (*i_matrix)[i-1][j-1] + match;
+        } else if (i_matrix_rd[j-1] > d_matrix_rd[j-1]) {
+          m_matrix_wr[j] = i_matrix_rd[j-1] + match;
           (*dir_m_matrix)[i][j] = INSERT_OP;
         } else {
-          (*m_matrix)[i][j] = (*d_matrix)[i-1][j-1] + match;
+          m_matrix_wr[j] = d_matrix_rd[j-1] + match;
           (*dir_m_matrix)[i][j] = DELETE_OP;
         }
-        if ((*m_matrix)[i][j] < 0) {
-          (*m_matrix)[i][j] = 0;
+        if (m_matrix_wr[j] < 0) {
+          m_matrix_wr[j] = 0;
           (*dir_m_matrix)[i][j] = ZERO_OP;
         }
-          
 
-        int ins_open   = (*m_matrix)[i-1][j] + gap_open;
-        int ins_extend = (*i_matrix)[i-1][j] + gap_extend;
-        int del_open   = (*m_matrix)[i][j-1] + gap_open;
-        int del_extend = (*d_matrix)[i][j-1] + gap_extend;
+        int ins_open   = m_matrix_rd[j] + gap_open;
+        int ins_extend = i_matrix_rd[j] + gap_extend;
+        int del_open   = m_matrix_wr[j-1] + gap_open;
+        int del_extend = d_matrix_wr[j-1] + gap_extend;
 
-        (*i_matrix)[i][j] = (ins_open > ins_extend) ? ins_open : ins_extend;
+        i_matrix_wr[j] = (ins_open > ins_extend) ? ins_open : ins_extend;
         (*dir_i_matrix)[i][j] = (ins_open > ins_extend) ? MATCH_OP : INSERT_OP;
-        (*d_matrix)[i][j] = (del_open > del_extend) ? del_open : del_extend;
+        d_matrix_wr[j] = (del_open > del_extend) ? del_open : del_extend;
         (*dir_d_matrix)[i][j] = (del_open > del_extend) ? MATCH_OP : DELETE_OP;
         
-        int max1 = (*m_matrix)[i][j] > (*i_matrix)[i][j] ? (*m_matrix)[i][j] : (*i_matrix)[i][j];
-        AlnOp dir1 = (*m_matrix)[i][j] > (*i_matrix)[i][j] ? (*dir_m_matrix)[i][j] : (*dir_i_matrix)[i][j];
-        int max2 = (*d_matrix)[i][j] > 0 ? (*d_matrix)[i][j] : 0;
-        AlnOp dir2 = (*d_matrix)[i][j] > 0 ? (*dir_d_matrix)[i][j] : ZERO_OP;
-        (*h_matrix)[i][j] = max1 > max2 ? max1 : max2;
+        int max1 = m_matrix_wr[j] > i_matrix_wr[j] ? m_matrix_wr[j] : i_matrix_wr[j];
+        AlnOp dir1 = m_matrix_wr[j] > i_matrix_wr[j] ? (*dir_m_matrix)[i][j] : (*dir_i_matrix)[i][j];
+        int max2 = d_matrix_wr[j] > 0 ? d_matrix_wr[j] : 0;
+        AlnOp dir2 = d_matrix_wr[j] > 0 ? (*dir_d_matrix)[i][j] : ZERO_OP;
+        h_matrix_wr[j] = max1 > max2 ? max1 : max2;
         (*dir_h_matrix)[i][j] = max1 > max2 ? dir1 : dir2;
 
         // Record high-scoring cells
-        if ((*h_matrix)[i][j] >= hsr.threshold) {
+        if (h_matrix_wr[j] >= hsr.threshold) {
           //std::cout<< "Threshold: " << hsr.threshold << std::endl;
           Cell hsc;
           hsc.ref_index = i;
@@ -347,8 +351,7 @@ void* SWThread::Align(void* args) {
         case DELETE_OP: dir_matrix = dir_d_matrix;
                         break;
       }
-      //while ((*dir_matrix)[ref_index][query_index] != ZERO_OP) {
-      while((*h_matrix)[ref_index][query_index] != 0) {
+      while((*dir_h_matrix)[ref_index][query_index] != ZERO_OP) {
         // Remove visited cells from the high score cell list
         if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
           Cell hsc;
@@ -399,19 +402,6 @@ void* SWThread::Align(void* args) {
       }
       aln.TrimEnd(hsr.params);
       int aln_score = aln.ComputeScore(hsr.params);
-      if ((*h_matrix)[aln.GetRefLength() + aln.get_ref_offset() - hsr.offset][aln.GetQueryLength() + aln.get_query_offset()] != aln_score) {
-        std::cout << (*h_matrix)[aln.GetRefLength() + aln.get_ref_offset() - hsr.offset][aln.GetQueryLength() + aln.get_query_offset()] << " " << aln_score << std::endl;
-        std::cout << aln.ToString() << std::endl;
-        for (int ii = 0; ii < ref_len; ii++) {
-          std::cout << ref_seq[ii];
-        }
-        std::cout << std::endl;
-        for (int ii = 0; ii < query_len; ii++) {
-          std::cout << query_seq[ii];
-        }
-        std::cout << std::endl;
-      }
-      assert((*h_matrix)[aln.GetRefLength() + aln.get_ref_offset() - hsr.offset][aln.GetQueryLength() + aln.get_query_offset()] == aln_score);
       
       AlignmentResult aln_res;
       aln_res.hsr = hsr;
@@ -458,6 +448,14 @@ void* SWThread::Align(void* args) {
 
     // Memory cleanup
     delete[] ref_seq;
+    delete[] h_matrix_wr;
+    delete[] m_matrix_wr;
+    delete[] i_matrix_wr;
+    delete[] d_matrix_wr;
+    delete[] h_matrix_rd;
+    delete[] m_matrix_rd;
+    delete[] i_matrix_rd;
+    delete[] d_matrix_rd;
  
     // Decrement outstanding high scoring region count 
     query_seq_manager->DecHighScoreRegionCount(hsr.query_id);
