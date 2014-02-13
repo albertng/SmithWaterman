@@ -1,5 +1,0 @@
-xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
-ngdbuild -intstyle ise -dd _ngo -sd source -nt timestamp -uc source/M505_LX325T_PCIe.ucf -p xc7k325t-ffg900-2 Pico_Toplevel.ngc Pico_Toplevel.ngd  
-map -intstyle ise -p xc7k325t-ffg900-2 -w -logic_opt on -ol high -t 1 -xt 0 -register_duplication on -r 4 -mt off -ir off -ignore_keep_hierarchy -pr off -lc off -power off -o Pico_Toplevel_map.ncd Pico_Toplevel.ngd Pico_Toplevel.pcf 
-xst -intstyle ise -ifn "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.syr" 
-xst -intstyle ise -ifn "/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/ISE_m505lx325/Pico_Toplevel.xst" -ofn "/home/albertng/SmithWaterman/StreamBandwidthTest/firmware/ISE_m505lx325/Pico_Toplevel.syr" 

@@ -1,2 +1,0 @@
-verilog work "../SmithWatermanPE.v"
-verilog work "../SmithWatermanArray_SequentialLoad.v"

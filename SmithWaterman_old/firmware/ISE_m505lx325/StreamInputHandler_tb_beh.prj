@@ -1,4 +1,0 @@
-verilog work "ipcore_dir/stream_data_sync_buffer.v"
-verilog work "../StreamInputHandler.v"
-verilog work "../StreamInputHandler_tb.v"
-verilog work "/media/albert/Data/14.5/ISE_DS/ISE//verilog/src/glbl.v"
