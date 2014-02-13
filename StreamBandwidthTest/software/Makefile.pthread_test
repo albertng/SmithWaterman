@@ -1,7 +1,0 @@
-all: pthread_test
-
-pthread_test: pthread_test.o
-	g++ -pthread pthread_test.cpp -o pthread_test
-
-clean:
-	rm -rf pthread_test.o pthread_test

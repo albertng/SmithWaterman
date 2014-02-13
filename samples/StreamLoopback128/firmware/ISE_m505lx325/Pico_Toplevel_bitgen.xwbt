@@ -1,8 +1,0 @@
-INTSTYLE=ise
-INFILE=/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.ncd
-OUTFILE=/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325/Pico_Toplevel.bit
-FAMILY=Kintex7
-PART=xc7k325t-2ffg900
-WORKINGDIR=/home/albertng/Documents/SmithWaterman/samples/StreamLoopback128/firmware/ISE_m505lx325
-LICENSE=ISE
-USER_INFO=210770684_174111293_210563067_205

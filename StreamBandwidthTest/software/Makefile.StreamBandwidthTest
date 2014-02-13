@@ -1,8 +1,0 @@
-TARGET = StreamBandwidthTest
-USER_SOURCES =	StreamBandwidthTest.cpp
-
-CFLAGS += -pthread
-LDFLAGS += -lrt
-
-include $(PICOBASE)/software/Makefile.common
-
