@@ -570,7 +570,7 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
       }
       long long int num_blocks_to_store = (long long int) ceil(((double) (seq_length + overlap_length)) / REF_BLOCK_LEN);
 
-      std::cout << cur_fpga << " " << descrips[i][CHR_NAME_FIELD] << " " << cur_offset << " " << seq_length << " " << overlap_length << std::endl;
+      //std::cout << cur_fpga << " " << descrips[i][CHR_NAME_FIELD] << " " << cur_offset << " " << seq_length << " " << overlap_length << std::endl;
 
       // Compute length of 2-bit formatted ref seq buffer
       //   Pad ref seq buffer to hold a multiple of REF_BLOCK_LEN nucleotides

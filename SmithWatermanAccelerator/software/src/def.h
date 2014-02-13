@@ -65,6 +65,7 @@ typedef int NtInt;
 
 // Data structure holding an alignment job requested by a client, or
 //   a change in scoring parameters.
+// Communication between main thread and engine dispatch thread
 struct AlignmentJob {
   int query_id;
   int ref_id;
@@ -75,11 +76,13 @@ struct AlignmentJob {
   SwAffineGapParams params; // Unused when query_id != PARAMS_JOB
 };
 
+
 // Data structure holding an alignment job scheduled to an engine.
 //   Same as AlignmentJob except with an overlap_offset, indicating
 //   the offset at which this job overlaps with the next job. Reported
 //   high scoring regions must not begin past this offset, so there
 //   are no duplicated regions.
+// Communication between engine dispatch thread and result reader thread
 struct EngineJob {
   int fpga_id;
   int engine_id;
@@ -93,6 +96,18 @@ struct EngineJob {
   long long int fpga_len;
   int threshold;
   SwAffineGapParams params;
+};
+
+// Data structure holding the info for a job to be dispatched to an engine
+// Communication between engine dispatch thread and dispatch worker threads
+struct DispatchJob {
+  int query_id;
+  char* query_seq;
+  int query_len;
+  int threshold;
+  long long int num_ref_blocks;
+  long long int first_ref_block;
+  EngineJob engine_job;
 };
 
 // Data structure holding a potential high scoring alignment region

@@ -18,6 +18,7 @@
 #include "queryseqmanager.h"
 #include "refseqmanager.h"
 #include "scoring.h"
+#include "dispatchworkerthread.h"
 #ifdef SIM_PICO
   #include "picodrv_sim.h"
 #else
@@ -71,17 +72,8 @@ class EngineDispatchThread{
 
       // Pointer to shared reference sequence manager
       RefSeqManager* ref_seq_manager;
-    };
-
-    // Data structure holding the info for a job to be dispatched to an engine
-    struct DispatchJob {
-      int query_id;
-      char* query_seq;
-      int query_len;
-      int threshold;
-      long long int num_ref_blocks;
-      long long int first_ref_block;
-      EngineJob engine_job;
+      
+      ThreadQueue<DispatchJob>** dispatch_job_queues;
     };
 
     // Function for thread to run.
@@ -93,8 +85,8 @@ class EngineDispatchThread{
     // Dispatch a group of alignment jobs to an engine
     /*static void DispatchJob(PicoDrv* pico_driver, int stream, int query_id, char* query_seq, 
                             int query_len, int num_ref_blocks, int first_ref_block, int threshold);*/
-    static void DispatchJobs(PicoDrv* pico_driver, int stream, ThreadQueue<EngineJob>* engine_job_queue,
-                             std::list<DispatchJob>* jobs, uint32_t* out_buf);
+    /*static void DispatchJobs(PicoDrv* pico_driver, int stream, ThreadQueue<EngineJob>* engine_job_queue,
+                             std::list<DispatchJob>* jobs, uint32_t* out_buf);*/
 
 
     // Actual pthread instance
@@ -103,13 +95,11 @@ class EngineDispatchThread{
     // Thread arguments
     EngineDispatchThreadArgs args_;
     
-    static const int kMaxJobsDispatch = 64;
+    // Worker threads
+    DispatchWorkerThread** dispatch_worker_threads_;
+    ThreadQueue<DispatchJob>** dispatch_job_queues_;
     
-    struct jobqueue_entry {
-      std::list<EngineDispatchThread::DispatchJob>* joblist;
-      int fpga;
-      int engine;
-    };
+    //static const int kMaxJobsDispatch = 64;
 };
 
 #endif // ENGINEDISPATCHTHREAD_H_

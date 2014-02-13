@@ -11,8 +11,9 @@
 //      Albert Ng   Oct 03 2013     Initial Revision 
 //      Albert Ng   Oct 07 2013     Added ThreadQueue::Size()
 //      Albert Ng   Oct 10 2013     Added ThreadQueue::Empty()
-//      Albert Ng   Jan 15 2013     Changed pthread_cond_signal() to
+//      Albert Ng   Jan 15 2014     Changed pthread_cond_signal() to
 //                                    pthread_cond_broadcast()
+//      Albert Ng   Feb 11 2014     Changed Empty() to call queue.empty()
 
 #ifndef THREADQUEUE_H_
 #define THREADQUEUE_H_
@@ -108,6 +109,10 @@ int ThreadQueue<T>::Size() {
 
 template <typename T>
 bool ThreadQueue<T>::Empty() {
-  return Size() == 0;
+  bool empty;
+  pthread_mutex_lock(&mutex_);
+  empty = queue_.empty();
+  pthread_mutex_unlock(&mutex_);
+  return empty;
 }
 #endif // THREADQUEUE_H_

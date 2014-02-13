@@ -24,6 +24,7 @@
 #include "utils.h"
 #include "scoring.h"
 #include "enginedispatchthread.h"
+#include "dispatchworkerthread.h"
 #ifdef SIM_PICO
   #include "picodrv_sim.h"
 #else
@@ -48,15 +49,36 @@ void EngineDispatchThread::Init(PicoDrv** pico_drivers, int** streams,
                                 ThreadQueue<EngineJob>** engine_job_queues,
                                 QuerySeqManager* query_seq_manager,
                                 RefSeqManager* ref_seq_manager) {
+  // Set up dispatch worker threads
+  dispatch_worker_threads_ = new DispatchWorkerThread*[NUM_FPGAS];
+  dispatch_job_queues_ = new ThreadQueue<DispatchJob>*[NUM_FPGAS];
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    dispatch_worker_threads_[i] = new DispatchWorkerThread[NUM_ENGINES_PER_FPGA];
+    dispatch_job_queues_[i] = new ThreadQueue<DispatchJob>[NUM_ENGINES_PER_FPGA];
+    for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
+      dispatch_worker_threads_[i][j].Init(pico_drivers[i], streams[i][j], &(dispatch_job_queues_[i][j]));
+    }
+  }
+                                
+  // Set up thread arguments
   args_.pico_drivers = pico_drivers;
   args_.streams = streams;
   args_.alignment_job_queue = alignment_job_queue;
   args_.engine_job_queues = engine_job_queues;
   args_.query_seq_manager = query_seq_manager;
   args_.ref_seq_manager = ref_seq_manager;
+  args_.dispatch_job_queues = dispatch_job_queues_;
 }
 
 void EngineDispatchThread::Run() {
+  // Run the worker threads
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
+      dispatch_worker_threads_[i][j].Run();
+    }
+  }
+
+  // Run the thread
   pthread_create(&thread_, NULL, &EngineDispatchThread::Dispatch, (void*) (&args_));
 }
 
@@ -72,6 +94,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
   ThreadQueue<EngineJob>** engine_job_queues = ((EngineDispatchThreadArgs*)args)->engine_job_queues;
   QuerySeqManager* query_seq_manager = ((EngineDispatchThreadArgs*)args)->query_seq_manager;
   RefSeqManager* ref_seq_manager = ((EngineDispatchThreadArgs*)args)->ref_seq_manager;
+  ThreadQueue<DispatchJob>** dispatch_job_queues = ((EngineDispatchThreadArgs*)args)->dispatch_job_queues;
 
   // Current scoring parameters;
   SwAffineGapParams params;
@@ -79,19 +102,27 @@ void* EngineDispatchThread::Dispatch(void* args) {
   struct timespec start, finish;
   double elapsed;
           
-  int max_buf_len_per_job = 4 * (1 + MAX_QUERY_LEN / QUERY_BLOCK_LEN);
-  if (MAX_QUERY_LEN % QUERY_BLOCK_LEN != 0) {
-    max_buf_len_per_job += 4;
-  }
-  uint32_t* dispatch_buf = new uint32_t[EngineDispatchThread::kMaxJobsDispatch * max_buf_len_per_job];
-          
   while (true) {
     std::vector<AlignmentJob> aln_jobs = alignment_job_queue->Pop();
-    std::list<DispatchJob> dispatch_jobs[NUM_FPGAS][NUM_ENGINES_PER_FPGA];
+
+    long long int total_num_jobs = 0;
+    long long int total_num_jobs_per_engine[NUM_FPGAS][NUM_ENGINES_PER_FPGA];
+    for (int i = 0; i < NUM_FPGAS; i++) {
+      for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
+        total_num_jobs_per_engine[i][j] = 0;
+      }
+    }
+    long long int total_length_per_engine[NUM_FPGAS][NUM_ENGINES_PER_FPGA];
+    for (int i = 0; i < NUM_FPGAS; i++) {
+      for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
+        total_length_per_engine[i][j] = 0;
+      }
+    }
     
     //std::cout << aln_jobs.size() << " EngineDispatchThread alignment jobs" << std::endl;
     clock_gettime(CLOCK_MONOTONIC, &start);
     for (int i = 0; i < aln_jobs.size(); i++) {
+ 
       AlignmentJob aln_job = aln_jobs[i];
       /*std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
                 << " " << aln_job.ref_id
@@ -185,8 +216,8 @@ void* EngineDispatchThread::Dispatch(void* args) {
         // Dispatch jobs to FPGA engines and record the jobs for the results reader thread
         //std::cout << "Total num jobs: " << engine_jobs.size() << std::endl;
         query_seq_manager->SetQueryNumJobs(query_id, engine_jobs.size());
-        for (std::vector<EngineJob>::iterator it = engine_jobs.begin(); it != engine_jobs.end(); ++it) {
-          EngineJob job = *it;
+        for (int j = 0; j < engine_jobs.size(); j++) {
+          EngineJob job = engine_jobs[j];
           
           DispatchJob dispatch_job;
           dispatch_job.query_id = query_id;
@@ -198,154 +229,17 @@ void* EngineDispatchThread::Dispatch(void* args) {
           dispatch_job.engine_job = job;
           
           //std::cout << "FPGA " << job.fpga_id << " Engine " << job.engine_id << " query_id " << query_id << " fpga_len " << job.fpga_len << " fpga_addr " << job.fpga_addr << std::endl;
-          dispatch_jobs[job.fpga_id][job.engine_id].push_back(dispatch_job);
+          engine_job_queues[job.fpga_id][job.engine_id].Push(job);
+          dispatch_job_queues[job.fpga_id][job.engine_id].Push(dispatch_job);
         }
       }
     }
+    
     clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     std::cout << "Job loop took " << elapsed << " seconds" << std::endl;
-
-    for (int i = 0; i < NUM_FPGAS; i++) {
-      for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
-        int job_cnt = 0;
-        int block_cnt = 0;
-        for (std::list<EngineDispatchThread::DispatchJob>::iterator it = dispatch_jobs[i][j].begin(); it != dispatch_jobs[i][j].end(); it++) {
-          block_cnt += (*it).num_ref_blocks;
-          job_cnt++;
-        }
-        //std::cout << "FPGA " << i << " Engine " << j << " " << job_cnt << " " << block_cnt << std::endl;
-      }
-    }
-    
-    bool done = false;
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    while (done == false) {
-      done = true;
-      for (int j = 0; j < NUM_ENGINES_PER_FPGA; j++) {
-        for (int i = 0; i < NUM_FPGAS; i++) {
-          if (dispatch_jobs[i][j].empty() == false) {
-            done = false;
-            DispatchJobs(pico_drivers[i], streams[i][j], &(engine_job_queues[i][j]), &(dispatch_jobs[i][j]), dispatch_buf);
-          }
-        }
-      }
-    }
-    clock_gettime(CLOCK_MONOTONIC, &finish);
-    elapsed = (finish.tv_sec - start.tv_sec);
-    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    std::cout << "Dispatch loop took " << elapsed << " seconds" << std::endl;
   }
 }
 
-void EngineDispatchThread::DispatchJobs(PicoDrv* pico_driver, int stream, ThreadQueue<EngineJob>* engine_job_queue,
-                                        std::list<EngineDispatchThread::DispatchJob>* jobs, uint32_t* out_buf) {                        
-  int query_len   = jobs->front().query_len;
-  int threshold   = jobs->front().threshold;
-
-  // Compute number of 32-bit buffer slots to allocate per job to dispatch
-  int buf_len_per_job = 4 * (1 + query_len / QUERY_BLOCK_LEN);
-  if (query_len % QUERY_BLOCK_LEN != 0) {
-    buf_len_per_job += 4;
-  }
-
-  // Compute maximum number of jobs that can be sent without stalling
-  int bytes_available = pico_driver->GetBytesAvailable(stream, false);
-  int max_num_jobs = bytes_available / (buf_len_per_job * 4);
-
-  // Store engine jobs onto engine job queue
-  int cur_job = 0;
-  for (std::list<EngineDispatchThread::DispatchJob>::iterator it = jobs->begin(); 
-       it != jobs->end() && cur_job < max_num_jobs; it++, cur_job++) {
-    EngineDispatchThread::DispatchJob job = *it;
-    engine_job_queue->Push(job.engine_job);
-  }
-  
-  // Fill dispatch buffer
-  int cur_index = 0;
-  cur_job = 0;
-  for (std::list<EngineDispatchThread::DispatchJob>::iterator it = jobs->begin(); 
-       it != jobs->end() && cur_job < max_num_jobs; it++, cur_job++) {
-    EngineDispatchThread::DispatchJob job = *it;
-    assert(job.query_len == query_len);
-    assert(job.threshold == threshold);
-  
-    /*std::cout << "Num ref block: " << job.num_ref_blocks << "\t"
-              << "First ref block: " << job.first_ref_block << "\t"
-              << "Query id: " << job.query_id << "\t"
-              << "Query length: " << query_len << "\t"
-              << "Threshold: " << threshold << std::endl;*/
-  
-    out_buf[cur_index + 0] = (uint32_t) job.num_ref_blocks;
-    out_buf[cur_index + 1] = (uint32_t) job.first_ref_block;
-    out_buf[cur_index + 2] = (uint32_t) ((job.query_id << 16) + query_len);
-    out_buf[cur_index + 3] = (uint32_t) threshold;
-    
-    for (int j = 0; j < query_len; j++) {
-      NtInt nt = NtChar2Int(job.query_seq[j]);
-      if (job.query_seq[j] == 'N' || job.query_seq[j] == 'n') {
-        nt = rand() % 4;
-      }
-      if (j % 16 == 0) {
-        out_buf[cur_index + 4+j/16] = nt;
-      } else {
-        out_buf[cur_index + 4+j/16] += (nt << (2 * (j % 16)));
-      }
-    }
-    
-    cur_index += buf_len_per_job;
-  }
-  int num_jobs = cur_job;
-  
-  // Write dispatch buffer to FPGA
-  pico_driver->WriteStream(stream, out_buf, (num_jobs * buf_len_per_job) * 4);
-  
-  // Remove dispatched jobs from the queue
-  for (int i = 0; i < max_num_jobs && jobs->empty() == false; i++) {
-    jobs->pop_front();
-  }
-}
-/*
-void EngineDispatchThread::DispatchJob(PicoDrv* pico_driver, int stream,
-                                       int query_id, char* query_seq, int query_len,
-                                       int num_ref_blocks, int first_ref_block,
-                                       int threshold) {
-  uint32_t out_buf[4096];
-
-  out_buf[0] = (uint32_t) num_ref_blocks;
-  out_buf[1] = (uint32_t) first_ref_block;
-  out_buf[2] = (uint32_t) ((query_id << 16) + (query_len));
-  out_buf[3] = (uint32_t) threshold;
-
-  int num_query_blocks = query_len / QUERY_BLOCK_LEN;
-  if (query_len % QUERY_BLOCK_LEN != 0) {
-    num_query_blocks++;
-  }
-  for (int i = 0; i < query_len; i++) {
-    NtInt nt = NtChar2Int(query_seq[i]);
-    if (query_seq[i] == 'N' || query_seq[i] == 'n') {
-      nt = rand() % 4;
-    }
-    if (i % 16 == 0) {
-      out_buf[4+i/16] = nt;
-    } else {
-      out_buf[4+i/16] += (nt << (2 * (i % 16)));
-    }
-  }
-  
-  //std::cout << "Engine job for stream " << stream
-  //          <<"\tNum Ref Blocks: " << out_buf[0]
-  //          << "\tRef Block Offset: " << out_buf[1]
-  //          << "\tQuery ID: " << (out_buf[2] >> 16)
-  //          << "\tQuery Len: " << (out_buf[2] & 0xFFFF)
-  //          << "\tThreshold: " << out_buf[3]
-  //          << "\tQuery Seq: ";
-  //for (int i = 0; i < ((num_query_blocks+1)*16 / 4) - 4; i++) {
-  //  std::cout << out_buf[i + 4] << ' ';
-  //}
-  //std::cout << std::endl;
-  
-  pico_driver->WriteStream(stream, out_buf, (num_query_blocks+1)*16);
-}*/
 

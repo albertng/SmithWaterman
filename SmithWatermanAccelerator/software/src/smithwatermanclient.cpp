@@ -42,7 +42,7 @@ bool SendParams(ClientSocket* client_socket, SwAffineGapParams params) {
   return TrySend(client_socket, params.ToString());
 }
 
-bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, char* seq, int length) {
+bool SendQuery(ClientSocket* client_socket, std::vector<std::string> descrip, char* seq, long long int length) {
   std::string seq_str(seq, length);
   std::stringstream ss;
   ss << descrip[QUERY_NAME_FIELD] << " " 
@@ -64,7 +64,7 @@ bool SendEndOfQueryGroup(ClientSocket* client_socket) {
   return TrySend(client_socket, END_OF_QUERY_GROUP);
 }
   
-void PrintQuery(std::vector<std::string> descrip, char* seq, int length) {
+void PrintQuery(std::vector<std::string> descrip, char* seq, long long int length) {
   std::string seq_str(seq, length);
   std::cout << descrip[QUERY_NAME_FIELD] << " "
             << seq_str << " " 
@@ -78,7 +78,7 @@ bool SendQueryGroup(ClientSocket* client_socket,
                     SwAffineGapParams params,
                     std::vector<std::vector<std::string> > descrips, 
                     std::vector<char*> seqs, 
-                    std::vector<int> lengths) {
+                    std::vector<long long int> lengths) {
   if (!SendParams(client_socket, params)) {
     return false;
   }
@@ -96,7 +96,7 @@ bool SendQueryGroup(ClientSocket* client_socket,
   return true;
 }
 
-bool CheckQueryFileParse(std::string filename, std::vector<std::string> descrips, char* seq, int length) {
+bool CheckQueryFileParse(std::string filename, std::vector<std::string> descrips, char* seq, long long int length) {
   int start;
   int end;
   int threshold;
@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
   
   std::vector<std::vector<std::string> > descrips;
   std::vector<char*> seqs;
-  std::vector<int> lengths;
+  std::vector<long long int> lengths;
   std::vector<long long int> fileposs;
   
   // Parse the files
@@ -207,7 +207,7 @@ int main(int argc, char *argv[]) {
   
   if (parse_good) {
     // Connect to server
-    ClientSocket client_socket("localhost", 30000);
+    ClientSocket client_socket("172.24.69.147", 30000);
     
     // Send query group
     //SwAffineGapParams params("2 -2 -2 -2 2 -2 -2 2 -2 2 -2 -1"); // Simple scoring

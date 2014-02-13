@@ -39,6 +39,11 @@
 #include "refseqmanager.h"
 #include "queryseqmanager.h"
 
+#define ZERO_OP   0
+#define INSERT_OP 1
+#define DELETE_OP 2
+#define MATCH_OP  3
+
 // Software Smith-Waterman aligner worker thread
 class SWThread {
   public:
@@ -82,10 +87,7 @@ class SWThread {
     // Enumeration of possible alignment operations
     //enum AlnOp {INSERT_OP, DELETE_OP, MATCH_OP, ZERO_OP};
     typedef unsigned char AlnOp;
-    static const AlnOp ZERO_OP   = 0;
-    static const AlnOp INSERT_OP = 1;
-    static const AlnOp DELETE_OP = 2;
-    static const AlnOp MATCH_OP  = 3;
+
 
     // Smith-Waterman aligner thread arguments struct
     struct SWThreadArgs {    
