@@ -1,0 +1,4 @@
+TARGET = check_fpgas
+USER_SOURCES = check_fpgas.cpp
+
+include $(PICOBASE)/software/Makefile.common

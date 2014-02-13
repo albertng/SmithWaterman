@@ -1,0 +1,4 @@
+TARGET = cool_fpgas
+USER_SOURCES = cool_fpgas.cpp
+
+include $(PICOBASE)/software/Makefile.common
