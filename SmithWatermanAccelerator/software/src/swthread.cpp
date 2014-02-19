@@ -410,12 +410,12 @@ void* SWThread::Align(void* args) {
       
       // Indicate whether or not the alignment falls on a boundary for duplicate
       //   checking in the main thread before reporting. 
-      if ((aln.get_ref_offset() == hsr.job_offset) || 
+      /*if ((aln.get_ref_offset() == hsr.job_offset) || 
           (aln.get_ref_offset() + aln.GetRefLength() >= hsr.overlap_offset)) {
         aln_res.boundary = true;
       } else {
         aln_res.boundary = false;
-      }
+      }*/
 
       std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = hsr_alignments.find(aln_res);
       if (aln_it != hsr_alignments.end()) {

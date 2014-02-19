@@ -8,6 +8,7 @@
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 27 2014     Added ProcessJob()
 //      Albert Ng   Feb 03 2014     Added fpga file loading
+//      Albert Ng   Feb 18 2014     Changed ALL_CHR implementation to a single job
 
 #include <iostream>
 #include <dirent.h>
@@ -77,7 +78,7 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     int num_refs = ref_seq_manager->GetNumRefs();
     for (int ref_id = 0; ref_id < num_refs; ref_id++) {
       jobs.clear();
-      std::vector<int> chr_ids = ref_seq_manager->GetChrIDs(ref_id);
+      /*std::vector<int> chr_ids = ref_seq_manager->GetChrIDs(ref_id);
       for (int i = 0; i < chr_ids.size(); i++) {
         int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
         query_ids.push_back(query_id);
@@ -91,7 +92,18 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
         job.threshold = jobreq.threshold;
         job.params = jobreq.params;
         jobs.push_back(job);
-      }
+      }*/
+      int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
+      query_ids.push_back(query_id);
+      AlignmentJob job;
+      job.query_id = query_id;
+      job.ref_id = ref_id;
+      job.chr_id = -1;
+      job.ref_offset = -1; // Doesn't matter
+      job.ref_len = -1;   // Doesn't matter
+      job.threshold = jobreq.threshold;
+      job.params = jobreq.params;
+      jobs.push_back(job);
       
       alignment_job_queue->Push(jobs);
       std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
@@ -101,7 +113,8 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     int chr_id = ref_seq_manager->GetChrID(ref_id, jobreq.chr_name);
     std::vector<int> chr_ids;
     if (jobreq.chr_name == ALL_CHROM) {
-      chr_ids = ref_seq_manager->GetChrIDs(ref_id);
+      //chr_ids = ref_seq_manager->GetChrIDs(ref_id);
+      chr_ids.push_back(-1);
     } else {
       chr_ids.push_back(chr_id);
     }
@@ -146,8 +159,10 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
         job.ref_id = ref_id;
         job.chr_id = chr_ids[i];
         if (jobreq.chr_name == ALL_CHROM) {
-          job.ref_offset = 0;
-          job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
+          //job.ref_offset = 0;
+          //job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
+          job.ref_offset = -1;  // Doesn't matter
+          job.ref_len = -1;     // Doesn't matter
         } else {
           job.ref_offset = jobreq.ref_start - 1;
           job.ref_len = jobreq.ref_end - jobreq.ref_start;
@@ -275,7 +290,7 @@ int main(int argc, char *argv[]) {
   edthread.Init(pico_drivers, streams, &alignment_job_queue, engine_job_queues,
                 &query_seq_manager, &ref_seq_manager);
   edthread.Run();
-  rrthread.Init(pico_drivers, streams, &hsr_queue, &query_seq_manager,
+  rrthread.Init(pico_drivers, streams, &hsr_queue, &query_seq_manager, &ref_seq_manager,
                 engine_job_queues);
   rrthread.Run();
   for (int i = 0; i < NUM_SW_THREADS; i++) {

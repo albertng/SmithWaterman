@@ -124,14 +124,14 @@ void* EngineDispatchThread::Dispatch(void* args) {
     for (int i = 0; i < aln_jobs.size(); i++) {
  
       AlignmentJob aln_job = aln_jobs[i];
-      /*std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
+      std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
                 << " " << aln_job.ref_id
                 << " " << aln_job.chr_id
                 << " " << aln_job.ref_offset 
                 << " " << aln_job.ref_len 
                 << " " << aln_job.threshold
                 << " " << aln_job.params.ToString()
-                << std::endl;*/
+                << std::endl;
               
       int query_id = aln_job.query_id;
       
@@ -158,16 +158,22 @@ void* EngineDispatchThread::Dispatch(void* args) {
         // Partition the banks into engine jobs
         std::vector<EngineJob> engine_jobs;
         for (std::vector<RefSeqManager::RefSeqBank>::iterator it = locs.begin(); it != locs.end(); ++it) {
+          std::cout << "FPGA: " << it->fpga
+                    << "\tStart coord: " << it->start_coord
+                    << "\tEnd coord: " << it->end_coord
+                    << "\tOverlap len: " << it->overlap_len
+                    << "\tAddr : " << it->addr << std::endl;
+        
           RefSeqManager::RefSeqBank loc = *it;          
             
           // Compute length of ref seq bank
-          long long int ref_len = (loc.end_coord - loc.start_coord) + loc.overlap_len;
+          long long int refseqbank_len = (loc.end_coord - loc.start_coord) + loc.overlap_len;
 
           // Compute minimum job size allowable
           int min_job_len = 2*query_len >  50*REF_BLOCK_LEN ? 2*query_len : 50*REF_BLOCK_LEN;
 
           // Compute number of engine jobs to allocate for the alignment
-          int num_jobs = ref_len / min_job_len;
+          int num_jobs = refseqbank_len / min_job_len;
           num_jobs = num_jobs == 0 ? 1 : num_jobs;
           num_jobs = num_jobs > NUM_ENGINES_PER_FPGA ? NUM_ENGINES_PER_FPGA : num_jobs;
 
@@ -184,8 +190,8 @@ void* EngineDispatchThread::Dispatch(void* args) {
             engine_job.ref_offset     = cur_offset;
 
             // Compute job length
-            engine_job.ref_len = (j < ref_len % num_jobs) ?                      // Distribute jobs evenly
-                                 (ref_len / num_jobs + 1) : (ref_len / num_jobs);
+            engine_job.ref_len = (j < refseqbank_len % num_jobs) ?                      // Distribute jobs evenly
+                                 (refseqbank_len / num_jobs + 1) : (refseqbank_len / num_jobs);
             cur_offset += engine_job.ref_len;
             if (j != num_jobs - 1) {                                             // Add overlap for all jobs except last one
               engine_job.ref_len += (2 * query_len);
@@ -228,7 +234,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           dispatch_job.first_ref_block = job.fpga_addr;
           dispatch_job.engine_job = job;
           
-          //std::cout << "FPGA " << job.fpga_id << " Engine " << job.engine_id << " query_id " << query_id << " fpga_len " << job.fpga_len << " fpga_addr " << job.fpga_addr << std::endl;
+          std::cout << "FPGA " << job.fpga_id << " Engine " << job.engine_id << " query_id " << query_id << " fpga_len " << job.fpga_len << " fpga_addr " << job.fpga_addr << std::endl;
           engine_job_queues[job.fpga_id][job.engine_id].Push(job);
           dispatch_job_queues[job.fpga_id][job.engine_id].Push(dispatch_job);
         }

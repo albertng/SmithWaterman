@@ -15,6 +15,7 @@
 //      Albert Ng   Jan 22 2014     Added ref seq file descriptor LRU management
 //      Albert Ng   Feb 03 2014     Added fpga file loading
 //      Albert Ng   Feb 04 2014     Added GetNumRefs()
+//      Albert Ng   Feb 18 2014     Added GetChrRegions()
 
 #ifndef REFSEQMANAGER_H_
 #define REFSEQMANAGER_H_
@@ -83,6 +84,16 @@ class RefSeqManager {
     // Get a list of FPGA DRAM locations of a ref seq region
     std::vector<RefSeqBank> GetRefSeqBanks(int ref_id, int chr_id, long long int start_coord,
                                            long long int end_coord);
+                                           
+    // Get a list of chromosome start coordinates for the ref seq that exist within the given range
+    //std::vector<long long int> GetChrBoundaries(int ref_id, long long int start_coord, long long int end_coord);
+    
+    // Get the chromosome regions that are spanned by the given range
+    void GetChrRegions(int ref_id, long long int start_coord, long long int end_coord,
+                       std::vector<int>* chr_ids,
+                       std::vector<long long int>* chr_offsets,
+                       std::vector<long long int>* chr_start_coords,
+                       std::vector<long long int>* chr_end_coords);
                                            
     // Get total reference sequence length
     long long int GetTotalRefLength();
@@ -159,7 +170,11 @@ class RefSeqManager {
     PicoDrv** pico_drivers_;
 
     // Vectors of ref seq bank FPGA DRAM location info indexed by ref ID and chr ID
-    std::vector<std::vector<std::vector<RefSeqBank> > > ref_seq_bank_info_;
+    std::vector<std::vector<std::vector<RefSeqBank> > > chr_bank_info_;
+    
+    // Vectors of ref seq bank FPGA DRAM location info indexed by ref ID
+    //   Treats all chromosomes of a ref seq as one long sequence
+    std::vector<std::vector<RefSeqBank> > ref_bank_info_;
 
     // Starting block address of the next ref seq to be added for each FPGA
     long long int cur_block_[NUM_FPGAS];

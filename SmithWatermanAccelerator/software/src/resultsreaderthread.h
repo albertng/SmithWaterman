@@ -29,6 +29,7 @@
 //      Albert Ng   Oct 15 2013     Removed num_drivers and num_streams
 //      Albert Ng   Oct 17 2013     Added NOT_IN_HSR state and IsValidBlock()
 //      Albert Ng   Oct 30 2013     Moved END_OF_ALIGNMENT to def.h
+//      Albert Ng   Feb 18 2014     Added ref_seq_manager pointer to args
 
 #ifndef RESULTSREADERTHREAD_H_
 #define RESULTSREADERTHREAD_H_
@@ -38,6 +39,7 @@
 #include "def.h"
 #include "threadqueue.h"
 #include "queryseqmanager.h"
+#include "refseqmanager.h"
 #ifdef SIM_PICO
   #include "picodrv_sim.h"
 #else
@@ -56,11 +58,13 @@ class ResultsReaderThread {
     ResultsReaderThread(PicoDrv** pico_drivers, int** streams,
                         ThreadQueue<HighScoreRegion>* hsr_queue, 
                         QuerySeqManager* query_seq_manager,
+                        RefSeqManager* ref_seq_manager,
                         ThreadQueue<EngineJob>** engine_job_queues);
 
     // Initialization function (called by constructor)
     void Init(PicoDrv** pico_drivers, int** streams, 
               ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager,
+              RefSeqManager* ref_seq_manager,
               ThreadQueue<EngineJob>** engine_job_queues);
 
     // Run the thread
@@ -88,8 +92,11 @@ class ResultsReaderThread {
       // Pointer to shared query sequence manager
       QuerySeqManager* query_seq_manager;
 
+      // Pointer to shared ref seq manager
+      RefSeqManager* ref_seq_manager; 
+
       // Pointers to queues of alignment jobs scheduled to the FPGA engines
-      // Indexed by [FPGA][Stream]
+      //   Indexed by [FPGA][Stream]
       ThreadQueue<EngineJob>** engine_job_queues;
     };
 
@@ -115,7 +122,8 @@ class ResultsReaderThread {
 
     // HELPER FUNCTIONS
     // Store the high-score-region onto the high-score-region queue
-    static void StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager);
+    static void StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, 
+                         QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager);
 
     // Begin a new high-score-block for the alignment job
     static CoalescedHighScoreBlock StartCHSB(uint32_t block_offset);

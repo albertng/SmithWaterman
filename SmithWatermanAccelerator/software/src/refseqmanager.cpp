@@ -13,6 +13,7 @@
 //                                  Added GetFPGAStorage()
 //      Albert Ng   Feb 03 2014     Added fpga file loading
 //      Albert Ng   Feb 04 2014     Added GetNumRefs()
+//      Albert Ng   Feb 18 2014     Added GetChrRegions()
 
 #include "def.h"
 #include <stdio.h>
@@ -222,171 +223,21 @@ std::string RefSeqManager::GetChrName(int ref_id, int chr_id) {
   return chr_name_[ref_id][chr_id];
 }
 
-/*void RefSeqManager::AddRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name) {
-  std::vector<std::vector<std::string> > descrips;
-  std::vector<char*> seqs;
-  std::vector<long long int> lengths;
-  std::vector<long long int> fileposs;
-
-  struct timespec start, finish;
-
-  // Parse FASTA files
-  clock_gettime(CLOCK_MONOTONIC, &start);
-  ParseFastaFile(ref_dir + "/" + ref_fa_filename, &descrips, &seqs, &lengths, &fileposs);
-  clock_gettime(CLOCK_MONOTONIC, &finish);
-  disk_refseqload_time_ += (finish.tv_sec - start.tv_sec);
-  disk_refseqload_time_ += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-  assert(descrips.size() == seqs.size());
-  assert(seqs.size() == lengths.size());
-  assert(lengths.size() == fileposs.size());
-  
-  // Compute ref seq bank lengths
-  long long int total_num_blocks = 0;
-  for (int i = 0; i < lengths.size(); i++) {
-    total_num_blocks += (long long int) ceil(((double) lengths[i]) / REF_BLOCK_LEN);
-  }
-  //std::cout << ref_name << " total num blocks: " << total_num_blocks << std::endl;
-  long long int bank_num_blocks[NUM_FPGAS];
-  for (int i = 0; i < NUM_FPGAS; i++) {
-    bank_num_blocks[i] = total_num_blocks / NUM_FPGAS;
-    if (i < total_num_blocks % NUM_FPGAS) {
-      bank_num_blocks[i]++;
-    }
-    //std::cout << "Bank " << i << " num blocks: " << bank_num_blocks[i] << std::endl;
-  }
-
-  // Store ref seq data
-  int ref_id = ref_name_.size();
-  std::map<std::string, int> chr_ids;
-  std::vector<std::string> chr_names;
-  std::vector<long long int> chr_lengths;
-  std::vector<long long int> chr_filepos;
-  std::vector<std::vector<RefSeqBank> > ref_seq_bank_infos;
-  int cur_fpga = 0;
-  int num_blocks_stored = 0;
-
-  for (int i = 0; i < seqs.size(); i++) {
-    // Record sequence information
-    int chr_id = chr_names.size();
-    chr_ids[descrips[i][CHR_NAME_FIELD]] = chr_id;
-    chr_names.push_back(descrips[i][CHR_NAME_FIELD]);
-    chr_lengths.push_back(lengths[i]);
-    chr_filepos.push_back(fileposs[i]);
-    total_ref_length_ += lengths[i];
-    
-    long long int cur_offset = 0;
-    std::vector<RefSeqBank> chr_seq_region_infos;
-    while (cur_offset < lengths[i]) {
-      // Compute sequence length to stream this iteration
-      long long int seq_length = lengths[i] - cur_offset;
-      long long int seq_num_blocks = (long long int) ceil(((double) seq_length) / REF_BLOCK_LEN);
-      int overlap_length = 0;
-      if (num_blocks_stored + seq_num_blocks > bank_num_blocks[cur_fpga]) {
-        seq_length = (bank_num_blocks[cur_fpga] - num_blocks_stored) * REF_BLOCK_LEN;
-        seq_num_blocks = bank_num_blocks[cur_fpga] - num_blocks_stored;
-        overlap_length = kOverlapLength;
-        if (cur_offset + seq_length + overlap_length > lengths[i]) {
-          overlap_length = lengths[i] - (cur_offset + seq_length);
-        }
-      }
-      long long int num_blocks_to_store = (long long int) ceil(((double) (seq_length + overlap_length)) / REF_BLOCK_LEN);
-      //std::cout << "Bank length " << seq_length << "\tOverlap length " << overlap_length << "\tNum blocks to store " << num_blocks_to_store<<std::endl;
-
-      // Stream the sequence
-      clock_gettime(CLOCK_MONOTONIC, &start);
-      StreamRefSeq(cur_fpga, &(seqs[i][cur_offset]), cur_block_[cur_fpga], seq_length + overlap_length);
-
-      clock_gettime(CLOCK_MONOTONIC, &finish);
-      fpga_refseqload_time_ += (finish.tv_sec - start.tv_sec);
-      fpga_refseqload_time_ += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-                
-      // Store the chromosome bank information
-      RefSeqBank loc;
-      loc.fpga = cur_fpga;
-      loc.start_coord = cur_offset;
-      loc.end_coord = cur_offset + seq_length;
-      loc.overlap_len = overlap_length;
-      loc.addr = cur_block_[cur_fpga];
-      chr_seq_region_infos.push_back(loc);
-
-      // Update counters
-      cur_offset += seq_length;
-      cur_block_[cur_fpga] += num_blocks_to_store;
-      num_blocks_stored += seq_num_blocks;
-      assert(num_blocks_stored <= bank_num_blocks[cur_fpga]);
-      if (num_blocks_stored == bank_num_blocks[cur_fpga]) {
-        num_blocks_stored = 0;
-        cur_fpga++;
-      }
-    }
-    
-    ref_seq_bank_infos.push_back(chr_seq_region_infos);
-  }
-
-  // Record reference sequence metadata
-  ref_name_.push_back(ref_name);
-  ref_file_.push_back(ref_file);
-  ref_id_[ref_name] = ref_id;
-  chr_id_.push_back(chr_ids);
-  chr_name_.push_back(chr_names);
-  chr_filepos_.push_back(chr_filepos);
-  chr_length_.push_back(chr_lengths);
-  ref_seq_bank_info_.push_back(ref_seq_bank_infos);
-  
-  // Initialize and add a mutex for ref seq file
-  pthread_mutex_t ref_mutex;
-  pthread_mutex_init(&ref_mutex, NULL);
-  ref_fd_mutex_.push_back(ref_mutex);
-  
-  // Clean up ref seq memory
-  for (int i = 0; i < seqs.size(); i++) {
-    delete[] seqs[i];
-  }
-}
-
-void RefSeqManager::StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr, long long int ref_length) {
-  assert(REF_BLOCK_LEN % 4 == 0);
-  //std::cout << "Streaming to FPGA " << fpga << "\tRef addr " << ref_addr << "\t Ref len " << ref_length << std::endl;
-
-  // Compute length of 2-bit formatted ref seq buffer
-  //   Pad ref seq buffer to hold a multiple of REF_BLOCK_LEN nucleotides
-  long long int twobit_buf_length = ((long long int) ceil(((double) ref_length) / REF_BLOCK_LEN)) * (REF_BLOCK_LEN / 4);
-
-  // Build 2-bit formatted ref seq buffer
-  //   Replace N's with random nucleotide
-  char* twobit_buf = new char[twobit_buf_length];
-  for (int i = 0; i < twobit_buf_length; i++) {
-    char val = 0;
-    for (int j = i*4+3; j >= i*4; j--) {
-      val <<= 2;
-      if (j < ref_length) {
-        if (ref_seq[j] != 'N' && ref_seq[j] != 'n') {
-          val += NtChar2Int(ref_seq[j]);
-        } else {
-          val += (rand() % 4);
-        }
-      }
-    }
-    twobit_buf[i] = val;
-  }
-
-  // Write the ref seq to the FPGA DRAM
-  int err;
-  char ibuf[1024];
-  err = pico_drivers_[fpga]->WriteRam(ref_addr * (REF_BLOCK_LEN / 4), (void*) twobit_buf, twobit_buf_length);
-  if (err < 0) {
-    fprintf(stderr, "Failed to write ref seq to FPGA %d, error: %s\n", fpga, 
-            PicoErrors_FullError(err, ibuf, sizeof(ibuf)));
-  }
-
-  delete[] twobit_buf;
-}*/
-
+// NOTE: For ALL_CHR case, start_coord and end_coord arguments are ignored
 std::vector<RefSeqManager::RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id, int chr_id, 
                                                       long long int start_coord, long long int end_coord) {
   std::vector<RefSeqBank> locs;
-  for (std::vector<RefSeqBank>::iterator it = ref_seq_bank_info_[ref_id][chr_id].begin();
-       it != ref_seq_bank_info_[ref_id][chr_id].end();
+  
+  // ALL_CHR case
+  //   Treat all chromosomes of ref seq as one long sequence
+  if (chr_id == -1) {
+    locs = ref_bank_info_[ref_id];
+    return locs;
+  }
+  
+  // Single chromosome case
+  for (std::vector<RefSeqBank>::iterator it = chr_bank_info_[ref_id][chr_id].begin();
+       it != chr_bank_info_[ref_id][chr_id].end();
        ++it) {
     RefSeqBank bank = *it;
     RefSeqBank loc;
@@ -424,6 +275,50 @@ std::vector<RefSeqManager::RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id,
   
   return locs;
 }
+
+// Returns a list of chromosome start positions within the given range (start_coord, end_coord). Note exclusive interval.
+//   Example: chromosome start positions 0, 5, 10
+//            GetChrBoundaries(ref_id, 0, 10) returns {5}
+/*std::vector<long long int> RefSeqManager::GetChrBoundaries(int ref_id, long long int start_coord, long long int end_coord) {
+  assert(ref_id < chr_name_.size());
+  
+  std::vector<long long int> chr_start_coords;
+  long long int cur_coord = 0;  
+  for (std::vector<long long int>::iterator it = chr_length_[ref_id].begin(); it != chr_length_[ref_id].end(); it++) {
+    cur_coord += *it;
+    if (start_coord < cur_coord && cur_coord < end_coord) {
+      chr_start_coords.push_back(cur_coord);
+    } else if (cur_coord >= end_coord) {
+      break;
+    }
+  }
+  
+  return chr_start_coords;
+}*/
+
+void RefSeqManager::GetChrRegions(int ref_id, long long int start_coord, long long int end_coord,
+                                  std::vector<int>* chr_ids,
+                                  std::vector<long long int>* chr_offsets,
+                                  std::vector<long long int>* chr_start_coords,
+                                  std::vector<long long int>* chr_end_coords) {
+  assert(ref_id < chr_name_.size());
+  
+  long long int cur_coord = 0;
+  for (int i = 0; i < chr_length_[ref_id].size() && cur_coord < end_coord; i++) {  
+    if (cur_coord < end_coord && (cur_coord + chr_length_[ref_id][i] > start_coord)) {
+      int chr_id = i;
+      long long int start = cur_coord < start_coord ? start_coord : cur_coord;
+      long long int end = (cur_coord + chr_length_[ref_id][i]) < end_coord ? (cur_coord + chr_length_[ref_id][i]) : end_coord;
+      
+      chr_ids->push_back(i);
+      chr_offsets->push_back(cur_coord);
+      chr_start_coords->push_back(start - cur_coord);
+      chr_end_coords->push_back(end - cur_coord);
+    }
+    cur_coord += ((long long int) ceil(((double) chr_length_[ref_id][i]) / REF_BLOCK_LEN)) * REF_BLOCK_LEN;
+  }
+}
+
 
 int RefSeqManager::GetNumRefs() {
   return ref_name_.size();
@@ -535,7 +430,14 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
   std::vector<std::string> chr_names;
   std::vector<long long int> chr_lengths;
   std::vector<long long int> chr_filepos;
-  std::vector<std::vector<RefSeqBank> > ref_seq_bank_infos;
+  std::vector<std::vector<RefSeqBank> > chr_bank_infos;
+  std::vector<RefSeqBank> ref_bank_infos;
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    RefSeqBank rsb;
+    rsb.fpga = i;
+    //rsb.addr = cur_block_[i];
+    ref_bank_infos.push_back(rsb);
+  }
   int cur_fpga = 0;
   int num_blocks_stored = 0;
   std::ofstream fpga2bitfiles[NUM_FPGAS];
@@ -545,8 +447,12 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
   
   long long int cur_block[NUM_FPGAS];
   for (int i = 0; i < NUM_FPGAS; i++) {
-    cur_block[i] = cur_block_[i];
+    //cur_block[i] = cur_block_[i];
+    cur_block[i] = 0;
   }
+
+  long long int cur_ref_offset = 0;
+  ref_bank_infos[0].start_coord = 0;
   for (int i = 0; i < seqs.size(); i++) {
     // Record sequence information
     chr_names.push_back(descrips[i][CHR_NAME_FIELD]);
@@ -611,14 +517,23 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
       cur_offset += seq_length;
       num_blocks_stored += seq_num_blocks;
       cur_block[cur_fpga] += num_blocks_to_store;
+      cur_ref_offset += num_blocks_to_store * REF_BLOCK_LEN;
       assert(num_blocks_stored <= bank_num_blocks[cur_fpga]);
       if (num_blocks_stored == bank_num_blocks[cur_fpga]) {
+        cur_ref_offset -= overlap_length;
+        ref_bank_infos[cur_fpga].end_coord = cur_ref_offset;
+        ref_bank_infos[cur_fpga].overlap_len = overlap_length;
+        
         num_blocks_stored = 0;
         cur_fpga++;
+        
+        if (cur_fpga < NUM_FPGAS) {
+          ref_bank_infos[cur_fpga].start_coord = cur_ref_offset;
+        }
       }
     }
     
-    ref_seq_bank_infos.push_back(chr_seq_region_infos);
+    chr_bank_infos.push_back(chr_seq_region_infos);
   }
   
   // Close fpga2bit file streams
@@ -630,7 +545,7 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
   std::ofstream fpgametafile(ref_dir + "/" + ref_name + ".meta");
   assert(chr_names.size() == chr_lengths.size());
   assert(chr_lengths.size() == chr_filepos.size());
-  assert(chr_filepos.size() == ref_seq_bank_infos.size());
+  assert(chr_filepos.size() == chr_bank_infos.size());
   std::string chr_num_str = std::to_string(chr_names.size());                     // Number of chromosomes
   fpgametafile.write(chr_num_str.c_str(), chr_num_str.size());
   fpgametafile.write("\n", 1);
@@ -660,18 +575,27 @@ void RefSeqManager::BuildFpgaFiles(std::string ref_dir, std::string ref_fa_filen
       fpgametafile.write("\n", 1);
     }
   }
-  for (int i = 0; i < ref_seq_bank_infos.size(); i++) {
-    std::string bank_size_str = std::to_string(ref_seq_bank_infos[i].size());     // Number of ref seq banks
+  for (int i = 0; i < chr_bank_infos.size(); i++) {
+    std::string bank_size_str = std::to_string(chr_bank_infos[i].size());         // Number of chromosome banks
     fpgametafile.write(bank_size_str.c_str(), bank_size_str.size());
     fpgametafile.write("\n", 1);
-    for (int j = 0; j < ref_seq_bank_infos[i].size(); j++) {                      // Ref seq bank info
-      std::string bank_str = std::to_string(ref_seq_bank_infos[i][j].fpga) + " ";
-      bank_str += std::to_string(ref_seq_bank_infos[i][j].start_coord) + " ";
-      bank_str += std::to_string(ref_seq_bank_infos[i][j].end_coord) + " ";
-      bank_str += std::to_string(ref_seq_bank_infos[i][j].overlap_len) + " ";
-      bank_str += std::to_string(ref_seq_bank_infos[i][j].addr) + "\n";
+    for (int j = 0; j < chr_bank_infos[i].size(); j++) {                          // Chromosome bank info
+      std::string bank_str = std::to_string(chr_bank_infos[i][j].fpga) + " ";
+      bank_str += std::to_string(chr_bank_infos[i][j].start_coord) + " ";
+      bank_str += std::to_string(chr_bank_infos[i][j].end_coord) + " ";
+      bank_str += std::to_string(chr_bank_infos[i][j].overlap_len) + " ";
+      bank_str += std::to_string(chr_bank_infos[i][j].addr) + "\n";
       fpgametafile.write(bank_str.c_str(), bank_str.size());
     }  
+  }
+  for (int i = 0; i < NUM_FPGAS; i++) {                                           // Ref seq bank info
+    std::string bank_str = std::to_string(ref_bank_infos[i].fpga) + " ";
+    bank_str += std::to_string(ref_bank_infos[i].start_coord) + " ";
+    bank_str += std::to_string(ref_bank_infos[i].end_coord) + " ";
+    bank_str += std::to_string(ref_bank_infos[i].overlap_len) + "\n";
+    //bank_str += std::to_string(ref_bank_infos[i].overlap_len) + " ";
+    //bank_str += std::to_string(ref_bank_infos[i].addr) + "\n";
+    fpgametafile.write(bank_str.c_str(), bank_str.size());
   }
   fpgametafile.close();
   
@@ -686,6 +610,72 @@ void RefSeqManager::LoadRef(std::string ref_dir, std::string ref_fa_filename, st
 
   struct timespec start, finish;
   double elapsed;
+  
+  // Load metadata file and store info in shared data structures
+  int num_chr;
+  std::map<std::string, int> chr_ids;
+  std::vector<std::string> chr_names;
+  std::vector<long long int> chr_lengths;
+  std::vector<long long int> chr_fileposs;
+  std::vector<std::vector<RefSeqBank> > chr_bank_infos;
+  std::vector<RefSeqBank> ref_bank_infos;
+  std::ifstream fpgametafile(ref_dir + "/" + ref_name + ".meta");
+  assert(fpgametafile.is_open() == true);
+  fpgametafile >> num_chr;
+  for (int i = 0; i < num_chr; i++) {
+    std::string chr_name;
+    fpgametafile >> chr_name;
+    chr_names.push_back(chr_name);
+    chr_ids[chr_name] = i;
+  }
+  for (int i = 0; i < num_chr; i++) {
+    long long int chr_length;
+    fpgametafile >> chr_length;
+    chr_lengths.push_back(chr_length);
+  }
+  for (int i = 0; i < num_chr; i++) {
+    long long int chr_filepos;
+    fpgametafile >> chr_filepos;
+    chr_fileposs.push_back(chr_filepos);
+  }
+  for (int i = 0; i < num_chr; i++) {
+    int num_banks;
+    fpgametafile >> num_banks;
+    std::vector<RefSeqBank> banks;
+    for (int j = 0; j < num_banks; j++) {
+      RefSeqBank bank;
+      fpgametafile >> bank.fpga;
+      fpgametafile >> bank.start_coord;
+      fpgametafile >> bank.end_coord;
+      fpgametafile >> bank.overlap_len;
+      fpgametafile >> bank.addr;          // Address offset of the chr within the ref seq
+      bank.addr += cur_block_[bank.fpga]; // Compute absolute address within the DRAM
+      banks.push_back(bank);
+    }
+    chr_bank_infos.push_back(banks);
+  }
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    RefSeqBank bank;
+    fpgametafile >> bank.fpga;
+    fpgametafile >> bank.start_coord;
+    fpgametafile >> bank.end_coord;
+    fpgametafile >> bank.overlap_len;
+    bank.addr = cur_block_[bank.fpga];
+    //fpgametafile >> bank.addr;
+    ref_bank_infos.push_back(bank);
+  }
+  fpgametafile.close();
+  
+  // Record reference sequence metadata
+  ref_id_[ref_name] = ref_name_.size();
+  ref_name_.push_back(ref_name);
+  ref_file_.push_back(ref_dir + "/" + ref_fa_filename);
+  chr_id_.push_back(chr_ids);
+  chr_name_.push_back(chr_names);
+  chr_filepos_.push_back(chr_fileposs);
+  chr_length_.push_back(chr_lengths);
+  chr_bank_info_.push_back(chr_bank_infos);
+  ref_bank_info_.push_back(ref_bank_infos);
 
   // Load fpga2bit files to DRAM and update current block counters
   for (int i = 0; i < NUM_FPGAS; i++) {
@@ -725,57 +715,4 @@ void RefSeqManager::LoadRef(std::string ref_dir, std::string ref_fa_filename, st
     cur_block_[i] += (size / (REF_BLOCK_LEN / 4));
     delete[] buffer;
   }
-  
-  // Load metadata file and store info in shared data structures
-  int num_chr;
-  std::map<std::string, int> chr_ids;
-  std::vector<std::string> chr_names;
-  std::vector<long long int> chr_lengths;
-  std::vector<long long int> chr_fileposs;
-  std::vector<std::vector<RefSeqBank> > ref_seq_bank_infos;
-  std::ifstream fpgametafile(ref_dir + "/" + ref_name + ".meta");
-  assert(fpgametafile.is_open() == true);
-  fpgametafile >> num_chr;
-  for (int i = 0; i < num_chr; i++) {
-    std::string chr_name;
-    fpgametafile >> chr_name;
-    chr_names.push_back(chr_name);
-    chr_ids[chr_name] = i;
-  }
-  for (int i = 0; i < num_chr; i++) {
-    long long int chr_length;
-    fpgametafile >> chr_length;
-    chr_lengths.push_back(chr_length);
-  }
-  for (int i = 0; i < num_chr; i++) {
-    long long int chr_filepos;
-    fpgametafile >> chr_filepos;
-    chr_fileposs.push_back(chr_filepos);
-  }
-  for (int i = 0; i < num_chr; i++) {
-    int num_banks;
-    fpgametafile >> num_banks;
-    std::vector<RefSeqBank> banks;
-    for (int j = 0; j < num_banks; j++) {
-      RefSeqBank bank;
-      fpgametafile >> bank.fpga;
-      fpgametafile >> bank.start_coord;
-      fpgametafile >> bank.end_coord;
-      fpgametafile >> bank.overlap_len;
-      fpgametafile >> bank.addr;
-      banks.push_back(bank);
-    }
-    ref_seq_bank_infos.push_back(banks);
-  }
-  fpgametafile.close();
-  
-  // Record reference sequence metadata
-  ref_id_[ref_name] = ref_name_.size();
-  ref_name_.push_back(ref_name);
-  ref_file_.push_back(ref_dir + "/" + ref_fa_filename);
-  chr_id_.push_back(chr_ids);
-  chr_name_.push_back(chr_names);
-  chr_filepos_.push_back(chr_fileposs);
-  chr_length_.push_back(chr_lengths);
-  ref_seq_bank_info_.push_back(ref_seq_bank_infos);
 }

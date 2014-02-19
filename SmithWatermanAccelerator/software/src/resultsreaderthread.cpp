@@ -18,6 +18,8 @@
 #include <assert.h>
 #include "def.h"
 #include "resultsreaderthread.h"
+#include "queryseqmanager.h"
+#include "refseqmanager.h"
 #include "threadqueue.h"
 #include "scoring.h"
 #include "time.h"
@@ -34,19 +36,22 @@ ResultsReaderThread::ResultsReaderThread() {
 ResultsReaderThread::ResultsReaderThread(PicoDrv** pico_drivers, int** streams,
                                          ThreadQueue<HighScoreRegion>* hsr_queue,
                                          QuerySeqManager* query_seq_manager,
+                                         RefSeqManager* ref_seq_manager,
                                          ThreadQueue<EngineJob>** engine_job_queues) {
-  Init(pico_drivers, streams, hsr_queue, query_seq_manager,
+  Init(pico_drivers, streams, hsr_queue, query_seq_manager, ref_seq_manager,
        engine_job_queues);
 }
 
 void ResultsReaderThread::Init(PicoDrv** pico_drivers, int** streams,
                                ThreadQueue<HighScoreRegion>* hsr_queue,
                                QuerySeqManager* query_seq_manager,
+                               RefSeqManager* ref_seq_manager,
                                ThreadQueue<EngineJob>** engine_job_queues) {
   args_.pico_drivers = pico_drivers;
   args_.streams = streams;
   args_.hsr_queue = hsr_queue;
   args_.query_seq_manager = query_seq_manager;
+  args_.ref_seq_manager = ref_seq_manager;
   args_.engine_job_queues = engine_job_queues;
 }
 
@@ -64,6 +69,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
   int** streams = ((ResultsReaderThreadArgs*)args)->streams;
   ThreadQueue<HighScoreRegion>* hsr_queue = ((ResultsReaderThreadArgs*)args)->hsr_queue;
   QuerySeqManager* query_seq_manager = ((ResultsReaderThreadArgs*)args)->query_seq_manager;
+  RefSeqManager* ref_seq_manager = ((ResultsReaderThreadArgs*)args)->ref_seq_manager;
   ThreadQueue<EngineJob>** engine_job_queues = ((ResultsReaderThreadArgs*)args)->engine_job_queues;
 
   // Set up memory buffers
@@ -131,7 +137,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
 
               case IN_HSR:
                 if (high_score_block == END_OF_ENGINE_ALIGNMENT) {
-                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager, ref_seq_manager);
                   num_HSRs++;
                   if (num_HSRs % 10000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
@@ -143,7 +149,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
                   chsbs[i][j] = ExtendCHSB(chsbs[i][j]);
                   states[i][j] = IN_HSR;
                 } else if (IsValidBlock(jobs[i][j], high_score_block)) {
-                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager, ref_seq_manager);
                   num_HSRs++;
                   if (num_HSRs % 10000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
@@ -151,7 +157,7 @@ void* ResultsReaderThread::ReadResults(void* args) {
                   chsbs[i][j] = StartCHSB(high_score_block);
                   states[i][j] = IN_HSR;
                 } else {
-                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager);
+                  StoreHSR(chsbs[i][j], jobs[i][j], hsr_queue, query_seq_manager, ref_seq_manager);
                   num_HSRs++;
                   if (num_HSRs % 10000 == 0) {
                     std::cout << "HSRS: " << num_HSRs << std::endl;
@@ -183,7 +189,67 @@ void* ResultsReaderThread::ReadResults(void* args) {
 // Stores the high scoring region onto the high score region queue to pass to Smith-Waterman
 //   threads for alignment. Modifies the HSR length and offset to include up to 2 query
 //   length extension at the front (bounded by the job boundaries).
-void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
+void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, 
+                                   QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager) {
+  std::vector<int> chr_ids;
+  std::vector<long long int> chr_offsets;
+  std::vector<long long int> chr_start_coords;
+  std::vector<long long int> chr_end_coords;
+
+  int query_len;
+  query_seq_manager->GetQuerySeq(job.query_id, &query_len);
+
+  long long int offset = (job.ref_offset/REF_BLOCK_LEN)*REF_BLOCK_LEN + chsb.block_offset * REF_BLOCK_LEN - 2*query_len;
+  long long int len = chsb.num_blocks * REF_BLOCK_LEN + 2*query_len;
+  
+  // Left boundary check
+  if (offset < job.ref_offset) {
+    len -= (job.ref_offset - offset);
+    offset = job.ref_offset;
+  }
+
+  // Right boundary check
+  if ((offset + len) > (job.ref_offset + job.ref_len)) {
+    len -= ((offset + len) - (job.ref_offset + job.ref_len));
+  } 
+
+  if (job.chr_id == -1) {
+    ref_seq_manager->GetChrRegions(job.ref_id, offset, offset + len, &chr_ids, &chr_offsets, &chr_start_coords, &chr_end_coords);
+    
+    for (int i = 0; i < chr_ids.size(); i++) {
+      HighScoreRegion hsr;
+      hsr.query_id       = job.query_id;
+      hsr.ref_id         = job.ref_id;
+      hsr.chr_id         = chr_ids[i];
+      hsr.threshold      = job.threshold;
+      hsr.params         = job.params;
+      hsr.offset         = chr_start_coords[i];
+      hsr.len            = chr_end_coords[i] - chr_start_coords[i];
+      hsr.overlap_offset = job.overlap_offset - chr_offsets[i];
+      
+      hsr_queue->Push(hsr);
+      query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
+    }
+  } else {
+    HighScoreRegion hsr;
+    hsr.query_id       = job.query_id;
+    hsr.ref_id         = job.ref_id;
+    hsr.chr_id         = job.chr_id;
+    hsr.threshold      = job.threshold;
+    hsr.params         = job.params;
+    hsr.offset         = offset;
+    hsr.len            = len;
+    hsr.overlap_offset = job.overlap_offset;       
+    
+    hsr_queue->Push(hsr);
+    query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
+  }    
+}
+
+// Stores the high scoring region onto the high score region queue to pass to Smith-Waterman
+//   threads for alignment. Modifies the HSR length and offset to include up to 2 query
+//   length extension at the front (bounded by the job boundaries).
+/*void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
   HighScoreRegion hsr;
   hsr.query_id       = job.query_id;
   hsr.ref_id         = job.ref_id;
@@ -212,7 +278,8 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
   
   hsr_queue->Push(hsr);
   query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
-}
+}*/
+
 
 // Begins a new coalesced high scoring block
 ResultsReaderThread::CoalescedHighScoreBlock ResultsReaderThread::StartCHSB(uint32_t block_offset) {
