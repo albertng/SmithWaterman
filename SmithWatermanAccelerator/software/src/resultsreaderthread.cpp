@@ -226,6 +226,7 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
       hsr.offset         = chr_start_coords[i];
       hsr.len            = chr_end_coords[i] - chr_start_coords[i];
       hsr.overlap_offset = job.overlap_offset - chr_offsets[i];
+      hsr.pos_strand     = job.pos_strand;
       
       hsr_queue->Push(hsr);
       query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
@@ -239,47 +240,13 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
     hsr.params         = job.params;
     hsr.offset         = offset;
     hsr.len            = len;
-    hsr.overlap_offset = job.overlap_offset;       
+    hsr.overlap_offset = job.overlap_offset;      
+    hsr.pos_strand     = job.pos_strand; 
     
     hsr_queue->Push(hsr);
     query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
   }    
 }
-
-// Stores the high scoring region onto the high score region queue to pass to Smith-Waterman
-//   threads for alignment. Modifies the HSR length and offset to include up to 2 query
-//   length extension at the front (bounded by the job boundaries).
-/*void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, QuerySeqManager* query_seq_manager) {
-  HighScoreRegion hsr;
-  hsr.query_id       = job.query_id;
-  hsr.ref_id         = job.ref_id;
-  hsr.chr_id         = job.chr_id;
-  hsr.overlap_offset = job.overlap_offset;
-  hsr.job_offset     = job.ref_offset;
-  hsr.threshold      = job.threshold;
-  hsr.params         = job.params;
-
-  int query_len;
-  query_seq_manager->GetQuerySeq(job.query_id, &query_len);
-
-  hsr.offset = (job.ref_offset/REF_BLOCK_LEN)*REF_BLOCK_LEN + chsb.block_offset * REF_BLOCK_LEN - 2*query_len;
-  hsr.len = chsb.num_blocks * REF_BLOCK_LEN + 2*query_len;
-  
-  // Left boundary check
-  if (hsr.offset < job.ref_offset) {
-    hsr.len -= (job.ref_offset - hsr.offset);
-    hsr.offset = job.ref_offset;
-  }
-
-  // Right boundary check
-  if ((hsr.offset + hsr.len) > (job.ref_offset + job.ref_len)) {
-    hsr.len -= ((hsr.offset + hsr.len) - (job.ref_offset + job.ref_len));
-  } 
-  
-  hsr_queue->Push(hsr);
-  query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
-}*/
-
 
 // Begins a new coalesced high scoring block
 ResultsReaderThread::CoalescedHighScoreBlock ResultsReaderThread::StartCHSB(uint32_t block_offset) {

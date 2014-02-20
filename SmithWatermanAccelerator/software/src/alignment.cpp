@@ -13,6 +13,7 @@
 //      Albert Ng   Oct 31 2013     Added TrimEnd()
 //      Albert Ng   Jan 24 2014     Added region end coords to ToString()
 //      Albert Ng   Jan 28 2014     Added GetRefLength() and GetQueryLength()
+//      Albert Ng   Feb 19 2014     Added pos/neg strand and reverse complements
 
 #include <list>
 #include <sstream>
@@ -29,11 +30,12 @@ Alignment::Alignment() {
   query_offset_ = 0;
 }
 
-Alignment::Alignment(long long int ref_offset, long long int query_offset) {
+Alignment::Alignment(long long int ref_offset, long long int query_offset, bool pos_strand) {
   ref_str_ = "";
   query_str_ = "";
   ref_offset_ = ref_offset;
   query_offset_ = query_offset;
+  pos_strand_ = pos_strand;
 }
 
 Alignment::~Alignment() {
@@ -43,13 +45,18 @@ std::string Alignment::ToString() const {
   // Find region lengths
   long long int ref_length = GetRefLength();
   long long int query_length = GetQueryLength();
-    
-  std::stringstream ss;
 
-  ss << ref_offset_ << ":" << ref_offset_ + ref_length << "\n"
-     << ref_str_ << "\n"
-     << query_str_ << "\n"
-     << query_offset_ << ":" << query_offset_ + query_length << std::endl;
+  std::stringstream ss;
+  ss << "Strand: " << (pos_strand_ == true ? '+' : '-') << "\n";
+  ss << ref_offset_ << ":" << ref_offset_ + ref_length << "\n";
+  if (pos_strand_ == true) {
+   ss << ref_str_ << "\n"
+      << query_str_ << "\n";
+  } else {
+   ss << RevComp(ref_str_) << "\n"
+      << RevComp(query_str_) << "\n";
+  }
+  ss << query_offset_ << ":" << query_offset_ + query_length << std::endl;
 
   return ss.str();
 }
@@ -178,3 +185,4 @@ int Alignment::ComputeScore(SwAffineGapParams params) const {
           
   return score;
 };
+

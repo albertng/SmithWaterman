@@ -10,6 +10,7 @@
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 14 2014     Added ref seq banking
 //      Albert Ng   Jan 29 2014     Combined multiple engine jobs into larger PCIe streams
+//      Albert Ng   Feb 19 2014     Added pos/neg strand
 
 #include <pthread.h>
 #include <stdlib.h>
@@ -151,6 +152,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
         long long int ref_offset = aln_job.ref_offset;
         long long int ref_len = aln_job.ref_len;
         int threshold = aln_job.threshold;
+        bool pos_strand = aln_job.pos_strand;
 
         // Get ref seq banks that contain the requested region for this alignment
         std::vector<RefSeqManager::RefSeqBank> locs = ref_seq_manager->GetRefSeqBanks(ref_id, chr_id, ref_offset, ref_offset + ref_len);
@@ -158,11 +160,11 @@ void* EngineDispatchThread::Dispatch(void* args) {
         // Partition the banks into engine jobs
         std::vector<EngineJob> engine_jobs;
         for (std::vector<RefSeqManager::RefSeqBank>::iterator it = locs.begin(); it != locs.end(); ++it) {
-          std::cout << "FPGA: " << it->fpga
+          /*std::cout << "FPGA: " << it->fpga
                     << "\tStart coord: " << it->start_coord
                     << "\tEnd coord: " << it->end_coord
                     << "\tOverlap len: " << it->overlap_len
-                    << "\tAddr : " << it->addr << std::endl;
+                    << "\tAddr : " << it->addr << std::endl;*/
         
           RefSeqManager::RefSeqBank loc = *it;          
             
@@ -188,6 +190,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
             engine_job.threshold      = threshold;
             engine_job.params         = params;
             engine_job.ref_offset     = cur_offset;
+            engine_job.pos_strand     = pos_strand;
 
             // Compute job length
             engine_job.ref_len = (j < refseqbank_len % num_jobs) ?                      // Distribute jobs evenly
@@ -234,7 +237,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           dispatch_job.first_ref_block = job.fpga_addr;
           dispatch_job.engine_job = job;
           
-          std::cout << "FPGA " << job.fpga_id << " Engine " << job.engine_id << " query_id " << query_id << " fpga_len " << job.fpga_len << " fpga_addr " << job.fpga_addr << std::endl;
+          //std::cout << "FPGA " << job.fpga_id << " Engine " << job.engine_id << " query_id " << query_id << " fpga_len " << job.fpga_len << " fpga_addr " << job.fpga_addr << std::endl;
           engine_job_queues[job.fpga_id][job.engine_id].Push(job);
           dispatch_job_queues[job.fpga_id][job.engine_id].Push(dispatch_job);
         }
@@ -244,7 +247,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
     clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    std::cout << "Job loop took " << elapsed << " seconds" << std::endl;
+    //std::cout << "Job loop took " << elapsed << " seconds" << std::endl;
   }
 }
 

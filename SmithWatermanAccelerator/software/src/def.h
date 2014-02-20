@@ -74,6 +74,7 @@ struct AlignmentJob {
   long long int ref_len;
   int threshold;
   SwAffineGapParams params; // Unused when query_id != PARAMS_JOB
+  bool pos_strand;
 };
 
 
@@ -96,6 +97,7 @@ struct EngineJob {
   long long int fpga_len;
   int threshold;
   SwAffineGapParams params;
+  bool pos_strand;
 };
 
 // Data structure holding the info for a job to be dispatched to an engine
@@ -122,6 +124,7 @@ struct HighScoreRegion {
   long long int job_offset;
   int threshold;
   SwAffineGapParams params;
+  bool pos_strand;
 };
 
 // Data structure holding the traceback result of a high scoring alignment

@@ -12,6 +12,7 @@
 //      Albert Ng   Oct 29 2013     Changed from list<pair> to string based
 //      Albert Ng   Oct 31 2013     Added TrimEnd()
 //      Albert Ng   Jan 28 2014     Added GetRefLength() and GetQueryLength()
+//      Albert Ng   Feb 19 2014     Added pos_strand_
 
 #ifndef ALIGNMENT_H_
 #define ALIGNMENT_H_
@@ -27,7 +28,7 @@
 class Alignment {
   public :
     Alignment();
-    Alignment(long long int ref_offset, long long int query_offset);
+    Alignment(long long int ref_offset, long long int query_offset, bool pos_strand=true);
     ~Alignment();
     
     std::string ToString() const;
@@ -51,11 +52,12 @@ class Alignment {
     long long int get_ref_offset() const;
     long long int get_query_offset() const;
 
-  private :
+  private : 
     std::string ref_str_;
     std::string query_str_;
     long long int ref_offset_;
     long long int query_offset_;
+    bool pos_strand_;
 };
 
 #endif // ALIGNMENT_H_

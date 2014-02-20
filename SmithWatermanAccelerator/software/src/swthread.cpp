@@ -340,7 +340,7 @@ void* SWThread::Align(void* args) {
       int ref_index = (*it).ref_index;
       
       // Build the alignment
-      Alignment aln(hsr.offset + ref_index, query_index);
+      Alignment aln(hsr.offset + ref_index, query_index, hsr.pos_strand);
       AlnOp cur_op = (*dir_h_matrix)[ref_index][query_index];
       AlnOp*** dir_matrix;
       switch(cur_op) {

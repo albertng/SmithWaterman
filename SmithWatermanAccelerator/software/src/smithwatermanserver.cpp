@@ -27,6 +27,7 @@
 #include "enginedispatchthread.h"
 #include "resultsreaderthread.h"
 #include "swthread.h"
+#include "utils.h"
 #ifdef SIM_PICO
   #include "picodrv_sim.h"
 #else
@@ -78,21 +79,8 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     int num_refs = ref_seq_manager->GetNumRefs();
     for (int ref_id = 0; ref_id < num_refs; ref_id++) {
       jobs.clear();
-      /*std::vector<int> chr_ids = ref_seq_manager->GetChrIDs(ref_id);
-      for (int i = 0; i < chr_ids.size(); i++) {
-        int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
-        query_ids.push_back(query_id);
-        
-        AlignmentJob job;
-        job.query_id = query_id;
-        job.ref_id = ref_id;
-        job.chr_id = chr_ids[i];
-        job.ref_offset = 0;
-        job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
-        job.threshold = jobreq.threshold;
-        job.params = jobreq.params;
-        jobs.push_back(job);
-      }*/
+
+      // Forward sequence
       int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
       query_ids.push_back(query_id);
       AlignmentJob job;
@@ -103,17 +91,24 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
       job.ref_len = -1;   // Doesn't matter
       job.threshold = jobreq.threshold;
       job.params = jobreq.params;
+      job.pos_strand = true;
+      jobs.push_back(job);
+      
+      // Reverse complement sequence
+      query_id = query_seq_manager->AddQuery(jobreq.query_name, RevComp(jobreq.query_seq));
+      query_ids.push_back(query_id);
+      job.query_id = query_id;
+      job.pos_strand = false;
       jobs.push_back(job);
       
       alignment_job_queue->Push(jobs);
       std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
     }
-  } else {                                          // Request for alignment to single species
+  } else {                                                    // Request for alignment to single species
     int ref_id = ref_seq_manager->GetRefID(jobreq.ref_name);
     int chr_id = ref_seq_manager->GetChrID(ref_id, jobreq.chr_name);
     std::vector<int> chr_ids;
     if (jobreq.chr_name == ALL_CHROM) {
-      //chr_ids = ref_seq_manager->GetChrIDs(ref_id);
       chr_ids.push_back(-1);
     } else {
       chr_ids.push_back(chr_id);
@@ -151,16 +146,14 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     // Set up alignment information
     if (*errors == 0) {
       for (int i = 0; i < chr_ids.size(); i++) {
+        // Forward sequence
         int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
         query_ids.push_back(query_id);
-        
         AlignmentJob job;
         job.query_id = query_id;
         job.ref_id = ref_id;
         job.chr_id = chr_ids[i];
         if (jobreq.chr_name == ALL_CHROM) {
-          //job.ref_offset = 0;
-          //job.ref_len = ref_seq_manager->GetRefLength(ref_id, chr_ids[i]);
           job.ref_offset = -1;  // Doesn't matter
           job.ref_len = -1;     // Doesn't matter
         } else {
@@ -169,6 +162,14 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
         }
         job.threshold = jobreq.threshold;
         job.params = jobreq.params;
+        job.pos_strand = true;
+        jobs.push_back(job);
+        
+        // Reverse complement sequence
+        query_id = query_seq_manager->AddQuery(jobreq.query_name, RevComp(jobreq.query_seq));
+        query_ids.push_back(query_id);
+        job.query_id = query_id;
+        job.pos_strand = false;
         jobs.push_back(job);
       }
     }
@@ -316,10 +317,6 @@ int main(int argc, char *argv[]) {
     // Parse the query group and initiate alignments
     unsigned int errors = 0;
     std::vector<int> query_ids;
-    /*std::vector<int> query_ids = server_comm.GetQueryGroup(&alignment_job_queue,
-                                                           &query_seq_manager,
-                                                           &ref_seq_manager,
-                                                           &errors);*/
     std::vector<ServerComm::JobRequest> jobs = server_comm.GetQueryGroup(&errors);
     std::map<int, int> query_job;
     //std::cout << jobs.size() << " job requests received!" << std::endl;
@@ -338,16 +335,13 @@ int main(int argc, char *argv[]) {
 #endif
     // Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
-    //std::unordered_set<AlignmentResult, AlignmentResultHash> res_set;
     std::set<AlignmentResult, AlignmentResultComp>* res_set = new std::set<AlignmentResult, AlignmentResultComp>[num_jobs];
     bool group_done = false;
-    int num_boundary_duplicates = 0;
     while (group_done == false || result_queue.Size() != 0) {
       while (result_queue.Size() != 0) {
         AlignmentResult aln_res = result_queue.Pop();
         
         // Keep a set of unique alignments
-        //std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator aln_it = res_set.find(aln_res);
         int res_set_id = query_job[aln_res.hsr.query_id];
         std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = res_set[res_set_id].find(aln_res);
         if (aln_it == res_set[res_set_id].end()) {
@@ -356,9 +350,6 @@ int main(int argc, char *argv[]) {
                    ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
           res_set[res_set_id].erase(aln_it);
           res_set[res_set_id].insert(aln_res);
-          num_boundary_duplicates++;
-        } else {
-          num_boundary_duplicates++;
         }
       }
       
@@ -371,15 +362,6 @@ int main(int argc, char *argv[]) {
     }
     
     // Send the unique set of alignment results
-    /*for (std::unordered_set<AlignmentResult, AlignmentResultHash>::iterator it = res_set.begin();
-         it != res_set.end(); it++) {
-      AlignmentResult aln_res = *it;
-      std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
-      std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
-      std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
-      server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
-      num_hits++;
-    }*/
     for (int i = 0; i < num_jobs; i++) {
       std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set = SortAlignmentResults(res_set[i]);
       for (std::set<AlignmentResult, AlignmentResultScoreComp>::iterator it = res_sorted_set.begin();
@@ -406,7 +388,6 @@ int main(int argc, char *argv[]) {
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     std::cout << num_hits <<  " hits found in " << elapsed << " seconds" << std::endl;
-    std::cout << num_boundary_duplicates << " duplicated hits found and removed" << std::endl;
 
     double total_ref_seq_time = 0;
     double total_alloc_time = 0;
@@ -428,12 +409,12 @@ int main(int argc, char *argv[]) {
     std::cout << total_job_count << " high scoring regions found by FPGAs" << std::endl;
     std::cout << total_cell_count << " cells computed by software threads" << std::endl;
     double total_time = total_ref_seq_time + total_alloc_time + total_init_time + total_compute_time + total_backtrace_time;
-    std::cout << total_ref_seq_time << "s ref seq, "
+    /*std::cout << total_ref_seq_time << "s ref seq, "
               << total_alloc_time << "s alloc, "
               << total_init_time << "s init, " 
               << total_compute_time << "s compute, "
               << total_backtrace_time << "s backtrace"
-              << std::endl;
+              << std::endl;*/
     std::cout << (total_ref_seq_time / total_time)*100 << "% ref seq, "
               << (total_alloc_time / total_time)*100 << "% alloc, "
               << (total_init_time / total_time)*100 << "% init, " 
@@ -445,10 +426,10 @@ int main(int argc, char *argv[]) {
     double file_read_time = ref_seq_manager.GetFileReadTime();
     double seq_copy_time = ref_seq_manager.GetSeqCopyTime();
     long long int ref_length_read = ref_seq_manager.GetRefLengthRead();
-    std::cout << "Ref seq accesses: " << ref_seq_access_count << "\n"
+    /*std::cout << "Ref seq accesses: " << ref_seq_access_count << "\n"
               << "Ref seq file read time: " << file_read_time << "\n"
               << "Ref seq copy time: " << seq_copy_time << "\n"
-              << "Ref length read: " << ref_length_read << std::endl;
+              << "Ref length read: " << ref_length_read << std::endl;*/
 #endif
     std::cout << std::endl;
   }
