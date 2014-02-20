@@ -28,6 +28,8 @@
 #define SYNTAX_ERROR_REFSTARTEND 0x20
 #define SYNTAX_ERROR_QUERYDESCRIP 0x40
 #define SYNTAX_ERROR_PARAMS 0x80
+#define SYNTAX_ERROR_THRESHOLDMAX 0x100
+#define SYNTAX_ERROR_QUERYLEN 0x200
 #define SYNTAX_ERROR_QUERYSEQ_STR "Error in query sequence.\n"
 #define SYNTAX_ERROR_REFNAME_STR "Error in ref seq name.\n"
 #define SYNTAX_ERROR_CHRNAME_STR "Error in chr seq name.\n"
@@ -36,6 +38,8 @@
 #define SYNTAX_ERROR_REFSTARTEND_STR "Error in ref seq indices.\n"
 #define SYNTAX_ERROR_QUERYDESCRIP_STR "Error in query description line.\n"
 #define SYNTAX_ERROR_PARAMS_STR "Error in scoring parameters.\n"
+#define SYNTAX_ERROR_THRESHOLDMAX_STR "Error: threshold cannot exceed 100000.\n"
+#define SYNTAX_ERROR_QUERYLEN_STR "Error: query length cannot exceed 2000.\n"
 
 class ServerComm {
   public:

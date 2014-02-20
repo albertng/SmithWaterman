@@ -75,107 +75,119 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
     params_job.params = jobreq.params;
     jobs.push_back(params_job);
     alignment_job_queue->Push(jobs);
-  } else if (jobreq.ref_name == ALL_REF) {          // Request for alignment to entire database
-    int num_refs = ref_seq_manager->GetNumRefs();
-    for (int ref_id = 0; ref_id < num_refs; ref_id++) {
-      jobs.clear();
+  } else {
+    if (jobreq.threshold > MAX_THRESHOLD) {                                    // Check threshold below max
+      *errors |= SYNTAX_ERROR_THRESHOLDMAX;
+    }
+    
+    if (jobreq.query_seq.size() > MAX_QUERY_LEN) {                             // Check query length
+      *errors |= SYNTAX_ERROR_QUERYLEN;
+    } 
+    
+    if (jobreq.ref_name == ALL_REF) {          // Request for alignment to entire database
+      int num_refs = ref_seq_manager->GetNumRefs();
+      for (int ref_id = 0; ref_id < num_refs; ref_id++) {
+        jobs.clear();
 
-      // Forward sequence
-      int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
-      query_ids.push_back(query_id);
-      AlignmentJob job;
-      job.query_id = query_id;
-      job.ref_id = ref_id;
-      job.chr_id = -1;
-      job.ref_offset = -1; // Doesn't matter
-      job.ref_len = -1;   // Doesn't matter
-      job.threshold = jobreq.threshold;
-      job.params = jobreq.params;
-      job.pos_strand = true;
-      jobs.push_back(job);
+        if (*errors == 0) {
+          // Forward sequence
+          int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
+          query_ids.push_back(query_id);
+          AlignmentJob job;
+          job.query_id = query_id;
+          job.ref_id = ref_id;
+          job.chr_id = -1;
+          job.ref_offset = -1; // Doesn't matter
+          job.ref_len = -1;   // Doesn't matter
+          job.threshold = jobreq.threshold;
+          job.params = jobreq.params;
+          job.pos_strand = true;
+          jobs.push_back(job);
+          
+          // Reverse complement sequence
+          query_id = query_seq_manager->AddQuery(jobreq.query_name, RevComp(jobreq.query_seq));
+          query_ids.push_back(query_id);
+          job.query_id = query_id;
+          job.pos_strand = false;
+          jobs.push_back(job);
+          
+          alignment_job_queue->Push(jobs);
+          std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
+        }
+      }
+    } else {                                                    // Request for alignment to single species
+      int ref_id = ref_seq_manager->GetRefID(jobreq.ref_name);
+      int chr_id = ref_seq_manager->GetChrID(ref_id, jobreq.chr_name);
+      std::vector<int> chr_ids;
+      if (jobreq.chr_name == ALL_CHROM) {
+        chr_ids.push_back(-1);
+      } else {
+        chr_ids.push_back(chr_id);
+      }
       
-      // Reverse complement sequence
-      query_id = query_seq_manager->AddQuery(jobreq.query_name, RevComp(jobreq.query_seq));
-      query_ids.push_back(query_id);
-      job.query_id = query_id;
-      job.pos_strand = false;
-      jobs.push_back(job);
+      // Some syntax checks
+      for (int i = 0; i < jobreq.query_seq.length(); i++) {                      // Check for invalid nucleotides
+        if (jobreq.query_seq[i] != 'n' && jobreq.query_seq[i] != 'N' &&
+            jobreq.query_seq[i] != 'a' && jobreq.query_seq[i] != 'A' &&
+            jobreq.query_seq[i] != 'g' && jobreq.query_seq[i] != 'G' &&
+            jobreq.query_seq[i] != 'c' && jobreq.query_seq[i] != 'C' &&
+            jobreq.query_seq[i] != 't' && jobreq.query_seq[i] != 'T') {
+          *errors |= SYNTAX_ERROR_QUERYSEQ;
+          break;
+        }
+      }
+      if (ref_id == -1) {                                                        // Check for invalid ref seq
+        *errors |= SYNTAX_ERROR_REFNAME;
+      } else if (chr_id == -1 && jobreq.chr_name != ALL_CHROM) {                 // Check for invalid chromosome
+        *errors |= SYNTAX_ERROR_CHRNAME;
+      }
+      if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for start past end
+          jobreq.ref_start >= jobreq.ref_end - 1) {                         
+        *errors |= SYNTAX_ERROR_REFSTARTEND;
+      }
+      if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for invalid start coordinates
+          jobreq.ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+        *errors |= SYNTAX_ERROR_REFSTART;
+      }
+      if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for invalid end coordinates
+          jobreq.ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+        *errors |= SYNTAX_ERROR_REFEND;
+      }
+    
+      // Set up alignment information
+      if (*errors == 0) {
+        for (int i = 0; i < chr_ids.size(); i++) {
+          // Forward sequence
+          int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
+          query_ids.push_back(query_id);
+          AlignmentJob job;
+          job.query_id = query_id;
+          job.ref_id = ref_id;
+          job.chr_id = chr_ids[i];
+          if (jobreq.chr_name == ALL_CHROM) {
+            job.ref_offset = -1;  // Doesn't matter
+            job.ref_len = -1;     // Doesn't matter
+          } else {
+            job.ref_offset = jobreq.ref_start - 1;
+            job.ref_len = jobreq.ref_end - jobreq.ref_start;
+          }
+          job.threshold = jobreq.threshold;
+          job.params = jobreq.params;
+          job.pos_strand = true;
+          jobs.push_back(job);
+          
+          // Reverse complement sequence
+          query_id = query_seq_manager->AddQuery(jobreq.query_name, RevComp(jobreq.query_seq));
+          query_ids.push_back(query_id);
+          job.query_id = query_id;
+          job.pos_strand = false;
+          jobs.push_back(job);
+        }
+      }
       
       alignment_job_queue->Push(jobs);
       std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
     }
-  } else {                                                    // Request for alignment to single species
-    int ref_id = ref_seq_manager->GetRefID(jobreq.ref_name);
-    int chr_id = ref_seq_manager->GetChrID(ref_id, jobreq.chr_name);
-    std::vector<int> chr_ids;
-    if (jobreq.chr_name == ALL_CHROM) {
-      chr_ids.push_back(-1);
-    } else {
-      chr_ids.push_back(chr_id);
-    }
-    
-    // Some syntax checks
-    for (int i = 0; i < jobreq.query_seq.length(); i++) {                      // Check for invalid nucleotides
-      if (jobreq.query_seq[i] != 'n' && jobreq.query_seq[i] != 'N' &&
-          jobreq.query_seq[i] != 'a' && jobreq.query_seq[i] != 'A' &&
-          jobreq.query_seq[i] != 'g' && jobreq.query_seq[i] != 'G' &&
-          jobreq.query_seq[i] != 'c' && jobreq.query_seq[i] != 'C' &&
-          jobreq.query_seq[i] != 't' && jobreq.query_seq[i] != 'T') {
-        *errors |= SYNTAX_ERROR_QUERYSEQ;
-        break;
-      }
-    }
-    if (ref_id == -1) {                                                        // Check for invalid ref seq
-      *errors |= SYNTAX_ERROR_REFNAME;
-    } else if (chr_id == -1 && jobreq.chr_name != ALL_CHROM) {                 // Check for invalid chromosome
-      *errors |= SYNTAX_ERROR_CHRNAME;
-    }
-    if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for start past end
-        jobreq.ref_start >= jobreq.ref_end - 1) {                         
-      *errors |= SYNTAX_ERROR_REFSTARTEND;
-    }
-    if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for invalid start coordinates
-        jobreq.ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
-      *errors |= SYNTAX_ERROR_REFSTART;
-    }
-    if (ref_id != -1 && chr_id != -1 && jobreq.chr_name != ALL_CHROM &&        // Check for invalid end coordinates
-        jobreq.ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
-      *errors |= SYNTAX_ERROR_REFEND;
-    }
-    
-    // Set up alignment information
-    if (*errors == 0) {
-      for (int i = 0; i < chr_ids.size(); i++) {
-        // Forward sequence
-        int query_id = query_seq_manager->AddQuery(jobreq.query_name, jobreq.query_seq);
-        query_ids.push_back(query_id);
-        AlignmentJob job;
-        job.query_id = query_id;
-        job.ref_id = ref_id;
-        job.chr_id = chr_ids[i];
-        if (jobreq.chr_name == ALL_CHROM) {
-          job.ref_offset = -1;  // Doesn't matter
-          job.ref_len = -1;     // Doesn't matter
-        } else {
-          job.ref_offset = jobreq.ref_start - 1;
-          job.ref_len = jobreq.ref_end - jobreq.ref_start;
-        }
-        job.threshold = jobreq.threshold;
-        job.params = jobreq.params;
-        job.pos_strand = true;
-        jobs.push_back(job);
-        
-        // Reverse complement sequence
-        query_id = query_seq_manager->AddQuery(jobreq.query_name, RevComp(jobreq.query_seq));
-        query_ids.push_back(query_id);
-        job.query_id = query_id;
-        job.pos_strand = false;
-        jobs.push_back(job);
-      }
-    }
-    
-    alignment_job_queue->Push(jobs);
-    std::cout << "Processed " << jobs.size() << " jobs" << std::endl;
   }
   
   return query_ids;

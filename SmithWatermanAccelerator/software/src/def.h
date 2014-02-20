@@ -38,8 +38,9 @@
 #define NUM_ENGINES_PER_FPGA 5
 #define REF_BLOCK_LEN 128
 #define QUERY_BLOCK_LEN 64
-#define MAX_QUERY_LEN 65535
+#define MAX_QUERY_LEN 2000
 #define NT_PER_BYTE 4
+#define MAX_THRESHOLD 100000
 
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"

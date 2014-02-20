@@ -202,6 +202,12 @@ void ServerComm::EndQueryGroup(unsigned int errors) {
   if (errors & SYNTAX_ERROR_PARAMS) {
     client_sock_.Send(SYNTAX_ERROR_PARAMS_STR);
   }
+  if (errors & SYNTAX_ERROR_QUERYLEN) {
+    client_sock_.Send(SYNTAX_ERROR_QUERYLEN_STR);
+  }
+  if (errors & SYNTAX_ERROR_THRESHOLDMAX) {
+    client_sock_.Send(SYNTAX_ERROR_THRESHOLDMAX_STR);
+  }
   if (errors == 0) {
     client_sock_.Send(QUERY_GROUP_SUCCESS);
   } else {
