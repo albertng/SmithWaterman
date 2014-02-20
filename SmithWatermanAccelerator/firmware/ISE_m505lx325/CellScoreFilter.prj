@@ -1,3 +1,0 @@
-verilog work "../ipcore_dir/cellscorefilter_fifo.v"
-verilog work "../CellScoreFilter.v"
-verilog work "../ipcore_dir/system_clk_gen/example_design/system_clk_gen_exdes.v"

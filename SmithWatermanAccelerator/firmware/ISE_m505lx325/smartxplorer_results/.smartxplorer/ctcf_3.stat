@@ -1,3 +1,0 @@
-START:Strategy:4:MapLogicOptRegDup
-REMOTE_PID:4297
-RUNNING:4297:4301:MapLogicOptRegDup:map:Pico_Toplevel.ngd: -ol high -xe n -logic_opt on -register_duplication on -t 2 -w  -p xc7k325t-ffg900-2 -o Pico_Toplevel_map.ncd  :slhome:slalbertng:slDocuments:slSmithWaterman:slSmithWatermanAccelerator:slfirmware:slISE_m505lx325:slsmartxplorer_results:slrun4:slPico_Toplevel.pcf

@@ -1,2 +1,0 @@
-verilog work "../AXIArbiter.v"
-verilog work "../ipcore_dir/system_clk_gen/example_design/system_clk_gen_exdes.v"

@@ -1,3 +1,0 @@
-START:Strategy:1:MapRunTime
-REMOTE_PID:4279
-RUNNING:4279:4289:MapRunTime:map:Pico_Toplevel.ngd: -ol high -w  -p xc7k325t-ffg900-2 -o Pico_Toplevel_map.ncd  :slhome:slalbertng:slDocuments:slSmithWaterman:slSmithWatermanAccelerator:slfirmware:slISE_m505lx325:slsmartxplorer_results:slrun1:slPico_Toplevel.pcf
