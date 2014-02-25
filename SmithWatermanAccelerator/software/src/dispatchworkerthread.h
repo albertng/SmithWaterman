@@ -3,6 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Feb 11 2014     Initial Revision
+//      Albert Ng   Feb 23 2014     Added WriteBufferToStream()
 
 #ifndef DISPATCHWORKERTHREAD_H_
 #define DISPATCHWORKERTHREAD_H_
@@ -55,6 +56,9 @@ class DispatchWorkerThread {
     //   jobs into engine sub-jobs, sends the engine sub-jobs to the FPGA engines, and
     //   records the scheduled engine jobs onto the engine job queues.
     static void* Dispatch(void* args);
+    
+    // Writes the given buffer to the stream
+    static void WriteBufferToStream(PicoDrv* pico_driver, int stream, char* buffer, long long int num_bytes);
     
     // Actual pthread instance
     pthread_t thread_;
