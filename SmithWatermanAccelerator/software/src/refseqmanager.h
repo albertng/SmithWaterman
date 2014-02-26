@@ -32,6 +32,7 @@
   #include <picodrv.h>
   #include <pico_errors.h>
 #endif
+#include "fpgadrammanager.h"
 
 class RefSeqManager {
   public:
@@ -48,10 +49,10 @@ class RefSeqManager {
     RefSeqManager();
 
     // Calls Init()
-    RefSeqManager(PicoDrv** pico_drivers);
+    RefSeqManager(PicoDrv** pico_drivers, std::string ref_dir);
 
     // Actual initialization function
-    void Init(PicoDrv** pico_drivers);
+    void Init(PicoDrv** pico_drivers, std::string ref_dir);
 
     // Reads from disk the char array of the ref seq with a given offset and length.
     char* GetRefSeq(int ref_id, int chr_id, long long int ref_offset, long long int ref_len);
@@ -76,7 +77,7 @@ class RefSeqManager {
     std::string GetChrName(int ref_id, int chr_id);
 
     // Add a new reference sequence to be managed.
-    void AddRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name);
+    void AddRef(std::string ref_fa_filename, std::string ref_name);
 
     // Get the number of reference sequences loaded.
     int GetNumRefs();
@@ -84,11 +85,16 @@ class RefSeqManager {
     // Get a list of FPGA DRAM locations of a ref seq region
     std::vector<RefSeqBank> GetRefSeqBanks(int ref_id, int chr_id, long long int start_coord,
                                            long long int end_coord);
-                                           
-    // Get a list of chromosome start coordinates for the ref seq that exist within the given range
-    //std::vector<long long int> GetChrBoundaries(int ref_id, long long int start_coord, long long int end_coord);
     
-    // Get the chromosome regions that are spanned by the given range
+    // Allocate and load the ref seq to FPGA DRAM (if unallocated)
+    //   Does nothing if already allocated
+    void AllocateRef(int ref_id);
+    
+    // Get a list of ref seqs that are currently stored in FPGA DRAM
+    std::vector<int> GetAllocatedRefIds();    
+    
+    // Get the chromosome regions that are spanned by the given coordinates in
+    //   single sequence indexing
     void GetChrRegions(int ref_id, long long int start_coord, long long int end_coord,
                        std::vector<int>* chr_ids,
                        std::vector<long long int>* chr_offsets,
@@ -127,6 +133,9 @@ class RefSeqManager {
     // Convert the ref seq to 2bit format and stream to the FPGA DRAM
     //   Replaces each N with a random nucleotide
     void StreamRefSeq(int fpga, char* ref_seq, long long int ref_addr, long long int ref_length);
+
+    // Ref seq file directory
+    std::string ref_dir_;
 
     // Grab the file descriptor for the given ref seq.
     //   Opens the ref seq file if currently unopened.
@@ -199,6 +208,11 @@ class RefSeqManager {
     int ref_seq_access_count_;
     
     long long int ref_length_read_;
+    
+    
+    // New Stuff
+    
+    FpgaDramManager fpga_dram_manager_;
 };
 
 #endif // REFSEQMANAGER_H_

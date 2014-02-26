@@ -94,15 +94,16 @@ void* DispatchWorkerThread::Dispatch(void* args) {
   }
 }
 
-void WriteBufferToStream(PicoDrv* pico_driver, int stream, char* buffer, long long int num_bytes) {
+void DispatchWorkerThread::WriteBufferToStream(PicoDrv* pico_driver, int stream, char* buffer, long long int num_bytes) {
   long long int cur_index = 0;
   
-  while (num_bytes > 0) {
+  /*while (num_bytes > 0) {
     int num_bytes_to_stream = pico_driver->GetBytesAvailable(stream, false);
     num_bytes_to_stream = num_bytes_to_stream > num_bytes ? num_bytes : num_bytes_to_stream;
     pico_driver->WriteStream(stream, &(buffer[cur_index]), num_bytes_to_stream);
     cur_index += num_bytes_to_stream;
     num_bytes -= num_bytes_to_stream;
-  }
+  }*/
+  pico_driver->WriteStream(stream, &(buffer[cur_index]), num_bytes);
 }
 

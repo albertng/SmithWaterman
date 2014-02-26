@@ -5,7 +5,7 @@
 //      Albert Ng   Oct 18 2013     Initial Revision
 //
 
-#include "picodrv_stub.h"
+#include "picodrv_sim.h"
 #include "refseqmanager.h"
 #include <iostream>
 #include <vector>
@@ -29,11 +29,11 @@ int main(int argc, char *argv[]) {
   }
 
   // Set up ref seq manager
-  ref_seq_manager.Init(pico_drivers);
+  ref_seq_manager.Init(&pico_drivers, ".");
 
   // Add reference sequences
   for (int i = 1; i < argc; i++) {
     std::string filename(argv[i]);
-    ref_seq_manager.AddRef(filename);
+    ref_seq_manager.AddRef(filename, filename);
   }
 }
