@@ -72,7 +72,7 @@ inline std::string RevComp(std::string seq) {
 
   for (int i = seq.size()-1; i >= 0; i--) {
     char comp = NtComp(seq[i]);
-    if (NtComp == 'N') {
+    if (comp == 'N') {
       std::cout << "Bad Nt seq: " << seq << std::endl;
       assert(false);
     }
