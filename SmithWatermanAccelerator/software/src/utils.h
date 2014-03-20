@@ -62,6 +62,7 @@ inline char NtComp (char nt) {
     case 'G': return 'C';
     case '-': return '-';
     default  : std::cout<<"Bad Nt: "<<nt<<std::endl;
+               return 'N';
                //assert(false);
   }
 }
