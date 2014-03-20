@@ -507,9 +507,9 @@ int main(int argc, char *argv[]) {
   }
   
   // Set up ref seq manager
-#ifdef SWSERVERTIMING
+/*#ifdef SWSERVERTIMING
   clock_gettime(CLOCK_MONOTONIC, &start);
-#endif
+#endif*/
   char* ref_parentdir = getenv("REFPATH");
   if (ref_parentdir == NULL) {
     std::cerr << "$REFPATH environment variable not set!" << std::endl;
@@ -531,20 +531,20 @@ int main(int argc, char *argv[]) {
       ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
     }
   }
-  std::cout << "Loaded " << ref_seq_manager.GetTotalRefLength() << " nucleotides total." << std::endl;
+  /*std::cout << "Loaded " << ref_seq_manager.GetTotalRefLength() << " nucleotides total." << std::endl;
   long long int fpga_storage[NUM_FPGAS];
   ref_seq_manager.GetFPGAStorage(fpga_storage);
   for (int i = 0; i < NUM_FPGAS; i++) {
     std::cout << "FPGA " << i << ": " << fpga_storage[i] << "B" << std::endl;
-  }
-#ifdef SWSERVERTIMING
+  }*/
+/*#ifdef SWSERVERTIMING
   clock_gettime(CLOCK_MONOTONIC, &finish);
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
   std::cout << "Ref seq loading completed in " << elapsed << " seconds." << std::endl;
   std::cout << "Disk loading completed in " << ref_seq_manager.GetDiskRefSeqLoadTime() << " seconds." << std::endl;
   std::cout << "FPGA DRAM loading completed in " << ref_seq_manager.GetFPGARefSeqLoadTime() << " seconds." << std::endl;
-#endif
+#endif*/
   
   // Set up engine job queues
   engine_job_queues = new ThreadQueue<EngineJob>*[NUM_FPGAS];
@@ -587,6 +587,9 @@ int main(int argc, char *argv[]) {
     // Check validity of job requests
     CheckJobRequestsValid(jobs, &ref_seq_manager, &errors);
     
+#ifdef SWSERVERTIMING
+    clock_gettime(CLOCK_MONOTONIC, &start);
+#endif
     if (errors == 0) {
       // Set scoring parameters
       assert(jobs.front().params_job == true);
@@ -689,9 +692,6 @@ int main(int argc, char *argv[]) {
     }
     int num_jobs = jobs.size();*/
     
-#ifdef SWSERVERTIMING
-    clock_gettime(CLOCK_MONOTONIC, &start);
-#endif
     /*// Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
     std::set<AlignmentResult, AlignmentResultComp>* res_set = new std::set<AlignmentResult, AlignmentResultComp>[num_jobs];
