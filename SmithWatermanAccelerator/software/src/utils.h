@@ -62,7 +62,7 @@ inline char NtComp (char nt) {
     case 'G': return 'C';
     case '-': return '-';
     default  : std::cout<<"Bad Nt: "<<nt<<std::endl;
-               assert(false);
+               //assert(false);
   }
 }
 
@@ -71,6 +71,11 @@ inline std::string RevComp(std::string seq) {
   std::string rc_seq = "";
 
   for (int i = seq.size()-1; i >= 0; i--) {
+    char comp = NtComp(seq[i]);
+    if (NtComp == 'N') {
+      std::cout << "Bad Nt seq: " << seq << std::endl;
+      assert(false);
+    }
     rc_seq += NtComp(seq[i]);
   }
   return rc_seq;
