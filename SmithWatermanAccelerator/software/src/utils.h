@@ -8,7 +8,7 @@
 //      Albert Ng   Oct 09 2013     Added def.h reference
 //      Albert Ng   Oct 18 2013     Added invalid char check to NtChar2Int
 //      Albert Ng   Feb 19 2014     Added NtComp() and RevComp()
-
+//      Albert Ng   Mar 20 2014     Added N case to NtComp()
 #ifndef UTILS_H_
 #define UTILS_H_
 
@@ -60,10 +60,10 @@ inline char NtComp (char nt) {
     case 'C': return 'G';
     case 'g': return 'c';
     case 'G': return 'C';
+    case 'n': return 'n';
+    case 'N': return 'N';
     case '-': return '-';
-    default  : std::cout<<"Bad Nt: "<<nt<<std::endl;
-               return 'N';
-               //assert(false);
+    default : assert(false);
   }
 }
 
@@ -72,11 +72,6 @@ inline std::string RevComp(std::string seq) {
   std::string rc_seq = "";
 
   for (int i = seq.size()-1; i >= 0; i--) {
-    char comp = NtComp(seq[i]);
-    if (comp == 'N') {
-      std::cout << "Bad Nt seq: " << seq << std::endl;
-      assert(false);
-    }
     rc_seq += NtComp(seq[i]);
   }
   return rc_seq;
