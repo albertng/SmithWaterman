@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <set>
 #include <vector>
 #include <assert.h>
 #include <math.h>
@@ -238,7 +239,7 @@ std::vector<RefSeqManager::RefSeqBank> RefSeqManager::GetRefSeqBanks(int ref_id,
   //   Treat all chromosomes of ref seq as one long sequence
   if (chr_id == -1) {
     std::vector<RefSeqBank> ref_bank_locs = ref_bank_info_[ref_id];
-    for (int i = 0; ref_bank_locs.size(); i++) {
+    for (int i = 0; i < ref_bank_locs.size(); i++) {
       ref_bank_locs[i].addr = ref_start_addr;
     }
     return ref_bank_locs;
@@ -293,7 +294,7 @@ void RefSeqManager::AllocateRef(int ref_id) {
   fpga_dram_manager_.AllocateRef(ref_id);
 }
 
-std::vector<int> RefSeqManager::GetAllocatedRefIds() {
+std::set<int> RefSeqManager::GetAllocatedRefIds() {
   return fpga_dram_manager_.GetAllocatedRefIds();
 }
 

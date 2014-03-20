@@ -68,7 +68,7 @@ class ServerComm {
                                    RefSeqManager* ref_seq_manager,
                                    unsigned int* errors);*/
     // Get a group of job requests from a client.
-    std::vector<JobRequest> GetQueryGroup(unsigned int* errors);
+    std::list<JobRequest> GetQueryGroup(unsigned int* errors);
     
     // Send the alignment result to the client.
     void SendAlignment(AlignmentResult res, std::string query_name, std::string ref_name, std::string chr_name);
@@ -91,7 +91,7 @@ class ServerComm {
                 std::vector<std::string>* query_seqs,
                 unsigned int* errors);*/
     bool Action(std::string line,
-                std::vector<JobRequest>* new_jobs,
+                std::list<JobRequest>* new_jobs,
                 unsigned int* errors);
     
     ServerSocket server_;

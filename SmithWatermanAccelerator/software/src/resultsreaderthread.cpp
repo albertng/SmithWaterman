@@ -228,6 +228,8 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
       hsr.overlap_offset = job.overlap_offset - chr_offsets[i];
       hsr.pos_strand     = job.pos_strand;
       
+      //std::cout << "HSR: " << hsr.chr_id << " " << hsr.offset << " " << hsr.len << std::endl;
+      
       hsr_queue->Push(hsr);
       query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
     }

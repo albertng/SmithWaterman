@@ -52,10 +52,6 @@ void SWThread::Init(ThreadQueue<HighScoreRegion>* hsr_queue,
   args_.ref_seq_manager = ref_seq_manager;
   args_.query_seq_manager = query_seq_manager;
   args_.stats = &stats_;
-  /*args_.h_matrix = &h_matrix_;
-  args_.m_matrix = &m_matrix_;
-  args_.i_matrix = &i_matrix_;
-  args_.d_matrix = &d_matrix_;*/
   args_.dir_h_matrix = &dir_h_matrix_;
   args_.dir_m_matrix = &dir_m_matrix_;
   args_.dir_i_matrix = &dir_i_matrix_;
@@ -64,18 +60,10 @@ void SWThread::Init(ThreadQueue<HighScoreRegion>* hsr_queue,
   args_.matrix_cols = &matrix_cols_;
   args_.matrices_mutex = &matrices_mutex_;
 
-  /*h_matrix_ = new int*[1];
-  m_matrix_ = new int*[1];
-  i_matrix_ = new int*[1];
-  d_matrix_ = new int*[1];*/
   dir_h_matrix_ = new AlnOp*[1];
   dir_m_matrix_ = new AlnOp*[1];
   dir_i_matrix_ = new AlnOp*[1];
   dir_d_matrix_ = new AlnOp*[1];
-  /*h_matrix_[0] = new int[1];
-  m_matrix_[0] = new int[1];
-  i_matrix_[0] = new int[1];
-  d_matrix_[0] = new int[1];*/
   dir_h_matrix_[0] = new AlnOp[1];
   dir_m_matrix_[0] = new AlnOp[1];
   dir_i_matrix_[0] = new AlnOp[1];
@@ -174,6 +162,7 @@ void* SWThread::Align(void* args) {
   while(true) {
     // Grab available high scoring region
     HighScoreRegion hsr = hsr_queue->Pop();
+
     stats->job_count++;   
     
     int ref_len = hsr.len;
@@ -183,12 +172,15 @@ void* SWThread::Align(void* args) {
 #endif
     char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.chr_id, hsr.offset, ref_len);
 
+
+
 #ifdef SWTIMING
     clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     stats->ref_seq_time += elapsed;
 #endif 
+
     char* query_seq = query_seq_manager->GetQuerySeq(hsr.query_id, &query_len);
     
     // Get the scoring parameters
@@ -307,15 +299,15 @@ void* SWThread::Align(void* args) {
         (*dir_d_matrix)[i][j] = (del_open > del_extend) ? MATCH_OP : DELETE_OP;
         
         int max1 = m_matrix_wr[j] > i_matrix_wr[j] ? m_matrix_wr[j] : i_matrix_wr[j];
-        AlnOp dir1 = m_matrix_wr[j] > i_matrix_wr[j] ? (*dir_m_matrix)[i][j] : (*dir_i_matrix)[i][j];
+        AlnOp dir1 = m_matrix_wr[j] > i_matrix_wr[j] ? MATCH_OP : INSERT_OP;
         int max2 = d_matrix_wr[j] > 0 ? d_matrix_wr[j] : 0;
-        AlnOp dir2 = d_matrix_wr[j] > 0 ? (*dir_d_matrix)[i][j] : ZERO_OP;
+        AlnOp dir2 = d_matrix_wr[j] > 0 ? DELETE_OP : ZERO_OP;
         h_matrix_wr[j] = max1 > max2 ? max1 : max2;
         (*dir_h_matrix)[i][j] = max1 > max2 ? dir1 : dir2;
 
+
         // Record high-scoring cells
         if (h_matrix_wr[j] >= hsr.threshold) {
-          //std::cout<< "Threshold: " << hsr.threshold << std::endl;
           Cell hsc;
           hsc.ref_index = i;
           hsc.query_index = j;
@@ -329,6 +321,8 @@ void* SWThread::Align(void* args) {
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     stats->compute_time += elapsed;
 #endif 
+
+
 
 #ifdef SWTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -351,6 +345,7 @@ void* SWThread::Align(void* args) {
         case DELETE_OP: dir_matrix = dir_d_matrix;
                         break;
       }
+      
       while((*dir_h_matrix)[ref_index][query_index] != ZERO_OP) {
         // Remove visited cells from the high score cell list
         if (!(query_index == (*it).query_index && ref_index == (*it).ref_index)) {
@@ -370,7 +365,7 @@ void* SWThread::Align(void* args) {
                                             break;
                             case DELETE_OP: dir_matrix = dir_d_matrix;
                                             break;
-                            default: assert(false);
+                            default:  assert(false);
                           }
                           query_index--;  
                           ref_index--;
@@ -407,15 +402,6 @@ void* SWThread::Align(void* args) {
       aln_res.hsr = hsr;
       aln_res.alignment = aln;
       aln_res.score = aln_score;
-      
-      // Indicate whether or not the alignment falls on a boundary for duplicate
-      //   checking in the main thread before reporting. 
-      /*if ((aln.get_ref_offset() == hsr.job_offset) || 
-          (aln.get_ref_offset() + aln.GetRefLength() >= hsr.overlap_offset)) {
-        aln_res.boundary = true;
-      } else {
-        aln_res.boundary = false;
-      }*/
 
       std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = hsr_alignments.find(aln_res);
       if (aln_it != hsr_alignments.end()) {

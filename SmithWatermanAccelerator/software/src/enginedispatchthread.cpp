@@ -136,21 +136,24 @@ void* EngineDispatchThread::Dispatch(void* args) {
               
       int query_id = aln_job.query_id;
       
-      if (query_id == PARAMS_JOB) {     // Set scoring params between query groups
+      assert(query_id >= 0);
+      /*if (query_id == PARAMS_JOB) {     // Set scoring params between query groups
         params = aln_job.params;
         int params_buf_len;
         int* params_buf = params.ToBuf(&params_buf_len);
         for (int j = 0; j < NUM_FPGAS; j++) {
           pico_drivers[j]->WriteDeviceAbsolute(0, (uint32_t*) params_buf, params_buf_len);
         }
+        std::cout << "Wrote params " << params.ToString() << std::endl;
         delete[] params_buf;
-      } else {
+      } else {*/
         int query_len;
         char* query_seq = query_seq_manager->GetQuerySeq(query_id, &query_len);
         int ref_id = aln_job.ref_id;
         int chr_id = aln_job.chr_id;
         long long int ref_offset = aln_job.ref_offset;
         long long int ref_len = aln_job.ref_len;
+        SwAffineGapParams params = aln_job.params;
         int threshold = aln_job.threshold;
         bool pos_strand = aln_job.pos_strand;
 
@@ -241,7 +244,7 @@ void* EngineDispatchThread::Dispatch(void* args) {
           engine_job_queues[job.fpga_id][job.engine_id].Push(job);
           dispatch_job_queues[job.fpga_id][job.engine_id].Push(dispatch_job);
         }
-      }
+      //}
     }
     
     clock_gettime(CLOCK_MONOTONIC, &finish);

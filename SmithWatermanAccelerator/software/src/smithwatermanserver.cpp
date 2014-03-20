@@ -64,7 +64,181 @@ void GetFastaFiles(std::string dir, std::vector<std::string>* files, std::vector
   GetFilesWithExtension(dir, files, ref_names, "fa");
 }
 
-std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue, 
+void CheckJobRequestsValid(std::list<ServerComm::JobRequest> jobs, RefSeqManager* ref_seq_manager, unsigned int* errors) {
+  for (std::list<ServerComm::JobRequest>::iterator it = jobs.begin(); it != jobs.end(); it++) {
+    if (it->params_job == true) {
+      continue;
+    }
+    
+    if (it->threshold > MAX_THRESHOLD) {                                    // Check threshold below max
+      *errors |= SYNTAX_ERROR_THRESHOLDMAX;
+    }
+
+    if (it->query_seq.size() > MAX_QUERY_LEN) {                             // Check query length
+      *errors |= SYNTAX_ERROR_QUERYLEN;
+    } 
+    
+    if (it->ref_name != ALL_REF) {
+      int ref_id = ref_seq_manager->GetRefID(it->ref_name);
+      int chr_id = ref_seq_manager->GetChrID(ref_id, it->chr_name);
+      
+      // Some syntax checks
+      for (int i = 0; i < it->query_seq.length(); i++) {                      // Check for invalid nucleotides
+        if (it->query_seq[i] != 'n' && it->query_seq[i] != 'N' &&
+            it->query_seq[i] != 'a' && it->query_seq[i] != 'A' &&
+            it->query_seq[i] != 'g' && it->query_seq[i] != 'G' &&
+            it->query_seq[i] != 'c' && it->query_seq[i] != 'C' &&
+            it->query_seq[i] != 't' && it->query_seq[i] != 'T') {
+          *errors |= SYNTAX_ERROR_QUERYSEQ;
+          break;
+        }
+      }
+      if (ref_id == -1) {                                                        // Check for invalid ref seq
+        *errors |= SYNTAX_ERROR_REFNAME;
+      } else if (chr_id == -1 && it->chr_name != ALL_CHROM) {                    // Check for invalid chromosome
+        *errors |= SYNTAX_ERROR_CHRNAME;
+      }
+      if (ref_id != -1 && chr_id != -1 && it->chr_name != ALL_CHROM &&           // Check for start past end
+          it->ref_start >= it->ref_end - 1) {                         
+        *errors |= SYNTAX_ERROR_REFSTARTEND;
+      }
+      if (ref_id != -1 && chr_id != -1 && it->chr_name != ALL_CHROM &&           // Check for invalid start coordinates
+          it->ref_start >= ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+        *errors |= SYNTAX_ERROR_REFSTART;
+      }
+      if (ref_id != -1 && chr_id != -1 && it->chr_name != ALL_CHROM &&           // Check for invalid end coordinates
+          it->ref_end - 1 > ref_seq_manager->GetRefLength(ref_id, chr_id)) {
+        *errors |= SYNTAX_ERROR_REFEND;
+      }
+    }
+  }
+}
+
+std::set<int> GetJobRefIds(std::list<ServerComm::JobRequest> jobs, RefSeqManager* ref_seq_manager) {
+  std::set<int> ref_ids;
+  for (std::list<ServerComm::JobRequest>::iterator it = jobs.begin(); it != jobs.end(); it++) {
+    /*if (it->params_job == true) {
+      continue;
+    }*/
+    assert(it->params_job == false);
+    
+    if (it->ref_name == ALL_REF) {
+      int num_refs = ref_seq_manager->GetNumRefs();
+      for (int i = 0; i < num_refs; i++) {
+        ref_ids.insert(i);
+      }
+      break;
+    } else { 
+      ref_ids.insert(ref_seq_manager->GetRefID(it->ref_name));
+    }
+  }
+  
+  return ref_ids;
+}
+
+std::map<int, std::vector<AlignmentJob> > ProcessJobs(std::list<ServerComm::JobRequest> jobs,
+                                                      QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager,
+                                                      std::map<int, int>* query_jobs, std::map<int, std::vector<int> >* query_ids) {
+  std::map<int, std::vector<AlignmentJob> > alignment_jobs_by_ref;
+                    
+  int job_id = 0;                              
+  for (std::list<ServerComm::JobRequest>::iterator it = jobs.begin(); it != jobs.end(); it++, job_id++) {
+    if (it->params_job == true) {
+      continue;
+    }
+    
+    if (it->ref_name == ALL_REF) {
+      int num_refs = ref_seq_manager->GetNumRefs();
+      for (int ref_id = 0; ref_id < num_refs; ref_id++) {
+        // Forward sequence
+        int query_id = query_seq_manager->AddQuery(it->query_name, it->query_seq);
+        (*query_jobs)[query_id] = job_id;
+        if (query_ids->count(job_id) == 0) {
+          std::vector<int> query_id_vec;
+          (*query_ids)[job_id] = query_id_vec;
+        } 
+        (*query_ids)[job_id].push_back(query_id);
+        AlignmentJob job;
+        job.query_id = query_id;
+        job.ref_id = ref_id;
+        job.chr_id = -1;
+        job.ref_offset = -1; // Doesn't matter
+        job.ref_len = -1;   // Doesn't matter
+        job.threshold = it->threshold;
+        job.params = it->params;
+        job.pos_strand = true;
+        if (alignment_jobs_by_ref.count(ref_id) == 0) {
+          std::vector<AlignmentJob> new_jobs;
+          alignment_jobs_by_ref[ref_id] = new_jobs;
+        }
+        alignment_jobs_by_ref[ref_id].push_back(job);
+        
+        // Reverse complement sequence
+        query_id = query_seq_manager->AddQuery(it->query_name, RevComp(it->query_seq));
+        (*query_jobs)[query_id] = job_id;
+        (*query_ids)[job_id].push_back(query_id);
+        job.query_id = query_id;
+        job.pos_strand = false;
+        alignment_jobs_by_ref[ref_id].push_back(job);
+      }
+    } else {
+      int ref_id = ref_seq_manager->GetRefID(it->ref_name);
+      int chr_id = ref_seq_manager->GetChrID(ref_id, it->chr_name);
+      std::vector<int> chr_ids;
+      if (it->chr_name == ALL_CHROM) {
+        chr_ids.push_back(-1);
+      } else {
+        chr_ids.push_back(chr_id);
+      }
+      
+      for (int i = 0; i < chr_ids.size(); i++) {
+        // Forward sequence
+        int query_id = query_seq_manager->AddQuery(it->query_name, it->query_seq);
+        (*query_jobs)[query_id] = job_id;
+        if (query_ids->count(job_id) == 0) {
+          std::vector<int> query_id_vec;
+          (*query_ids)[job_id] = query_id_vec;
+        } 
+        (*query_ids)[job_id].push_back(query_id);
+        AlignmentJob job;
+        job.query_id = query_id;
+        job.ref_id = ref_id;
+        job.chr_id = chr_ids[i];
+        if (it->chr_name == ALL_CHROM) {
+          job.ref_offset = -1;  // Doesn't matter
+          job.ref_len = -1;     // Doesn't matter
+        } else {
+          job.ref_offset = it->ref_start - 1;
+          job.ref_len = it->ref_end - it->ref_start;
+        }
+        job.threshold = it->threshold;
+        job.params = it->params;
+        job.pos_strand = true;
+        if (alignment_jobs_by_ref.count(ref_id) == 0) {
+          std::vector<AlignmentJob> new_jobs;
+          alignment_jobs_by_ref[ref_id] = new_jobs;
+        }
+        alignment_jobs_by_ref[ref_id].push_back(job);
+        
+        // Reverse complement sequence
+        query_id = query_seq_manager->AddQuery(it->query_name, RevComp(it->query_seq));
+        (*query_jobs)[query_id] = job_id;
+        if (query_ids->count(job_id) == 0) {
+          std::vector<int> query_id_vec;
+          (*query_ids)[job_id] = query_id_vec;
+        } 
+        (*query_ids)[job_id].push_back(query_id);
+        job.query_id = query_id;
+        job.pos_strand = false;
+        alignment_jobs_by_ref[ref_id].push_back(job);
+      }
+    }
+  }
+  
+  return alignment_jobs_by_ref;
+}
+
+/*std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue, 
                QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager, unsigned int* errors) {
   std::vector<AlignmentJob> jobs;
   std::vector<int> query_ids;
@@ -191,7 +365,7 @@ std::vector<int> ProcessJob(ServerComm::JobRequest jobreq, ThreadQueue<std::vect
   }
   
   return query_ids;
-}
+}*/
 
 std::set<AlignmentResult, AlignmentResultScoreComp> SortAlignmentResults(std::set<AlignmentResult, AlignmentResultComp> res_set) {
   std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set;
@@ -199,6 +373,86 @@ std::set<AlignmentResult, AlignmentResultScoreComp> SortAlignmentResults(std::se
     res_sorted_set.insert(*it);
   }
   return res_sorted_set;
+}
+
+// Send alignment jobs for a ref seq to other threads via alignment_job_queue
+// Gather alignment results from result_queue
+void AlignJobs(std::vector<AlignmentJob> alignment_jobs, ThreadQueue<std::vector<AlignmentJob> >* alignment_job_queue,
+               ThreadQueue<AlignmentResult>* result_queue, std::map<int, int> query_jobs,
+//               std::set<AlignmentResult, AlignmentResultComp>* res_set, QuerySeqManager* query_seq_manager,
+               std::list<AlignmentResult>* results_per_job_req, QuerySeqManager* query_seq_manager,
+               int ref_id, RefSeqManager* ref_seq_manager) {
+  // Allocate the ref seq in FPGA DRAM if necessary
+  ref_seq_manager->AllocateRef(ref_id);
+  
+  // Send the jobs for alignment
+  alignment_job_queue->Push(alignment_jobs);          
+
+  // Get list of queries in the job list
+  std::vector<int> aligned_query_ids;
+  std::map<int, int> query_res_set_ids;
+  int i = 0;
+  for (std::vector<AlignmentJob>::iterator it = alignment_jobs.begin(); it != alignment_jobs.end(); it++, i++) {
+    aligned_query_ids.push_back(it->query_id);
+    query_res_set_ids[it->query_id] = i;
+  }
+  
+  bool ref_done = false;
+  int results = 0;
+  std::set<AlignmentResult, AlignmentResultComp>* res_set_per_query = 
+                                                        new std::set<AlignmentResult, AlignmentResultComp>[aligned_query_ids.size()];
+  while (ref_done == false || result_queue->Size() != 0) {
+    while (result_queue->Size() != 0) {
+      AlignmentResult aln_res = result_queue->Pop();
+
+      // Keep a set of unique alignments
+      int res_set_id = query_res_set_ids[aln_res.hsr.query_id];
+      std::set<AlignmentResult, AlignmentResultComp>::iterator aln_it = res_set_per_query[res_set_id].find(aln_res);
+      if (aln_it == res_set_per_query[res_set_id].end()) {
+        res_set_per_query[res_set_id].insert(aln_res);
+        results++;
+      } else if (((*aln_it).score < aln_res.score) || 
+                 ((*aln_it).score == aln_res.score && (*aln_it).alignment.GetLength() < aln_res.alignment.GetLength())) {
+        res_set_per_query[res_set_id].erase(aln_it);
+        res_set_per_query[res_set_id].insert(aln_res);
+      }
+    }
+
+    ref_done = true;
+    for (std::vector<int>::iterator it = aligned_query_ids.begin(); it != aligned_query_ids.end(); ++it) {
+      if (!(query_seq_manager->QueryDone(*it))) {
+        ref_done = false;
+      }
+    }
+  }
+  
+  for (std::vector<int>::iterator it = aligned_query_ids.begin(); it != aligned_query_ids.end(); it++) {
+    // Sort the query's set of alignment results by score
+    int res_set_id = query_res_set_ids[*it];
+    std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set = SortAlignmentResults(res_set_per_query[res_set_id]);
+    
+    // Store the sorted alignment results to the appropriate job's result list
+    int job_id = query_jobs[*it];
+    for (std::set<AlignmentResult, AlignmentResultComp>::iterator s_it = res_sorted_set.begin(); s_it != res_sorted_set.end(); s_it++) {
+      results_per_job_req[job_id].push_back(*s_it);
+    }
+  }
+    
+  /*std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set = SortAlignmentResults(res_set);
+  for (std::set<AlignmentResult, AlignmentResultScoreComp>::iterator it = res_sorted_set.begin(); it != res_sorted_set.end(); it++) {
+    results_list->push_back(*it);
+  }*/
+}
+
+
+void SetScoringParams(SwAffineGapParams params, PicoDrv** pico_drivers) {
+  int params_buf_len;
+  int* params_buf = params.ToBuf(&params_buf_len);
+  for (int i = 0; i < NUM_FPGAS; i++) {
+    pico_drivers[i]->WriteDeviceAbsolute(0, (uint32_t*) params_buf, params_buf_len);
+  }
+
+  delete[] params_buf;
 }
 
 int main(int argc, char *argv[]) {
@@ -256,26 +510,25 @@ int main(int argc, char *argv[]) {
 #ifdef SWSERVERTIMING
   clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
-  ref_seq_manager.Init(pico_drivers);
   char* ref_parentdir = getenv("REFPATH");
   if (ref_parentdir == NULL) {
     std::cerr << "$REFPATH environment variable not set!" << std::endl;
     return 1;
   }
-  std::string parentdir_str(ref_parentdir);
-  std::string arg2(argv[2]);
-  if (arg2 == ALL_REF) {
+
+  ref_seq_manager.Init(pico_drivers, std::string(ref_parentdir));
+  if (std::string(argv[2]) == ALL_REF) {
     std::vector<std::string> file_names;
     std::vector<std::string> ref_names;
-    GetFastaFiles(parentdir_str, &file_names, &ref_names);
+    GetFastaFiles(std::string(ref_parentdir), &file_names, &ref_names);
     for (int i = 0; i < file_names.size(); i++) {
-      ref_seq_manager.AddRef(parentdir_str, file_names[i], ref_names[i]);
+      ref_seq_manager.AddRef(file_names[i], ref_names[i]);
     }
   }
   else {
     for (int i = 2; i < argc; i++) {
       std::string ref_file = std::string(argv[i]) + ".fa";
-      ref_seq_manager.AddRef(parentdir_str, ref_file, std::string(argv[i]));
+      ref_seq_manager.AddRef(ref_file, std::string(argv[i]));
     }
   }
   std::cout << "Loaded " << ref_seq_manager.GetTotalRefLength() << " nucleotides total." << std::endl;
@@ -326,10 +579,104 @@ int main(int argc, char *argv[]) {
     ref_seq_manager.ResetStats();
     num_hits = 0;
     
-    // Parse the query group and initiate alignments
+    // Parse the query group
     unsigned int errors = 0;
-    std::vector<int> query_ids;
-    std::vector<ServerComm::JobRequest> jobs = server_comm.GetQueryGroup(&errors);
+    std::list<ServerComm::JobRequest> jobs = server_comm.GetQueryGroup(&errors);
+    assert(jobs.size() > 0);
+    
+    // Check validity of job requests
+    CheckJobRequestsValid(jobs, &ref_seq_manager, &errors);
+    
+    if (errors == 0) {
+      // Set scoring parameters
+      assert(jobs.front().params_job == true);
+      SwAffineGapParams params = jobs.front().params;
+      SetScoringParams(params, pico_drivers);
+      jobs.pop_front();
+      for (std::list<ServerComm::JobRequest>::iterator it = jobs.begin(); it != jobs.end(); it++) {
+        it->params = params;
+      }
+    
+      // Record queries and organize by ref seq
+      std::set<int> ref_ids = GetJobRefIds(jobs, &ref_seq_manager); // Get the set of ref seqs to be aligned to for this group
+      std::map<int, int> query_jobs;                                // Job request each query ID belongs to
+      std::map<int, std::vector<int> > query_ids;                   // List of query IDs for each ref seq
+      std::map<int, std::vector<AlignmentJob> > alignment_jobs =    // List of alignment jobs for each ref seq
+          ProcessJobs(jobs, &query_seq_manager, &ref_seq_manager, &query_jobs, &query_ids);
+      std::set<int> allocated_ref_ids = ref_seq_manager.GetAllocatedRefIds();             // Get the list of ref seqs already allocated to FPGA DRAM
+      
+      // Align to all ref seqs already allocated to FPGA DRAM
+      /*std::set<AlignmentResult, AlignmentResultComp>* res_set =   // Alignment results organized by job request
+          new std::set<AlignmentResult, AlignmentResultComp>[jobs.size()]; 
+      for (std::set<int>::iterator it = ref_ids.begin(); it != ref_ids.end(); it++) {
+        if (allocated_ref_ids.count(*it) != 0) {
+          AlignJobs(alignment_jobs[*it], &alignment_job_queue, &result_queue, query_jobs, res_set, &query_seq_manager, *it, &ref_seq_manager);
+        }
+      }
+      
+      // Align to all ref seqs not already allocated to FPGA DRAM
+      for (std::set<int>::iterator it = ref_ids.begin(); it != ref_ids.end(); it++) {
+        if (allocated_ref_ids.count(*it) == 0) {
+          AlignJobs(alignment_jobs[*it], &alignment_job_queue, &result_queue, query_jobs, res_set, &query_seq_manager, *it, &ref_seq_manager);
+        }
+      }
+          
+      // Send the unique set of alignment results
+      for (int i = 0; i < jobs.size(); i++) {
+        std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set = SortAlignmentResults(res_set[i]);
+        for (std::set<AlignmentResult, AlignmentResultScoreComp>::iterator it = res_sorted_set.begin();
+             it != res_sorted_set.end(); it++) {
+          AlignmentResult aln_res = *it;
+          std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
+          std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
+          std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
+          server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
+          num_hits++;
+        }
+      }*/
+      
+      // Align to all ref seqs already allocated to FPGA DRAM
+      std::list<AlignmentResult>* results_per_job_req = new std::list<AlignmentResult>[jobs.size()];
+      for (std::set<int>::iterator it = ref_ids.begin(); it != ref_ids.end(); it++) {
+        if (allocated_ref_ids.count(*it) != 0) {
+          AlignJobs(alignment_jobs[*it], &alignment_job_queue, &result_queue, query_jobs, results_per_job_req, &query_seq_manager, *it, &ref_seq_manager);
+        }
+      }
+      
+      // Align to all ref seqs not already allocated to FPGA DRAM
+      for (std::set<int>::iterator it = ref_ids.begin(); it != ref_ids.end(); it++) {
+        if (allocated_ref_ids.count(*it) == 0) {
+          AlignJobs(alignment_jobs[*it], &alignment_job_queue, &result_queue, query_jobs, results_per_job_req, &query_seq_manager, *it, &ref_seq_manager);
+        }
+      }
+      
+      // Send the unique set of alignment results
+      for (int i = 0; i < jobs.size(); i++) {
+        for (std::list<AlignmentResult>::iterator it = results_per_job_req[i].begin(); it != results_per_job_req[i].end(); it++) {
+          AlignmentResult aln_res = *it;
+          std::string query_name = query_seq_manager.GetQueryName(aln_res.hsr.query_id);
+          std::string ref_name = ref_seq_manager.GetRefName(aln_res.hsr.ref_id);
+          std::string chr_name = ref_seq_manager.GetChrName(aln_res.hsr.ref_id, aln_res.hsr.chr_id);
+          server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
+          num_hits++;
+        }
+      }
+      
+      // Reclaim memory
+      for (std::map<int, std::vector<int>>::iterator m_it = query_ids.begin(); m_it != query_ids.end(); ++m_it) {
+        for (std::vector<int>::iterator q_it = (m_it->second).begin(); q_it != (m_it->second).end(); ++q_it) {
+          query_seq_manager.RemoveQuery(*q_it);
+        }
+      }
+      //delete[] res_set;
+      delete[] results_per_job_req;
+    }
+          
+          
+          
+    
+    // Initiate alignments
+    /*std::vector<int> query_ids;
     std::map<int, int> query_job;
     //std::cout << jobs.size() << " job requests received!" << std::endl;
     for (int i = 0; i < jobs.size(); i++) {
@@ -340,12 +687,12 @@ int main(int argc, char *argv[]) {
         query_job[new_query_ids[j]] = i;
       }
     }
-    int num_jobs = jobs.size();
+    int num_jobs = jobs.size();*/
     
 #ifdef SWSERVERTIMING
     clock_gettime(CLOCK_MONOTONIC, &start);
 #endif
-    // Wait for alignment of query group to finish
+    /*// Wait for alignment of query group to finish
     //   Send alignment results back to client when we get them
     std::set<AlignmentResult, AlignmentResultComp>* res_set = new std::set<AlignmentResult, AlignmentResultComp>[num_jobs];
     bool group_done = false;
@@ -371,9 +718,9 @@ int main(int argc, char *argv[]) {
           group_done = false;
         }
       }
-    }
+    }*/
     
-    // Send the unique set of alignment results
+    /*// Send the unique set of alignment results
     for (int i = 0; i < num_jobs; i++) {
       std::set<AlignmentResult, AlignmentResultScoreComp> res_sorted_set = SortAlignmentResults(res_set[i]);
       for (std::set<AlignmentResult, AlignmentResultScoreComp>::iterator it = res_sorted_set.begin();
@@ -385,15 +732,16 @@ int main(int argc, char *argv[]) {
         server_comm.SendAlignment(aln_res, query_name, ref_name, chr_name);
         num_hits++;
       }
-    }
+    }*/
     
     // End the query group
     server_comm.EndQueryGroup(errors);
     
-    // Reclaim finished query memory
+    /*// Reclaim memory
     for (std::vector<int>::iterator it = query_ids.begin(); it != query_ids.end(); ++it) {
       query_seq_manager.RemoveQuery(*it);
     }
+    delete[] res_set;*/
 
 #ifdef SWSERVERTIMING
     clock_gettime(CLOCK_MONOTONIC, &finish);

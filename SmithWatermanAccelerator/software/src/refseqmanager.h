@@ -25,6 +25,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <set>
 #include <list>
 #ifdef SIM_PICO
   #include "picodrv_sim.h"
@@ -90,8 +91,8 @@ class RefSeqManager {
     //   Does nothing if already allocated
     void AllocateRef(int ref_id);
     
-    // Get a list of ref seqs that are currently stored in FPGA DRAM
-    std::vector<int> GetAllocatedRefIds();    
+    // Get a set of ref seqs that are currently stored in FPGA DRAM
+    std::set<int> GetAllocatedRefIds();    
     
     // Get the chromosome regions that are spanned by the given coordinates in
     //   single sequence indexing
@@ -124,10 +125,10 @@ class RefSeqManager {
     void ResetStats();
 
     // Build the fpga2bit and metadata files for the ref seq
-    void BuildFpgaFiles(std::string ref_dir, std::string ref_filename, std::string ref_name);
+    void BuildFpgaFiles(std::string ref_filename, std::string ref_name);
 
     // Load the fpga2bit files to FPGA DRAM and read the metadata file
-    void LoadRef(std::string ref_dir, std::string ref_fa_filename, std::string ref_name);
+    void LoadRef(std::string ref_fa_filename, std::string ref_name);
 
   private:
     // Convert the ref seq to 2bit format and stream to the FPGA DRAM

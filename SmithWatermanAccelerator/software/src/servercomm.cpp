@@ -27,8 +27,8 @@ ServerComm::ServerComm(int port) {
 ServerComm::~ServerComm() {
 }
 
-std::vector<ServerComm::JobRequest> ServerComm::GetQueryGroup(unsigned int* errors) {
-  std::vector<ServerComm::JobRequest> new_jobs;
+std::list<ServerComm::JobRequest> ServerComm::GetQueryGroup(unsigned int* errors) {
+  std::list<ServerComm::JobRequest> new_jobs;
 
   bool query_group_done = false;
   std::string cur_line = "";
@@ -78,7 +78,7 @@ std::vector<ServerComm::JobRequest> ServerComm::GetQueryGroup(unsigned int* erro
 }
 
 bool ServerComm::Action(std::string line, 
-                        std::vector<ServerComm::JobRequest>* new_jobs, 
+                        std::list<ServerComm::JobRequest>* new_jobs, 
                         unsigned int* errors) {
   bool query_group_done = false;
   ServerComm::JobRequest job;
