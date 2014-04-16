@@ -106,5 +106,12 @@ WHITESPACE [ \t\b\f\r\v]+
 
 /* User Code */
 int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    std::cerr << "Usage: ./lexer <DPAL FILE>" << std::endl;
+    return 1;
+  }
+
+  yyin = fopen(argv[1], "r");
+
   yylex();
 }
