@@ -30,6 +30,9 @@ COL        (?i:col)
 DIGIT      [0-9]
 ID         [a-zA-Z][a-zA-Z0-9_]*
 WHITESPACE [ \t\b\f\r\v]+
+
+%x COMMENT
+%x COMMENT_LINE
 %%
 
 %{
@@ -86,6 +89,17 @@ WHITESPACE [ \t\b\f\r\v]+
 
 
 {WHITESPACE} {}
+
+"/*"                { BEGIN(COMMENT); }
+<COMMENT>"\n"       { line_num++; }
+<COMMENT>.          {}
+<COMMENT>"*/"       { BEGIN(INITIAL); }
+"//"                { BEGIN(COMMENT_LINE); }
+<COMMENT_LINE>[^\n] {}
+<COMMENT_LINE>"\n"  { line_num++;
+                      BEGIN(INITIAL);
+                    }
+
 .           { std::cout << "Error in line " << line_num << std::endl; }
 
 %%

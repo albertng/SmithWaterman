@@ -1,3 +1,7 @@
+// Simple Smith-Waterman Example
+/* Constant match, mismatch, gap scoring parameters
+ */
+
 alphabet = {A, C, G, T};
 
 signed<10> H[][];
