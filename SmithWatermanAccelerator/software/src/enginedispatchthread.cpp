@@ -11,6 +11,7 @@
 //      Albert Ng   Jan 14 2014     Added ref seq banking
 //      Albert Ng   Jan 29 2014     Combined multiple engine jobs into larger PCIe streams
 //      Albert Ng   Feb 19 2014     Added pos/neg strand
+//      Albert Ng   Mar 25 2014     Added temperature check
 
 #include <pthread.h>
 #include <stdlib.h>
@@ -123,7 +124,21 @@ void* EngineDispatchThread::Dispatch(void* args) {
     //std::cout << aln_jobs.size() << " EngineDispatchThread alignment jobs" << std::endl;
     clock_gettime(CLOCK_MONOTONIC, &start);
     for (int i = 0; i < aln_jobs.size(); i++) {
- 
+      // Check FPGA temperatures
+      for (int i = 0; i < NUM_FPGAS; i++) {
+        float temp, voltage, current;
+        int err = pico_drivers[i]->GetSysMon(&temp, &voltage, &current);
+        if (err < 0) {
+          std::cerr << "GetSysMon error: " << PicoErrors_FullError << "\n";
+          temp = 0;
+        }
+        if (temp > 83) {
+          std::cout << "FPGA temp above 83C. Pausing for 10 seconds..." << std::endl;
+          sleep(10);
+          std::cout << "Resuming..." << std::endl;
+        }
+      }
+      
       AlignmentJob aln_job = aln_jobs[i];
       std::cout << "Engine Dispatch Thread job: " << aln_job.query_id 
                 << " " << aln_job.ref_id

@@ -21,7 +21,7 @@
 #endif
 #include "def.h"
 
-#define DRAM_SIZE_BYTES 300*1024*1024
+#define DRAM_SIZE_BYTES 8*1024*1024*1024
 
 class FpgaDramManager {
   public:
