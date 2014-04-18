@@ -1,0 +1,4 @@
+*.o
+parser
+dpal-lex.cpp
+dpal-parse.cpp
