@@ -40,25 +40,25 @@
       know about them.  */
    enum yytokentype {
      TALPHABET = 258,
-     TCONST = 259,
-     TTRUE = 260,
-     TFALSE = 261,
-     TUNSIGNED = 262,
-     TSIGNED = 263,
-     TBOOL = 264,
-     TCELL = 265,
-     TCONDITION = 266,
-     TIF = 267,
-     TELSE = 268,
-     TSWITCH = 269,
-     TCASE = 270,
-     TREPORT = 271,
-     TMAX = 272,
-     TQUERYCHAR = 273,
-     TREFCHAR = 274,
-     TROW = 275,
-     TCOL = 276,
-     TINTCONST = 277,
+     TDPMAT = 259,
+     TCONST = 260,
+     TUNSIGNED = 261,
+     TSIGNED = 262,
+     TBOOL = 263,
+     TCELL = 264,
+     TCONDITION = 265,
+     TIF = 266,
+     TELSE = 267,
+     TSWITCH = 268,
+     TCASE = 269,
+     TREPORT = 270,
+     TMAX = 271,
+     TQUERYCHAR = 272,
+     TREFCHAR = 273,
+     TROW = 274,
+     TCOL = 275,
+     TINTCONST = 276,
+     TBOOLCONST = 277,
      TIDENTIFIER = 278,
      TASSIGN = 279,
      TLBRACKET = 280,
@@ -91,25 +91,25 @@
 #endif
 /* Tokens.  */
 #define TALPHABET 258
-#define TCONST 259
-#define TTRUE 260
-#define TFALSE 261
-#define TUNSIGNED 262
-#define TSIGNED 263
-#define TBOOL 264
-#define TCELL 265
-#define TCONDITION 266
-#define TIF 267
-#define TELSE 268
-#define TSWITCH 269
-#define TCASE 270
-#define TREPORT 271
-#define TMAX 272
-#define TQUERYCHAR 273
-#define TREFCHAR 274
-#define TROW 275
-#define TCOL 276
-#define TINTCONST 277
+#define TDPMAT 259
+#define TCONST 260
+#define TUNSIGNED 261
+#define TSIGNED 262
+#define TBOOL 263
+#define TCELL 264
+#define TCONDITION 265
+#define TIF 266
+#define TELSE 267
+#define TSWITCH 268
+#define TCASE 269
+#define TREPORT 270
+#define TMAX 271
+#define TQUERYCHAR 272
+#define TREFCHAR 273
+#define TROW 274
+#define TCOL 275
+#define TINTCONST 276
+#define TBOOLCONST 277
 #define TIDENTIFIER 278
 #define TASSIGN 279
 #define TLBRACKET 280
@@ -144,19 +144,37 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 19 "dpal.y"
+#line 22 "dpal.y"
 {
   NProgram* program;
   NAlphabetDecl* alphabet_decl;
-  NCharacterDecl* character_decl;
   CharacterDeclList* character_decl_list;
-  NIdentifier *id;
-  std::string* str_const;
+  NCharacterDecl* character_decl;
+  ConstDeclList* const_decl_list;
+  ConstList* const_list;
+  NConstDecl* const_decl; 
+  NConstScalarDecl* const_scalar_decl;
+  NConstMatrixDecl* const_matrix_decl;
+  NConstMatrixElem* const_matrix_elem;
+  ConstMatrixElemList* const_matrix_elem_list;
+  NConst* constant;
+  NType* type;
+  std::string* id_name;
   int int_const;
+  bool bool_const;
   int token;
+  DPMatrixDeclList* dp_matrix_decl_list;
+  NDPMatrixDecl* dp_matrix_decl;
+  NCellFuncDecl* cell_func_decl;
+  ParamList* param_list;
+  NParam* param;
+  NParamScalar* param_scalar;
+  NParamMatrix* param_matrix;
+  StmtList* stmt_list;
+  NStmt* stmt;
 }
 /* Line 1529 of yacc.c.  */
-#line 160 "dpal-parse.hpp"
+#line 178 "dpal-parse.hpp"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

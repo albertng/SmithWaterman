@@ -1,0 +1,6 @@
+alphabet = {A, C, G, T};
+const unsigned BITWIDTH = 18;
+dpmat signed H[][];
+dpmat signed<10> I[][];
+dpmat signed<BITWIDTH> Delete[][];
+cell(){asdf}

@@ -1,0 +1,17 @@
+alphabet = {A, C, G, T};
+const signed C1[2] = {1, 2};
+const unsigned<10> C2[2][3] = { {1, 2, 3}, {4, 5, 6} };
+const bool C3[2][3][4] = { { {true, true, true, true},
+                             {true, true, true, false},
+                             {true, true, false, true} },
+                           { {true, true, false, false},
+                             {true, false, true, true},
+                             {true, false, true, false} } };
+
+const unsigned BITWIDTH = 10;
+const unsigned ARRAYSIZE = 2;
+const unsigned VALUE = 3;
+const unsigned<BITWIDTH> C5[ARRAYSIZE] = {VALUE, VALUE};
+
+dpmat signed H[][];
+cell(){asdf}
