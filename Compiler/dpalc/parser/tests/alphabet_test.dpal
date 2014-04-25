@@ -1,5 +1,4 @@
 alphabet = {A=1, C=100, G, T};
 dpmat signed H[][];
-cell() {
-  asdf
-}
+cell() {}
+condition() {}

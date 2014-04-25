@@ -1,0 +1,12 @@
+alphabet = {A,C,G,T};
+dpmat signed H[][];
+cell() {
+  unsigned x = 10;
+  switch(x) {
+    case 10 : x = 20;
+    case 20 : x = 10;
+              x = 15;
+    default : x = 30;
+  }
+}
+condition(){}

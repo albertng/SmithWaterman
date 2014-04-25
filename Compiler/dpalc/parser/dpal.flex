@@ -5,6 +5,7 @@
  *      Albert Ng   Apr 15 2014     Initial Revision
  *      Albert Ng   Apr 16 2014     Added comment capability
  *      Albert Ng   Apr 23 2014     Added dpmat token
+ *      Albert Ng   Apr 24 2014     Added default token
  */
 
 %option noyywrap
@@ -35,6 +36,7 @@ IF         (?i:if)
 ELSE       (?i:else)
 SWITCH     (?i:switch)
 CASE       (?i:case)
+DEFAULT    (?i:default)
 REPORT     (?i:report)
 MAX        (?i:max)
 QUERYCHAR  (?i:query_char)
@@ -63,6 +65,7 @@ WHITESPACE [ \t\b\f\r\v]+
 {ELSE}       { return TELSE; }
 {SWITCH}     { return TSWITCH; }
 {CASE}       { return TCASE; }
+{DEFAULT}    { return TDEFAULT; }
 {REPORT}     { return TREPORT; }
 {MAX}        { return TMAX; }
 {QUERYCHAR}  { return TQUERYCHAR; }

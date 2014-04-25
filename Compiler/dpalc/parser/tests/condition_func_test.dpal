@@ -1,0 +1,38 @@
+alphabet = {A};
+dpmat signed H[][];
+cell() {}
+condition() {
+  x = x + 1;
+  x = x - 1;
+  x = x < 1;
+  x = x <= 1;
+  x = x > 1;
+  x = x >= 1;
+  x = x == 1;
+  x = x != 1;
+  x = !x;
+  x = x && 1;
+  x = x || 1;
+  x = x << 1;
+  x = x >> 1;
+  x = x & 1;
+  x = x ^ 1;
+  x = x | 1;
+  x = ~x;
+  x = 1;
+  x = x;
+  x = x[1][2];
+  x = query_char;
+  x = ref_char;
+  x = row;
+  x = col;
+  x = max(1, 2, 3);
+  x = x + 1 - 2;
+  x = x - 2 + 1;
+  x = !x && !5;
+  if (x == 2 && y == 5) {
+    x = x + 1;
+  } else {
+    x = x + 2;
+  }
+}

@@ -14,4 +14,5 @@ const unsigned VALUE = 3;
 const unsigned<BITWIDTH> C5[ARRAYSIZE] = {VALUE, VALUE};
 
 dpmat signed H[][];
-cell(){asdf}
+cell(){}
+condition(){}

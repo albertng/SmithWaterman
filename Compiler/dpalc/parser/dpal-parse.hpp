@@ -51,42 +51,43 @@
      TELSE = 267,
      TSWITCH = 268,
      TCASE = 269,
-     TREPORT = 270,
-     TMAX = 271,
-     TQUERYCHAR = 272,
-     TREFCHAR = 273,
-     TROW = 274,
-     TCOL = 275,
-     TINTCONST = 276,
-     TBOOLCONST = 277,
-     TIDENTIFIER = 278,
-     TASSIGN = 279,
-     TLBRACKET = 280,
-     TRBRACKET = 281,
-     TLBRACE = 282,
-     TRBRACE = 283,
-     TLPAREN = 284,
-     TRPAREN = 285,
-     TSEMICOLON = 286,
-     TCOLON = 287,
-     TCOMMA = 288,
-     TPLUS = 289,
-     TMINUS = 290,
-     TCLT = 291,
-     TCLE = 292,
-     TCGT = 293,
-     TCGE = 294,
-     TCEQ = 295,
-     TCNE = 296,
-     TLNOT = 297,
-     TLAND = 298,
-     TLOR = 299,
-     TLSHIFT = 300,
-     TRSHIFT = 301,
-     TAND = 302,
-     TXOR = 303,
-     TOR = 304,
-     TNEG = 305
+     TDEFAULT = 270,
+     TREPORT = 271,
+     TMAX = 272,
+     TQUERYCHAR = 273,
+     TREFCHAR = 274,
+     TROW = 275,
+     TCOL = 276,
+     TINTCONST = 277,
+     TBOOLCONST = 278,
+     TIDENTIFIER = 279,
+     TASSIGN = 280,
+     TLBRACKET = 281,
+     TRBRACKET = 282,
+     TLBRACE = 283,
+     TRBRACE = 284,
+     TLPAREN = 285,
+     TRPAREN = 286,
+     TSEMICOLON = 287,
+     TCOLON = 288,
+     TCOMMA = 289,
+     TPLUS = 290,
+     TMINUS = 291,
+     TCLT = 292,
+     TCLE = 293,
+     TCGT = 294,
+     TCGE = 295,
+     TCEQ = 296,
+     TCNE = 297,
+     TLNOT = 298,
+     TLAND = 299,
+     TLOR = 300,
+     TLSHIFT = 301,
+     TRSHIFT = 302,
+     TAND = 303,
+     TXOR = 304,
+     TOR = 305,
+     TNEG = 306
    };
 #endif
 /* Tokens.  */
@@ -102,49 +103,50 @@
 #define TELSE 267
 #define TSWITCH 268
 #define TCASE 269
-#define TREPORT 270
-#define TMAX 271
-#define TQUERYCHAR 272
-#define TREFCHAR 273
-#define TROW 274
-#define TCOL 275
-#define TINTCONST 276
-#define TBOOLCONST 277
-#define TIDENTIFIER 278
-#define TASSIGN 279
-#define TLBRACKET 280
-#define TRBRACKET 281
-#define TLBRACE 282
-#define TRBRACE 283
-#define TLPAREN 284
-#define TRPAREN 285
-#define TSEMICOLON 286
-#define TCOLON 287
-#define TCOMMA 288
-#define TPLUS 289
-#define TMINUS 290
-#define TCLT 291
-#define TCLE 292
-#define TCGT 293
-#define TCGE 294
-#define TCEQ 295
-#define TCNE 296
-#define TLNOT 297
-#define TLAND 298
-#define TLOR 299
-#define TLSHIFT 300
-#define TRSHIFT 301
-#define TAND 302
-#define TXOR 303
-#define TOR 304
-#define TNEG 305
+#define TDEFAULT 270
+#define TREPORT 271
+#define TMAX 272
+#define TQUERYCHAR 273
+#define TREFCHAR 274
+#define TROW 275
+#define TCOL 276
+#define TINTCONST 277
+#define TBOOLCONST 278
+#define TIDENTIFIER 279
+#define TASSIGN 280
+#define TLBRACKET 281
+#define TRBRACKET 282
+#define TLBRACE 283
+#define TRBRACE 284
+#define TLPAREN 285
+#define TRPAREN 286
+#define TSEMICOLON 287
+#define TCOLON 288
+#define TCOMMA 289
+#define TPLUS 290
+#define TMINUS 291
+#define TCLT 292
+#define TCLE 293
+#define TCGT 294
+#define TCGE 295
+#define TCEQ 296
+#define TCNE 297
+#define TLNOT 298
+#define TLAND 299
+#define TLOR 300
+#define TLSHIFT 301
+#define TRSHIFT 302
+#define TAND 303
+#define TXOR 304
+#define TOR 305
+#define TNEG 306
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 22 "dpal.y"
+#line 23 "dpal.y"
 {
   NProgram* program;
   NAlphabetDecl* alphabet_decl;
@@ -166,15 +168,25 @@ typedef union YYSTYPE
   DPMatrixDeclList* dp_matrix_decl_list;
   NDPMatrixDecl* dp_matrix_decl;
   NCellFuncDecl* cell_func_decl;
+  NConditionFuncDecl* condition_func_decl;
   ParamList* param_list;
   NParam* param;
   NParamScalar* param_scalar;
   NParamMatrix* param_matrix;
   StmtList* stmt_list;
   NStmt* stmt;
+  NVariableDecl* variable_decl;
+  NIfStmt* if_stmt;
+  NAssignStmt* assign_stmt;
+  NSwitchStmt* switch_stmt;
+  NCaseStmt* case_stmt;
+  CaseStmtList* case_stmt_list;
+  NReportStmt* report_stmt;
+  ExpressionList* expression_list;
+  NExpression* expression;
 }
 /* Line 1529 of yacc.c.  */
-#line 178 "dpal-parse.hpp"
+#line 190 "dpal-parse.hpp"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

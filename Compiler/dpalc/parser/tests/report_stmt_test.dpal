@@ -1,0 +1,6 @@
+alphabet = {A,C,G,T};
+dpmat signed H[][];
+cell() {}
+condition() {
+  report();
+}

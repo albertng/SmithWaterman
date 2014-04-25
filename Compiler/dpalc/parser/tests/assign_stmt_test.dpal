@@ -1,0 +1,8 @@
+alphabet = {A,C,G,T};
+dpmat signed H[][];
+cell() {
+  unsigned x;
+  x = 10;
+  H[1][2] = 5;
+}
+condition() {}

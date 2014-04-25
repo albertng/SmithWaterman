@@ -5,4 +5,5 @@ const bool C3 = false;
 const unsigned<10> C4 = 25;
 const signed<2> C5 = 10;
 dpmat signed H[][];
-cell () { asdf }
+cell(){}
+condition(){}

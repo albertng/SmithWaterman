@@ -1,0 +1,35 @@
+alphabet = {A,C,G,T};
+const unsigned BITWIDTH = 18;
+dpmat signed H[][];
+cell(signed match, signed<10> mismatch, 
+     unsigned arr[5], signed<BITWIDTH> sub_mat[4][4]) {
+  unsigned x;
+  unsigned<10> y = 1;
+  unsigned<10> z = y;
+  if (x) {
+    unsigned a;
+  } else if (y) {
+    unsigned b;
+  } else if (z) {
+    unsigned c;
+  } else {
+    unsigned d;
+  }
+
+  if (y) {
+    unsigned e;
+  }
+
+  if (z) {
+    unsigned f;
+  } else {
+    unsigned g;
+  }
+
+  if (x) {
+    unsigned h;
+  } else if (y) {
+    unsigned i;
+  }
+}
+condition(){}
