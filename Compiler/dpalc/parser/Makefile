@@ -20,7 +20,7 @@ dpal-parse.cpp dpal-parse.hpp: dpal.y
 dpal-lex.cpp: dpal.flex dpal-parse.hpp
 	${FLEX} dpal.flex
 
-%.o : %.cpp
+%.o : %.cpp dpal-parse.hpp
 	${CC} ${CFLAGS} -c $< -o $@
 
 clean:

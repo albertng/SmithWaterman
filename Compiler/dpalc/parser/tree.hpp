@@ -351,7 +351,7 @@ class NCNEExpr : public NExpression {
 class NLNOTExpr : public NExpression {
   public:
     NExpression* op1;
-    NLNOTExpr(NExpression*op1) : op1(op1) {}
+    NLNOTExpr(NExpression* op1) : op1(op1) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -359,7 +359,7 @@ class NLANDExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NLANDExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NLANDExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -367,7 +367,7 @@ class NLORExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NLORExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NLORExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -375,7 +375,7 @@ class NLShiftExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NLShiftExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NLShiftExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -383,7 +383,7 @@ class NRShiftExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NRShiftExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NRShiftExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -391,7 +391,7 @@ class NANDExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NANDExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NANDExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -399,7 +399,7 @@ class NXORExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NXORExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NXORExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     void dump(std::ostream &stream, int depth);
 };
 
@@ -407,14 +407,21 @@ class NORExpr : public NExpression {
   public:
     NExpression* op1;
     NExpression* op2;
-    NORExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
+    NORExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
+    void dump(std::ostream &stream, int depth);
+};
+
+class NNotExpr : public NExpression {
+  public:
+    NExpression* op1;
+    NNotExpr(NExpression* op1) : op1(op1) {}
     void dump(std::ostream &stream, int depth);
 };
 
 class NNegExpr : public NExpression {
   public:
     NExpression* op1;
-    NNegExpr(NExpression*op1) : op1(op1) {}
+    NNegExpr(NExpression *op1) : op1(op1) {}
     void dump(std::ostream &stream, int depth);
 };
 

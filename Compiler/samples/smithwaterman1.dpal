@@ -4,7 +4,7 @@
 
 alphabet = {A, C, G, T};
 
-signed<10> H[][];
+dpmat signed<10> H[][];
 
 cell() {
   signed<10> substitute = 2;
@@ -13,8 +13,8 @@ cell() {
   }
   H[row][col] = max(0,
                     H[row-1][col-1] + substitute,
-                    H[row-1][col] - 1,
-                    H[row][col-1] -1);
+                    H[row-1][col]-1,
+                    H[row][col-1] - 1);
 }
 
 condition(signed<10> threshold) {

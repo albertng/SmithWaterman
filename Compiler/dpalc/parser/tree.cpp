@@ -345,8 +345,13 @@ void NORExpr::dump(std::ostream &stream, int depth) {
   op2->dump(stream, depth+1);
 }
 
+void NNotExpr::dump(std::ostream &stream, int depth) {
+  stream << pad(depth) << "Bitwise NOT Expression" << std::endl;
+  op1->dump(stream, depth+1);
+}
+
 void NNegExpr::dump(std::ostream &stream, int depth) {
-  stream << pad(depth) << "Bitwise Negate Expression" << std::endl;
+  stream << pad(depth) << "Unary Negative Expression" << std::endl;
   op1->dump(stream, depth+1);
 }
 

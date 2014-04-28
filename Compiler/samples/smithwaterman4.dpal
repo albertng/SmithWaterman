@@ -1,0 +1,32 @@
+/* Fixed substitution matrix
+ */ 
+
+alphabet = {A, C, G, T};
+const unsigned BITWIDTH = 18;
+const unsigned<BITWIDTH> HOXD55[4][4] = {
+  {91, -90, -25, -100},
+  {-90, 100, -100, -25},
+  {-25, -100, 100, -90},
+  {-100, -25, -90, 91}
+};
+const unsigned<BITWIDTH> GAP_OPEN = -400;
+const unsigned<BITWIDTH> GAP_EXTEND = -30;
+dpmat signed<BITWIDTH> M[][];
+dpmat signed<BITWIDTH> I[][];
+dpmat signed<BITWIDTH> D[][];
+cell() {
+  signed<BITWIDTH> substitute = HOXD55[query_char][ref_char];
+  I[row][col] = max(M[row - 1][col] + GAP_OPEN,
+                    I[row - 1][col] + GAP_EXTEND);
+  D[row][col] = max(M[row][col - 1] + GAP_OPEN,
+                    D[row][col - 1] + GAP_EXTEND);
+  M[row][col] = max(0,
+                    M[row - 1][col - 1] + substitute,
+                    I[row][col],
+                    D[row][col]);
+}
+condition(signed<BITWIDTH> threshold) {
+  if (M[row][col] >= threshold) {
+    report();
+  }
+}

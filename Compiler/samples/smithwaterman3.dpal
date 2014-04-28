@@ -1,0 +1,33 @@
+/* Affine gap penalty
+ */
+
+alphabet = {A, C, G, T, N};
+const unsigned BITWIDTH = 18;
+dpmat signed<BITWIDTH> M[][];
+dpmat signed<BITWIDTH> I[][];
+dpmat signed<BITWIDTH> D[][];
+cell(signed<BITWIDTH> match, signed<BITWIDTH> mismatch,
+     signed<BITWIDTH> gap_open, signed<BITWIDTH> gap_extend,
+     signed<BITWIDTH> N_penalty) {
+  signed<BITWIDTH> substitute;
+  if (query_char == N || ref_char == N) {
+    substitute = N_penalty;
+  } else if (query_char == ref_char) {
+    substitute = match;
+  } else {
+    substitute = mismatch;
+  }
+  I[row][col] = max(M[row - 1][col] + gap_open,
+                    I[row - 1][col] + gap_extend);
+  D[row][col] = max(M[row][col - 1] + gap_open,
+                    D[row][col - 1] + gap_extend);
+  M[row][col] = max(0,
+                    M[row - 1][col - 1] + substitute,
+                    I[row][col],
+                    D[row][col]);
+}
+condition(signed<BITWIDTH> threshold) {
+  if (M[row][col] >= threshold) {
+    report();
+  }
+}

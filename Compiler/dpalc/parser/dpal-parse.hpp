@@ -87,7 +87,9 @@
      TAND = 303,
      TXOR = 304,
      TOR = 305,
-     TNEG = 306
+     TNOT = 306,
+     TERROR = 307,
+     UMINUS = 308
    };
 #endif
 /* Tokens.  */
@@ -139,14 +141,16 @@
 #define TAND 303
 #define TXOR 304
 #define TOR 305
-#define TNEG 306
+#define TNOT 306
+#define TERROR 307
+#define UMINUS 308
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 23 "dpal.y"
+#line 32 "dpal.y"
 {
   NProgram* program;
   NAlphabetDecl* alphabet_decl;
@@ -184,9 +188,10 @@ typedef union YYSTYPE
   NReportStmt* report_stmt;
   ExpressionList* expression_list;
   NExpression* expression;
+  std::string* error_msg;
 }
 /* Line 1529 of yacc.c.  */
-#line 190 "dpal-parse.hpp"
+#line 195 "dpal-parse.hpp"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

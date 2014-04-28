@@ -12,11 +12,19 @@
 %{
 #include <iostream>
 #include "tree.hpp"
+#include "utils.hpp"
+#include <string>
+#include <cstdlib>
+
 extern int yylex();
 void yyerror(char *s);
 
 NProgram *root;
 extern FILE * yyin;
+
+int num_errors = 0;
+
+std::string filename;
 %}
 
 %start program
@@ -58,6 +66,7 @@ extern FILE * yyin;
   NReportStmt* report_stmt;
   ExpressionList* expression_list;
   NExpression* expression;
+  std::string* error_msg;
 }
 
 %token <token> TALPHABET
@@ -108,7 +117,8 @@ extern FILE * yyin;
 %token <token> TAND
 %token <token> TXOR
 %token <token> TOR
-%token <token> TNEG
+%token <token> TNOT
+%token <token> TERROR
 
 %type <program> program
 %type <alphabet_decl> alphabet_decl
@@ -154,7 +164,7 @@ extern FILE * yyin;
 %nonassoc TCLT TCLE TCGT TCGE TCEQ TCNE
 %left TLSHIFT TRSHIFT
 %left TPLUS TMINUS
-%right TNEG TLNOT
+%right TNOT TLNOT UMINUS
 
 %%
 
@@ -210,6 +220,7 @@ type : TUNSIGNED TCLT constant TCGT
 
 constant : TBOOLCONST { $$ = new NBoolConst($1); }
          | TINTCONST { $$ = new NIntConst($1); }
+         | TMINUS TINTCONST { $$ = new NIntConst(-$2); }
 
 const_matrix_decl : TCONST type TIDENTIFIER dimension_list TASSIGN const_matrix_elem TSEMICOLON
                     { $$ = new NConstMatrixDecl(new NIdentifier($3), $2, $4, $6); }
@@ -338,6 +349,8 @@ report_stmt : TREPORT TLPAREN TRPAREN TSEMICOLON
             { $$ = new NReportStmt(); }
 
 expression : TMAX TLPAREN arg_list TRPAREN { $$ = new NMaxExpr($3); }
+           | TLPAREN expression TRPAREN { $$ = $2; }
+           | TMINUS TLPAREN expression TRPAREN { $$ = new NNegExpr($3); }
            | expression TPLUS expression { $$ = new NPlusExpr($1, $3); }
            | expression TMINUS expression { $$ = new NMinusExpr($1, $3); }
            | expression TCLT expression { $$ = new NCLTExpr($1, $3); }
@@ -354,9 +367,10 @@ expression : TMAX TLPAREN arg_list TRPAREN { $$ = new NMaxExpr($3); }
            | expression TAND expression { $$ = new NANDExpr($1, $3); }
            | expression TXOR expression { $$ = new NXORExpr($1, $3); }
            | expression TOR expression { $$ = new NORExpr($1, $3); }
-           | TNEG expression { $$ = new NNegExpr($2); }
+           | TNOT expression { $$ = new NNotExpr($2); }
            | constant { $$ = $1; }
            | TIDENTIFIER { $$ = new NIdentifier($1); }
+           | TMINUS TIDENTIFIER { $$ = new NNegExpr(new NIdentifier($2)); }
            | TIDENTIFIER index_list { $$ = new NMatrixElemExpr(new NIdentifier($1), $2); }
            | TQUERYCHAR { $$ = new NQueryCharExpr(); }
            | TREFCHAR { $$ = new NRefCharExpr(); }
@@ -380,6 +394,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  filename = std::string(argv[1]);
   yyin = fopen(argv[1], "r");
 
   root = NULL;
@@ -393,5 +408,14 @@ int main(int argc, char *argv[]) {
 void yyerror (char *s) {
   extern int line_num;
 
-  std::cerr << "Line " << line_num << ": " << s << std::endl;
+  std::cerr << "\"" << filename << "\", line " << line_num << ": " << s
+            << " at or near ";
+  print_token(std::cerr, yychar);
+  std::cerr << std::endl;
+  
+  num_errors++;
+  if (num_errors > 50) {
+    std::cerr << "More than 50 errors" << std::endl;
+    exit(1);
+  } 
 }

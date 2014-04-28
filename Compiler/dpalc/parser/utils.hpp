@@ -10,6 +10,9 @@
 #include <string>
 
 std::string pad(int);
+void print_escaped_string(std::ostream& stream, char *str);
+void print_token(std::ostream &stream, int token);
+std::string token_to_string(int);
 
 
 #endif // UTILS_H_

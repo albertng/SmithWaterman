@@ -72,7 +72,7 @@ WHITESPACE [ \t\b\f\r\v]+
 {REFCHAR}    { return TREFCHAR; }
 {ROW}        { return TROW; }
 {COL}        { return TCOL; }
-"-"?{DIGIT}+ { yylval.int_const = atoi(yytext);
+{DIGIT}+     { yylval.int_const = atoi(yytext);
                return TINTCONST; }
 {TRUE}       { yylval.bool_const = true;
                return TBOOLCONST; }
@@ -106,7 +106,7 @@ WHITESPACE [ \t\b\f\r\v]+
 "&"          { return TAND; }
 "^"          { return TXOR; }
 "|"          { return TOR; }
-"~"          { return TNEG; }
+"~"          { return TNOT; }
 "\n"         { line_num++; }
 
 
@@ -122,7 +122,9 @@ WHITESPACE [ \t\b\f\r\v]+
                       BEGIN(INITIAL);
                     }
 
-. { std::cout << "Error in line " << line_num << std::endl; }
+. { yylval.error_msg = new std::string(yytext, yyleng);
+    return TERROR;
+  }
 
 %%
 
