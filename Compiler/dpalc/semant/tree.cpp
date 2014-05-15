@@ -10,6 +10,8 @@
 //      Albert Ng   Apr 24 2014     Initial parser implementation completed
 //      Albert Ng   May 13 2014     Type evaluation for expressions
 //                                  Added scoping
+//      Albert Ng   May 14 2014     Constant table
+//                                  DP Matrix symbol table entries
 
 #include <iostream>
 #include <cstdlib>
@@ -46,12 +48,12 @@ void NProgram::Semant() {
          it != const_decl_list->end(); it++) {
     (*it)->BuildSymbolTable();
   }
-  /*for (DPMatrixDeclList::iterator it = dp_matrix_decl_list->begin(); 
+  for (DPMatrixDeclList::iterator it = dp_matrix_decl_list->begin(); 
          it != dp_matrix_decl_list->end(); it++) {
-    semant_errors += (*it)->BuildSymbolTable(global_symbol_table);
+    (*it)->BuildSymbolTable();
   }
   
-  cur_scope = CELL;
+  /*cur_scope = CELL;
   SymbolTable cell_symbol_table;
   semant_errors += cell_func_decl->BuildSymbolTable(&cell_symbol_table);
   
@@ -542,6 +544,17 @@ void NConstMatrixElem::dump(std::ostream &stream, int depth) {
       (*it)->dump(stream, depth+1);
     }
   }
+}
+
+void NDPMatrixDecl::BuildSymbolTable() {
+  SymbolTableEntry* entry = new SymbolTableEntry(*(id->name),
+                                                 DP_MAT,
+                                                 type->GetDataType());
+  if (!global_symbol_table.AddEntry(entry)) {
+    std::cerr << "Error: Dynamic programming matrix identifier '" << *(id->name) << "' previously declared."
+              << std::endl;
+    semant_errors++;
+  } 
 }
 
 void NDPMatrixDecl::dump(std::ostream &stream, int depth) {

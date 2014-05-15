@@ -9,6 +9,8 @@
 //                                  Cell Function declaration nodes
 //      Albert Ng   Apr 24 2014     Initial parser implementation completed
 //      Albert Ng   May 13 2014     Type evaluation for expressions
+//      Albert Ng   May 14 2014     Constant table
+//                                  DP Matrix symbol table entries
 
 #ifndef TREE_H_
 #define TREE_H_
@@ -205,6 +207,7 @@ class NDPMatrixDecl : public Node {
     NType* type;
     NIdentifier* id;
     NDPMatrixDecl(NIdentifier* id, NType* type) : id(id), type(type) {}
+    void BuildSymbolTable();
     void dump(std::ostream& stream, int depth);
 };
 
