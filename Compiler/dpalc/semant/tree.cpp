@@ -12,6 +12,7 @@
 //                                  Added scoping
 //      Albert Ng   May 14 2014     Constant table
 //                                  DP Matrix symbol table entries
+//      Albert Ng   May 15 2014     Variable decls at start of function
 
 #include <iostream>
 #include <cstdlib>
@@ -571,6 +572,11 @@ void NCellFuncDecl::dump(std::ostream &stream, int depth) {
     (*it)->dump(stream, depth+2);
   }
 
+  stream << pad(depth+1) << "Variable Declarations" << std::endl;
+  for (VariableDeclList::iterator it = variable_decl_list->begin(); it != variable_decl_list->end(); it++) {
+    (*it)->dump(stream, depth+2);
+  }
+
   stream << pad(depth+1) << "Statements" << std::endl;
   for (StmtList::iterator it = stmt_list->begin(); it != stmt_list->end(); it++) {
     (*it)->dump(stream, depth+2);
@@ -582,6 +588,11 @@ void NConditionFuncDecl::dump(std::ostream &stream, int depth) {
 
   stream << pad(depth+1) << "Parameters" << std::endl;
   for (ParamList::iterator it = param_list->begin(); it != param_list->end(); it++) {
+    (*it)->dump(stream, depth+2);
+  }
+
+  stream << pad(depth+1) << "Variable Declarations" << std::endl;
+  for (VariableDeclList::iterator it = variable_decl_list->begin(); it != variable_decl_list->end(); it++) {
     (*it)->dump(stream, depth+2);
   }
 

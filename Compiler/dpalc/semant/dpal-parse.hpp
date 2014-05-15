@@ -177,9 +177,10 @@ typedef union YYSTYPE
   NParam* param;
   NParamScalar* param_scalar;
   NParamMatrix* param_matrix;
+  VariableDeclList* variable_decl_list;
+  NVariableDecl* variable_decl;
   StmtList* stmt_list;
   NStmt* stmt;
-  NVariableDecl* variable_decl;
   NIfStmt* if_stmt;
   NAssignStmt* assign_stmt;
   NSwitchStmt* switch_stmt;
@@ -191,7 +192,7 @@ typedef union YYSTYPE
   std::string* error_msg;
 }
 /* Line 1529 of yacc.c.  */
-#line 195 "dpal-parse.hpp"
+#line 196 "dpal-parse.hpp"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

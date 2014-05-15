@@ -9,6 +9,7 @@
 //                                  Cell Function declaration nodes
 //      Albert Ng   Apr 24 2014     Initial implementation completed
 //      Albert Ng   May 05 2014     Removed main() for semantic checker, externs
+//      Albert Ng   May 15 2014     Variable decls at start of function
 
 %{
 #include <iostream>
@@ -57,9 +58,10 @@ extern std::string filename;
   NParam* param;
   NParamScalar* param_scalar;
   NParamMatrix* param_matrix;
+  VariableDeclList* variable_decl_list;
+  NVariableDecl* variable_decl;
   StmtList* stmt_list;
   NStmt* stmt;
-  NVariableDecl* variable_decl;
   NIfStmt* if_stmt;
   NAssignStmt* assign_stmt;
   NSwitchStmt* switch_stmt;
@@ -144,9 +146,10 @@ extern std::string filename;
 %type <param> param
 %type <param_scalar> param_scalar
 %type <param_matrix> param_matrix
+%type <variable_decl_list> variable_decl_list
+%type <variable_decl> variable_decl
 %type <stmt_list> stmt_list
 %type <stmt> stmt
-%type <variable_decl> variable_decl
 %type <if_stmt> if_stmt
 %type <assign_stmt> assign_stmt
 %type <switch_stmt> switch_stmt
@@ -277,11 +280,11 @@ dp_matrix_decl_list : dp_matrix_decl_list dp_matrix_decl
 dp_matrix_decl : TDPMAT type TIDENTIFIER TLBRACKET TRBRACKET TLBRACKET TRBRACKET TSEMICOLON
                  { $$ = new NDPMatrixDecl(new NIdentifier($3), $2); } 
 
-cell_func_decl : TCELL TLPAREN param_list TRPAREN TLBRACE stmt_list TRBRACE
-                 { $$ = new NCellFuncDecl($3, $6); }
+cell_func_decl : TCELL TLPAREN param_list TRPAREN TLBRACE variable_decl_list stmt_list TRBRACE
+                 { $$ = new NCellFuncDecl($3, $6, $7); }
 
-condition_func_decl : TCONDITION TLPAREN param_list TRPAREN TLBRACE stmt_list TRBRACE
-                      { $$ = new NConditionFuncDecl($3, $6); }
+condition_func_decl : TCONDITION TLPAREN param_list TRPAREN TLBRACE variable_decl_list stmt_list TRBRACE
+                      { $$ = new NConditionFuncDecl($3, $6, $7); }
 
 param_list : param_list TCOMMA param
              { $$ = $1;
@@ -300,21 +303,25 @@ param_scalar : type TIDENTIFIER
 param_matrix : type TIDENTIFIER dimension_list
                { $$ = new NParamMatrix(new NIdentifier($2), $1, $3); }
 
-stmt_list : stmt_list stmt
-            { $$ = $1;
-              $$->push_back($2); }
-          | { $$ = new StmtList(); }
-
-stmt : variable_decl { $$ = $1; }
-     | if_stmt       { $$ = $1; }
-     | assign_stmt   { $$ = $1; }
-     | switch_stmt   { $$ = $1; }
-     | report_stmt   { $$ = $1; }
+variable_decl_list : variable_decl_list variable_decl
+                     { $$ = $1;
+                       $$->push_back($2); }
+                   | { $$ = new VariableDeclList(); }
 
 variable_decl : type TIDENTIFIER TSEMICOLON
                 { $$ = new NVariableDecl($1, new NIdentifier($2)); }
               | type TIDENTIFIER TASSIGN expression TSEMICOLON
                 { $$ = new NVariableDecl($1, new NIdentifier($2), $4); }
+
+stmt_list : stmt_list stmt
+            { $$ = $1;
+              $$->push_back($2); }
+          | { $$ = new StmtList(); }
+
+stmt : if_stmt       { $$ = $1; }
+     | assign_stmt   { $$ = $1; }
+     | switch_stmt   { $$ = $1; }
+     | report_stmt   { $$ = $1; }
 
 if_stmt : TIF TLPAREN expression TRPAREN TLBRACE stmt_list TRBRACE
           { $$ = new NIfStmt($3, $6); }

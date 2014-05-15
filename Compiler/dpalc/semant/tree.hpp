@@ -11,6 +11,7 @@
 //      Albert Ng   May 13 2014     Type evaluation for expressions
 //      Albert Ng   May 14 2014     Constant table
 //                                  DP Matrix symbol table entries
+//      Albert Ng   May 15 2014     Variable decls at start of function
 
 #ifndef TREE_H_
 #define TREE_H_
@@ -55,6 +56,7 @@ typedef std::vector<NConst*> ConstList;
 typedef std::vector<NConstMatrixElem*> ConstMatrixElemList;
 typedef std::vector<NDPMatrixDecl*> DPMatrixDeclList;
 typedef std::vector<NParam*> ParamList;
+typedef std::vector<NVariableDecl*> VariableDeclList;
 typedef std::vector<NStmt*> StmtList;
 typedef std::vector<NExpression*> ExpressionList;
 typedef std::vector<NCaseStmt*> CaseStmtList;
@@ -214,18 +216,20 @@ class NDPMatrixDecl : public Node {
 class NCellFuncDecl : public Node {
   public:
     ParamList* param_list;
+    VariableDeclList* variable_decl_list;
     StmtList* stmt_list;
-    NCellFuncDecl(ParamList* param_list, StmtList* stmt_list) : 
-                        param_list(param_list), stmt_list(stmt_list) {}
+    NCellFuncDecl(ParamList* param_list, VariableDeclList* variable_decl_list, StmtList* stmt_list) : 
+                        param_list(param_list), variable_decl_list(variable_decl_list), stmt_list(stmt_list) {}
     void dump(std::ostream& stream, int depth);
 };
 
 class NConditionFuncDecl : public Node {
   public:
     ParamList* param_list;
+    VariableDeclList* variable_decl_list;
     StmtList* stmt_list;
-    NConditionFuncDecl(ParamList* param_list, StmtList* stmt_list) :
-                        param_list(param_list), stmt_list(stmt_list) {}
+    NConditionFuncDecl(ParamList* param_list, VariableDeclList* variable_decl_list, StmtList* stmt_list) :
+                        param_list(param_list), variable_decl_list(variable_decl_list), stmt_list(stmt_list) {}
     void dump(std::ostream& stream, int depth);
 };
 
@@ -249,10 +253,7 @@ class NParamMatrix : public NParam {
     void dump(std::ostream& stream, int depth);
 };
 
-class NStmt : public Node {
-};
-
-class NVariableDecl : public NStmt {
+class NVariableDecl : public Node {
   public:
     NType* type; 
     NIdentifier* id;
@@ -260,6 +261,9 @@ class NVariableDecl : public NStmt {
     NVariableDecl(NType* type, NIdentifier* id, NExpression* value) : id(id), type(type), value(value) {}
     NVariableDecl(NType* type, NIdentifier* id) : id(id), type(type), value(NULL) {}
     void dump(std::ostream &stream, int depth);
+};
+
+class NStmt : public Node {
 };
 
 class NIfStmt : public NStmt {
