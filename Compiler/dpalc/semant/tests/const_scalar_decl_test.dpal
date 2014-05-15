@@ -1,0 +1,11 @@
+alphabet = {A, C, G, T};
+const unsigned C1 = 1;
+const signed C2 = -2;
+const bool C3 = false;
+const unsigned<10> C4 = 25;
+const signed<2> C5 = 10;
+const unsigned BITWIDTH = 10;
+const unsigned<BITWIDTH> C6 = -5;
+dpmat signed H[][];
+cell(){}
+condition(){}
