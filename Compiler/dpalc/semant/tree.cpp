@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <assert.h>
+#include <set>
 #include "symtab.hpp"
 #include "consttab.hpp"
 #include "tree.hpp"
@@ -38,34 +39,27 @@ static Scope cur_scope = GLOBAL;
 void NProgram::Semant() {
   cur_scope = GLOBAL;
 
-  /* Build 3 Symbol Tables:
+  /* Build 3 Symbol Tables and update AST with types:
    *   1. Global symbol table - alphabet characters, constants, DP matrices
    *   2. Cell function symbol table - parameters, variables in cell function
    *   3. Condition function symbol table - parameters, variables in condition function
    */
-  alphabet_decl->BuildSymbolTable();
+  alphabet_decl->Semant();
 
   for (ConstDeclList::iterator it = const_decl_list->begin();
          it != const_decl_list->end(); it++) {
-    (*it)->BuildSymbolTable();
+    (*it)->Semant();
   }
   for (DPMatrixDeclList::iterator it = dp_matrix_decl_list->begin(); 
          it != dp_matrix_decl_list->end(); it++) {
-    (*it)->BuildSymbolTable();
+    (*it)->Semant();
   }
   
-  /*cur_scope = CELL;
-  SymbolTable cell_symbol_table;
-  semant_errors += cell_func_decl->BuildSymbolTable(&cell_symbol_table);
+  cur_scope = CELL;
+  cell_func_decl->Semant();
   
   cur_scope = CONDITION;
-  SymbolTable condition_symbol_table;
-  semant_errors += condition_func_decl->BuildSymbolTable(&condition_symbol_table);*/
-  
-
-
-
-
+  condition_func_decl->Semant();
 
   if (semant_errors > 0) {
     std::cerr << "Exiting due to " << semant_errors << " semantic errors" << std::endl;
@@ -73,7 +67,7 @@ void NProgram::Semant() {
   }
 }
 
-void NAlphabetDecl::BuildSymbolTable() {
+void NAlphabetDecl::Semant() {
   // Check all characters have either all explicit values or all implicit values
   bool all_explicit = true;
   bool all_implicit = true;
@@ -99,10 +93,11 @@ void NAlphabetDecl::BuildSymbolTable() {
     }
   }
 
-  // Find maximum character bitwidth
+  // Fill in implicit values, and find maximum character bitwidth
   int max_val = 0;
   for (int i = 0; i < characters->size(); i++) {
     if (characters->at(i)->value == NULL) {
+      characters->at(i)->value = new NIntConst(i);
       max_val = max_val > i ? max_val : i;
     } else {
       max_val = max_val > characters->at(i)->value->value ? max_val : characters->at(i)->value->value;
@@ -118,20 +113,28 @@ void NAlphabetDecl::BuildSymbolTable() {
     }
   }
 
-  // Add alphabet characters to the symbol table
+  // Add alphabet characters to the symbol tables
   for (CharacterDeclList::iterator it = characters->begin(); it != characters->end(); it++) {
     SymbolTableEntry* entry = new SymbolTableEntry(*((*it)->id->name),
                                                    CHARACTER,
-                                                   DataType(UNSIGNED, max_bitwidth));
+                                                   DataType(UNSIGNED, max_bitwidth),
+                                                   true);
     if (!(global_symbol_table.AddEntry(entry))) {
-      std::cerr << "Error: Alphabet character '" << *((*it)->id->name) << "' previously declared."
+      std::cerr << "Error: Alphabet character identifier '" << *((*it)->id->name) << "' previously declared."
                 << std::endl;
       semant_errors++;
     }
+
+    ConstData ct_data;
+    ct_data.int_data = (*it)->value->value;
+    ConstTableEntry* ct_entry = new ConstTableEntry(*(*it)->id->name,
+                                                    INT_DATA,
+                                                    ct_data);
+    const_table.AddEntry(ct_entry);
   }
 }
 
-void NConstScalarDecl::BuildSymbolTable() {
+void NConstScalarDecl::Semant() {
   DataType dtype = type->GetDataType();
   DataType vtype = value->EvaluateType();
 
@@ -146,7 +149,8 @@ void NConstScalarDecl::BuildSymbolTable() {
   // Add to global symbol table
   SymbolTableEntry* entry = new SymbolTableEntry(*(id->name),
                                                  CONST_SCALAR,
-                                                 matchtype);
+                                                 vtype, // Don't care about bitwidth or signedness for constants
+                                                 true);
   if (!(global_symbol_table.AddEntry(entry))) {
     std::cerr << "Error: Constant scalar '" << *(id->name) << "' previously declared."
               << std::endl;
@@ -162,15 +166,15 @@ void NConstScalarDecl::BuildSymbolTable() {
   }
 }
 
-void NConstMatrixDecl::BuildSymbolTable() {
+void NConstMatrixDecl::Semant() {
   bool decl_error = false;
 
   // Check dimension list data types and build dimensions vector
   std::vector<int>* dimensions_vec = new std::vector<int>();
   for (ConstList::iterator it = dimensions->begin(); it != dimensions->end(); it++) {
     DataType dtype = (*it)->EvaluateType();
-    if (dtype.type_name == BOOL) {
-      std::cerr << "Error: Constant matrix '" << *(id->name) << "' dimensions must be integer type."
+    if (dtype.type_name != INT_CONST) {
+      std::cerr << "Error: Constant matrix '" << *(id->name) << "' dimensions must be constant integer type."
                 << std::endl;
       semant_errors++;
       decl_error = true;
@@ -178,7 +182,7 @@ void NConstMatrixDecl::BuildSymbolTable() {
       ConstData cdata = (*it)->GetConstData();
       ConstDataType cdatatype = (*it)->GetConstDataType();
       if (cdatatype != INT_DATA) {
-        std::cerr << "Error: Constant matrix '" << *(id->name) << "' dimensions must be integer type."
+        std::cerr << "Error: Constant matrix '" << *(id->name) << "' dimensions must be constant integer type."
                   << std::endl;
         semant_errors++;
         decl_error = true;
@@ -200,7 +204,7 @@ void NConstMatrixDecl::BuildSymbolTable() {
 
   // Check matrix dimensions valid
   if (matrix_element->CheckDimensions(*dimensions_vec) == false) {
-    std::cerr << "Error: Const matrix '" << *(id->name) << "' value assignment does not match declared dimensions."
+    std::cerr << "Error: Constant matrix '" << *(id->name) << "' value assignment does not match declared dimensions."
               << std::endl;
     semant_errors++;
     decl_error = true;
@@ -211,7 +215,8 @@ void NConstMatrixDecl::BuildSymbolTable() {
     SymbolTableEntry* entry = new SymbolTableEntry(*(id->name),
                                                    CONST_MAT,
                                                    matchtype,
-                                                   dimensions_vec);
+                                                   dimensions_vec,
+                                                   true);
     if (!(global_symbol_table.AddEntry(entry))) {
       std::cerr << "Error: Constant matrix '" << *(id->name) << "' previously declared."
                 << std::endl;
@@ -249,9 +254,15 @@ void NProgram::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Global Symbol Table" << std::endl;
   global_symbol_table.dump(stream, depth+1);
 
+  stream << pad(depth) << "Cell Symbol Table" << std::endl;
+  cell_symbol_table.dump(stream, depth+1);
+
+  stream << pad(depth) << "Condition Symbol Table" << std::endl;
+  condition_symbol_table.dump(stream, depth+1);
+ 
   stream << pad(depth) << "Constant Table" << std::endl;
   const_table.dump(stream, depth+1);
-  
+ 
   stream << pad(depth) << "Program" << std::endl;
   alphabet_decl->dump(stream, depth+1);
   for (ConstDeclList::iterator it = const_decl_list->begin(); it != const_decl_list->end(); it++) {
@@ -547,10 +558,11 @@ void NConstMatrixElem::dump(std::ostream &stream, int depth) {
   }
 }
 
-void NDPMatrixDecl::BuildSymbolTable() {
+void NDPMatrixDecl::Semant() {
   SymbolTableEntry* entry = new SymbolTableEntry(*(id->name),
                                                  DP_MAT,
-                                                 type->GetDataType());
+                                                 type->GetDataType(),
+                                                 true);
   if (!global_symbol_table.AddEntry(entry)) {
     std::cerr << "Error: Dynamic programming matrix identifier '" << *(id->name) << "' previously declared."
               << std::endl;
@@ -562,6 +574,44 @@ void NDPMatrixDecl::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "DP Matrix Declaration" << std::endl;
   id->dump(stream, depth+1);
   type->dump(stream, depth+1);
+}
+
+void NCellFuncDecl::Semant() {
+  // Check and add parameters to symbol table
+  for (ParamList::iterator it = param_list->begin(); it != param_list->end(); it++) {
+    (*it)->Semant();
+  }
+
+  // Check and add variables to symbol table
+  for (VariableDeclList::iterator it = variable_decl_list->begin(); it != variable_decl_list->end(); it++) {
+    (*it)->Semant();
+  }
+
+  // Statement TypeChecking
+  for (StmtList::iterator it = stmt_list->begin(); it != stmt_list->end(); it++) {
+    (*it)->Semant();
+  }
+
+  // Check all DP matrices are assigned unconditionally
+  std::list<std::string> dp_mat_names = global_symbol_table.GetSymbolNamesWithType(DP_MAT);
+  for (StmtList::iterator it = stmt_list->begin(); it != stmt_list->end(); it++) {
+    std::string dp_mat_name = (*it)->GetAssignDPMatrixName();
+    if (dp_mat_name != "") {
+      for (std::list<std::string>::iterator n_it = dp_mat_names.begin(); n_it != dp_mat_names.end(); n_it++) {
+        if ((*n_it) == dp_mat_name) {
+          dp_mat_names.erase(n_it);
+          break;
+        }
+      }
+    }
+  }
+  for (std::list<std::string>::iterator it = dp_mat_names.begin(); it != dp_mat_names.end(); it++) {
+    std::cerr << "Warning: Dynamic programming matrix '" << *it << "' may not be assigned in CELL() function."
+              << std::endl;
+  }
+
+  // TODO: Check other things:
+  // Max() function argument dependencies
 }
 
 void NCellFuncDecl::dump(std::ostream &stream, int depth) {
@@ -580,6 +630,23 @@ void NCellFuncDecl::dump(std::ostream &stream, int depth) {
   stream << pad(depth+1) << "Statements" << std::endl;
   for (StmtList::iterator it = stmt_list->begin(); it != stmt_list->end(); it++) {
     (*it)->dump(stream, depth+2);
+  }
+}
+
+void NConditionFuncDecl::Semant() {
+  // Check and add parameters to symbol table
+  for (ParamList::iterator it = param_list->begin(); it != param_list->end(); it++) {
+    (*it)->Semant();
+  }
+
+  // Check and add variables to symbol table
+  for (VariableDeclList::iterator it = variable_decl_list->begin(); it != variable_decl_list->end(); it++) {
+    (*it)->Semant();
+  }
+
+  // Statement TypeChecking
+  for (StmtList::iterator it = stmt_list->begin(); it != stmt_list->end(); it++) {
+    (*it)->Semant();
   }
 }
 
@@ -602,10 +669,95 @@ void NConditionFuncDecl::dump(std::ostream &stream, int depth) {
   }
 }
 
+void NParamScalar::Semant() {
+  SymbolTableEntry* entry = global_symbol_table.GetEntry(*(id->name));
+  if (entry != NULL) {
+    std::cerr << "Error: Scalar param identifier '" << *(id->name) << "' previously declared."
+              << std::endl;
+    semant_errors++;
+  } else {
+    entry = new SymbolTableEntry(*(id->name),
+                                 PARAM_SCALAR,
+                                 type->GetDataType(),
+                                 true);
+
+    SymbolTable* local_symbol_table;
+    switch(cur_scope) {
+      case CELL      : local_symbol_table = &cell_symbol_table;      break;
+      case CONDITION : local_symbol_table = &condition_symbol_table; break;
+      default        : assert(false); break;
+    }
+
+    if (!(cell_symbol_table.AddEntry(entry))) {
+      std::cerr << "Error: Scalar parameter identifier '" << *(id->name) << "' previously declared."
+                << std::endl;
+      semant_errors++;
+    }
+  }                                              
+}
+
 void NParamScalar::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Scalar Parameter Declaration" << std::endl;
   id->dump(stream, depth+1);
   type->dump(stream, depth+1);
+}
+
+void NParamMatrix::Semant() {
+  bool decl_error = false;
+
+  // Check identifier not previously declared
+  SymbolTableEntry* entry = global_symbol_table.GetEntry(*(id->name));
+  if (entry != NULL) {
+    std::cerr << "Error: Matrix parameter identifier '" << *(id->name) << "' previously declared."
+              << std::endl;
+    semant_errors++;
+    decl_error = true;
+  }
+
+  // Check dimension list data types and build dimensions vector
+  std::vector<int>* dimensions_vec = new std::vector<int>();
+  for (ConstList::iterator it = dimensions->begin(); it != dimensions->end(); it++) {
+    DataType dtype = (*it)->EvaluateType();
+    if (dtype.type_name != INT_CONST) {
+      std::cerr << "Error: Constant matrix '" << *(id->name) << "' dimensions must be constant integer type."
+                << std::endl;
+      semant_errors++;
+      decl_error = true;
+    } else {
+      ConstData cdata = (*it)->GetConstData();
+      ConstDataType cdatatype = (*it)->GetConstDataType();
+      if (cdatatype != INT_DATA) {
+        std::cerr << "Error: Constant matrix '" << *(id->name) << "' dimensions must be constant integer type."
+                  << std::endl;
+        semant_errors++;
+        decl_error = true;
+      }
+      dimensions_vec->push_back(cdata.int_data);
+    }
+  }
+
+  // Add symbol to function symbol table if no declaration error
+  if (decl_error == false) {
+    entry = new SymbolTableEntry(*(id->name),
+                                 PARAM_MAT,
+                                 type->GetDataType(),
+                                 dimensions_vec,
+                                 true);
+
+    SymbolTable* local_symbol_table;
+    switch(cur_scope) {
+      case CELL      : local_symbol_table = &cell_symbol_table;      break;
+      case CONDITION : local_symbol_table = &condition_symbol_table; break;
+      default        : assert(false); break;
+    }
+
+    // Add entry while checking if previously declared.
+    if (!(local_symbol_table->AddEntry(entry))) {
+      std::cerr << "Error: Matrix parameter identifier '" << *(id->name) << "' previously declared."
+                << std::endl;
+      semant_errors++;
+    }
+  }
 }
 
 void NParamMatrix::dump(std::ostream &stream, int depth) {
@@ -618,12 +770,76 @@ void NParamMatrix::dump(std::ostream &stream, int depth) {
   }
 }
 
+void NVariableDecl::Semant() {
+  // Check assignment type
+  bool init = false;
+  if (value != NULL) {
+    DataType dtype = type->GetDataType();
+    DataType vtype = value->EvaluateType();
+    DataType matchtype = DataType::Match(dtype, vtype);
+    if (matchtype.type_name == ERROR_TYPE && vtype.type_name != ERROR_TYPE) {
+      std::cerr << "Error: Identifer '" << *(id->name) << "' assign statement does not match type."
+                << std::endl;
+      semant_errors++;
+    }
+    init = true;
+  }
+
+  // Check if previously defined in global symbol table
+  SymbolTableEntry* entry = global_symbol_table.GetEntry(*(id->name));
+  if (entry != NULL) {
+    std::cerr << "Error: Variable identifier '" << *(id->name) << "' previously declared."
+              << std::endl;
+    semant_errors++;
+  }
+
+  entry = new SymbolTableEntry(*(id->name),
+                               VAR,
+                               type->GetDataType(),
+                               init);
+
+  SymbolTable* local_symbol_table;
+  switch(cur_scope) {
+    case CELL      : local_symbol_table = &cell_symbol_table;      break;
+    case CONDITION : local_symbol_table = &condition_symbol_table; break;
+    default        : assert(false); break;
+  }
+ 
+  if (!(local_symbol_table->AddEntry(entry))) {
+    std::cerr << "Error: Variable identifier '" << *(id->name) << "' previously declared."
+              << std::endl;
+    semant_errors++;
+  }
+}
+
 void NVariableDecl::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Variable Declaration" << std::endl;
   id->dump(stream, depth+1);
   type->dump(stream, depth+1);
   if (value) {
     value->dump(stream, depth+1);
+  }
+}
+
+void NIfStmt::Semant() {
+  // Check condition type
+  DataType cond_type = condition->EvaluateType();
+  if (cond_type.type_name != BOOL && cond_type.type_name != ERROR_TYPE) {
+    std::cerr << "Error: If statement condition must be bool type."
+              << std::endl;
+    semant_errors++;
+  }
+
+  // Check if statement block
+  for (StmtList::iterator it = if_body->begin(); it != if_body->end(); it++) {
+    (*it)->Semant();
+  }
+
+  // Check else statement block
+  if (else_body != NULL) {
+    for (StmtList::iterator it = else_body->begin(); it != else_body->end(); it++) {
+      (*it)->Semant();
+    }
   }
 }
 
@@ -646,6 +862,115 @@ void NIfStmt::dump(std::ostream &stream, int depth) {
   }
 }
 
+std::string NAssignStmt::GetAssignDPMatrixName() {
+  std::string dp_mat_name = "";
+
+  SymbolTableEntry* entry = global_symbol_table.GetEntry(*(id->name));
+  if (entry != NULL && entry->get_symboltype() == DP_MAT) {
+    dp_mat_name = *(id->name);
+  }
+
+  return dp_mat_name;
+}
+
+void NAssignStmt::Semant() {
+  // Check identifier declared
+  SymbolTableEntry* entry = global_symbol_table.GetEntry(*(id->name));
+  if (entry == NULL) {
+    SymbolTable* local_symbol_table;
+    switch(cur_scope) {
+      case CELL      : local_symbol_table = &cell_symbol_table;      break;
+      case CONDITION : local_symbol_table = &condition_symbol_table; break;
+      default        : assert(false); break;
+    }
+    entry = local_symbol_table->GetEntry(*(id->name));
+  }
+  if (entry == NULL) {
+    std::cerr << "Error: Variable '" << *(id->name) << "' not previously declared."
+              << std::endl;
+    semant_errors++;
+    return;
+  }
+
+  // Check identifier not constant
+  SymbolType symbol_type = entry->get_symboltype();
+  if (symbol_type == CONST_SCALAR || symbol_type == CONST_MAT) {
+    std::cerr << "Error: Cannot assign value to constant identifier '" << *(id->name) << "'."
+              << std::endl;
+    semant_errors++;
+    return;
+  }
+
+  // Check identifier not a character
+  if (symbol_type == CHARACTER) {
+    std::cerr << "Error: Cannot assign value to character identifier '" << *(id->name) << "'."
+              << std::endl;
+    semant_errors++;
+    return;
+  }
+
+  // Check identifier not a parameter
+  if (symbol_type == PARAM_SCALAR || symbol_type == PARAM_MAT) {
+    std::cerr << "Error: Cannot assign value to parameter identifier '" << *(id->name) << "'."
+              << std::endl;
+    semant_errors++;
+    return;
+  }
+
+  // Check identifier not a DP matrix if in condition() function
+  if (cur_scope == CONDITION && symbol_type == DP_MAT) {
+    std::cerr << "Error: Cannot assign value to dynamic programming matrix identifier '" 
+              << *(id->name) << "' in condition function."
+              << std::endl;
+    semant_errors++;
+    return;
+  }
+
+  // Check assignment data type
+  DataType dtype = entry->get_datatype();
+  DataType vtype = value->EvaluateType();
+  DataType matchtype = DataType::Match(dtype, vtype);
+  if (matchtype.type_name == ERROR_TYPE && vtype.type_name != ERROR_TYPE) {
+    std::cerr << "Error: Identifier '" << *(id->name) << "' assign statement does not match type."
+              << std::endl;
+    semant_errors++;
+  }
+
+  // Check DP matrix assignments
+  if (symbol_type == DP_MAT) {
+    if (cur_scope == CONDITION) {
+      std::cerr << "Error: Cannot assign dynamic programming matrix values within CONDITION() function."
+                << std::endl;
+      semant_errors++;
+    } else {
+      if (indices == NULL || indices->size() != 2) {
+        std::cerr << "Error: Dynamic programming matrix identifier '" << *(id->name) << "' reference must have 2 dimensions."
+                  << std::endl;
+        semant_errors++;
+      } else {
+        DataType rtype = indices->at(0)->EvaluateType();
+        DataType ctype = indices->at(1)->EvaluateType();
+        if (rtype.type_name != ROW_TYPE || ctype.type_name != COL_TYPE) {
+          std::cerr << "Error: Dynamic programming matrix assignment must have [row][col] indices."
+                    << std::endl;
+          semant_errors++;
+        }
+      }
+
+      // Check assignment value is a max function
+      if (value->IsMax() == false) {
+        std::cerr << "Error: Dynamic programming matrix assignment value must be the result of a MAX() call."
+                  << std::endl;
+        semant_errors++;
+      }  
+    }
+  } else if (indices != NULL) {
+    std::cerr << "Error: Assignment subscripted identifier '" << *(id->name) << "' is not a dynamic programming matrix."
+              << std::endl;
+    semant_errors++;
+  }
+}
+
 void NAssignStmt::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Assign Statement" << std::endl;
   
@@ -661,6 +986,78 @@ void NAssignStmt::dump(std::ostream &stream, int depth) {
   value->dump(stream, depth+1);
 }
 
+void NSwitchStmt::Semant() {
+  // Check there's at most one default statement
+  int num_defaults = 0;
+  for (CaseStmtList::iterator it = case_stmts->begin(); it != case_stmts->end(); it++) {
+    if ((*it)->IsDefault()) {
+      num_defaults++;
+    }
+  }
+  if (num_defaults > 1) {
+    std::cerr << "Error: Switch statement contains more than one default case."
+              << std::endl;
+    semant_errors++;
+  }
+
+  // Check case types
+  DataType control_type = control_expr->EvaluateType();
+  bool case_types_valid = true;
+  for (CaseStmtList::iterator it = case_stmts->begin(); it != case_stmts->end(); it++) {
+    if (!(*it)->IsDefault()) {
+      DataType case_type = (*it)->case_const->EvaluateType();
+      DataType match_type = DataType::Match(control_type, case_type);
+      if (match_type.type_name == ERROR_TYPE && control_type.type_name != ERROR_TYPE && case_type.type_name != ERROR_TYPE) {
+        std::cerr << "Error: Case constant type does not match switch control expression type."
+                  << std::endl;
+        semant_errors++;
+        case_types_valid = false;
+      }
+    }
+  }
+
+  // Check for duplicate cases
+  if (control_type.type_name != ERROR_TYPE && case_types_valid == true) {
+    if (control_type.type_name == BOOL) { // Bool Data
+      std::set<bool> case_constants;
+      for (CaseStmtList::iterator it = case_stmts->begin(); it != case_stmts->end(); it++) {
+        if (!(*it)->IsDefault()) {
+          ConstData cdata = (*it)->case_const->GetConstData();
+          ConstDataType cdatatype = (*it)->case_const->GetConstDataType();
+          assert(cdatatype == BOOL_DATA);
+
+          if (case_constants.count(cdata.bool_data) != 0) {
+            std::cerr << "Error: Duplicate case value '" << cdata.bool_data << "'."
+                      << std::endl;
+            semant_errors++;
+          }
+          case_constants.insert(cdata.bool_data);
+        }
+      }
+    } else {  // Int Data
+      std::set<int> case_constants;
+      for (CaseStmtList::iterator it = case_stmts->begin(); it != case_stmts->end(); it++) {
+        if (!(*it)->IsDefault()) {
+          ConstData cdata = (*it)->case_const->GetConstData();
+          ConstDataType cdatatype = (*it)->case_const->GetConstDataType();
+          assert(cdatatype == INT_DATA);
+
+          if (case_constants.count(cdata.int_data) != 0) {
+            std::cerr << "Error: Duplicate case value '" << cdata.int_data << "'."
+                      << std::endl;
+            semant_errors++;
+          }
+          case_constants.insert(cdata.int_data);
+        }
+      }
+    }
+  }
+      
+  for (CaseStmtList::iterator it = case_stmts->begin(); it != case_stmts->end(); it++) {
+    (*it)->Semant();
+  }
+}
+
 void NSwitchStmt::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Switch Statement" << std::endl;
   
@@ -673,12 +1070,22 @@ void NSwitchStmt::dump(std::ostream &stream, int depth) {
   }
 }
 
+bool NCaseStmt::IsDefault() {
+  return (case_const == NULL);
+}
+
+void NCaseStmt::Semant() {
+  for (StmtList::iterator it = case_body->begin(); it != case_body->end(); it++) {
+    (*it)->Semant();
+  }
+}
+
 void NCaseStmt::dump(std::ostream &stream, int depth) {
-  if (case_expr) {
+  if (case_const) {
     stream << pad(depth) << "Case Statement" << std::endl;
 
-    stream << pad(depth+1) << "Case Expression" << std::endl;
-    case_expr->dump(stream, depth+2);
+    stream << pad(depth+1) << "Case Constant" << std::endl;
+    case_const->dump(stream, depth+2);
   } else {
     stream << pad(depth) << "Default Case Statement" << std::endl;
   }
@@ -686,6 +1093,14 @@ void NCaseStmt::dump(std::ostream &stream, int depth) {
   stream << pad(depth+1) << "Case Body" << std::endl;
   for (StmtList::iterator it = case_body->begin(); it != case_body->end(); it++) {
     (*it)->dump(stream, depth+2);
+  }
+}
+
+void NReportStmt::Semant() {
+  if (cur_scope == CELL) {
+    std::cerr << "Error: Cannot invoke REPORT() in CELL() function."
+              << std::endl;
+    semant_errors++;
   }
 }
 
@@ -697,7 +1112,7 @@ DataType NMaxExpr::EvaluateType() {
   bool args_valid_type = true;
   for (ExpressionList::iterator it = arguments->begin(); it != arguments->end(); it++) {
     if (it == arguments->begin()) {
-      DataType type = arguments->front()->EvaluateType();
+      type = arguments->front()->EvaluateType();
       if (type.type_name == ERROR_TYPE) {
         args_valid_type = false;
       }
@@ -711,10 +1126,12 @@ DataType NMaxExpr::EvaluateType() {
   }
 
   if (args_valid_type == true && type.type_name == ERROR_TYPE) {
-    std::cerr << "Error: Max() argument types do not match."
+    std::cerr << "Error: MAX() argument types do not match."
               << std::endl;
     semant_errors++;
   }
+
+  // TODO: argument dependency graph
 
   return type;
 }
@@ -1152,31 +1569,7 @@ void NNegExpr::dump(std::ostream &stream, int depth) {
 }
 
 DataType NMatrixElemExpr::EvaluateType() {
-  bool indices_valid_type = true;
-  for (ExpressionList::iterator it = indices->begin(); it != indices->end(); it++) {
-    if (it == indices->begin()) {
-      DataType type = indices->front()->EvaluateType();
-      if (type.type_name == BOOL) {
-        std::cerr << "Error: Matrix element index must be integer type."
-                  << std::endl;
-        semant_errors++;
-        indices_valid_type = false;
-      } else if (type.type_name == ERROR_TYPE) {
-        indices_valid_type = false;
-      }
-    } else {
-      DataType index_type = (*it)->EvaluateType();
-      if (index_type.type_name == BOOL) {
-        std::cerr << "Error: Matrix element index must be integer type."
-                  << std::endl;
-        semant_errors++;
-        indices_valid_type = false;
-      } else if (index_type.type_name == ERROR_TYPE) {
-        indices_valid_type = false;
-      }
-    } 
-  }
-
+  // Check identifier previously declared
   SymbolTableEntry* entry = global_symbol_table.GetEntry(*(id->name));
   if (entry == NULL) {
     switch(cur_scope) {
@@ -1185,15 +1578,78 @@ DataType NMatrixElemExpr::EvaluateType() {
       default : break;
     }
   }
+  if (entry == NULL) {
+    std::cerr << "Error: Identifier '" << *(id->name) << "' previously undeclared."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
+    return type;
+  } 
 
-  if (indices_valid_type == true && entry != NULL) {
+  // Check indices are valid types
+  bool indices_valid = true;
+
+  // Dynamic programming matrix
+  if (entry->get_symboltype() == DP_MAT) {
+    // Check exactly 2 dimensions: first dependent on ROW, second dependent on COL
+    if (indices->size() != 2) {
+      std::cerr << "Error: Dynamic programming matrix identifier '" << *(id->name) << "' reference must have 2 dimensions."
+                << std::endl;
+      semant_errors++;
+      indices_valid = false;
+    } else {
+      DataType rtype = indices->at(0)->EvaluateType();
+      DataType ctype = indices->at(1)->EvaluateType();
+      if (rtype.type_name != ROW_TYPE && rtype.type_name != ERROR_TYPE) {
+        std::cerr << "Error: Dynamic programming matrix '" << *(id->name) << "' reference must have first index dependent upon ROW."
+                  << std::endl;
+        semant_errors++;
+        indices_valid = false;
+      }
+      if (ctype.type_name != COL_TYPE && ctype.type_name != ERROR_TYPE) {
+        std::cerr << "Error: Dynamic programming matrix '" << *(id->name) << "' reference must have second index dependent upon COL."
+                  << std::endl;
+        semant_errors++;
+        indices_valid = false;
+      }
+    }
+  } else { // Other matrix
+    // Check indices are integer type
+    for (ExpressionList::iterator it = indices->begin(); it != indices->end(); it++) {
+      DataType index_type = (*it)->EvaluateType();
+      if (index_type.type_name != UNSIGNED && index_type.type_name != SIGNED &&
+          index_type.type_name != INT_CONST && index_type.type_name != ERROR_TYPE) {
+        std::cerr << "Error: Matrix '" << *(id->name) << "' reference index must be integer type."
+                  << std::endl;
+        semant_errors++;
+        indices_valid = false;
+      } else if (index_type.type_name == ERROR_TYPE) {
+        indices_valid = false;
+      } 
+    }
+
+    // Check right number of dimensions
+    std::vector<int>* id_dims = entry->get_dimensions();
+    if (id_dims == NULL) {
+      std::cerr << "Error: Subscripted identifier '" << *(id->name) << "' is not an array."
+                << std::endl;
+      semant_errors++;
+      indices_valid = false;
+    } else if (id_dims->size() != indices->size()) {
+      std::cerr << "Error: Matrix '" << *(id->name) << "' reference does not match declared dimensions."
+                << std::endl;
+      semant_errors++;
+      indices_valid = false;
+    }
+  }
+
+  if (indices_valid == true) {
     type = entry->get_datatype();
   } else {
     type = DataType(ERROR_TYPE, 0);
   }
 
   return type;
-
 }
 
 void NMatrixElemExpr::dump(std::ostream &stream, int depth) {
@@ -1225,7 +1681,7 @@ void NRefCharExpr::dump(std::ostream &stream, int depth) {
 }
 
 DataType NRowExpr::EvaluateType() {
-  type = DataType(INT_CONST, 0);
+  type = DataType(ROW_TYPE, 0);
   return type;
 }
 
@@ -1234,7 +1690,7 @@ void NRowExpr::dump(std::ostream &stream, int depth) {
 }
 
 DataType NColExpr::EvaluateType() {
-  type = DataType(INT_CONST, 0);
+  type = DataType(COL_TYPE, 0);
   return type;
 }
 

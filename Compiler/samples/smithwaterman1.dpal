@@ -11,6 +11,7 @@ cell() {
   if (query_char != ref_char) {
     substitute = -2;
   }
+
   H[row][col] = max(0,
                     H[row-1][col-1] + substitute,
                     H[row-1][col]-1,

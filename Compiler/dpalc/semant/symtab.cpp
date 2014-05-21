@@ -5,6 +5,7 @@
 //      Albert Ng   May 05 2014     Initial Revision
 //      Albert Ng   May 13 2014     Added symbol table global instances
 //                                  Include datatype.hpp
+//      Albert Ng   May 21 2014     GetSymbolNamesWithType()
 
 #include "symtab.hpp"
 #include "utils.hpp"
@@ -24,8 +25,7 @@ void SymbolTableEntry::dump(std::ostream& stream, int depth) {
     case DP_MAT       : stream << "DP MAT\t";              break;
     case PARAM_SCALAR : stream << "PARAM SCALAR\t";        break;
     case PARAM_MAT    : stream << "PARAM MAT\t";           break;
-    case VAR_SCALAR   : stream << "VAR SCALAR\t";          break;
-    case VAR_MAT      : stream << "VAR MAT\t";             break;
+    case VAR          : stream << "VAR\t";             break;
     default           : stream << "UNKNOWN SYMBOL TYPE\t"; break;
   }
 
@@ -68,10 +68,12 @@ SymbolTableEntry* SymbolTable::GetEntry(std::string name) {
   return NULL;
 }
 
-std::list<std::string> SymbolTable::GetSymbolNames() {
+std::list<std::string> SymbolTable::GetSymbolNamesWithType(SymbolType stype) {
   std::list<std::string> symbol_names;
   for (std::list<SymbolTableEntry*>::iterator it = table_.begin(); it != table_.end(); it++) {
-    symbol_names.push_back((*it)->get_name());
+    if ((*it)->get_symboltype() == stype) {
+      symbol_names.push_back((*it)->get_name());
+    }
   }
   return symbol_names;
 }

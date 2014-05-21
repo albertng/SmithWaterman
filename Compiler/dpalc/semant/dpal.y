@@ -351,8 +351,10 @@ case_stmt_list : case_stmt_list case_stmt
                    $$->push_back($2); }
                | { $$ = new CaseStmtList(); }
 
-case_stmt : TCASE expression TCOLON stmt_list
+case_stmt : TCASE constant TCOLON stmt_list
             { $$ = new NCaseStmt($2, $4); }
+          | TCASE TIDENTIFIER TCOLON stmt_list
+            { $$ = new NCaseStmt(new NIdConst(new NIdentifier($2)), $4); }
           | TDEFAULT TCOLON stmt_list
             { $$ = new NCaseStmt($3); }
 
@@ -405,9 +407,9 @@ void yyerror (char *s) {
   extern int line_num;
 
   std::cerr << "\"" << filename << "\", line " << line_num << ": " << s
-            << " at or near ";
+            << " at or near '";
   print_token(std::cerr, yychar);
-  std::cerr << std::endl;
+  std::cerr << "'" << std::endl;
   
   num_errors++;
   if (num_errors > 50) {

@@ -150,7 +150,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 34 "dpal.y"
+#line 35 "dpal.y"
 {
   NProgram* program;
   NAlphabetDecl* alphabet_decl;

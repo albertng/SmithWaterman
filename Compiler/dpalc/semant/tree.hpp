@@ -88,7 +88,7 @@ class NAlphabetDecl : public Node {
   public:
     CharacterDeclList* characters;
     NAlphabetDecl(CharacterDeclList* characters) : characters(characters) {}
-    void BuildSymbolTable();
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
     
@@ -105,6 +105,7 @@ class NExpression : public Node {
   public:
     DataType type;
     virtual DataType EvaluateType() = 0;
+    virtual bool IsMax() { return false; }
 };
 
 class NIdentifier : public NExpression {
@@ -165,7 +166,7 @@ class NType : public Node {
 
 class NConstDecl : public Node {
   public:
-    virtual void BuildSymbolTable() = 0;
+    virtual void Semant() = 0;
 };
 
 class NConstScalarDecl : public NConstDecl {
@@ -174,7 +175,7 @@ class NConstScalarDecl : public NConstDecl {
     NType* type;
     NConst* value;
     NConstScalarDecl(NIdentifier* id, NType* type, NConst* value) : id(id), type(type), value(value) {}
-    void BuildSymbolTable();
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -186,7 +187,7 @@ class NConstMatrixDecl : public NConstDecl {
     NConstMatrixElem* matrix_element;
     NConstMatrixDecl(NIdentifier* id, NType* type, ConstList* dimensions, NConstMatrixElem* matrix_element) : 
                                   id(id), type(type), dimensions(dimensions), matrix_element(matrix_element) {}
-    void BuildSymbolTable();
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -209,7 +210,7 @@ class NDPMatrixDecl : public Node {
     NType* type;
     NIdentifier* id;
     NDPMatrixDecl(NIdentifier* id, NType* type) : id(id), type(type) {}
-    void BuildSymbolTable();
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -220,6 +221,7 @@ class NCellFuncDecl : public Node {
     StmtList* stmt_list;
     NCellFuncDecl(ParamList* param_list, VariableDeclList* variable_decl_list, StmtList* stmt_list) : 
                         param_list(param_list), variable_decl_list(variable_decl_list), stmt_list(stmt_list) {}
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -230,10 +232,13 @@ class NConditionFuncDecl : public Node {
     StmtList* stmt_list;
     NConditionFuncDecl(ParamList* param_list, VariableDeclList* variable_decl_list, StmtList* stmt_list) :
                         param_list(param_list), variable_decl_list(variable_decl_list), stmt_list(stmt_list) {}
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
 class NParam : public Node {
+  public:
+    virtual void Semant() = 0;
 };
 
 class NParamScalar : public NParam {
@@ -241,6 +246,7 @@ class NParamScalar : public NParam {
     NIdentifier* id;
     NType* type;
     NParamScalar(NIdentifier*id, NType* type) : id(id), type(type) {}
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -250,6 +256,7 @@ class NParamMatrix : public NParam {
     NType* type;
     ConstList* dimensions;
     NParamMatrix(NIdentifier* id, NType* type, ConstList* dimensions) : id(id), type(type), dimensions(dimensions) {}
+    void Semant();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -258,12 +265,16 @@ class NVariableDecl : public Node {
     NType* type; 
     NIdentifier* id;
     NExpression* value;
-    NVariableDecl(NType* type, NIdentifier* id, NExpression* value) : id(id), type(type), value(value) {}
     NVariableDecl(NType* type, NIdentifier* id) : id(id), type(type), value(NULL) {}
+    NVariableDecl(NType* type, NIdentifier* id, NExpression* value) : id(id), type(type), value(value) {}
+    void Semant();
     void dump(std::ostream &stream, int depth);
 };
 
 class NStmt : public Node {
+  public:
+    virtual void Semant() = 0;
+    virtual std::string GetAssignDPMatrixName() { return ""; }
 };
 
 class NIfStmt : public NStmt {
@@ -275,6 +286,7 @@ class NIfStmt : public NStmt {
                                       condition(condition), if_body(if_body), else_body(NULL) {}
     NIfStmt(NExpression* condition, StmtList* if_body, StmtList* else_body) : 
                                       condition(condition), if_body(if_body), else_body(else_body) {}
+    void Semant();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -287,6 +299,8 @@ class NAssignStmt : public NStmt {
                                       id(id), indices(indices), value(value) {}
     NAssignStmt(NIdentifier* id, NExpression* value) :
                                       id(id), indices(NULL), value(value) {}
+    void Semant();
+    std::string GetAssignDPMatrixName();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -296,21 +310,25 @@ class NSwitchStmt : public NStmt {
     CaseStmtList* case_stmts;
     NSwitchStmt(NExpression* control_expr, CaseStmtList* case_stmts) :
                             control_expr(control_expr), case_stmts(case_stmts) {}
+    void Semant();
     void dump(std::ostream &stream, int depth);
 };
 
 class NCaseStmt : public Node {
   public:
-    NExpression* case_expr;
+    NConst* case_const;
     StmtList* case_body;
-    NCaseStmt(NExpression* case_expr, StmtList* case_body) : case_expr(case_expr), case_body(case_body) {}
-    NCaseStmt(StmtList* case_body) : case_expr(NULL), case_body(case_body) {}
+    NCaseStmt(NConst* case_const, StmtList* case_body) : case_const(case_const), case_body(case_body) {}
+    NCaseStmt(StmtList* case_body) : case_const(NULL), case_body(case_body) {}
+    bool IsDefault();
+    void Semant();
     void dump(std::ostream &stream, int depth);
 };
 
 class NReportStmt : public NStmt {
   public:
     NReportStmt() {}
+    void Semant();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -319,6 +337,7 @@ class NMaxExpr : public NExpression {
     ExpressionList* arguments;
     NMaxExpr(ExpressionList* arguments) : arguments(arguments) {}
     DataType EvaluateType();
+    bool IsMax() { return true; }
     void dump(std::ostream &stream, int depth);
 };
 

@@ -14,7 +14,7 @@ const unsigned<10> VALUE = 3;
 const unsigned<BITWIDTH> C5[ARRAYSIZE] = {VALUE, VALUE};
 
 const bool C6[2] = {true, false};
-const bool C7[1][ARRAYSIZE] = {C5};
+const bool C7[ARRAYSIZE] = {false, true};
 
 dpmat signed H[][];
 cell(){}

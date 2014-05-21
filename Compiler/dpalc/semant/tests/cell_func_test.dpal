@@ -1,6 +1,6 @@
 alphabet = {A,C,G,T};
 const unsigned BITWIDTH = 18;
-dpmat signed H[][];
+dpmat signed<BITWIDTH> H[][];
 cell(signed match, signed<10> mismatch, 
      unsigned arr[5], signed<BITWIDTH> sub_mat[4][4]) {
 }
