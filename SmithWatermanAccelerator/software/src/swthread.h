@@ -146,7 +146,7 @@ class SWThread {
     static void* Align(void* args);
 
     // Helper function to resize the matrices to the given dimensions
-    static void ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
+    static bool ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols);
 
     // Actual pthread instance
     pthread_t thread_;

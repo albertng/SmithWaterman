@@ -8,6 +8,7 @@
 //      Albert Ng   Oct 22 2013     Changed AddQuery to take a string
 //                                  Added query name
 //      Albert Ng   Oct 28 2013     Deleted query seq char array in RemoveQuery()
+//      Albert Ng   May 21 2014     Query hit count
 
 #include <pthread.h>
 #include <map>
@@ -21,6 +22,8 @@
 QuerySeqManager::QuerySeqManager() {
   pthread_mutex_init(&query_jobcount_map_mutex_, NULL);
   pthread_mutex_init(&query_seq_map_mutex_, NULL);
+  pthread_mutex_init(&query_hitcount_map_mutex_, NULL);
+  pthread_mutex_init(&query_errors_map_mutex_, NULL);
   cur_query_id_ = 0;
 }
 
@@ -45,6 +48,14 @@ int QuerySeqManager::AddQuery(std::string query_name, std::string query_string) 
   query_jobcount_map_[query_id] = 1;
   pthread_mutex_unlock(&query_jobcount_map_mutex_);
 
+  pthread_mutex_lock(&query_hitcount_map_mutex_);
+  query_hitcount_map_[query_id] = 0;
+  pthread_mutex_unlock(&query_hitcount_map_mutex_);
+
+  pthread_mutex_lock(&query_errors_map_mutex_);
+  query_errors_map_[query_id] = 0;
+  pthread_mutex_unlock(&query_errors_map_mutex_);
+  
   // NOTE: no mutex guards. Be careful.
   cur_query_id_++;
   return query_id;
@@ -125,3 +136,39 @@ std::string QuerySeqManager::GetQueryName(int query_id) {
 
   return query_seq.name;
 }
+
+// Note: No error handling for invalid query_ids
+void QuerySeqManager::IncHitCount(int query_id) {
+  pthread_mutex_lock(&query_hitcount_map_mutex_);
+  query_hitcount_map_[query_id]++;
+  pthread_mutex_unlock(&query_hitcount_map_mutex_);
+}
+
+// Note: No error handling for invalid query_ids
+int QuerySeqManager::GetHitCount(int query_id) {
+  int hit_count;
+
+  pthread_mutex_lock(&query_hitcount_map_mutex_);
+  hit_count = query_hitcount_map_[query_id];
+  pthread_mutex_unlock(&query_hitcount_map_mutex_);
+  
+  return hit_count;
+}
+
+// Note: No error handling for invalid query_ids
+void QuerySeqManager::RecordError(int query_id, int error) {
+  pthread_mutex_lock(&query_errors_map_mutex_);
+  query_errors_map_[query_id] |= error;
+  pthread_mutex_unlock(&query_errors_map_mutex_);
+}
+  
+// Note: No error handling for invalid query_ids
+int QuerySeqManager::GetErrors(int query_id) {
+  int errors;
+
+  pthread_mutex_lock(&query_errors_map_mutex_);
+  errors = query_errors_map_[query_id];
+  pthread_mutex_unlock(&query_errors_map_mutex_);
+  
+  return errors;
+}  

@@ -7,6 +7,7 @@
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 27 2014     Changed to return requests, not changing server state
 //                                  Added JobRequest
+//      Albert Ng   May 21 2014     Query hit count
 
 #ifndef SERVERCOMM_H_
 #define SERVERCOMM_H_
@@ -30,6 +31,8 @@
 #define SYNTAX_ERROR_PARAMS 0x80
 #define SYNTAX_ERROR_THRESHOLDMAX 0x100
 #define SYNTAX_ERROR_QUERYLEN 0x200
+#define WARNING_HITSMAX 0x400
+#define WARNING_MEM 0x800
 #define SYNTAX_ERROR_QUERYSEQ_STR "Error in query sequence.\n"
 #define SYNTAX_ERROR_REFNAME_STR "Error in ref seq name.\n"
 #define SYNTAX_ERROR_CHRNAME_STR "Error in chr seq name.\n"
@@ -40,6 +43,8 @@
 #define SYNTAX_ERROR_PARAMS_STR "Error in scoring parameters.\n"
 #define SYNTAX_ERROR_THRESHOLDMAX_STR "Error: threshold cannot exceed 100000.\n"
 #define SYNTAX_ERROR_QUERYLEN_STR "Error: query length cannot exceed 2000.\n"
+#define WARNING_HITSMAX_STR "Warning: Too many hits found - not all hits may be reported. Consider increasing the score threshold.\n"
+#define WARNING_MEM_STR "Warning: Too many consecutive high scoring cells - not all hits are reported. Consider increasing the score threshold.\n"
 
 class ServerComm {
   public:

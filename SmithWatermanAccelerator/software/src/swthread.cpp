@@ -105,7 +105,11 @@ void SWThread::ResetMatrices() {
   pthread_mutex_unlock(&matrices_mutex_);
 }
 
-void SWThread::ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols) {
+bool SWThread::ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnOp*** dir_i_matrix, AlnOp*** dir_d_matrix, int old_rows, int old_cols, int new_rows, int new_cols) {
+  if (new_rows * new_cols > MAX_DPMAT_NUM_CELLS) {
+    return false;
+  }
+
   for (int i = 0; i < old_rows; i++) {
     delete[] (*dir_h_matrix)[i];
     delete[] (*dir_m_matrix)[i];
@@ -127,6 +131,8 @@ void SWThread::ResizeMatrices(AlnOp*** dir_h_matrix, AlnOp*** dir_m_matrix, AlnO
     (*dir_i_matrix)[i] = new AlnOp[new_cols];
     (*dir_d_matrix)[i] = new AlnOp[new_cols];
   }
+  
+  return true;
 }
 
 // Checks for terminating packets, indicated by ref_len = 0 for the high
@@ -172,8 +178,6 @@ void* SWThread::Align(void* args) {
 #endif
     char* ref_seq = ref_seq_manager->GetRefSeq(hsr.ref_id, hsr.chr_id, hsr.offset, ref_len);
 
-
-
 #ifdef SWTIMING
     clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
@@ -194,7 +198,8 @@ void* SWThread::Align(void* args) {
     // Reallocate matrix memory if more memory needed
     pthread_mutex_lock(matrices_mutex);   // Using matrices, shared resource
     if ((ref_len + 1 > *matrix_rows) || (query_len + 1 > *matrix_cols)) {
-      SWThread::ResizeMatrices(dir_h_matrix, dir_m_matrix, dir_i_matrix, dir_d_matrix, *matrix_rows, *matrix_cols, ref_len + 1, query_len + 1);
+      bool resize_success = SWThread::ResizeMatrices(dir_h_matrix, dir_m_matrix, dir_i_matrix, dir_d_matrix, *matrix_rows, *matrix_cols, ref_len + 1, query_len + 1);
+      assert(resize_success == true);
       *matrix_rows = ref_len + 1;
       *matrix_cols = query_len + 1;
     }
@@ -416,6 +421,7 @@ void* SWThread::Align(void* args) {
         // Ignore alignments starting in the overlap region to prevent reporting duplicated
         //   alignments across job borders
         hsr_alignments.insert(aln_res);
+        query_seq_manager->IncHitCount(hsr.query_id);
       }
     }
 

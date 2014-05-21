@@ -665,6 +665,25 @@ int main(int argc, char *argv[]) {
         }
       }
       
+      // Check and send warning if max query hits found
+      for (std::map<int, std::vector<int>>::iterator m_it = query_ids.begin(); m_it != query_ids.end(); ++m_it) {
+        for (std::vector<int>::iterator q_it = (m_it->second).begin(); q_it != (m_it->second).end(); ++q_it) {
+          if (query_seq_manager.GetHitCount(*q_it) == MAX_QUERY_HITS) {
+            errors |= WARNING_HITSMAX;
+          }
+        }
+      }
+      
+      // Check for other query errors
+      for (std::map<int, std::vector<int>>::iterator m_it = query_ids.begin(); m_it != query_ids.end(); ++m_it) {
+        for (std::vector<int>::iterator q_it = (m_it->second).begin(); q_it != (m_it->second).end(); ++q_it) {
+          int query_errors = query_seq_manager.GetErrors(*q_it);
+          if (query_errors & QUERY_ERROR_MEM) {
+            errors |= WARNING_MEM;
+          }
+        }
+      }
+      
       // Reclaim memory
       for (std::map<int, std::vector<int>>::iterator m_it = query_ids.begin(); m_it != query_ids.end(); ++m_it) {
         for (std::vector<int>::iterator q_it = (m_it->second).begin(); q_it != (m_it->second).end(); ++q_it) {

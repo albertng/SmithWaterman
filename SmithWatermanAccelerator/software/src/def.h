@@ -30,9 +30,6 @@
 
 #undef SIM_PICO
 
-// Server configuration definitions
-#define NUM_SW_THREADS 12
-
 // Hardware Parameter definitions
 #define NUM_FPGAS 6
 #define NUM_ENGINES_PER_FPGA 5
@@ -41,6 +38,11 @@
 #define MAX_QUERY_LEN 2000
 #define NT_PER_BYTE 4
 #define MAX_THRESHOLD 100000
+
+// Server configuration definitions
+#define NUM_SW_THREADS 12
+#define MAX_QUERY_HITS 10000
+#define MAX_DPMAT_NUM_CELLS MAX_QUERY_LEN*MAX_QUERY_LEN*5
 
 // Client-Server communication definitions
 #define END_OF_QUERY_GROUP "END"

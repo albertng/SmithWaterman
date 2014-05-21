@@ -12,6 +12,7 @@
 //      Albert Ng   Oct 18 2013     Fixed engine job queue empty bug
 //      Albert Ng   Oct 22 2013     Added SwAffineGapParams to HighScoreRegion
 //      Albert Ng   Nov 19 2013     Added chromosomes
+//      Albert Ng   May 21 2014     Query hit count
 
 #include <pthread.h>
 #include <stdint.h>
@@ -191,6 +192,12 @@ void* ResultsReaderThread::ReadResults(void* args) {
 //   length extension at the front (bounded by the job boundaries).
 void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, ThreadQueue<HighScoreRegion>* hsr_queue, 
                                    QuerySeqManager* query_seq_manager, RefSeqManager* ref_seq_manager) {
+  // Only store HSR if query didn't reach maximum hit count
+  int hit_count = query_seq_manager->GetHitCount(job.query_id);
+  if (hit_count >= MAX_QUERY_HITS) {
+    return;
+  }
+
   std::vector<int> chr_ids;
   std::vector<long long int> chr_offsets;
   std::vector<long long int> chr_start_coords;
@@ -230,8 +237,12 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
       
       //std::cout << "HSR: " << hsr.chr_id << " " << hsr.offset << " " << hsr.len << std::endl;
       
-      hsr_queue->Push(hsr);
-      query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
+      if (hsr.len * query_len < MAX_DPMAT_NUM_CELLS) {
+        hsr_queue->Push(hsr);
+        query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
+      } else {
+        query_seq_manager->RecordError(job.query_id, QUERY_ERROR_MEM);
+      }
     }
   } else {
     HighScoreRegion hsr;
@@ -245,8 +256,12 @@ void ResultsReaderThread::StoreHSR(CoalescedHighScoreBlock chsb, EngineJob job, 
     hsr.overlap_offset = job.overlap_offset;      
     hsr.pos_strand     = job.pos_strand; 
     
-    hsr_queue->Push(hsr);
-    query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
+    if (hsr.len * query_len < MAX_DPMAT_NUM_CELLS) {
+      hsr_queue->Push(hsr);
+      query_seq_manager->IncHighScoreRegionCount(hsr.query_id);
+    } else {
+      query_seq_manager->RecordError(job.query_id, QUERY_ERROR_MEM);
+    }
   }    
 }
 

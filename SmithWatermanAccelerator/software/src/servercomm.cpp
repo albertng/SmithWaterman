@@ -8,6 +8,7 @@
 //      Albert Ng   Nov 06 2013     Added error handling to GetQueryGroup()
 //      Albert Ng   Nov 19 2013     Added chromosomes
 //      Albert Ng   Jan 27 2014     Changed to return requests, not changing server state
+//      Albert Ng   May 21 2014     Query hit count
 
 #include <sstream>
 #include <iostream>
@@ -207,6 +208,14 @@ void ServerComm::EndQueryGroup(unsigned int errors) {
   }
   if (errors & SYNTAX_ERROR_THRESHOLDMAX) {
     client_sock_.Send(SYNTAX_ERROR_THRESHOLDMAX_STR);
+  }
+  if (errors & WARNING_HITSMAX) {
+    client_sock_.Send(WARNING_HITSMAX_STR);
+    errors &= (~WARNING_HITSMAX);
+  }
+  if (errors & WARNING_MEM) {
+    client_sock_.Send(WARNING_MEM_STR);
+    errors &= (~WARNING_MEM);
   }
   if (errors == 0) {
     client_sock_.Send(QUERY_GROUP_SUCCESS);

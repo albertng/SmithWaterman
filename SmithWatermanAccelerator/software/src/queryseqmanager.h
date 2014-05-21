@@ -7,6 +7,7 @@
 //      Albert Ng   Oct 17 2013     Renamed SetQueryNumEngines to SetQueryNumJobs
 //      Albert Ng   Oct 22 2013     Changed AddQuery to take a string
 //                                  Added query name
+//      Albert Ng   May 21 2014     Query hit count
 
 
 #ifndef QUERYSEQMANAGER_H_
@@ -15,6 +16,8 @@
 #include <pthread.h>
 #include <map>
 #include <string>
+
+#define QUERY_ERROR_MEM 0x1
 
 // Query Sequence Manager class
 //   Handles bookkeeping of query sequences and their alignment jobs
@@ -58,6 +61,18 @@ class QuerySeqManager {
     // Get the query name from the query ID
     std::string GetQueryName(int query_id);
 
+    // Increment the number of hits for a query
+    void IncHitCount(int query_id);
+    
+    // Get the number of hits for a query
+    int GetHitCount(int query_id);
+
+    // Record an error code for a query
+    void RecordError(int query_id, int error);
+    
+    // Get the error code for a query
+    int GetErrors(int query_id);
+
   private:
     // Useful struct to simplify some code
     // Don't want to use std::string because ref seq manager uses char* and
@@ -81,6 +96,18 @@ class QuerySeqManager {
     // Mutex guarding query sequence map, since the map will be accessed
     //   by several threads
     pthread_mutex_t query_seq_map_mutex_;
+
+    // Number of hits per query
+    std::map<int, int> query_hitcount_map_;
+    
+    // Mutex guarding query hitcount map
+    pthread_mutex_t query_hitcount_map_mutex_;
+
+    // Query error codes
+    std::map<int, int> query_errors_map_;
+    
+    // Mutex guarding query error codes map
+    pthread_mutex_t query_errors_map_mutex_;
 
     // Next query ID to assign
     int cur_query_id_;
