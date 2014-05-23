@@ -85,6 +85,4 @@ void SymbolTable::dump(std::ostream& stream, int depth) {
   }
 }
 
-SymbolTable global_symbol_table;
-SymbolTable cell_symbol_table;
-SymbolTable condition_symbol_table;
+SymbolTable symbol_table;

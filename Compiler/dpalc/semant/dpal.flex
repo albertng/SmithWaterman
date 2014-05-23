@@ -6,6 +6,7 @@
  *      Albert Ng   Apr 16 2014     Added comment capability
  *      Albert Ng   Apr 23 2014     Added dpmat token
  *      Albert Ng   Apr 24 2014     Added default token
+ *      Albert Ng   May 23 2014     Removed condition and report tokens
  */
 
 %option noyywrap
@@ -24,6 +25,7 @@ int line_num = 1;
 
 ALPHABET   (?i:alphabet)
 DPMAT      (?i:dpmat)
+SCORE      (?i:score)
 CONST      (?i:const)
 TRUE       (?i:true)
 FALSE      (?i:false)
@@ -31,13 +33,11 @@ UNSIGNED   (?i:unsigned)
 SIGNED     (?i:signed)
 BOOL       (?i:bool)
 CELL       (?i:cell)
-CONDITION  (?i:condition)
 IF         (?i:if)
 ELSE       (?i:else)
 SWITCH     (?i:switch)
 CASE       (?i:case)
 DEFAULT    (?i:default)
-REPORT     (?i:report)
 MAX        (?i:max)
 QUERYCHAR  (?i:query_char)
 REFCHAR    (?i:ref_char)
@@ -60,13 +60,11 @@ WHITESPACE [ \t\b\f\r\v]+
 {SIGNED}     { return TSIGNED; }
 {BOOL}       { return TBOOL; }
 {CELL}       { return TCELL; }
-{CONDITION}  { return TCONDITION; }
 {IF}         { return TIF; }
 {ELSE}       { return TELSE; }
 {SWITCH}     { return TSWITCH; }
 {CASE}       { return TCASE; }
 {DEFAULT}    { return TDEFAULT; }
-{REPORT}     { return TREPORT; }
 {MAX}        { return TMAX; }
 {QUERYCHAR}  { return TQUERYCHAR; }
 {REFCHAR}    { return TREFCHAR; }
@@ -78,6 +76,8 @@ WHITESPACE [ \t\b\f\r\v]+
                return TBOOLCONST; }
 {FALSE}      { yylval.bool_const = false;
                return TBOOLCONST; }
+{SCORE}      { yylval.id_name = new std::string("score");
+               return TIDENTIFIER; }
 {ID}         { yylval.id_name = new std::string(yytext, yyleng);
                return TIDENTIFIER; }
 "="          { return TASSIGN; }

@@ -10,6 +10,7 @@
 //      Albert Ng   Apr 24 2014     Initial implementation completed
 //      Albert Ng   May 05 2014     Removed main() for semantic checker, externs
 //      Albert Ng   May 15 2014     Variable decls at start of function
+//      Albert Ng   May 23 2014     Removed condition function and report statement
 
 %{
 #include <iostream>
@@ -53,7 +54,6 @@ extern std::string filename;
   DPMatrixDeclList* dp_matrix_decl_list;
   NDPMatrixDecl* dp_matrix_decl;
   NCellFuncDecl* cell_func_decl;
-  NConditionFuncDecl* condition_func_decl;
   ParamList* param_list;
   NParam* param;
   NParamScalar* param_scalar;
@@ -67,7 +67,6 @@ extern std::string filename;
   NSwitchStmt* switch_stmt;
   NCaseStmt* case_stmt;
   CaseStmtList* case_stmt_list;
-  NReportStmt* report_stmt;
   ExpressionList* expression_list;
   NExpression* expression;
   std::string* error_msg;
@@ -80,13 +79,11 @@ extern std::string filename;
 %token <token> TSIGNED
 %token <token> TBOOL
 %token <token> TCELL
-%token <token> TCONDITION
 %token <token> TIF
 %token <token> TELSE
 %token <token> TSWITCH
 %token <token> TCASE
 %token <token> TDEFAULT
-%token <token> TREPORT
 %token <token> TMAX
 %token <token> TQUERYCHAR
 %token <token> TREFCHAR
@@ -141,7 +138,6 @@ extern std::string filename;
 %type <dp_matrix_decl_list> dp_matrix_decl_list
 %type <dp_matrix_decl> dp_matrix_decl
 %type <cell_func_decl> cell_func_decl
-%type <condition_func_decl> condition_func_decl
 %type <param_list> param_list
 %type <param> param
 %type <param_scalar> param_scalar
@@ -155,7 +151,6 @@ extern std::string filename;
 %type <switch_stmt> switch_stmt
 %type <case_stmt_list> case_stmt_list
 %type <case_stmt> case_stmt
-%type <report_stmt> report_stmt
 %type <expression_list> index_list
 %type <expression> expression
 %type <expression_list> arg_list
@@ -173,8 +168,8 @@ extern std::string filename;
 
 %%
 
-program : alphabet_decl const_decl_list dp_matrix_decl_list cell_func_decl condition_func_decl
-          { $$ = new NProgram($1, $2, $3, $4, $5);
+program : alphabet_decl const_decl_list dp_matrix_decl_list cell_func_decl
+          { $$ = new NProgram($1, $2, $3, $4);
             root = $$; }
         ;
 
@@ -278,13 +273,10 @@ dp_matrix_decl_list : dp_matrix_decl_list dp_matrix_decl
                         $$->push_back($1); }
 
 dp_matrix_decl : TDPMAT type TIDENTIFIER TLBRACKET TRBRACKET TLBRACKET TRBRACKET TSEMICOLON
-                 { $$ = new NDPMatrixDecl(new NIdentifier($3), $2); } 
+                 { $$ = new NDPMatrixDecl(new NIdentifier($3), $2); }
 
 cell_func_decl : TCELL TLPAREN param_list TRPAREN TLBRACE variable_decl_list stmt_list TRBRACE
                  { $$ = new NCellFuncDecl($3, $6, $7); }
-
-condition_func_decl : TCONDITION TLPAREN param_list TRPAREN TLBRACE variable_decl_list stmt_list TRBRACE
-                      { $$ = new NConditionFuncDecl($3, $6, $7); }
 
 param_list : param_list TCOMMA param
              { $$ = $1;
@@ -321,7 +313,6 @@ stmt_list : stmt_list stmt
 stmt : if_stmt       { $$ = $1; }
      | assign_stmt   { $$ = $1; }
      | switch_stmt   { $$ = $1; }
-     | report_stmt   { $$ = $1; }
 
 if_stmt : TIF TLPAREN expression TRPAREN TLBRACE stmt_list TRBRACE
           { $$ = new NIfStmt($3, $6); }
@@ -357,9 +348,6 @@ case_stmt : TCASE constant TCOLON stmt_list
             { $$ = new NCaseStmt(new NIdConst(new NIdentifier($2)), $4); }
           | TDEFAULT TCOLON stmt_list
             { $$ = new NCaseStmt($3); }
-
-report_stmt : TREPORT TLPAREN TRPAREN TSEMICOLON
-            { $$ = new NReportStmt(); }
 
 expression : TMAX TLPAREN arg_list TRPAREN { $$ = new NMaxExpr($3); }
            | TLPAREN expression TRPAREN { $$ = $2; }

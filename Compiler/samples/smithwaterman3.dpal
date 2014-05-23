@@ -3,7 +3,7 @@
 
 alphabet = {A, C, G, T, N};
 const unsigned BITWIDTH = 18;
-dpmat signed<BITWIDTH> M[][];
+dpmat signed<BITWIDTH> score[][];
 dpmat signed<BITWIDTH> I[][];
 dpmat signed<BITWIDTH> D[][];
 cell(signed<BITWIDTH> match, signed<BITWIDTH> mismatch,
@@ -17,17 +17,12 @@ cell(signed<BITWIDTH> match, signed<BITWIDTH> mismatch,
   } else {
     substitute = mismatch;
   }
-  I[row][col] = max(M[row - 1][col] + gap_open,
+  I[row][col] = max(score[row - 1][col] + gap_open,
                     I[row - 1][col] + gap_extend);
-  D[row][col] = max(M[row][col - 1] + gap_open,
+  D[row][col] = max(score[row][col - 1] + gap_open,
                     D[row][col - 1] + gap_extend);
-  M[row][col] = max(0,
-                    M[row - 1][col - 1] + substitute,
-                    I[row][col],
-                    D[row][col]);
-}
-condition(signed<BITWIDTH> threshold) {
-  if (M[row][col] >= threshold) {
-    report();
-  }
+  score[row][col] = max(0,
+                        score[row - 1][col - 1] + substitute,
+                        I[row][col],
+                        D[row][col]);
 }

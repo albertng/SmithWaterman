@@ -12,6 +12,7 @@
 //      Albert Ng   May 14 2014     Constant table
 //                                  DP Matrix symbol table entries
 //      Albert Ng   May 15 2014     Variable decls at start of function
+//      Albert Ng   May 23 2014     Removed condition function and report statement
 
 #ifndef TREE_H_
 #define TREE_H_
@@ -37,7 +38,6 @@ class NConstMatrixDecl;
 class NConstMatrixElem;
 class NDPMatrixDecl;
 class NCellFuncDecl;
-class NConditionFuncDecl;
 class NParam;
 class NParamScalar;
 class NParamMatrix;
@@ -47,7 +47,6 @@ class NIfStmt;
 class NAssignStmt;
 class NSwitchStmt;
 class NCaseStmt;
-class NReportStmt;
 class NExpression;
 
 typedef std::vector<NCharacterDecl*> CharacterDeclList;
@@ -72,14 +71,11 @@ class NProgram : public Node {
     ConstDeclList* const_decl_list;
     DPMatrixDeclList* dp_matrix_decl_list;
     NCellFuncDecl* cell_func_decl;
-    NConditionFuncDecl* condition_func_decl;
 
     NProgram(NAlphabetDecl* alphabet_decl, ConstDeclList* const_decl_list, 
-             DPMatrixDeclList* dp_matrix_decl_list, NCellFuncDecl* cell_func_decl,
-             NConditionFuncDecl* condition_func_decl) :
+             DPMatrixDeclList* dp_matrix_decl_list, NCellFuncDecl* cell_func_decl) :
                 alphabet_decl(alphabet_decl), const_decl_list(const_decl_list), 
-                dp_matrix_decl_list(dp_matrix_decl_list), cell_func_decl(cell_func_decl),
-                condition_func_decl(condition_func_decl) {}
+                dp_matrix_decl_list(dp_matrix_decl_list), cell_func_decl(cell_func_decl) {}
     void Semant();
     void dump(std::ostream& stream, int depth);
 };
@@ -225,17 +221,6 @@ class NCellFuncDecl : public Node {
     void dump(std::ostream& stream, int depth);
 };
 
-class NConditionFuncDecl : public Node {
-  public:
-    ParamList* param_list;
-    VariableDeclList* variable_decl_list;
-    StmtList* stmt_list;
-    NConditionFuncDecl(ParamList* param_list, VariableDeclList* variable_decl_list, StmtList* stmt_list) :
-                        param_list(param_list), variable_decl_list(variable_decl_list), stmt_list(stmt_list) {}
-    void Semant();
-    void dump(std::ostream& stream, int depth);
-};
-
 class NParam : public Node {
   public:
     virtual void Semant() = 0;
@@ -321,13 +306,6 @@ class NCaseStmt : public Node {
     NCaseStmt(NConst* case_const, StmtList* case_body) : case_const(case_const), case_body(case_body) {}
     NCaseStmt(StmtList* case_body) : case_const(NULL), case_body(case_body) {}
     bool IsDefault();
-    void Semant();
-    void dump(std::ostream &stream, int depth);
-};
-
-class NReportStmt : public NStmt {
-  public:
-    NReportStmt() {}
     void Semant();
     void dump(std::ostream &stream, int depth);
 };

@@ -3,30 +3,25 @@
 
 alphabet = {A, C, G, T};
 const unsigned BITWIDTH = 18;
-const unsigned<BITWIDTH> HOXD55[4][4] = {
+const signed<BITWIDTH> HOXD55[4][4] = {
   {91, -90, -25, -100},
   {-90, 100, -100, -25},
   {-25, -100, 100, -90},
   {-100, -25, -90, 91}
 };
-const unsigned<BITWIDTH> GAP_OPEN = -400;
-const unsigned<BITWIDTH> GAP_EXTEND = -30;
-dpmat signed<BITWIDTH> M[][];
+const signed<BITWIDTH> GAP_OPEN = -400;
+const signed<BITWIDTH> GAP_EXTEND = -30;
+dpmat signed<BITWIDTH> score[][];
 dpmat signed<BITWIDTH> I[][];
 dpmat signed<BITWIDTH> D[][];
 cell() {
   signed<BITWIDTH> substitute = HOXD55[query_char][ref_char];
-  I[row][col] = max(M[row - 1][col] + GAP_OPEN,
+  I[row][col] = max(score[row - 1][col] + GAP_OPEN,
                     I[row - 1][col] + GAP_EXTEND);
-  D[row][col] = max(M[row][col - 1] + GAP_OPEN,
+  D[row][col] = max(score[row][col - 1] + GAP_OPEN,
                     D[row][col - 1] + GAP_EXTEND);
-  M[row][col] = max(0,
-                    M[row - 1][col - 1] + substitute,
-                    I[row][col],
-                    D[row][col]);
-}
-condition(signed<BITWIDTH> threshold) {
-  if (M[row][col] >= threshold) {
-    report();
-  }
+  score[row][col] = max(0,
+                        score[row - 1][col - 1] + substitute,
+                        I[row][col],
+                        D[row][col]);
 }

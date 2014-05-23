@@ -3,6 +3,7 @@
 //
 //  Revision History :
 //      Albert Ng   Apr 17 2014     Initial Revision
+//      Albert Ng   May 23 2014     Removed condition and report tokens
 
 #include "tree.hpp"
 #include "dpal-parse.hpp"
@@ -75,13 +76,11 @@ std::string token_to_string(int token) {
     case TSIGNED :     return("SIGNED");     break;
     case TBOOL :       return("BOOL");       break;
     case TCELL :       return("CELL");       break;
-    case TCONDITION :  return("CONDITION");  break;
     case TIF :         return("IF");         break;
     case TELSE :       return("ELSE");       break;
     case TSWITCH :     return("SWITCH");     break;
     case TCASE :       return("CASE");       break;
     case TDEFAULT :    return("DEFAULT");    break;
-    case TREPORT :     return("REPORT");     break;
     case TMAX :        return("MAX");        break;
     case TQUERYCHAR :  return("QUERY_CHAR"); break;
     case TREFCHAR :    return("REF_CHAR");   break;

@@ -4,7 +4,7 @@
 
 alphabet = {A, C, G, T};
 
-dpmat signed<10> H[][];
+dpmat signed<10> score[][];
 
 cell() {
   signed<10> substitute = 2;
@@ -12,14 +12,8 @@ cell() {
     substitute = -2;
   }
 
-  H[row][col] = max(0,
-                    H[row-1][col-1] + substitute,
-                    H[row-1][col]-1,
-                    H[row][col-1] - 1);
-}
-
-condition(signed<10> threshold) {
-  if (H[row][col] >= threshold) {
-    report();
-  }
+  score[row][col] = max(0,
+                        score[row-1][col-1] + substitute,
+                        score[row-1][col]-1,
+                        score[row][col-1] - 1);
 }

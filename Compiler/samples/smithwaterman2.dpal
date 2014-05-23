@@ -3,7 +3,7 @@
 
 alphabet = {A, C, G, T, N};
 const unsigned BITWIDTH = 10;
-dpmat signed<BITWIDTH> H[][];
+dpmat signed<BITWIDTH> score[][];
 cell(signed<BITWIDTH> match, signed<BITWIDTH> mismatch,
      signed<BITWIDTH> insert, signed<BITWIDTH> delete,
      signed<BITWIDTH> N_penalty) {
@@ -15,13 +15,8 @@ cell(signed<BITWIDTH> match, signed<BITWIDTH> mismatch,
   } else {
     substitute = mismatch;
   }
-  H[row][col] = max(0,
-                    H[row - 1][col - 1] + substitute,
-                    H[row - 1][col] + insert,
-                    H[row][col - 1] + delete);
-}
-condition(signed<BITWIDTH> threshold) {
-  if (H[row][col] >= threshold) {
-    report();
-  }
+  score[row][col] = max(0,
+                        score[row - 1][col - 1] + substitute,
+                        score[row - 1][col] + insert,
+                        score[row][col - 1] + delete);
 }

@@ -46,50 +46,48 @@
      TSIGNED = 262,
      TBOOL = 263,
      TCELL = 264,
-     TCONDITION = 265,
-     TIF = 266,
-     TELSE = 267,
-     TSWITCH = 268,
-     TCASE = 269,
-     TDEFAULT = 270,
-     TREPORT = 271,
-     TMAX = 272,
-     TQUERYCHAR = 273,
-     TREFCHAR = 274,
-     TROW = 275,
-     TCOL = 276,
-     TINTCONST = 277,
-     TBOOLCONST = 278,
-     TIDENTIFIER = 279,
-     TASSIGN = 280,
-     TLBRACKET = 281,
-     TRBRACKET = 282,
-     TLBRACE = 283,
-     TRBRACE = 284,
-     TLPAREN = 285,
-     TRPAREN = 286,
-     TSEMICOLON = 287,
-     TCOLON = 288,
-     TCOMMA = 289,
-     TPLUS = 290,
-     TMINUS = 291,
-     TCLT = 292,
-     TCLE = 293,
-     TCGT = 294,
-     TCGE = 295,
-     TCEQ = 296,
-     TCNE = 297,
-     TLNOT = 298,
-     TLAND = 299,
-     TLOR = 300,
-     TLSHIFT = 301,
-     TRSHIFT = 302,
-     TAND = 303,
-     TXOR = 304,
-     TOR = 305,
-     TNOT = 306,
-     TERROR = 307,
-     UMINUS = 308
+     TIF = 265,
+     TELSE = 266,
+     TSWITCH = 267,
+     TCASE = 268,
+     TDEFAULT = 269,
+     TMAX = 270,
+     TQUERYCHAR = 271,
+     TREFCHAR = 272,
+     TROW = 273,
+     TCOL = 274,
+     TINTCONST = 275,
+     TBOOLCONST = 276,
+     TIDENTIFIER = 277,
+     TASSIGN = 278,
+     TLBRACKET = 279,
+     TRBRACKET = 280,
+     TLBRACE = 281,
+     TRBRACE = 282,
+     TLPAREN = 283,
+     TRPAREN = 284,
+     TSEMICOLON = 285,
+     TCOLON = 286,
+     TCOMMA = 287,
+     TPLUS = 288,
+     TMINUS = 289,
+     TCLT = 290,
+     TCLE = 291,
+     TCGT = 292,
+     TCGE = 293,
+     TCEQ = 294,
+     TCNE = 295,
+     TLNOT = 296,
+     TLAND = 297,
+     TLOR = 298,
+     TLSHIFT = 299,
+     TRSHIFT = 300,
+     TAND = 301,
+     TXOR = 302,
+     TOR = 303,
+     TNOT = 304,
+     TERROR = 305,
+     UMINUS = 306
    };
 #endif
 /* Tokens.  */
@@ -100,57 +98,55 @@
 #define TSIGNED 262
 #define TBOOL 263
 #define TCELL 264
-#define TCONDITION 265
-#define TIF 266
-#define TELSE 267
-#define TSWITCH 268
-#define TCASE 269
-#define TDEFAULT 270
-#define TREPORT 271
-#define TMAX 272
-#define TQUERYCHAR 273
-#define TREFCHAR 274
-#define TROW 275
-#define TCOL 276
-#define TINTCONST 277
-#define TBOOLCONST 278
-#define TIDENTIFIER 279
-#define TASSIGN 280
-#define TLBRACKET 281
-#define TRBRACKET 282
-#define TLBRACE 283
-#define TRBRACE 284
-#define TLPAREN 285
-#define TRPAREN 286
-#define TSEMICOLON 287
-#define TCOLON 288
-#define TCOMMA 289
-#define TPLUS 290
-#define TMINUS 291
-#define TCLT 292
-#define TCLE 293
-#define TCGT 294
-#define TCGE 295
-#define TCEQ 296
-#define TCNE 297
-#define TLNOT 298
-#define TLAND 299
-#define TLOR 300
-#define TLSHIFT 301
-#define TRSHIFT 302
-#define TAND 303
-#define TXOR 304
-#define TOR 305
-#define TNOT 306
-#define TERROR 307
-#define UMINUS 308
+#define TIF 265
+#define TELSE 266
+#define TSWITCH 267
+#define TCASE 268
+#define TDEFAULT 269
+#define TMAX 270
+#define TQUERYCHAR 271
+#define TREFCHAR 272
+#define TROW 273
+#define TCOL 274
+#define TINTCONST 275
+#define TBOOLCONST 276
+#define TIDENTIFIER 277
+#define TASSIGN 278
+#define TLBRACKET 279
+#define TRBRACKET 280
+#define TLBRACE 281
+#define TRBRACE 282
+#define TLPAREN 283
+#define TRPAREN 284
+#define TSEMICOLON 285
+#define TCOLON 286
+#define TCOMMA 287
+#define TPLUS 288
+#define TMINUS 289
+#define TCLT 290
+#define TCLE 291
+#define TCGT 292
+#define TCGE 293
+#define TCEQ 294
+#define TCNE 295
+#define TLNOT 296
+#define TLAND 297
+#define TLOR 298
+#define TLSHIFT 299
+#define TRSHIFT 300
+#define TAND 301
+#define TXOR 302
+#define TOR 303
+#define TNOT 304
+#define TERROR 305
+#define UMINUS 306
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 35 "dpal.y"
+#line 36 "dpal.y"
 {
   NProgram* program;
   NAlphabetDecl* alphabet_decl;
@@ -172,7 +168,6 @@ typedef union YYSTYPE
   DPMatrixDeclList* dp_matrix_decl_list;
   NDPMatrixDecl* dp_matrix_decl;
   NCellFuncDecl* cell_func_decl;
-  NConditionFuncDecl* condition_func_decl;
   ParamList* param_list;
   NParam* param;
   NParamScalar* param_scalar;
@@ -186,13 +181,12 @@ typedef union YYSTYPE
   NSwitchStmt* switch_stmt;
   NCaseStmt* case_stmt;
   CaseStmtList* case_stmt_list;
-  NReportStmt* report_stmt;
   ExpressionList* expression_list;
   NExpression* expression;
   std::string* error_msg;
 }
 /* Line 1529 of yacc.c.  */
-#line 196 "dpal-parse.hpp"
+#line 190 "dpal-parse.hpp"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
