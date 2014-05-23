@@ -101,6 +101,7 @@ class NExpression : public Node {
   public:
     DataType type;
     virtual DataType EvaluateType() = 0;
+    virtual bool CheckInit() = 0;
     virtual bool IsMax() { return false; }
 };
 
@@ -110,6 +111,7 @@ class NIdentifier : public NExpression {
     DataType type;
     NIdentifier(std::string* name) : name(name) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream& stream, int depth);
 };
 
@@ -126,6 +128,7 @@ class NIntConst : public NConst {
     DataType EvaluateType();
     ConstData GetConstData();
     ConstDataType GetConstDataType();
+    bool CheckInit() { return true; }
     void dump(std::ostream& stream, int depth);
 };
 
@@ -136,6 +139,7 @@ class NBoolConst : public NConst {
     DataType EvaluateType();
     ConstData GetConstData();
     ConstDataType GetConstDataType();
+    bool CheckInit() { return true; }
     void dump(std::ostream& stream, int depth);
 };
 
@@ -146,6 +150,7 @@ class NIdConst : public NConst {
     DataType EvaluateType();
     ConstData GetConstData();
     ConstDataType GetConstDataType();
+    bool CheckInit() { return true; }
     void dump(std::ostream& stream, int depth);
 };
 
@@ -258,7 +263,7 @@ class NVariableDecl : public Node {
 
 class NStmt : public Node {
   public:
-    virtual void Semant() = 0;
+    virtual void Semant(bool toplevel) = 0;
     virtual std::string GetAssignDPMatrixName() { return ""; }
 };
 
@@ -271,7 +276,7 @@ class NIfStmt : public NStmt {
                                       condition(condition), if_body(if_body), else_body(NULL) {}
     NIfStmt(NExpression* condition, StmtList* if_body, StmtList* else_body) : 
                                       condition(condition), if_body(if_body), else_body(else_body) {}
-    void Semant();
+    void Semant(bool toplevel);
     void dump(std::ostream &stream, int depth);
 };
 
@@ -284,7 +289,7 @@ class NAssignStmt : public NStmt {
                                       id(id), indices(indices), value(value) {}
     NAssignStmt(NIdentifier* id, NExpression* value) :
                                       id(id), indices(NULL), value(value) {}
-    void Semant();
+    void Semant(bool toplevel);
     std::string GetAssignDPMatrixName();
     void dump(std::ostream &stream, int depth);
 };
@@ -295,7 +300,7 @@ class NSwitchStmt : public NStmt {
     CaseStmtList* case_stmts;
     NSwitchStmt(NExpression* control_expr, CaseStmtList* case_stmts) :
                             control_expr(control_expr), case_stmts(case_stmts) {}
-    void Semant();
+    void Semant(bool toplevel);
     void dump(std::ostream &stream, int depth);
 };
 
@@ -316,6 +321,7 @@ class NMaxExpr : public NExpression {
     NMaxExpr(ExpressionList* arguments) : arguments(arguments) {}
     DataType EvaluateType();
     bool IsMax() { return true; }
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -325,6 +331,7 @@ class NPlusExpr : public NExpression {
     NExpression* op2;
     NPlusExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -334,6 +341,7 @@ class NMinusExpr : public NExpression {
     NExpression* op2;
     NMinusExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -343,6 +351,7 @@ class NCLTExpr : public NExpression {
     NExpression* op2;
     NCLTExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -352,6 +361,7 @@ class NCLEExpr : public NExpression {
     NExpression* op2;
     NCLEExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -361,6 +371,7 @@ class NCGTExpr : public NExpression {
     NExpression* op2;
     NCGTExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -370,6 +381,7 @@ class NCGEExpr : public NExpression {
     NExpression* op2;
     NCGEExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -379,6 +391,7 @@ class NCEQExpr : public NExpression {
     NExpression* op2;
     NCEQExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -388,6 +401,7 @@ class NCNEExpr : public NExpression {
     NExpression* op2;
     NCNEExpr(NExpression*op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -396,6 +410,7 @@ class NLNOTExpr : public NExpression {
     NExpression* op1;
     NLNOTExpr(NExpression* op1) : op1(op1) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -405,6 +420,7 @@ class NLANDExpr : public NExpression {
     NExpression* op2;
     NLANDExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -414,6 +430,7 @@ class NLORExpr : public NExpression {
     NExpression* op2;
     NLORExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -423,6 +440,7 @@ class NLShiftExpr : public NExpression {
     NExpression* op2;
     NLShiftExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -432,6 +450,7 @@ class NRShiftExpr : public NExpression {
     NExpression* op2;
     NRShiftExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -441,6 +460,7 @@ class NANDExpr : public NExpression {
     NExpression* op2;
     NANDExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -450,6 +470,7 @@ class NXORExpr : public NExpression {
     NExpression* op2;
     NXORExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -459,6 +480,7 @@ class NORExpr : public NExpression {
     NExpression* op2;
     NORExpr(NExpression* op1, NExpression* op2) : op1(op1), op2(op2) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -467,6 +489,7 @@ class NNotExpr : public NExpression {
     NExpression* op1;
     NNotExpr(NExpression* op1) : op1(op1) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -475,6 +498,7 @@ class NNegExpr : public NExpression {
     NExpression* op1;
     NNegExpr(NExpression *op1) : op1(op1) {}
     DataType EvaluateType();
+    bool CheckInit();
     void dump(std::ostream &stream, int depth);
 };
 
@@ -484,6 +508,7 @@ class NMatrixElemExpr : public NExpression {
     ExpressionList* indices;
     NMatrixElemExpr(NIdentifier* id, ExpressionList* indices) : id(id), indices(indices) {}
     DataType EvaluateType();
+    bool CheckInit() { return true; }
     void dump(std::ostream &stream, int depth);
 };
 
@@ -491,6 +516,7 @@ class NQueryCharExpr : public NExpression {
   public:
     NQueryCharExpr() {}
     DataType EvaluateType();
+    bool CheckInit() { return true; }
     void dump(std::ostream &stream, int depth);
 };
 
@@ -498,6 +524,7 @@ class NRefCharExpr : public NExpression {
   public:
     NRefCharExpr() {}
     DataType EvaluateType();
+    bool CheckInit() { return true; }
     void dump(std::ostream &stream, int depth);
 };
 
@@ -505,6 +532,7 @@ class NRowExpr : public NExpression {
   public:
     NRowExpr() {}
     DataType EvaluateType();
+    bool CheckInit() { return true; }
     void dump(std::ostream &stream, int depth);
 };
 
@@ -512,6 +540,7 @@ class NColExpr : public NExpression {
   public:
     NColExpr() {}
     DataType EvaluateType();
+    bool CheckInit() { return true; }
     void dump(std::ostream &stream, int depth);
 };
 

@@ -8,14 +8,9 @@ dpmat signed<BITWIDTH> I[][];
 dpmat signed<BITWIDTH> D[][];
 cell(signed<BITWIDTH> sub_mat[5][5],
      signed<BITWIDTH> gap_open,
-     signed<BITWIDTH> gap_extend,
-     signed<BITWIDTH> N_penalty) {
-  signed<BITWIDTH> substitute;
-  if (query_char == N || ref_char == N) {
-    substitute = N_penalty;
-  } else {
-    substitute = sub_mat[query_char][ref_char];
-  }
+     signed<BITWIDTH> gap_extend) {
+  signed<BITWIDTH> substitute = sub_mat[query_char][ref_char];
+  
   I[row][col] = max(score[row - 1][col] + gap_open,
                     I[row - 1][col] + gap_extend);
   D[row][col] = max(score[row][col - 1] + gap_open,

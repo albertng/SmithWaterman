@@ -285,6 +285,20 @@ DataType NIdentifier::EvaluateType() {
   }
 }
 
+bool NIdentifier::CheckInit() {
+  SymbolTableEntry* entry = symbol_table.GetEntry(*name);
+  if (entry == NULL) {
+    return false;
+  } else {
+    bool init = entry->get_init();
+    if (init == false) {
+      std::cerr << "Warning: Identifier '" << *name << "' may be uninitialized when referenced."
+                << std::endl;
+    }
+    return init;
+  }
+}
+
 void NIdentifier::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Identifier " << *name << std::endl;
 }
@@ -560,7 +574,7 @@ void NCellFuncDecl::Semant() {
 
   // Statement TypeChecking
   for (StmtList::iterator it = stmt_list->begin(); it != stmt_list->end(); it++) {
-    (*it)->Semant();
+    (*it)->Semant(true);
   }
 
   // Check all DP matrices are assigned unconditionally
@@ -580,9 +594,6 @@ void NCellFuncDecl::Semant() {
     std::cerr << "Warning: Dynamic programming matrix '" << *it << "' may not be assigned in CELL() function."
               << std::endl;
   }
-
-  // TODO: Check other things:
-  // Max() function argument dependencies
 }
 
 void NCellFuncDecl::dump(std::ostream &stream, int depth) {
@@ -739,7 +750,7 @@ void NVariableDecl::dump(std::ostream &stream, int depth) {
   }
 }
 
-void NIfStmt::Semant() {
+void NIfStmt::Semant(bool toplevel) {
   // Check condition type
   DataType cond_type = condition->EvaluateType();
   if (cond_type.type_name != BOOL && cond_type.type_name != ERROR_TYPE) {
@@ -750,13 +761,13 @@ void NIfStmt::Semant() {
 
   // Check if statement block
   for (StmtList::iterator it = if_body->begin(); it != if_body->end(); it++) {
-    (*it)->Semant();
+    (*it)->Semant(false);
   }
 
   // Check else statement block
   if (else_body != NULL) {
     for (StmtList::iterator it = else_body->begin(); it != else_body->end(); it++) {
-      (*it)->Semant();
+      (*it)->Semant(false);
     }
   }
 }
@@ -791,7 +802,7 @@ std::string NAssignStmt::GetAssignDPMatrixName() {
   return dp_mat_name;
 }
 
-void NAssignStmt::Semant() {
+void NAssignStmt::Semant(bool toplevel) {
   // Check identifier declared
   SymbolTableEntry* entry = symbol_table.GetEntry(*(id->name));
   if (entry == NULL) {
@@ -867,6 +878,19 @@ void NAssignStmt::Semant() {
               << std::endl;
     semant_errors++;
   }
+
+  // Check and warn if identifier reference may be undefined
+  if (indices != NULL) {
+    for (ExpressionList::iterator it = indices->begin(); it != indices->end(); it++) {
+      (*it)->CheckInit();
+    }
+  }
+  value->CheckInit();
+
+  // Flag top level assignments as initialized in symbol table
+  if (toplevel == true) {
+    entry->set_init(true);
+  }
 }
 
 void NAssignStmt::dump(std::ostream &stream, int depth) {
@@ -884,7 +908,7 @@ void NAssignStmt::dump(std::ostream &stream, int depth) {
   value->dump(stream, depth+1);
 }
 
-void NSwitchStmt::Semant() {
+void NSwitchStmt::Semant(bool toplevel) {
   // Check there's at most one default statement
   int num_defaults = 0;
   for (CaseStmtList::iterator it = case_stmts->begin(); it != case_stmts->end(); it++) {
@@ -974,7 +998,7 @@ bool NCaseStmt::IsDefault() {
 
 void NCaseStmt::Semant() {
   for (StmtList::iterator it = case_body->begin(); it != case_body->end(); it++) {
-    (*it)->Semant();
+    (*it)->Semant(false);
   }
 }
 
@@ -1026,6 +1050,14 @@ DataType NMaxExpr::EvaluateType() {
   return type;
 }
 
+bool NMaxExpr::CheckInit() {
+  bool init = true;
+  for (ExpressionList::iterator it = arguments->begin(); it != arguments->end(); it++) {
+    init = init && (*it)->CheckInit();
+  }
+  return init;
+}
+
 void NMaxExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Max Function Call Expression" << std::endl;
   
@@ -1049,6 +1081,10 @@ DataType NPlusExpr::EvaluateType() {
   return type;
 }
 
+bool NPlusExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NPlusExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Plus Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1067,6 +1103,10 @@ DataType NMinusExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NMinusExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
 }
 
 void NMinusExpr::dump(std::ostream &stream, int depth) {
@@ -1097,6 +1137,10 @@ DataType NCLTExpr::EvaluateType() {
   return type;
 }
 
+bool NCLTExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NCLTExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Compare Less Than Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1123,6 +1167,10 @@ DataType NCLEExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NCLEExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
 }
 
 void NCLEExpr::dump(std::ostream &stream, int depth) {
@@ -1153,6 +1201,10 @@ DataType NCGTExpr::EvaluateType() {
   return type;
 }
 
+bool NCGTExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NCGTExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Compare Greater Than Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1179,6 +1231,10 @@ DataType NCGEExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NCGEExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
 }
 
 void NCGEExpr::dump(std::ostream &stream, int depth) {
@@ -1215,6 +1271,10 @@ void NCEQExpr::dump(std::ostream &stream, int depth) {
   op2->dump(stream, depth+1);
 }
 
+bool NCEQExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 DataType NCNEExpr::EvaluateType() {
   DataType op1type = op1->EvaluateType();
   DataType op2type = op2->EvaluateType();
@@ -1237,6 +1297,10 @@ DataType NCNEExpr::EvaluateType() {
   return type;
 }
 
+bool NCNEExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NCNEExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Compare Not Equal Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1256,6 +1320,10 @@ DataType NLNOTExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NLNOTExpr::CheckInit() {
+  return op1->CheckInit();
 }
 
 void NLNOTExpr::dump(std::ostream &stream, int depth) {
@@ -1280,6 +1348,10 @@ DataType NLANDExpr::EvaluateType() {
   return type;
 }
 
+bool NLANDExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NLANDExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Logical AND Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1301,6 +1373,10 @@ DataType NLORExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NLORExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
 }
 
 void NLORExpr::dump(std::ostream &stream, int depth) {
@@ -1329,6 +1405,10 @@ DataType NLShiftExpr::EvaluateType() {
   return type;
 }
 
+bool NLShiftExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NLShiftExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Left Shift Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1353,6 +1433,10 @@ DataType NRShiftExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NRShiftExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
 }
 
 void NRShiftExpr::dump(std::ostream &stream, int depth) {
@@ -1380,6 +1464,10 @@ DataType NANDExpr::EvaluateType() {
   return type;
 }
 
+bool NANDExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NANDExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Bitwise AND Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1403,6 +1491,10 @@ DataType NXORExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NXORExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
 }
 
 void NXORExpr::dump(std::ostream &stream, int depth) {
@@ -1430,6 +1522,10 @@ DataType NORExpr::EvaluateType() {
   return type;
 }
 
+bool NORExpr::CheckInit() {
+  return op1->CheckInit() && op2->CheckInit();
+}
+
 void NORExpr::dump(std::ostream &stream, int depth) {
   stream << pad(depth) << "Bitwise OR Expression" << std::endl;
   op1->dump(stream, depth+1);
@@ -1449,6 +1545,10 @@ DataType NNotExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NNotExpr::CheckInit() {
+  return op1->CheckInit();
 }
 
 void NNotExpr::dump(std::ostream &stream, int depth) {
@@ -1475,6 +1575,10 @@ DataType NNegExpr::EvaluateType() {
   }
 
   return type;
+}
+
+bool NNegExpr::CheckInit() {
+  return op1->CheckInit();
 }
 
 void NNegExpr::dump(std::ostream &stream, int depth) {
