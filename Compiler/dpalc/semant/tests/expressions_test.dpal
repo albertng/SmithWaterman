@@ -1,17 +1,19 @@
 alphabet = {A};
 dpmat signed H[][];
 cell() {
+  signed x;
+  bool y;
   x = x + 1;
   x = x - 1;
-  x = x < 1;
-  x = x <= 1;
-  x = x > 1;
-  x = x >= 1;
-  x = x == 1;
-  x = x != 1;
-  x = !x;
-  x = x && 1;
-  x = x || 1;
+  y = x < 1;
+  y = x <= 1;
+  y = x > 1;
+  y = x >= 1;
+  y = x == 1;
+  y = x != 1;
+  y = !y;
+  y = y && true;
+  y = y || true;
   x = x << 1;
   x = x >> 1;
   x = x & 1;
@@ -20,19 +22,19 @@ cell() {
   x = ~x;
   x = 1;
   x = x;
-  x = x[1][2];
+  x = H[row][col-1];
   x = query_char;
   x = ref_char;
-  x = row;
-  x = col;
-  x = max(1, 2, 3);
+  //x = row;
+  //x = col;
   x = x + 1 - 2;
   x = x - 2 + 1;
-  x = !x && !5;
-  if (x == 2 && y == 5) {
+  y = !y && !(false);
+  if (x == 2 && y == false) {
     x = x + 1;
   } else {
     x = x + 2;
   }
+  H[row][col] = max(1, 2, 3);
 }
 condition(){}

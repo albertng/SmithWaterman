@@ -778,7 +778,11 @@ void NVariableDecl::Semant() {
     DataType vtype = value->EvaluateType();
     DataType matchtype = DataType::Match(dtype, vtype);
     if (matchtype.type_name == ERROR_TYPE && vtype.type_name != ERROR_TYPE) {
-      std::cerr << "Error: Identifer '" << *(id->name) << "' assign statement does not match type."
+      std::cerr << "Error: Identifier '" << *(id->name) << "' assign statement does not match type."
+                << std::endl;
+      semant_errors++;
+    } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+      std::cerr << "Error: Identifier '" << *(id->name) << "' assign statement value type is invalid."
                 << std::endl;
       semant_errors++;
     }
@@ -932,6 +936,10 @@ void NAssignStmt::Semant() {
   DataType matchtype = DataType::Match(dtype, vtype);
   if (matchtype.type_name == ERROR_TYPE && vtype.type_name != ERROR_TYPE) {
     std::cerr << "Error: Identifier '" << *(id->name) << "' assign statement does not match type."
+              << std::endl;
+    semant_errors++;
+  } else if ((matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) && vtype.type_name != ERROR_TYPE) {
+    std::cerr << "Error: Identifier '" << *(id->name) << "' assign statement value type is invalid."
               << std::endl;
     semant_errors++;
   }
@@ -1129,6 +1137,10 @@ DataType NMaxExpr::EvaluateType() {
     std::cerr << "Error: MAX() argument types do not match."
               << std::endl;
     semant_errors++;
+  } else if (args_valid_type == true && (type.type_name == ROW_TYPE || type.type_name == COL_TYPE)) {
+    std::cerr << "Error: MAX() argument type is invalid."
+              << std::endl;
+    semant_errors++;
   }
 
   // TODO: argument dependency graph
@@ -1194,10 +1206,12 @@ DataType NCLTExpr::EvaluateType() {
     std::cerr << "Error: '<' operator argument types do not match."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == ERROR_TYPE) {
-    type = matchtype;
+    type = DataType(ERROR_TYPE, 0);
+  } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+    std::cerr << "Error: '<' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   } else {
     type = DataType(BOOL, 0);
   }
@@ -1220,10 +1234,12 @@ DataType NCLEExpr::EvaluateType() {
     std::cerr << "Error: '<=' operator argument types do not match."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == ERROR_TYPE) {
-    type = matchtype;
+    type = DataType(ERROR_TYPE, 0);
+  } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+    std::cerr << "Error: '<=' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   } else {
     type = DataType(BOOL, 0);
   }
@@ -1246,10 +1262,12 @@ DataType NCGTExpr::EvaluateType() {
     std::cerr << "Error: '>' operator argument types do not match."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == ERROR_TYPE) {
-    type = matchtype;
+    type = DataType(ERROR_TYPE, 0);
+  } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+    std::cerr << "Error: '>' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   } else {
     type = DataType(BOOL, 0);
   }
@@ -1272,10 +1290,12 @@ DataType NCGEExpr::EvaluateType() {
     std::cerr << "Error: '>=' operator argument types do not match."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == ERROR_TYPE) {
-    type = matchtype;
+    type = DataType(ERROR_TYPE, 0);
+  } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+    std::cerr << "Error: '>=' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   } else {
     type = DataType(BOOL, 0);
   }
@@ -1298,10 +1318,12 @@ DataType NCEQExpr::EvaluateType() {
     std::cerr << "Error: '==' operator argument types do not match."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == ERROR_TYPE) {
-    type = matchtype;
+    type = DataType(ERROR_TYPE, 0);
+  } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+    std::cerr << "Error: '==' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   } else {
     type = DataType(BOOL, 0);
   }
@@ -1324,10 +1346,12 @@ DataType NCNEExpr::EvaluateType() {
     std::cerr << "Error: '!=' operator argument types do not match."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == ERROR_TYPE) {
-    type = matchtype;
+    type = DataType(ERROR_TYPE, 0);
+  } else if (matchtype.type_name == ROW_TYPE || matchtype.type_name == COL_TYPE) {
+    std::cerr << "Error: '!=' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   } else {
     type = DataType(BOOL, 0);
   }
@@ -1348,12 +1372,9 @@ DataType NLNOTExpr::EvaluateType() {
     std::cerr << "Error: '!' operator requires boolean argument type."
               << std::endl;
     semant_errors++;
-  }
-
-  if (op1type.type_name == BOOL) {
-    type = op1type;
-  } else {
     type = DataType(ERROR_TYPE, 0);
+  } else {
+    type = op1type;
   }
 
   return type;
@@ -1373,12 +1394,9 @@ DataType NLANDExpr::EvaluateType() {
     std::cerr << "Error: '&&' operator requires boolean argument types."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == BOOL) {
-    type = matchtype;
-  } else {
     type = DataType(ERROR_TYPE, 0);
+  } else {
+    type = matchtype;
   }
 
   return type;
@@ -1399,12 +1417,9 @@ DataType NLORExpr::EvaluateType() {
     std::cerr << "Error: '||' operator requires boolean argument types."
               << std::endl;
     semant_errors++;
-  }
-  
-  if (matchtype.type_name == BOOL) {
-    type = matchtype;
-  } else {
     type = DataType(ERROR_TYPE, 0);
+  } else {
+    type = matchtype;
   }
 
   return type;
@@ -1420,21 +1435,19 @@ DataType NLShiftExpr::EvaluateType() {
   DataType op1type = op1->EvaluateType();
   DataType op2type = op2->EvaluateType();
 
-  bool new_error = false;
-  if ((op1type.type_name == BOOL || op2type.type_name == BOOL) && 
-      (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE)) {
+  if (((op1type.type_name != UNSIGNED && op1type.type_name != SIGNED && op1type.type_name != INT_CONST) ||
+       (op2type.type_name != UNSIGNED && op2type.type_name != SIGNED && op2type.type_name != INT_CONST)) &&
+      (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE)) { 
     std::cerr << "Error: '<<' operator requires integer argument types."
               << std::endl;
     semant_errors++;
-    new_error = true;
-  }
-  
-  if (new_error == false && (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE)) {
+    type = DataType(ERROR_TYPE, 0);
+  } else if (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE) {
     type = op1type;
   } else {
     type = DataType(ERROR_TYPE, 0);
   }
-
+  
   return type;
 }
 
@@ -1448,16 +1461,14 @@ DataType NRShiftExpr::EvaluateType() {
   DataType op1type = op1->EvaluateType();
   DataType op2type = op2->EvaluateType();
 
-  bool new_error = false;
-  if ((op1type.type_name == BOOL || op2type.type_name == BOOL) && 
-      (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE)) {
+  if (((op1type.type_name != UNSIGNED && op1type.type_name != SIGNED && op1type.type_name != INT_CONST) ||
+       (op2type.type_name != UNSIGNED && op2type.type_name != SIGNED && op2type.type_name != INT_CONST)) &&
+      (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE)) { 
     std::cerr << "Error: '>>' operator requires integer argument types."
               << std::endl;
     semant_errors++;
-    new_error = true;
-  }
-  
-  if (new_error == false && (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE)) {
+    type = DataType(ERROR_TYPE, 0);
+  } else if (op1type.type_name != ERROR_TYPE && op2type.type_name != ERROR_TYPE) {
     type = op1type;
   } else {
     type = DataType(ERROR_TYPE, 0);
@@ -1481,6 +1492,11 @@ DataType NANDExpr::EvaluateType() {
     std::cerr << "Error: '&' operator argument types do not match."
               << std::endl;
     semant_errors++;
+  } else if (type.type_name == ROW_TYPE || type.type_name == COL_TYPE) {
+    std::cerr << "Error: '&' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   }
 
   return type;
@@ -1501,6 +1517,11 @@ DataType NXORExpr::EvaluateType() {
     std::cerr << "Error: '^' operator argument types do not match."
               << std::endl;
     semant_errors++;
+  } else if (type.type_name == ROW_TYPE || type.type_name == COL_TYPE) {
+    std::cerr << "Error: '^' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   }
 
   return type;
@@ -1521,6 +1542,11 @@ DataType NORExpr::EvaluateType() {
     std::cerr << "Error: '|' operator argument types do not match."
               << std::endl;
     semant_errors++;
+  } else if (type.type_name == ROW_TYPE || type.type_name == COL_TYPE) {
+    std::cerr << "Error: '|' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
   }
 
   return type;
@@ -1535,7 +1561,14 @@ void NORExpr::dump(std::ostream &stream, int depth) {
 DataType NNotExpr::EvaluateType() {
   DataType op1type = op1->EvaluateType();
 
-  type = op1type;
+  if (op1type.type_name == ROW_TYPE || op1type.type_name == COL_TYPE) {
+    std::cerr << "Error: '~' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
+  } else {
+    type = op1type;
+  }
 
   return type;
 }
@@ -1547,17 +1580,20 @@ void NNotExpr::dump(std::ostream &stream, int depth) {
 
 DataType NNegExpr::EvaluateType() {
   DataType op1type = op1->EvaluateType();
-  
-  if (op1type.type_name == BOOL && op1type.type_name != ERROR_TYPE) {
+ 
+  if (op1type.type_name != UNSIGNED && op1type.type_name != SIGNED && op1type.type_name != INT_CONST &&
+      op1type.type_name != ERROR_TYPE) {
     std::cerr << "Error: Unary '-' operator requires integer argument type."
               << std::endl;
     semant_errors++;
-  }
-
-  if (op1type.type_name != BOOL) {
-    type = op1type;
-  } else {
     type = DataType(ERROR_TYPE, 0);
+  } else if (op1type.type_name == ROW_TYPE || op1type.type_name == COL_TYPE) {
+    std::cerr << "Error: Unary '-' operator argument types are invalid."
+              << std::endl;
+    semant_errors++;
+    type = DataType(ERROR_TYPE, 0);
+  } else {
+    type = op1type;
   }
 
   return type;
